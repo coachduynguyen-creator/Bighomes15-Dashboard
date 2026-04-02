@@ -2402,6 +2402,16 @@ let crmCustomers=[];
 let crmActiveStage='';
 
 function initCRM(){
+  if(ME?.isDemo){
+    const st=document.getElementById('crm-sel-member');
+    if(st&&st.options.length<=2){
+      st.innerHTML='<option value="">-- Chọn --</option><option value="__all__">Toàn team</option>';
+      getSellingMembers().forEach(m=>{st.innerHTML+='<option value="'+m.id+'">'+m.name+'</option>';});
+    }
+    const ft=document.getElementById('crm-filter-stage');
+    if(ft&&ft.options.length<=1){ ft.innerHTML='<option value="">Tất cả</option>'; PIPELINE.forEach(p=>{ft.innerHTML+='<option value="'+p.id+'">'+p.label+'</option>';}); }
+    loadDemoCRM(); return;
+  }
   if(!initSupabase()){
     document.getElementById('crm-table-wrap').innerHTML='<div style="text-align:center;padding:30px;color:var(--cr);">Không kết nối được Supabase.</div>';
     return;
@@ -2420,6 +2430,7 @@ function initCRM(){
 }
 
 async function loadCRM(){
+  if(ME?.isDemo){ loadDemoCRM(); return; }
   if(!initSupabase()) return;
   const mid=document.getElementById('crm-sel-member')?.value;
   if(!mid){ renderCRMEmpty('Chọn thành viên để xem danh sách khách hàng'); return; }
@@ -2648,7 +2659,7 @@ const SYNC = {
     el.textContent=msg;
   },
   async pull(){
-    if(!initSupabase()) return;
+    if(!initSupabase()||ME?.isDemo) return;
     this.setPill('loading','⏳ Đồng bộ...');
     try{
       const [r1,r2,r3,r4]=await Promise.all([
@@ -2851,9 +2862,9 @@ function applyAccessControl(){
   const pinCard=document.getElementById('pin-mgmt-card');
   if(pinCard) pinCard.style.display='none'; // Moved to admin tab
   const adminBtn=document.getElementById('admin-tab-btn');
-  if(adminBtn) adminBtn.style.display=isSuperAdmin()?'':'none';
+  if(adminBtn) adminBtn.style.display=(isSuperAdmin()&&!ME?.isDemo)?'':'none';
   const editBtn=document.getElementById('edit-btn');
-  if(editBtn) editBtn.style.display=isSuperAdmin()?'':'none';
+  if(editBtn) editBtn.style.display=(isSuperAdmin()&&!ME?.isDemo)?'':'none';
   if(isManager()) return; // managers see everything
   // Lock báo cáo ngày member dropdown to self
   const drSel=document.getElementById('sel-cvkd');
@@ -3465,13 +3476,18 @@ function toggleDayCard(day){
 
 const DEMO_ID='__demo__';
 function loginDemoMode(){
-  ME={id:DEMO_ID,name:'Demo — Xem mẫu',isManager:false,isDemo:true};
+  ME={id:'dinhhoang',name:'Đinh Hoàng (Demo)',isManager:false,isDemo:true};
   localStorage.setItem('bh_me_v3',JSON.stringify(ME));
   document.getElementById('id-overlay').style.display='none';
   updateMeBadge();
   loadDemoData();
   showDemoBanner();
-  toast('Chế độ Demo — Dữ liệu mẫu chỉ để xem!');
+  applyAccessControl();
+  setTimeout(()=>{
+    const dr=document.getElementById('sel-cvkd'); if(dr){dr.value='dinhhoang';loadDailyReport();}
+    const cr=document.getElementById('crm-sel-member'); if(cr){cr.value='dinhhoang';}
+  },400);
+  toast('Chế độ Demo — Xem dữ liệu mẫu!');
 }
 function showDemoBanner(){
   let b=document.getElementById('demo-banner');
@@ -3485,94 +3501,175 @@ function showDemoBanner(){
   if(hdr) hdr.style.top='34px';
 }
 function loadDemoData(){
-  const cid=DEMO_ID;
-  S.targets[cid]=3;S.bookings[cid]=2;
-  S.sources[cid]=['Facebook Ads','Zalo OA','Referral KH cu','Data CDT'];
-  S.srcData[cid+'_1_Facebook Ads']=5;
-  S.srcData[cid+'_1_Zalo OA']=3;
-  S.srcData[cid+'_1_Referral KH cu']=2;
-  S.srcData[cid+'_1_Data CDT']=1;
-  S.daily[cid+'_1']={data:15,tiepCan:5,ngheGP:0,tuChoi:3,tienNang:0,booking:0,mucTieu:3,keHoach:'Goi 5 KH tu data CDT. Chuan bi script mo dau.',thucHien:'Goi 5 KH - 3 nghe may. 1 KH hen gap T7. Script con cu.',danhGia:'Ti le nghe may 60% - on. Can cai thien phan xu ly tu choi.',dieuChinh:'Thu approach khac: hoi nhu cau truoc khi gioi thieu.',ghiChu:''};
-  S.srcData[cid+'_2_Facebook Ads']=4;
-  S.srcData[cid+'_2_Zalo OA']=2;
-  S.srcData[cid+'_2_Referral KH cu']=1;
-  S.srcData[cid+'_2_Data CDT']=2;
-  S.daily[cid+'_2']={data:12,tiepCan:6,ngheGP:2,tuChoi:2,tienNang:1,booking:0,mucTieu:3,keHoach:'Tiep can 6 KH moi. Follow up KH hen hom qua.',thucHien:'6 KH tiep can, 4 nghe - 2 nghe GP. KH hen confirm lich T7.',danhGia:'Tot hon hom qua. KH phan hoi tich cuc ve vi tri du an.',dieuChinh:'Chuan bi tai lieu so sanh vs doi thu truoc buoi gap.',ghiChu:''};
-  S.srcData[cid+'_3_Facebook Ads']=3;
-  S.srcData[cid+'_3_Zalo OA']=1;
-  S.srcData[cid+'_3_Referral KH cu']=2;
-  S.srcData[cid+'_3_Data CDT']=3;
-  S.daily[cid+'_3']={data:8,tiepCan:3,ngheGP:1,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'Follow up 3 KH tiem nang. Goi 4 KH Zalo OA.',thucHien:'Gap anh Minh - nghe GP 45p, quan tam can 2PN.',danhGia:'Buoi gap hieu qua. Anh Minh phan van tang cao vs tang trung.',dieuChinh:'Gui brochure + video cho anh Minh toi nay.',ghiChu:''};
-  S.daily[cid+'_4']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
-  S.daily[cid+'_5']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
-  S.srcData[cid+'_6_Facebook Ads']=8;
-  S.srcData[cid+'_6_Zalo OA']=3;
-  S.srcData[cid+'_6_Referral KH cu']=3;
-  S.srcData[cid+'_6_Data CDT']=1;
-  S.daily[cid+'_6']={data:20,tiepCan:8,ngheGP:3,tuChoi:3,tienNang:2,booking:0,mucTieu:4,keHoach:'Goi 8 KH data moi. Hen 2 buoi tu van trong tuan.',thucHien:'8 KH - 6 nghe, 3 nghe GP, 2 hen xem du an.',danhGia:'Tuan 2 khoi dong tot. FB Ads keo traffic chat luong.',dieuChinh:'Can cau tra loi phap ly ro hon. Hoi lai GDKD.',ghiChu:''};
-  S.srcData[cid+'_7_Facebook Ads']=7;
-  S.srcData[cid+'_7_Zalo OA']=4;
-  S.srcData[cid+'_7_Referral KH cu']=2;
-  S.srcData[cid+'_7_Data CDT']=1;
-  S.daily[cid+'_7']={data:18,tiepCan:9,ngheGP:4,tuChoi:2,tienNang:2,booking:0,mucTieu:4,keHoach:'Follow up toan bo pipeline. Goi 7 KH moi.',thucHien:'7 KH moi, 5 nghe. Anh Minh goi lai - tien trien tot.',danhGia:'Pipeline dang am. 3 KH tiem nang thuc su.',dieuChinh:'Chuan bi package day du cho KH di site visit cuoi tuan.',ghiChu:''};
-  S.srcData[cid+'_8_Facebook Ads']=5;
-  S.srcData[cid+'_8_Zalo OA']=3;
-  S.srcData[cid+'_8_Referral KH cu']=2;
-  S.srcData[cid+'_8_Data CDT']=1;
-  S.daily[cid+'_8']={data:15,tiepCan:8,ngheGP:4,tuChoi:2,tienNang:2,booking:1,mucTieu:4,keHoach:'Ho tro 2 KH di site visit Ha Long.',thucHien:'Ca 2 KH rat an tuong. Chi Lan quyet dinh dat booking!',danhGia:'BOOKING DAU TIEN! Chi Lan - Can 2PN tang 18.',dieuChinh:'Push KH con lai. Hoi chi Lan xin referral.',ghiChu:''};
-  S.srcData[cid+'_9_Facebook Ads']=6;
-  S.srcData[cid+'_9_Zalo OA']=4;
-  S.srcData[cid+'_9_Referral KH cu']=2;
-  S.srcData[cid+'_9_Data CDT']=2;
-  S.daily[cid+'_9']={data:22,tiepCan:10,ngheGP:5,tuChoi:3,tienNang:2,booking:0,mucTieu:4,keHoach:'Goi 10 KH moi. Nho chi Lan gioi thieu nguoi quen.',thucHien:'10 KH - 7 nghe, 4 nghe GP. Chi Lan gioi thieu anh ho.',danhGia:'Referral hoat dong! Pipeline manh.',dieuChinh:'Nurture KH anh chi Lan - referral chot nhanh hon.',ghiChu:''};
-  S.srcData[cid+'_10_Facebook Ads']=4;
-  S.srcData[cid+'_10_Zalo OA']=2;
-  S.srcData[cid+'_10_Referral KH cu']=2;
-  S.srcData[cid+'_10_Data CDT']=1;
-  S.daily[cid+'_10']={data:20,tiepCan:9,ngheGP:4,tuChoi:3,tienNang:3,booking:0,mucTieu:4,keHoach:'Follow up cuoi tuan. Goi 8 KH.',thucHien:'8 KH, 6 nghe - 2 nghe GP. Anh Tuan hen gap T2.',danhGia:'Tuan 2 solid: 1 booking, 3 tiem nang.',dieuChinh:'Tuan 3 target 1 booking. Focus anh Tuan va KH site visit.',ghiChu:''};
-  S.daily[cid+'_11']={data:10,tiepCan:5,ngheGP:2,tuChoi:1,tienNang:1,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
-  S.srcData[cid+'_12_Facebook Ads']=9;
-  S.srcData[cid+'_12_Zalo OA']=5;
-  S.srcData[cid+'_12_Referral KH cu']=3;
-  S.srcData[cid+'_12_Data CDT']=1;
-  S.daily[cid+'_12']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'Gap anh Tuan. Goi 12 KH data moi.',thucHien:'Anh Tuan quan tam studio dau tu cho thue. Can phan tich ROI.',danhGia:'Can bang ROI cho studio. Tiem nang cao.',dieuChinh:'Lam slide phan tich ROI. Gui anh Tuan truoc T3.',ghiChu:''};
-  S.srcData[cid+'_13_Facebook Ads']=8;
-  S.srcData[cid+'_13_Zalo OA']=4;
-  S.srcData[cid+'_13_Referral KH cu']=3;
-  S.srcData[cid+'_13_Data CDT']=2;
-  S.daily[cid+'_13']={data:25,tiepCan:12,ngheGP:6,tuChoi:4,tienNang:3,booking:0,mucTieu:5,keHoach:'Gui phan tich ROI. Goi 10 KH moi.',thucHien:'Anh Tuan hai long - xin 1 ngay. 10 KH moi, 8 nghe.',danhGia:'Sap booking thu 2. Kien nhan.',dieuChinh:'Goi xac nhan anh Tuan T4 sang.',ghiChu:''};
-  S.srcData[cid+'_14_Facebook Ads']=7;
-  S.srcData[cid+'_14_Zalo OA']=3;
-  S.srcData[cid+'_14_Referral KH cu']=3;
-  S.srcData[cid+'_14_Data CDT']=1;
-  S.daily[cid+'_14']={data:22,tiepCan:11,ngheGP:5,tuChoi:3,tienNang:2,booking:1,mucTieu:5,keHoach:'Chot booking voi anh Tuan.',thucHien:'ANH TUAN BOOKING! Studio tang 22.',danhGia:'2 BOOKING! 66% muc tieu. Con 1 booking nua.',dieuChinh:'Push 2 KH con lai. Xin referral.',ghiChu:''};
-  S.srcData[cid+'_15_Facebook Ads']=8;
-  S.srcData[cid+'_15_Zalo OA']=5;
-  S.srcData[cid+'_15_Referral KH cu']=3;
-  S.srcData[cid+'_15_Data CDT']=2;
-  S.daily[cid+'_15']={data:18,tiepCan:10,ngheGP:5,tuChoi:3,tienNang:3,booking:0,mucTieu:5,keHoach:'Goi 12 KH moi. Nurture pipeline.',thucHien:'12 KH, 9 nghe - 5 nghe GP. Chi Hoa quan tam 2PN.',danhGia:'Referral network tot.',dieuChinh:'Gap chi Hoa T6. Chuan bi proposal 2PN.',ghiChu:''};
-  S.srcData[cid+'_16_Facebook Ads']=5;
-  S.srcData[cid+'_16_Zalo OA']=3;
-  S.srcData[cid+'_16_Referral KH cu']=2;
-  S.srcData[cid+'_16_Data CDT']=1;
-  S.daily[cid+'_16']={data:20,tiepCan:11,ngheGP:6,tuChoi:3,tienNang:3,booking:0,mucTieu:5,keHoach:'Gap chi Hoa. Follow up toan bo.',thucHien:'Gap chi Hoa 90p - ky ve tai chinh. Can xem HTLS.',danhGia:'Chi Hoa can tu van HTLS cu the. Potential booking 3.',dieuChinh:'Hoi GDKD ve HTLS tot nhat cho KH 30% von.',ghiChu:''};
-  S.srcData[cid+'_17_Facebook Ads']=3;
-  S.srcData[cid+'_17_Zalo OA']=2;
-  S.srcData[cid+'_17_Referral KH cu']=1;
-  S.srcData[cid+'_17_Data CDT']=1;
-  S.daily[cid+'_17']={data:15,tiepCan:9,ngheGP:5,tuChoi:2,tienNang:3,booking:0,mucTieu:5,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
-  S.daily[cid+'_18']={data:8,tiepCan:4,ngheGP:2,tuChoi:1,tienNang:1,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
-  S.srcData[cid+'_19_Facebook Ads']=10;
-  S.srcData[cid+'_19_Zalo OA']=5;
-  S.srcData[cid+'_19_Referral KH cu']=4;
-  S.srcData[cid+'_19_Data CDT']=2;
-  S.daily[cid+'_19']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
-  S.srcData[cid+'_20_Facebook Ads']=9;
-  S.srcData[cid+'_20_Zalo OA']=4;
-  S.srcData[cid+'_20_Referral KH cu']=4;
-  S.srcData[cid+'_20_Data CDT']=2;
-  S.daily[cid+'_20']={data:28,tiepCan:13,ngheGP:7,tuChoi:4,tienNang:4,booking:0,mucTieu:5,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
-  saveS();
+  const CID='dinhhoang';
+  S.targets[CID]=3; S.bookings[CID]=2;
+  S.sources[CID]=['Facebook Ads','Zalo OA','Referral KH cu','Data CDT'];
+  S.srcData[CID+'_1_Facebook Ads']=5;
+  S.srcData[CID+'_1_Zalo OA']=3;
+  S.srcData[CID+'_1_Referral KH cu']=2;
+  S.srcData[CID+'_1_Data CDT']=1;
+  S.daily[CID+'_1']={data:15,tiepCan:5,ngheGP:0,tuChoi:3,tienNang:0,booking:0,mucTieu:3,keHoach:'Goi 5 KH tu data CDT. Chuan bi script.',thucHien:'5 KH - 3 nghe may. 1 KH hen gap T7.',danhGia:'Ti le nghe may 60% on. Can cai thien xu ly tu choi.',dieuChinh:'Ngay mai hoi nhu cau truoc khi gioi thieu.',ghiChu:''};
+  S.srcData[CID+'_2_Facebook Ads']=4;
+  S.srcData[CID+'_2_Zalo OA']=2;
+  S.srcData[CID+'_2_Referral KH cu']=1;
+  S.srcData[CID+'_2_Data CDT']=2;
+  S.daily[CID+'_2']={data:12,tiepCan:6,ngheGP:2,tuChoi:2,tienNang:1,booking:0,mucTieu:3,keHoach:'Tiep can 6 KH moi. Follow up KH hen.',thucHien:'6 KH - 4 nghe, 2 nghe GP. KH hen confirm lich T7.',danhGia:'Tot hon hom qua. KH phan hoi tich cuc.',dieuChinh:'Chuan bi tai lieu so sanh vs doi thu.',ghiChu:''};
+  S.srcData[CID+'_3_Facebook Ads']=3;
+  S.srcData[CID+'_3_Zalo OA']=1;
+  S.srcData[CID+'_3_Referral KH cu']=2;
+  S.srcData[CID+'_3_Data CDT']=3;
+  S.daily[CID+'_3']={data:8,tiepCan:3,ngheGP:1,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'Follow up 3 KH tiem nang. Goi 4 KH Zalo.',thucHien:'Gap anh Minh - nghe GP 45p, quan tam can 2PN.',danhGia:'Buoi gap hieu qua. Anh Minh can them thong tin.',dieuChinh:'Gui brochure va video cho anh Minh toi nay.',ghiChu:''};
+  S.daily[CID+'_4']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily[CID+'_5']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.srcData[CID+'_6_Facebook Ads']=8;
+  S.srcData[CID+'_6_Zalo OA']=3;
+  S.srcData[CID+'_6_Referral KH cu']=3;
+  S.srcData[CID+'_6_Data CDT']=1;
+  S.daily[CID+'_6']={data:20,tiepCan:8,ngheGP:3,tuChoi:3,tienNang:2,booking:0,mucTieu:4,keHoach:'Goi 8 KH data moi. Hen 2 buoi tu van.',thucHien:'8 KH - 6 nghe, 3 nghe GP, 2 hen xem du an.',danhGia:'Tuan 2 khoi dong tot. FB Ads keo traffic tot.',dieuChinh:'Can cau tra loi phap ly ro hon.',ghiChu:''};
+  S.srcData[CID+'_7_Facebook Ads']=7;
+  S.srcData[CID+'_7_Zalo OA']=4;
+  S.srcData[CID+'_7_Referral KH cu']=2;
+  S.srcData[CID+'_7_Data CDT']=1;
+  S.daily[CID+'_7']={data:18,tiepCan:9,ngheGP:4,tuChoi:2,tienNang:2,booking:0,mucTieu:4,keHoach:'Follow up pipeline. Goi 7 KH moi.',thucHien:'7 KH moi, 5 nghe. Anh Minh goi lai tien trien tot.',danhGia:'Pipeline dang am. 3 KH tiem nang thuc su.',dieuChinh:'Chuan bi package cho KH di site visit.',ghiChu:''};
+  S.srcData[CID+'_8_Facebook Ads']=5;
+  S.srcData[CID+'_8_Zalo OA']=3;
+  S.srcData[CID+'_8_Referral KH cu']=2;
+  S.srcData[CID+'_8_Data CDT']=1;
+  S.daily[CID+'_8']={data:15,tiepCan:8,ngheGP:4,tuChoi:2,tienNang:2,booking:1,mucTieu:4,keHoach:'Ho tro 2 KH di site visit Ha Long.',thucHien:'Ca 2 KH rat an tuong. Chi Lan dat booking!',danhGia:'BOOKING DAU TIEN! Chi Lan - Can 2PN tang 18.',dieuChinh:'Push KH con lai. Xin referral tu chi Lan.',ghiChu:''};
+  S.srcData[CID+'_9_Facebook Ads']=6;
+  S.srcData[CID+'_9_Zalo OA']=4;
+  S.srcData[CID+'_9_Referral KH cu']=2;
+  S.srcData[CID+'_9_Data CDT']=2;
+  S.daily[CID+'_9']={data:22,tiepCan:10,ngheGP:5,tuChoi:3,tienNang:2,booking:0,mucTieu:4,keHoach:'Goi 10 KH moi. Nho chi Lan gioi thieu.',thucHien:'10 KH - 7 nghe, 4 nghe GP. Chi Lan gioi thieu anh ho.',danhGia:'Referral hoat dong! Pipeline manh len.',dieuChinh:'Nurture anh cua chi Lan - referral chot nhanh.',ghiChu:''};
+  S.srcData[CID+'_10_Facebook Ads']=4;
+  S.srcData[CID+'_10_Zalo OA']=2;
+  S.srcData[CID+'_10_Referral KH cu']=2;
+  S.srcData[CID+'_10_Data CDT']=1;
+  S.daily[CID+'_10']={data:20,tiepCan:9,ngheGP:4,tuChoi:3,tienNang:3,booking:0,mucTieu:4,keHoach:'Follow up cuoi tuan. Goi 8 KH.',thucHien:'8 KH - 6 nghe. Anh Tuan hen gap T2.',danhGia:'Tuan 2 solid: 1 booking, 3 tiem nang.',dieuChinh:'Tuan 3 target 1 booking. Focus anh Tuan.',ghiChu:''};
+  S.daily[CID+'_11']={data:10,tiepCan:5,ngheGP:2,tuChoi:1,tienNang:1,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.srcData[CID+'_12_Facebook Ads']=9;
+  S.srcData[CID+'_12_Zalo OA']=5;
+  S.srcData[CID+'_12_Referral KH cu']=3;
+  S.srcData[CID+'_12_Data CDT']=1;
+  S.daily[CID+'_12']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'Gap anh Tuan 60 phut. Goi 12 KH.',thucHien:'Anh Tuan quan tam studio dau tu. Can ROI.',danhGia:'Slide ROI an tuong. Anh Tuan can 1 ngay.',dieuChinh:'Goi xac nhan anh Tuan sang mai.',ghiChu:''};
+  S.srcData[CID+'_13_Facebook Ads']=8;
+  S.srcData[CID+'_13_Zalo OA']=4;
+  S.srcData[CID+'_13_Referral KH cu']=3;
+  S.srcData[CID+'_13_Data CDT']=2;
+  S.daily[CID+'_13']={data:25,tiepCan:12,ngheGP:6,tuChoi:4,tienNang:3,booking:0,mucTieu:5,keHoach:'Gui ROI cho anh Tuan. Goi 10 KH.',thucHien:'Anh Tuan hai long - xin 1 ngay. 10 KH, 8 nghe.',danhGia:'Sap booking thu 2. Kien nhan.',dieuChinh:'Goi xac nhan anh Tuan T4 sang.',ghiChu:''};
+  S.srcData[CID+'_14_Facebook Ads']=7;
+  S.srcData[CID+'_14_Zalo OA']=3;
+  S.srcData[CID+'_14_Referral KH cu']=3;
+  S.srcData[CID+'_14_Data CDT']=1;
+  S.daily[CID+'_14']={data:22,tiepCan:11,ngheGP:5,tuChoi:3,tienNang:2,booking:1,mucTieu:5,keHoach:'Chot booking voi anh Tuan!',thucHien:'ANH TUAN BOOKING! Studio tang 22.',danhGia:'2 BOOKING! 66% muc tieu.',dieuChinh:'Tap trung chi Hoa va pipeline con lai.',ghiChu:''};
+  S.srcData[CID+'_15_Facebook Ads']=8;
+  S.srcData[CID+'_15_Zalo OA']=5;
+  S.srcData[CID+'_15_Referral KH cu']=3;
+  S.srcData[CID+'_15_Data CDT']=2;
+  S.daily[CID+'_15']={data:18,tiepCan:10,ngheGP:5,tuChoi:3,tienNang:3,booking:0,mucTieu:5,keHoach:'Goi 12 KH moi. Nurture pipeline.',thucHien:'12 KH - 9 nghe, 5 nghe GP. Chi Hoa quan tam.',danhGia:'Referral network hoat dong tot.',dieuChinh:'Gap chi Hoa T6. Chuan bi proposal 2PN.',ghiChu:''};
+  S.srcData[CID+'_16_Facebook Ads']=5;
+  S.srcData[CID+'_16_Zalo OA']=3;
+  S.srcData[CID+'_16_Referral KH cu']=2;
+  S.srcData[CID+'_16_Data CDT']=1;
+  S.daily[CID+'_16']={data:20,tiepCan:11,ngheGP:6,tuChoi:3,tienNang:3,booking:0,mucTieu:5,keHoach:'Gap chi Hoa. Follow up toan bo.',thucHien:'Gap chi Hoa 90p - ky ve HTLS.',danhGia:'Chi Hoa la potential booking thu 3.',dieuChinh:'Hoi GDKD ve HTLS cho KH co 30% von.',ghiChu:''};
+  S.srcData[CID+'_17_Facebook Ads']=3;
+  S.srcData[CID+'_17_Zalo OA']=2;
+  S.srcData[CID+'_17_Referral KH cu']=1;
+  S.srcData[CID+'_17_Data CDT']=1;
+  S.daily[CID+'_17']={data:15,tiepCan:9,ngheGP:5,tuChoi:2,tienNang:3,booking:0,mucTieu:5,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily[CID+'_18']={data:8,tiepCan:4,ngheGP:2,tuChoi:1,tienNang:1,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.srcData[CID+'_19_Facebook Ads']=10;
+  S.srcData[CID+'_19_Zalo OA']=5;
+  S.srcData[CID+'_19_Referral KH cu']=4;
+  S.srcData[CID+'_19_Data CDT']=2;
+  S.daily[CID+'_19']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.srcData[CID+'_20_Facebook Ads']=9;
+  S.srcData[CID+'_20_Zalo OA']=4;
+  S.srcData[CID+'_20_Referral KH cu']=4;
+  S.srcData[CID+'_20_Data CDT']=2;
+  S.daily[CID+'_20']={data:28,tiepCan:13,ngheGP:7,tuChoi:4,tienNang:4,booking:0,mucTieu:5,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  // Team data for leaderboard and funnel
+  S.bookings['phuongtyty']=4; S.targets['phuongtyty']=3;
+  S.daily['phuongtyty_1']={data:22,tiepCan:10,ngheGP:5,tuChoi:2,tienNang:3,booking:2,mucTieu:4,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['phuongtyty_2']={data:20,tiepCan:9,ngheGP:4,tuChoi:2,tienNang:2,booking:1,mucTieu:4,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['phuongtyty_3']={data:18,tiepCan:8,ngheGP:4,tuChoi:2,tienNang:2,booking:0,mucTieu:4,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['phuongtyty_4']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['phuongtyty_5']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['phuongtyty_6']={data:25,tiepCan:11,ngheGP:6,tuChoi:3,tienNang:3,booking:1,mucTieu:5,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['phuongtyty_7']={data:22,tiepCan:10,ngheGP:5,tuChoi:2,tienNang:2,booking:0,mucTieu:5,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.bookings['nghiemquan']=3; S.targets['nghiemquan']=3;
+  S.daily['nghiemquan_1']={data:18,tiepCan:8,ngheGP:4,tuChoi:2,tienNang:2,booking:1,mucTieu:3,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['nghiemquan_2']={data:16,tiepCan:7,ngheGP:3,tuChoi:2,tienNang:2,booking:0,mucTieu:3,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['nghiemquan_3']={data:15,tiepCan:7,ngheGP:3,tuChoi:1,tienNang:2,booking:0,mucTieu:3,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['nghiemquan_4']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['nghiemquan_5']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['nghiemquan_6']={data:20,tiepCan:9,ngheGP:4,tuChoi:2,tienNang:3,booking:1,mucTieu:4,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['nghiemquan_7']={data:18,tiepCan:8,ngheGP:4,tuChoi:2,tienNang:2,booking:0,mucTieu:4,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.bookings['thaitha']=2; S.targets['thaitha']=2;
+  S.daily['thaitha_1']={data:12,tiepCan:5,ngheGP:2,tuChoi:2,tienNang:1,booking:0,mucTieu:3,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['thaitha_2']={data:10,tiepCan:5,ngheGP:2,tuChoi:1,tienNang:1,booking:1,mucTieu:3,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['thaitha_3']={data:8,tiepCan:4,ngheGP:1,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['thaitha_4']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['thaitha_5']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['thaitha_6']={data:14,tiepCan:6,ngheGP:3,tuChoi:2,tienNang:2,booking:0,mucTieu:3,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['thaitha_7']={data:12,tiepCan:5,ngheGP:2,tuChoi:2,tienNang:1,booking:0,mucTieu:3,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.bookings['phammanh']=1; S.targets['phammanh']=2;
+  S.daily['phammanh_1']={data:10,tiepCan:4,ngheGP:1,tuChoi:2,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['phammanh_2']={data:8,tiepCan:3,ngheGP:1,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['phammanh_3']={data:7,tiepCan:3,ngheGP:1,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['phammanh_4']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['phammanh_5']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['phammanh_6']={data:12,tiepCan:5,ngheGP:2,tuChoi:2,tienNang:1,booking:1,mucTieu:3,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['phammanh_7']={data:10,tiepCan:4,ngheGP:2,tuChoi:2,tienNang:1,booking:0,mucTieu:3,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.bookings['ductruong']=1; S.targets['ductruong']=2;
+  S.daily['ductruong_1']={data:9,tiepCan:4,ngheGP:1,tuChoi:2,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['ductruong_2']={data:8,tiepCan:3,ngheGP:1,tuChoi:1,tienNang:0,booking:1,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['ductruong_3']={data:7,tiepCan:3,ngheGP:1,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['ductruong_4']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['ductruong_5']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['ductruong_6']={data:10,tiepCan:4,ngheGP:2,tuChoi:2,tienNang:1,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['ductruong_7']={data:9,tiepCan:4,ngheGP:1,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.bookings['theanh']=2; S.targets['theanh']=2;
+  S.daily['theanh_1']={data:11,tiepCan:5,ngheGP:2,tuChoi:2,tienNang:1,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['theanh_2']={data:10,tiepCan:4,ngheGP:2,tuChoi:1,tienNang:1,booking:1,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['theanh_3']={data:8,tiepCan:4,ngheGP:1,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['theanh_4']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['theanh_5']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['theanh_6']={data:12,tiepCan:5,ngheGP:2,tuChoi:2,tienNang:2,booking:0,mucTieu:3,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['theanh_7']={data:11,tiepCan:5,ngheGP:2,tuChoi:2,tienNang:1,booking:1,mucTieu:3,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.bookings['bathe']=1; S.targets['bathe']=2;
+  S.daily['bathe_1']={data:8,tiepCan:3,ngheGP:1,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['bathe_2']={data:7,tiepCan:3,ngheGP:1,tuChoi:1,tienNang:0,booking:1,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['bathe_3']={data:6,tiepCan:2,ngheGP:1,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['bathe_4']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['bathe_5']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['bathe_6']={data:9,tiepCan:4,ngheGP:2,tuChoi:1,tienNang:1,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['bathe_7']={data:8,tiepCan:3,ngheGP:1,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.bookings['quanghuy']=0; S.targets['quanghuy']=2;
+  S.daily['quanghuy_1']={data:6,tiepCan:2,ngheGP:0,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['quanghuy_2']={data:5,tiepCan:2,ngheGP:0,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['quanghuy_3']={data:5,tiepCan:2,ngheGP:1,tuChoi:0,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['quanghuy_4']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['quanghuy_5']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['quanghuy_6']={data:7,tiepCan:3,ngheGP:1,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['quanghuy_7']={data:6,tiepCan:2,ngheGP:1,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.bookings['kimhue']=1; S.targets['kimhue']=2;
+  S.daily['kimhue_1']={data:9,tiepCan:4,ngheGP:1,tuChoi:2,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['kimhue_2']={data:8,tiepCan:3,ngheGP:1,tuChoi:1,tienNang:0,booking:1,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['kimhue_3']={data:7,tiepCan:3,ngheGP:1,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['kimhue_4']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['kimhue_5']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['kimhue_6']={data:10,tiepCan:4,ngheGP:2,tuChoi:1,tienNang:1,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['kimhue_7']={data:9,tiepCan:3,ngheGP:1,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.bookings['quanha']=1; S.targets['quanha']=3;
+  S.daily['quanha_1']={data:11,tiepCan:5,ngheGP:2,tuChoi:2,tienNang:1,booking:0,mucTieu:3,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['quanha_2']={data:10,tiepCan:4,ngheGP:1,tuChoi:2,tienNang:1,booking:0,mucTieu:3,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['quanha_3']={data:9,tiepCan:4,ngheGP:1,tuChoi:1,tienNang:0,booking:1,mucTieu:3,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['quanha_4']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['quanha_5']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['quanha_6']={data:12,tiepCan:5,ngheGP:2,tuChoi:2,tienNang:1,booking:0,mucTieu:3,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily['quanha_7']={data:11,tiepCan:5,ngheGP:2,tuChoi:2,tienNang:1,booking:0,mucTieu:3,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  _demoCRMLoaded=false;
   rebuildAll();
 }
 
@@ -4003,6 +4100,27 @@ function timeAgo(d){
   return Math.floor(diff/86400)+' ngày trước';
 }
 
+
+
+let _demoCRMLoaded=false;
+const DEMO_CRM_DATA=[
+  {id:'dc1',member_id:'dinhhoang',member_name:'Đinh Hoàng',name:'Nguyễn Thị Lan',phone_last4:'3456',source:'Facebook Ads',pipeline_stage:'booked',product_interest:'Căn hộ 2 phòng ngủ',expected_price:'4.2 tỷ',purpose:'Đầu tư',finance_type:'Kết hợp (có + vay)',region:'Hà Nội',buy_reason:'Vị trí đẹp, view biển, ROI 8%/năm.',reject_reason:'',first_contact:'2026-04-07',next_contact:null,notes:'Booking 2PN tầng 18 block A. Đã cọc 50 triệu.',created_at:'2026-04-07T00:00:00Z'},
+  {id:'dc2',member_id:'dinhhoang',member_name:'Đinh Hoàng',name:'Trần Văn Tuấn',phone_last4:'7890',source:'Referral KH cu',pipeline_stage:'booked',product_interest:'Căn hộ Studio',expected_price:'2.8 tỷ',purpose:'Đầu tư',finance_type:'Tự có (Cash)',region:'Hà Nội',buy_reason:'Em chị Lan. Đầu tư homestay, ROI tốt.',reject_reason:'',first_contact:'2026-04-14',next_contact:null,notes:'Studio tầng 22 view biển. Thanh toán 70% ngay.',created_at:'2026-04-14T00:00:00Z'},
+  {id:'dc3',member_id:'dinhhoang',member_name:'Đinh Hoàng',name:'Lê Thị Hoa',phone_last4:'2341',source:'Zalo OA',pipeline_stage:'deciding',product_interest:'Căn hộ 2 phòng ngủ',expected_price:'4.5 tỷ',purpose:'Để ở',finance_type:'Vay ngân hàng',region:'Quảng Ninh',buy_reason:'Muốn nhà ven biển cho gia đình.',reject_reason:'Lo lãi suất vay biến động.',first_contact:'2026-04-15',next_contact:'2026-04-05',notes:'Gặp lần 3. Chồng chưa đồng ý. Cần HTLS ưu đãi.',created_at:'2026-04-15T00:00:00Z'},
+  {id:'dc4',member_id:'dinhhoang',member_name:'Đinh Hoàng',name:'Phạm Minh Đức',phone_last4:'5678',source:'Data CDT',pipeline_stage:'visited',product_interest:'Căn hộ 3 phòng ngủ',expected_price:'6.2 tỷ',purpose:'Để ở',finance_type:'Kết hợp (có + vay)',region:'Hải Phòng',buy_reason:'Gia đình 5 người, cần không gian rộng.',reject_reason:'',first_contact:'2026-04-16',next_contact:'2026-04-06',notes:'Đã site visit. Ấn tượng. Vợ xem lại T6.',created_at:'2026-04-16T00:00:00Z'},
+  {id:'dc5',member_id:'dinhhoang',member_name:'Đinh Hoàng',name:'Hoàng Thị Mai',phone_last4:'1234',source:'Facebook Ads',pipeline_stage:'appointed',product_interest:'Căn hộ 1 phòng ngủ',expected_price:'3.1 tỷ',purpose:'Đầu tư',finance_type:'Tự có (Cash)',region:'Hà Nội',buy_reason:'Căn nhỏ dễ cho thuê, vốn ít.',reject_reason:'',first_contact:'2026-04-17',next_contact:'2026-04-06',notes:'Hẹn T7. Cần bảng so sánh 1PN vs Studio.',created_at:'2026-04-17T00:00:00Z'},
+  {id:'dc6',member_id:'dinhhoang',member_name:'Đinh Hoàng',name:'Vũ Quang Nam',phone_last4:'9012',source:'Zalo OA',pipeline_stage:'potential',product_interest:'Căn hộ 2 phòng ngủ',expected_price:'4.0 tỷ',purpose:'Để ở',finance_type:'Kết hợp (có + vay)',region:'Hà Nội',buy_reason:'Môi trường sống xanh cho con cái.',reject_reason:'',first_contact:'2026-04-18',next_contact:'2026-04-08',notes:'Nghe GP 50p. Quan tâm cao. Cần hỏi pháp lý.',created_at:'2026-04-18T00:00:00Z'},
+  {id:'dc7',member_id:'dinhhoang',member_name:'Đinh Hoàng',name:'Đặng Thị Thu',phone_last4:'3456',source:'Data CDT',pipeline_stage:'potential',product_interest:'Căn hộ Studio',expected_price:'2.6 tỷ',purpose:'Cho thuê',finance_type:'Vay ngân hàng',region:'Hải Phòng',buy_reason:'Cho thuê dài hạn, đòn bẩy vay 50%.',reject_reason:'',first_contact:'2026-04-19',next_contact:'2026-04-07',notes:'Kỹ sư, hiểu tài chính. Cần phân tích dòng tiền.',created_at:'2026-04-19T00:00:00Z'},
+  {id:'dc8',member_id:'dinhhoang',member_name:'Đinh Hoàng',name:'Trịnh Văn Sơn',phone_last4:'6789',source:'Data CDT',pipeline_stage:'listened',product_interest:'Căn hộ 3 phòng ngủ',expected_price:'6.8 tỷ',purpose:'Để ở',finance_type:'Tự có (Cash)',region:'Hà Nội',buy_reason:'Chủ DN, muốn nơi nghỉ dưỡng gia đình.',reject_reason:'',first_contact:'2026-04-20',next_contact:'2026-04-10',notes:'Mới nghe GP. Hỏi tiến độ bàn giao.',created_at:'2026-04-20T00:00:00Z'},
+  {id:'dc9',member_id:'dinhhoang',member_name:'Đinh Hoàng',name:'Ngô Thị Bích',phone_last4:'0123',source:'Referral KH cu',pipeline_stage:'new',product_interest:'Căn hộ 1 phòng ngủ',expected_price:'',purpose:'Đầu tư',finance_type:'Chưa xác định',region:'Hà Nội',buy_reason:'',reject_reason:'',first_contact:'2026-04-20',next_contact:'2026-04-04',notes:'Bạn chị Hoa. Mới liên hệ. Hẹn gọi lại sáng mai.',created_at:'2026-04-20T00:00:00Z'},
+  {id:'dc10',member_id:'dinhhoang',member_name:'Đinh Hoàng',name:'Bùi Văn Hùng',phone_last4:'4567',source:'Facebook Ads',pipeline_stage:'rejected',product_interest:'Căn hộ 2 phòng ngủ',expected_price:'4.0 tỷ',purpose:'Để ở',finance_type:'Vay ngân hàng',region:'Hà Nội',buy_reason:'',reject_reason:'Vợ muốn mua nhà đất Hà Nội thay vì căn hộ biển.',first_contact:'2026-04-05',next_contact:null,notes:'Tạm từ chối. Có thể quay lại sau 6 tháng.',created_at:'2026-04-05T00:00:00Z'},
+];
+function loadDemoCRM(){
+  crmCustomers=DEMO_CRM_DATA.slice();
+  _demoCRMLoaded=true;
+  renderCRMPipeline();
+  filterCRM();
+}
 
 function goTab(btn,id){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
