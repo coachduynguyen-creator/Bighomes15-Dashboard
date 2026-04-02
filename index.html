@@ -370,6 +370,66 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
   .dr-nums{grid-template-columns:repeat(2,1fr);}
 }
 .live-badge{position:fixed;top:68px;right:14px;background:var(--c1);color:#fff;padding:8px 14px;border-radius:10px;font-size:12px;font-weight:600;z-index:8000;box-shadow:0 4px 14px rgba(0,0,0,.25);pointer-events:none;}
+
+/* ===== COMMUNITY TAB ===== */
+.cd-subtabs{display:flex;gap:0;margin-bottom:20px;background:var(--cline);border-radius:10px;padding:4px;}
+.cd-subtab{flex:1;padding:9px 12px;border:none;background:none;border-radius:8px;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;font-weight:600;color:var(--cgray);cursor:pointer;transition:all .2s;text-align:center;}
+.cd-subtab.active{background:#fff;color:var(--c1);box-shadow:0 1px 4px rgba(0,0,0,.1);}
+/* Feed */
+.feed-composer{background:#fff;border-radius:14px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:16px;}
+.feed-composer-input{width:100%;padding:11px 14px;border:2px solid var(--cline);border-radius:10px;font-family:'Be Vietnam Pro',sans-serif;font-size:14px;resize:vertical;min-height:80px;transition:border-color .2s;}
+.feed-composer-input:focus{outline:none;border-color:var(--cg);}
+.feed-cats{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap;}
+.feed-cat{padding:5px 12px;border-radius:99px;border:2px solid var(--cline);background:#fff;font-family:'Be Vietnam Pro',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--cgray);}
+.feed-cat.selected{border-color:var(--cg);background:#f0f8f0;color:var(--cg);}
+.post-card{background:#fff;border-radius:14px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:14px;}
+.post-author{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.post-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#fff;flex-shrink:0;}
+.post-name{font-size:14px;font-weight:700;color:var(--c1);}
+.post-time{font-size:11px;color:var(--cgray);}
+.post-badge{font-size:11px;font-weight:700;padding:2px 9px;border-radius:99px;margin-left:auto;}
+.post-content{font-size:14px;color:#374151;line-height:1.75;margin-bottom:12px;white-space:pre-wrap;}
+.post-actions{display:flex;align-items:center;gap:14px;padding-top:10px;border-top:1px solid var(--cline);}
+.post-action-btn{display:flex;align-items:center;gap:5px;background:none;border:none;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;font-weight:600;color:var(--cgray);cursor:pointer;padding:5px 10px;border-radius:7px;transition:all .15s;}
+.post-action-btn:hover{background:#f0f8f0;color:var(--cg);}
+.post-action-btn.liked{color:#e8a020;}
+.comments-section{margin-top:12px;border-top:1px solid var(--cline);padding-top:12px;display:none;}
+.comments-section.open{display:block;}
+.comment-item{display:flex;gap:9px;margin-bottom:9px;}
+.comment-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px;color:#fff;flex-shrink:0;}
+.comment-body{background:#f8fbf8;border-radius:0 8px 8px 8px;padding:8px 12px;flex:1;}
+.comment-author{font-size:12px;font-weight:700;color:var(--c1);margin-bottom:2px;}
+.comment-text{font-size:13px;color:#374151;line-height:1.5;}
+.comment-input-row{display:flex;gap:8px;margin-top:10px;align-items:center;}
+.comment-input{flex:1;padding:8px 12px;border:2px solid var(--cline);border-radius:8px;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;transition:border-color .2s;}
+.comment-input:focus{outline:none;border-color:var(--cg);}
+/* Ranking */
+.rank-tabs{display:flex;gap:8px;margin-bottom:16px;}
+.rank-tab{padding:8px 18px;border-radius:8px;border:2px solid var(--cline);background:#fff;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--cgray);}
+.rank-tab.active{border-color:var(--cy);background:#fef3c7;color:#b45309;}
+.rank-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--cline);}
+.rank-row:last-child{border-bottom:none;}
+.rank-num{width:32px;text-align:center;font-size:16px;font-weight:900;flex-shrink:0;}
+.rank-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff;flex-shrink:0;}
+.rank-info{flex:1;min-width:0;}
+.rank-name{font-size:14px;font-weight:700;color:var(--c1);}
+.rank-sub{font-size:11px;color:var(--cgray);}
+.rank-val{font-size:20px;font-weight:900;min-width:60px;text-align:right;}
+.rank-bar-wrap{width:120px;height:8px;background:var(--cline);border-radius:99px;overflow:hidden;}
+.rank-bar-fill{height:100%;border-radius:99px;transition:width .6s;}
+/* Events */
+.event-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-bottom:16px;}
+.event-card{background:#fff;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.07);overflow:hidden;}
+.event-img{height:140px;background:linear-gradient(135deg,var(--c1),var(--cg));display:flex;align-items:center;justify-content:center;font-size:48px;}
+.event-body{padding:14px 16px;}
+.event-type{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:99px;margin-bottom:8px;}
+.event-title{font-size:15px;font-weight:800;color:var(--c1);margin-bottom:8px;line-height:1.4;}
+.event-meta{font-size:12px;color:var(--cgray);margin-bottom:5px;display:flex;align-items:center;gap:6px;}
+.event-reg-btn{width:100%;padding:10px;border-radius:8px;border:none;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-top:12px;transition:all .2s;}
+.event-reg-btn.reg{background:#1e7a4a;color:#fff;}
+.event-reg-btn.reg:hover{background:#155a37;}
+.event-reg-btn.unreg{background:#fee2e2;color:#c44040;border:1px solid #fca5a5;}
+.create-event-btn{background:var(--cg);color:#fff;border:none;border-radius:9px;padding:10px 18px;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:16px;}
 </style>
 </head>
 <body>
@@ -418,7 +478,7 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
       <div class="logo-badge">B15</div>
       <div>
         <div class="org-small">Bighomes 15 — Vinhomes Hạ Long Xanh</div>
-        <div class="sprint-title" contenteditable="false">Sprint 30 Ngày — Chiến Dịch Nhận Booking</div>
+        <div class="sprint-title" contenteditable="false">Chiến Dịch 30 Ngày — Nhận Booking Hạ Long Xanh</div>
       </div>
     </div>
     <div class="hdr-right">
@@ -453,12 +513,13 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
 <!-- TAB BAR -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="goTab(this,'tong-quan')">Tổng Quan</button>
-  <button class="tab-btn" onclick="goTab(this,'ke-hoach')">Kế Hoạch Sprint</button>
+  <button class="tab-btn" onclick="goTab(this,'ke-hoach')">Kế Hoạch Chiến Dịch</button>
   <button class="tab-btn" onclick="goTab(this,'team')">Team & Mục Tiêu</button>
   <button class="tab-btn" onclick="goTab(this,'bao-cao')">Báo Cáo Ngày</button>
   <button class="tab-btn" onclick="goTab(this,'tai-chinh')">Tài Chính MKT</button>
   <button class="tab-btn" onclick="goTab(this,'crm')">CRM Khách Hàng</button>
   <button class="tab-btn" onclick="goTab(this,'rui-ro')">Rủi Ro</button>
+  <button class="tab-btn" onclick="goTab(this,'cong-dong')">🏡 Cộng Đồng</button>
   <button class="tab-btn" onclick="goTab(this,'huong-dan')">📖 Hướng Dẫn</button>
   <button class="tab-btn" id="admin-tab-btn" onclick="goTab(this,'admin')" style="display:none;color:#e8a020;border-bottom-color:transparent;">⚙ Quản Trị</button>
 </div>
@@ -468,7 +529,7 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
 
   <!-- ===== TỔNG QUAN ===== -->
   <div id="tab-tong-quan" class="tab-pane active">
-    <div class="sec-hdr">Tổng Quan Sprint</div>
+    <div class="sec-hdr">Tổng Quan Chiến Dịch</div>
     <div class="booking-hero">
       <div class="bh-inner">
         <div>
@@ -490,7 +551,7 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
         <div id="ov-progress"></div>
       </div>
       <div class="card">
-        <div class="sub-hdr" style="margin-top:0;">Thông tin Sprint</div>
+        <div class="sub-hdr" style="margin-top:0;">Thông tin Chiến Dịch</div>
         <div class="kpi-r"><span style="font-size:12px;color:var(--cgray);">Ngày bắt đầu</span><span style="font-weight:700;color:var(--cg);">02/04/2026</span></div>
         <div class="kpi-r"><span style="font-size:12px;color:var(--cgray);">Deadline</span><span style="font-weight:700;color:var(--cr);">01/05/2026</span></div>
         <div class="kpi-r"><span style="font-size:12px;color:var(--cgray);">Dự án</span><span style="font-weight:700;color:var(--c1);">Vinhomes Hạ Long Xanh</span></div>
@@ -499,7 +560,7 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
         <div class="kpi-r"><span style="font-size:12px;color:var(--cgray);">Deadline lãi suất</span><span style="font-weight:700;color:var(--cr);">30/04/2026</span></div>
         <div style="margin-top:13px;padding:11px;background:#f0f8f0;border-radius:8px;border-left:3px solid var(--cg);">
           <div style="font-size:13px;font-weight:700;color:var(--c1);margin-bottom:3px;">Ghi chú CEO</div>
-          <div style="font-size:13px;color:var(--cgray);line-height:1.65;" contenteditable="false">Sprint đầu tiên nhận booking Hạ Long Xanh. Ưu tiên chất lượng khách hàng, không ép số. Mỗi booking phải là khách đã hiểu rõ dự án và cam kết tài chính rõ ràng.</div>
+          <div style="font-size:13px;color:var(--cgray);line-height:1.65;" contenteditable="false">Chiến dịch đầu tiên nhận booking Hạ Long Xanh. Ưu tiên chất lượng khách hàng, không ép số. Mỗi booking phải là khách đã hiểu rõ dự án và cam kết tài chính rõ ràng.</div>
         </div>
       </div>
     </div>
@@ -513,16 +574,16 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
         <div id="rm-list"><div class="rm-empty">Đang tải...</div></div>
       </div>
       <div class="card">
-        <div class="sub-hdr" style="margin-top:0;margin-bottom:12px;">Bảng xếp hạng — Booking Sprint</div>
+        <div class="sub-hdr" style="margin-top:0;margin-bottom:12px;">Bảng Xếp Hạng Booking — Chiến Dịch</div>
         <div id="lb-list"></div>
       </div>
     </div>
     <div class="card" style="margin-bottom:20px;">
-      <div class="sub-hdr" style="margin-top:0;margin-bottom:12px;">Dự báo kết quả Sprint</div>
+      <div class="sub-hdr" style="margin-top:0;margin-bottom:12px;">Dự báo kết quả Chiến dịch</div>
       <div id="forecast-widget" class="forecast-widget"></div>
     </div>
     <div class="card" style="margin-bottom:20px;">
-      <div class="sub-hdr" style="margin-top:0;margin-bottom:16px;">Phễu Chuyển Đổi Toàn Team — Sprint đến nay</div>
+      <div class="sub-hdr" style="margin-top:0;margin-bottom:16px;">Phễu Chuyển Đổi Toàn Team — Chiến dịch đến nay</div>
       <div id="ov-funnel-team" style="padding:4px 40px 4px 0;"></div>
       <div id="ov-funnel-team-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px;"></div>
     </div>
@@ -530,7 +591,7 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
 
   <!-- ===== KẾ HOẠCH ===== -->
   <div id="tab-ke-hoach" class="tab-pane">
-    <div class="sec-hdr">Kế Hoạch Sprint 30 Ngày</div>
+    <div class="sec-hdr">Kế Hoạch Chiến Dịch 30 Ngày</div>
     <div class="g2">
       <div class="card">
         <div class="sub-hdr" style="margin-top:0;">Timeline theo tuần</div>
@@ -619,7 +680,7 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
     <div id="coaching-list" class="card" style="margin-bottom:22px;">
       <div style="font-size:13px;color:var(--cgray);padding:8px 0;">Chưa có ghi chú coaching nào.</div>
     </div>
-    <div class="sub-hdr">Chuyên Viên Kinh Doanh — Phân Bổ Mục Tiêu</div>
+    <div class="sub-hdr">Chuyên Viên Kinh Doanh — Phân Bổ Mục Tiêu Chiến Dịch</div>
     <div class="card" style="margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
       <div>
         <div style="font-size:13px;color:var(--cgray);">Tổng mục tiêu booking (tự động cộng)</div>
@@ -761,14 +822,14 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
 
         <div style="background:#f0f8f0;border-radius:8px;padding:14px;margin-bottom:12px;border-left:3px solid var(--cg);">
           <div style="font-size:12px;font-weight:700;color:var(--cgray);text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px;">Thông báo chính sách</div>
-          <div contenteditable="false" id="policy-notice" style="font-size:14px;color:var(--c1);line-height:1.75;min-height:60px;outline:none;">Bighomes 15 hỗ trợ ngân sách MKT cho các CVKD chạy quảng cáo trong sprint nhận booking Vinhomes Hạ Long Xanh. Ngân sách được giải ngân theo thực chi, yêu cầu nộp chứng từ đầy đủ trước khi thanh toán.</div>
+          <div contenteditable="false" id="policy-notice" style="font-size:14px;color:var(--c1);line-height:1.75;min-height:60px;outline:none;">Bighomes 15 hỗ trợ ngân sách MKT cho các CVKD chạy quảng cáo trong chiến dịch nhận booking Vinhomes Hạ Long Xanh. Ngân sách được giải ngân theo thực chi, yêu cầu nộp chứng từ đầy đủ trước khi thanh toán.</div>
         </div>
 
         <div class="kpi-r"><span style="font-size:13px;color:var(--cgray);">Mức hỗ trợ tối đa / người</span><span contenteditable="false" id="policy-amount" style="font-weight:700;color:var(--c1);font-size:14px;">2 triệu đồng / tháng</span></div>
         <div class="kpi-r"><span style="font-size:13px;color:var(--cgray);">Kênh được duyệt</span><span contenteditable="false" id="policy-channels" style="font-weight:700;color:var(--c1);font-size:14px;">Facebook Ads, Zalo OA, TikTok Ads</span></div>
         <div class="kpi-r"><span style="font-size:13px;color:var(--cgray);">Hạn nộp chứng từ</span><span contenteditable="false" id="policy-deadline" style="font-weight:700;color:var(--cr);font-size:14px;">05/05/2026</span></div>
         <div class="kpi-r"><span style="font-size:13px;color:var(--cgray);">Thanh toán qua</span><span contenteditable="false" id="policy-payment" style="font-weight:700;color:var(--c1);font-size:14px;">Phòng kế toán — xuất hoá đơn VAT</span></div>
-        <div class="kpi-r"><span style="font-size:13px;color:var(--cgray);">Điều kiện</span><span contenteditable="false" id="policy-condition" style="font-weight:700;color:var(--c1);font-size:14px;">Đạt tối thiểu 1 booking trong sprint</span></div>
+        <div class="kpi-r"><span style="font-size:13px;color:var(--cgray);">Điều kiện</span><span contenteditable="false" id="policy-condition" style="font-weight:700;color:var(--c1);font-size:14px;">Đạt tối thiểu 1 booking trong chiến dịch</span></div>
 
         <div style="background:#fff3cd;border-radius:8px;padding:12px;margin-top:12px;border-left:3px solid var(--cy);">
           <div style="font-size:12px;font-weight:700;color:#b45309;text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px;">Lưu ý quan trọng</div>
@@ -820,7 +881,7 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
   <!-- ===== CRM KHÁCH HÀNG ===== -->
   <div id="tab-crm" class="tab-pane">
     <div class="sec-hdr" style="display:flex;justify-content:space-between;align-items:center;">
-      <span>CRM Khách Hàng — Vinhomes Hạ Long Xanh</span>
+      <span>CRM Khách Hàng — Chiến Dịch Hạ Long Xanh</span>
       <div style="display:flex;gap:10px;align-items:center;">
         <div id="crm-sync-status" style="font-size:12px;color:var(--cgray);"></div>
         <button class="btn btn-green" onclick="openCustomerModal()" style="font-size:13px;">+ Thêm KH</button>
@@ -866,7 +927,7 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
   <!-- ===== ADMIN — SUPER ADMIN ONLY ===== -->
   <div id="tab-admin" class="tab-pane">
     <div class="sec-hdr" style="display:flex;justify-content:space-between;align-items:center;">
-      <span>⚙ Quản Trị Viên — Coach Duy Nguyễn</span>
+      <span>⚙ Quản Trị Viên — Chiến Dịch Hạ Long Xanh</span>
       <button class="btn btn-save" onclick="adminRefreshAll()" style="font-size:13px;">🔄 Làm mới tất cả</button>
     </div>
 
@@ -884,10 +945,10 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
 
       <!-- CÀI ĐẶT SPRINT -->
       <div class="card adm-section">
-        <div class="sub-hdr" style="margin-top:0;">Cài Đặt Sprint</div>
+        <div class="sub-hdr" style="margin-top:0;">Cài Đặt Chiến Dịch</div>
         <div class="adm-cfg-field">
-          <label class="adm-cfg-label">Tên Sprint</label>
-          <input id="adm-sprint-name" class="adm-cfg-input" type="text" placeholder="Sprint 30 Ngày — Chiến Dịch Nhận Booking">
+          <label class="adm-cfg-label">Tên Chiến dịch</label>
+          <input id="adm-sprint-name" class="adm-cfg-input" type="text" placeholder="Chiến Dịch 30 Ngày — Nhận Booking Hạ Long Xanh">
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
           <div class="adm-cfg-field">
@@ -931,7 +992,7 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
           </button>
           <button class="adm-export-btn" onclick="exportSummary()">
             <span class="icon">📋</span>
-            <div><div>Tổng hợp Sprint (CSV)</div><div class="desc">KPI tổng hợp từng thành viên toàn sprint</div></div>
+            <div><div>Tổng hợp Chiến dịch (CSV)</div><div class="desc">KPI tổng hợp từng thành viên toàn chiến dịch</div></div>
           </button>
         </div>
 
@@ -1024,6 +1085,64 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
     </div>
   </div>
 
+
+  <!-- ===== CỘNG ĐỒNG ===== -->
+  <div id="tab-cong-dong" class="tab-pane">
+    <div class="sec-hdr" style="display:flex;justify-content:space-between;align-items:center;">
+      <span>🏡 Cộng Đồng — Bighomes 15</span>
+      <span id="cd-live-pill" style="font-size:12px;color:var(--cgray);"></span>
+    </div>
+
+    <!-- Sub-tabs -->
+    <div class="cd-subtabs">
+      <button class="cd-subtab active" id="cds-feed" onclick="showCDTab('feed')">📢 Bảng Tin</button>
+      <button class="cd-subtab" id="cds-rank" onclick="showCDTab('rank')">🏆 Xếp Hạng</button>
+      <button class="cd-subtab" id="cds-events" onclick="showCDTab('events')">📅 Sự Kiện</button>
+    </div>
+
+    <!-- ── BẢNG TIN ── -->
+    <div id="cd-section-feed">
+      <div class="feed-composer">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <div class="post-av" id="cd-composer-av" style="background:var(--cg);">?</div>
+          <textarea class="feed-composer-input" id="post-input" placeholder="Chia sẻ kinh nghiệm, đặt câu hỏi hoặc chúc mừng đồng đội..."></textarea>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+          <div class="feed-cats" id="feed-cats">
+            <button class="feed-cat selected" data-cat="share" onclick="selectCat(this)">💡 Chia sẻ KN</button>
+            <button class="feed-cat" data-cat="question" onclick="selectCat(this)">❓ Hỏi đáp</button>
+            <button class="feed-cat" data-cat="announce" onclick="selectCat(this)">📢 Thông báo</button>
+            <button class="feed-cat" data-cat="celebrate" onclick="selectCat(this)">🎉 Chúc mừng</button>
+          </div>
+          <button class="btn btn-green" onclick="submitPost()" style="padding:8px 20px;">Đăng bài</button>
+        </div>
+      </div>
+      <div id="feed-list"></div>
+    </div>
+
+    <!-- ── XẾP HẠNG ── -->
+    <div id="cd-section-rank" style="display:none;">
+      <div class="rank-tabs">
+        <button class="rank-tab active" id="rt-booking" onclick="showRankTab('booking')">🏅 Booking</button>
+        <button class="rank-tab" id="rt-tiepcan" onclick="showRankTab('tiepcan')">📞 Tiếp Cận</button>
+        <button class="rank-tab" id="rt-convert" onclick="showRankTab('convert')">🔄 Chuyển Đổi</button>
+      </div>
+      <div class="card" id="rank-content"></div>
+    </div>
+
+    <!-- ── SỰ KIỆN ── -->
+    <div id="cd-section-events" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div>
+          <div style="font-size:16px;font-weight:800;color:var(--c1);">Sự kiện sắp tới</div>
+          <div style="font-size:13px;color:var(--cgray);">Tham gia để học hỏi và tích điểm cộng đồng</div>
+        </div>
+        <button class="create-event-btn" id="create-event-btn" style="display:none;" onclick="openEventModal()">+ Tạo sự kiện</button>
+      </div>
+      <div class="event-grid" id="events-list"></div>
+    </div>
+  </div>
+
 </div><!-- end .content -->
 
 <!-- ===== CUSTOMER MODAL ===== -->
@@ -1032,7 +1151,7 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
     <div class="crm-modal-hdr">
       <div>
         <div style="font-size:16px;font-weight:800;" id="crm-modal-title">Thêm khách hàng mới</div>
-        <div style="font-size:12px;opacity:.7;margin-top:2px;">Vinhomes Hạ Long Xanh — Sprint 30 ngày</div>
+        <div style="font-size:12px;opacity:.7;margin-top:2px;">Vinhomes Hạ Long Xanh — Chiến dịch 30 ngày</div>
       </div>
       <button onclick="closeCRMModal()" style="background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;">✕</button>
     </div>
@@ -1168,6 +1287,8 @@ const SPRINT_END   = new Date('2026-05-01T23:59:59');
 const SPRINT_DAYS  = 30;
 let SPRINT_END_DYN = new Date('2026-05-01T23:59:59');
 let SPRINT_START_DYN = new Date('2026-04-02');
+// Run countdown as soon as DOM is ready (before full DOMContentLoaded)
+document.addEventListener('readystatechange',()=>{ if(document.readyState==='interactive') updateCountdown(); });
 
 const PALETTE = [
   'linear-gradient(135deg,#1a6b3a,#2d9b5a)',
@@ -1199,7 +1320,7 @@ const BASE_CVKDS = [
 const BASE_MGMT = [
   {id:'phuongtyty', name:'Phượng Tỷ Tỷ', ini:'PT', role:'Giám Đốc Bighomes 15', sells:true,
    bg:'linear-gradient(135deg,#c47a00,#e8a020)',
-   kpis:[['Chịu trách nhiệm','Kết quả toàn sprint'],['Site visit','≥ 2 đợt'],['Review tuần','Thứ 2 mỗi tuần'],['Quan hệ CĐT','Liên tục']]},
+   kpis:[['Chịu trách nhiệm','Kết quả toàn chiến dịch'],['Site visit','≥ 2 đợt'],['Review tuần','Thứ 2 mỗi tuần'],['Quan hệ CĐT','Liên tục']]},
   {id:'coachduy', name:'Coach Duy Nguyễn', ini:'CD', role:'Giám Đốc Đào Tạo', sells:false,
    bg:'linear-gradient(135deg,#1a5a6b,#2d8a9b)',
    kpis:[['Training sản phẩm','Tuần 1'],['Hỗ trợ ca khó','On-demand'],['Đánh giá CVKD','Tuần 2 + 4'],['Script & tài liệu','≥ 3 bộ']]},
@@ -1616,7 +1737,7 @@ function loadDailyReport(){
     + '<div id="perf-week" style="padding:4px 0 0;"></div></div>'
     + '</div>'
     + '<div class="card" style="margin-bottom:14px;">'
-    + '<div class="sub-hdr" style="margin-top:0;margin-bottom:12px;">Phễu chuyển đổi cá nhân — toàn sprint</div>'
+    + '<div class="sub-hdr" style="margin-top:0;margin-bottom:12px;">Phễu chuyển đổi cá nhân — toàn chiến dịch</div>'
     + '<div id="perf-funnel" style="padding:4px 40px 4px 0;"></div>'
     + '<div id="perf-funnel-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px;"></div></div>';
 
@@ -2865,7 +2986,7 @@ function renderForecast(){
 
   el.innerHTML=[
     {label:'Tỷ lệ hiện tại',val:(dailyRate).toFixed(2),sub:'booking/ngày',col:dailyRate>0?'var(--cg)':'var(--cgray)'},
-    {label:'Dự báo cuối sprint',val:projected,sub:'booking (nếu giữ nhịp)',col:willHit?'var(--cs)':'var(--cr)'},
+    {label:'Dự báo cuối chiến dịch',val:projected,sub:'booking (nếu giữ nhịp)',col:willHit?'var(--cs)':'var(--cr)'},
     {label:'Còn cần đạt',val:needed,sub:remain+' ngày còn lại',col:needed===0?'var(--cs)':'var(--cy)'},
     {label:'Cần đạt mỗi ngày',val:neededPerDay,sub:'booking/ngày từ hôm nay',col:parseFloat(neededPerDay)>2?'var(--cr)':'var(--cg)'},
   ].map(c=>'<div class="fc-card" style="border-top-color:'+c.col+';">'
@@ -3123,7 +3244,7 @@ async function exportDailyReports(){
   toast('Đang tải dữ liệu...');
   const {data,error}=await db.from('bh_daily_reports').select('*').order('member_id').order('sprint_day');
   if(error){ toast('Lỗi: '+error.message); return; }
-  const headers=['Thành viên','Ngày Sprint','Data','Tiếp cận','Nghe GP','Từ chối','Tiềm năng','Booking','Mục tiêu','P - Kế hoạch','D - Thực hiện','C - Đánh giá','A - Điều chỉnh','Ghi chú'];
+  const headers=['Thành viên','Ngày','Data','Tiếp cận','Nghe GP','Từ chối','Tiềm năng','Booking','Mục tiêu','P - Kế hoạch','D - Thực hiện','C - Đánh giá','A - Điều chỉnh','Ghi chú'];
   const members=Object.fromEntries(getSellingMembers().map(m=>[m.id,m.name]));
   const rows=data.map(r=>[
     members[r.member_id]||r.member_id, r.sprint_day,
@@ -3455,6 +3576,434 @@ function loadDemoData(){
   rebuildAll();
 }
 
+
+// ============================================================
+// COMMUNITY — BẢNG TIN / XẾP HẠNG / SỰ KIỆN
+// ============================================================
+
+// ── Sub-tab navigation ──
+function showCDTab(tab){
+  ['feed','rank','events'].forEach(t=>{
+    document.getElementById('cd-section-'+t).style.display=t===tab?'':'none';
+    const btn=document.getElementById('cds-'+t);
+    if(btn) btn.classList.toggle('active',t===tab);
+  });
+  if(tab==='feed') loadFeed();
+  if(tab==='rank') renderRankTab('booking');
+  if(tab==='events') loadEvents();
+}
+
+function initCommunity(){
+  if(!initSupabase()) return;
+  // Update composer avatar
+  const av=document.getElementById('cd-composer-av');
+  if(av&&ME){
+    const m=getSellingMembers().find(x=>x.id===ME.id);
+    const i=getSellingMembers().indexOf(m);
+    av.textContent=initials(ME.name);
+    av.style.background=PALETTE[i%PALETTE.length]||'var(--cg)';
+  }
+  // Show create event btn for managers
+  const ceb=document.getElementById('create-event-btn');
+  if(ceb) ceb.style.display=isManager()?'':'none';
+  loadFeed();
+}
+
+// ── CATEGORY SELECT ──
+let selectedCat='share';
+function selectCat(btn){
+  document.querySelectorAll('.feed-cat').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedCat=btn.dataset.cat;
+}
+
+const CAT_META={
+  share:{label:'💡 Chia sẻ KN',bg:'#dbeafe',col:'#1d4ed8'},
+  question:{label:'❓ Hỏi đáp',bg:'#fef3c7',col:'#b45309'},
+  announce:{label:'📢 Thông báo',bg:'#e5e7eb',col:'#374151'},
+  celebrate:{label:'🎉 Chúc mừng',bg:'#d1fae5',col:'#065f46'},
+};
+
+// ── FEED ──
+let _feedPosts=[];
+let _myLikes=new Set();
+
+async function loadFeed(){
+  if(!initSupabase()) return;
+  const el=document.getElementById('feed-list');
+  if(!el) return;
+  el.innerHTML='<div style="text-align:center;padding:24px;color:var(--cgray);">Đang tải...</div>';
+  try{
+    const [{data:posts},{data:likes}]=await Promise.all([
+      db.from('bh_posts').select('*').order('created_at',{ascending:false}).limit(30),
+      ME?db.from('bh_post_likes').select('post_id').eq('member_id',ME.id):Promise.resolve({data:[]}),
+    ]);
+    _feedPosts=posts||[];
+    _myLikes=new Set((likes||[]).map(l=>l.post_id));
+    renderFeed();
+  }catch(e){ el.innerHTML='<div style="text-align:center;padding:24px;color:var(--cr);">Lỗi tải: '+e.message+'</div>'; }
+}
+
+function renderFeed(){
+  const el=document.getElementById('feed-list');
+  if(!el) return;
+  if(!_feedPosts.length){
+    el.innerHTML='<div style="text-align:center;padding:40px;color:var(--cgray);font-size:14px;">Chưa có bài đăng nào.<br>Hãy là người đầu tiên chia sẻ!</div>';
+    return;
+  }
+  el.innerHTML=_feedPosts.map(p=>buildPostHTML(p)).join('');
+}
+
+function buildPostHTML(p){
+  const cat=CAT_META[p.category]||CAT_META.share;
+  const m=getSellingMembers().find(x=>x.id===p.author_id);
+  const idx=m?getSellingMembers().indexOf(m):0;
+  const avCol=PALETTE[idx%PALETTE.length]||'var(--cg)';
+  const ini=initials(p.author_name||'?');
+  const liked=_myLikes.has(p.id);
+  const dt=new Date(p.created_at);
+  const ago=timeAgo(dt);
+  return '<div class="post-card" id="post-'+p.id+'">'
+    +'<div class="post-author">'
+      +'<div class="post-av" style="background:'+avCol+';">'+ini+'</div>'
+      +'<div><div class="post-name">'+p.author_name+'</div>'
+      +'<div class="post-time">'+ago+'</div></div>'
+      +'<span class="post-badge" style="background:'+cat.bg+';color:'+cat.col+';">'+cat.label+'</span>'
+    +'</div>'
+    +'<div class="post-content">'+escHtml(p.content)+'</div>'
+    +'<div class="post-actions">'
+      +'<button class="post-action-btn'+(liked?' liked':'')+'" onclick="toggleLike(\''+p.id+'\',this)">'
+        +(liked?'❤️':'🤍')+' <span class="like-count">'+( p.likes_count||0)+'</span>'
+      +'</button>'
+      +'<button class="post-action-btn" onclick="toggleComments(\''+p.id+'\')">'
+        +'💬 <span>'+( p.comments_count||0)+' bình luận</span>'
+      +'</button>'
+      +(ME&&(ME.id===p.author_id||isManager())?'<button class="post-action-btn" style="margin-left:auto;color:var(--cr);" onclick="deletePost(\''+p.id+'\')">🗑</button>':'')
+    +'</div>'
+    +'<div class="comments-section" id="comments-'+p.id+'">'
+      +'<div id="comments-list-'+p.id+'"></div>'
+      +'<div class="comment-input-row">'
+        +'<div class="comment-av" style="background:var(--cg);" id="cav-'+p.id+'">?</div>'
+        +'<input class="comment-input" id="cinput-'+p.id+'" type="text" placeholder="Viết bình luận..." onkeydown="if(event.key===\'Enter\')submitComment(\''+p.id+'\')">'
+        +'<button class="btn btn-green" style="padding:7px 14px;font-size:12px;" onclick="submitComment(\''+p.id+'\')">Gửi</button>'
+      +'</div>'
+    +'</div>'
+  +'</div>';
+}
+
+async function toggleComments(postId){
+  const sec=document.getElementById('comments-'+postId);
+  if(!sec) return;
+  const opening=!sec.classList.contains('open');
+  sec.classList.toggle('open',opening);
+  if(opening) await loadComments(postId);
+  // Set avatar
+  const cav=document.getElementById('cav-'+postId);
+  if(cav&&ME){
+    cav.textContent=initials(ME.name);
+    const m=getSellingMembers().find(x=>x.id===ME.id);
+    cav.style.background=PALETTE[getSellingMembers().indexOf(m)%PALETTE.length]||'var(--cg)';
+  }
+}
+
+async function loadComments(postId){
+  const el=document.getElementById('comments-list-'+postId);
+  if(!el||!initSupabase()) return;
+  const {data}=await db.from('bh_comments').select('*').eq('post_id',postId).order('created_at',{ascending:true});
+  if(!data||!data.length){ el.innerHTML='<div style="font-size:13px;color:var(--cgray);padding:4px 0 8px;">Chưa có bình luận.</div>'; return; }
+  const avColors=['#1a4a6b','#3a8c3a','#e8a020','#c44040','#1e7a4a','#7c3aed','#c47a00'];
+  el.innerHTML=data.map((c,i)=>{
+    const m=getSellingMembers().find(x=>x.id===c.author_id);
+    const idx=m?getSellingMembers().indexOf(m):i;
+    return '<div class="comment-item">'
+      +'<div class="comment-av" style="background:'+( PALETTE[idx%PALETTE.length]||avColors[i%7])+';">'+initials(c.author_name)+'</div>'
+      +'<div class="comment-body">'
+        +'<div class="comment-author">'+c.author_name+' <span style="font-weight:400;color:var(--cgray);">· '+timeAgo(new Date(c.created_at))+'</span></div>'
+        +'<div class="comment-text">'+escHtml(c.content)+'</div>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+}
+
+async function submitPost(){
+  if(!ME||ME.isDemo){ toast('Đăng nhập để đăng bài!'); return; }
+  if(!initSupabase()) return;
+  const content=document.getElementById('post-input').value.trim();
+  if(!content){ toast('Nhập nội dung bài đăng!'); return; }
+  const {error}=await db.from('bh_posts').insert({
+    author_id:ME.id, author_name:ME.name,
+    content, category:selectedCat,
+    likes_count:0, comments_count:0,
+  });
+  if(error){ toast('Lỗi: '+error.message); return; }
+  document.getElementById('post-input').value='';
+  await loadFeed();
+  toast('Đã đăng bài!');
+}
+
+async function submitComment(postId){
+  if(!ME||ME.isDemo){ toast('Đăng nhập để bình luận!'); return; }
+  if(!initSupabase()) return;
+  const inp=document.getElementById('cinput-'+postId);
+  const content=inp?.value.trim();
+  if(!content) return;
+  await db.from('bh_comments').insert({post_id:postId,author_id:ME.id,author_name:ME.name,content});
+  await db.from('bh_posts').update({comments_count:(_feedPosts.find(p=>p.id===postId)?.comments_count||0)+1}).eq('id',postId);
+  inp.value='';
+  await loadComments(postId);
+  const p=_feedPosts.find(x=>x.id===postId);
+  if(p){ p.comments_count=(p.comments_count||0)+1; const span=document.querySelector('#post-'+postId+' .post-action-btn:nth-child(2) span'); if(span) span.textContent=p.comments_count+' bình luận'; }
+}
+
+async function toggleLike(postId,btn){
+  if(!ME||ME.isDemo){ toast('Đăng nhập để thích bài!'); return; }
+  if(!initSupabase()) return;
+  const liked=_myLikes.has(postId);
+  const countEl=btn.querySelector('.like-count');
+  const p=_feedPosts.find(x=>x.id===postId);
+  if(liked){
+    await db.from('bh_post_likes').delete().eq('post_id',postId).eq('member_id',ME.id);
+    _myLikes.delete(postId);
+    if(p) p.likes_count=Math.max((p.likes_count||1)-1,0);
+    btn.classList.remove('liked'); btn.innerHTML='🤍 <span class="like-count">'+(p?.likes_count||0)+'</span>';
+    await db.from('bh_posts').update({likes_count:p?.likes_count||0}).eq('id',postId);
+  } else {
+    await db.from('bh_post_likes').insert({post_id:postId,member_id:ME.id});
+    _myLikes.add(postId);
+    if(p) p.likes_count=(p.likes_count||0)+1;
+    btn.classList.add('liked'); btn.innerHTML='❤️ <span class="like-count">'+(p?.likes_count||0)+'</span>';
+    await db.from('bh_posts').update({likes_count:p?.likes_count||0}).eq('id',postId);
+  }
+}
+
+async function deletePost(postId){
+  if(!confirm('Xoá bài đăng này?')) return;
+  await db.from('bh_posts').delete().eq('id',postId);
+  _feedPosts=_feedPosts.filter(p=>p.id!==postId);
+  renderFeed();
+}
+
+// ── RANKING ──
+let _currentRankTab='booking';
+function showRankTab(type){
+  _currentRankTab=type;
+  ['booking','tiepcan','convert'].forEach(t=>{
+    const btn=document.getElementById('rt-'+t);
+    if(btn) btn.classList.toggle('active',t===type);
+  });
+  renderRankTab(type);
+}
+
+function renderRankTab(type){
+  const el=document.getElementById('rank-content');
+  if(!el) return;
+  const members=getSellingMembers();
+  let sorted, getVal, getSub, getBarMax, getColor, getUnit;
+  if(type==='booking'){
+    sorted=[...members].sort((a,b)=>(S.bookings[b.id]||0)-(S.bookings[a.id]||0));
+    getVal=m=>S.bookings[m.id]||0;
+    getSub=m=>'Mục tiêu: '+(S.targets[m.id]||0)+' · '+(S.targets[m.id]>0?Math.round((S.bookings[m.id]||0)/(S.targets[m.id]||1)*100)+'%':'0%')+' hoàn thành';
+    getBarMax=()=>Math.max(...members.map(m=>S.bookings[m.id]||0),1);
+    getColor=m=>{ const p=S.targets[m.id]>0?(S.bookings[m.id]||0)/(S.targets[m.id])*100:0; return p>=100?'#1e7a4a':p>=50?'#e8a020':'#1a4a6b'; };
+    getUnit=' booking';
+  } else if(type==='tiepcan'){
+    const getTCTotal=m=>{ let t=0; for(let d=1;d<=SPRINT_DAYS;d++) t+=parseInt(S.daily[m.id+'_'+d]?.tiepCan||0); return t; };
+    sorted=[...members].sort((a,b)=>getTCTotal(b)-getTCTotal(a));
+    getVal=getTCTotal;
+    getSub=m=>{ const t=getTCTotal(m); const days=sprintDay(); return 'TB: '+(days>0?(t/days).toFixed(1):0)+' KH/ngày'; };
+    getBarMax=()=>Math.max(...members.map(m=>getVal(m)),1);
+    getColor=()=>'#1a4a6b';
+    getUnit=' KH';
+  } else {
+    const getStats=m=>{ let tc=0,bk=0; for(let d=1;d<=SPRINT_DAYS;d++){ tc+=parseInt(S.daily[m.id+'_'+d]?.tiepCan||0); bk+=parseInt(S.daily[m.id+'_'+d]?.booking||0); } return {tc,bk,rate:tc>0?Math.round(bk/tc*100):0}; };
+    sorted=[...members].filter(m=>getStats(m).tc>0).sort((a,b)=>getStats(b).rate-getStats(a).rate);
+    getVal=m=>getStats(m).rate;
+    getSub=m=>{ const s=getStats(m); return s.bk+' booking / '+s.tc+' tiếp cận'; };
+    getBarMax=()=>100;
+    getColor=m=>{ const r=getVal(m); return r>=10?'#1e7a4a':r>=5?'#e8a020':'#1a4a6b'; };
+    getUnit='%';
+  }
+  if(!sorted.length){ el.innerHTML='<div style="text-align:center;padding:30px;color:var(--cgray);">Chưa có dữ liệu</div>'; return; }
+  const maxV=getBarMax();
+  const medals=['🥇','🥈','🥉'];
+  el.innerHTML=sorted.map((m,i)=>{
+    const v=getVal(m);
+    const col=PALETTE[getSellingMembers().indexOf(m)%PALETTE.length]||'#3a8c3a';
+    const barCol=getColor(m);
+    const fillW=maxV>0?Math.round(v/maxV*100):0;
+    return '<div class="rank-row">'
+      +'<div class="rank-num">'+(medals[i]||('#'+(i+1)))+'</div>'
+      +'<div class="rank-av" style="background:'+col+';">'+initials(m.name)+'</div>'
+      +'<div class="rank-info"><div class="rank-name">'+m.name+(m.isMgmt?'<span style="font-size:10px;background:#fef3c7;color:#b45309;padding:1px 5px;border-radius:4px;margin-left:6px;">GĐ</span>':'')+'</div><div class="rank-sub">'+getSub(m)+'</div></div>'
+      +'<div class="rank-bar-wrap"><div class="rank-bar-fill" style="width:'+fillW+'%;background:'+barCol+';"></div></div>'
+      +'<div class="rank-val" style="color:'+barCol+';">'+v+'<span style="font-size:13px;font-weight:400;color:var(--cgray);">'+getUnit+'</span></div>'
+    +'</div>';
+  }).join('');
+}
+
+// ── EVENTS ──
+let _events=[];
+let _myRegistrations=new Set();
+
+const EV_TYPE_META={
+  webinar:{label:'🖥 Webinar Online',bg:'#dbeafe',col:'#1d4ed8',icon:'🖥'},
+  thuc_dia:{label:'🏢 Thực địa',bg:'#d1fae5',col:'#065f46',icon:'🏢'},
+  hop:{label:'👥 Họp nội bộ',bg:'#e5e7eb',col:'#374151',icon:'👥'},
+  dao_tao:{label:'📚 Đào tạo',bg:'#ede9fe',col:'#6d28d9',icon:'📚'},
+  su_kien:{label:'🎉 Sự kiện',bg:'#fef3c7',col:'#b45309',icon:'🎉'},
+};
+
+async function loadEvents(){
+  if(!initSupabase()) return;
+  const el=document.getElementById('events-list');
+  if(!el) return;
+  try{
+    const [{data:evs},{data:regs}]=await Promise.all([
+      db.from('bh_events').select('*').order('event_date',{ascending:true}),
+      ME?db.from('bh_event_registrations').select('event_id').eq('member_id',ME.id):Promise.resolve({data:[]}),
+    ]);
+    _events=evs||[];
+    _myRegistrations=new Set((regs||[]).map(r=>r.event_id));
+    renderEvents();
+  }catch(e){ el.innerHTML='<div style="padding:30px;text-align:center;color:var(--cr);">Lỗi: '+e.message+'</div>'; }
+}
+
+function renderEvents(){
+  const el=document.getElementById('events-list');
+  if(!el) return;
+  if(!_events.length){
+    el.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px 20px;"><div style="font-size:48px;margin-bottom:12px;">📅</div><div style="font-size:15px;font-weight:700;color:var(--c1);">Chưa có sự kiện nào</div><div style="font-size:13px;color:var(--cgray);margin-top:4px;">Quản lý có thể tạo sự kiện mới</div></div>';
+    return;
+  }
+  el.innerHTML=_events.map(ev=>{
+    const type=EV_TYPE_META[ev.event_type]||EV_TYPE_META.su_kien;
+    const isReg=_myRegistrations.has(ev.id);
+    const evDate=ev.event_date?new Date(ev.event_date):null;
+    const dateStr=evDate?evDate.toLocaleDateString('vi-VN',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):'TBD';
+    const timeStr=evDate?evDate.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}):'';
+    const isPast=evDate&&evDate<new Date();
+    return '<div class="event-card">'
+      +'<div class="event-img">'+type.icon+'</div>'
+      +'<div class="event-body">'
+        +'<span class="event-type" style="background:'+type.bg+';color:'+type.col+';">'+type.label+'</span>'
+        +(ev.points?'<span style="float:right;font-size:11px;font-weight:700;background:#fef3c7;color:#b45309;padding:2px 8px;border-radius:99px;">+'+ev.points+'pt</span>':'')
+        +'<div class="event-title">'+escHtml(ev.title)+'</div>'
+        +'<div class="event-meta">📅 '+dateStr+(timeStr?' · '+timeStr:'')+'</div>'
+        +(ev.host_name?'<div class="event-meta">👤 Host: '+escHtml(ev.host_name)+'</div>':'')
+        +(ev.description?'<div style="font-size:13px;color:var(--cgray);margin-top:6px;line-height:1.6;">'+escHtml(ev.description)+'</div>':'')
+        +(isPast
+          ?'<button disabled style="width:100%;padding:10px;border-radius:8px;border:none;background:#e5e7eb;color:#9ca3af;font-family:inherit;font-size:13px;font-weight:700;margin-top:12px;">Đã kết thúc</button>'
+          :(ME&&!ME.isDemo
+            ?'<button class="event-reg-btn '+(isReg?'unreg':'reg')+'" data-eid="'+ev.id+'" onclick="toggleEventReg(this)">'+(isReg?'✓ Đã đăng ký — Huỷ':'Đăng ký tham gia'+(ev.points?' (+'+ev.points+'pt)':''))+'</button>'
+            :'<button disabled style="width:100%;padding:10px;border-radius:8px;border:none;background:#e5e7eb;color:#9ca3af;font-family:inherit;font-size:13px;margin-top:12px;">Đăng nhập để đăng ký</button>')
+        )
+      +'</div>'
+    +'</div>';
+  }).join('');
+  // Manager edit buttons
+  if(isManager()){
+    _events.forEach(ev=>{
+      const card=el.querySelector('[data-eid="'+ev.id+'"]')?.closest('.event-card');
+      if(card){
+        const editBtn=document.createElement('button');
+        editBtn.innerHTML='✏️ Sửa';
+        editBtn.style.cssText='background:none;border:none;font-size:12px;color:var(--cgray);cursor:pointer;padding:4px 8px;';
+        editBtn.onclick=()=>openEventModal(ev.id);
+        const body=card.querySelector('.event-body');
+        if(body) body.insertBefore(editBtn,body.firstChild);
+      }
+    });
+  }
+}
+
+async function toggleEventReg(btn){
+  if(!ME||ME.isDemo) return;
+  if(!initSupabase()) return;
+  const eventId=btn.dataset.eid;
+  const isReg=_myRegistrations.has(eventId);
+  const ev=_events.find(e=>e.id===eventId);
+  if(isReg){
+    if(!confirm('Huỷ đăng ký sự kiện này?')) return;
+    await db.from('bh_event_registrations').delete().eq('event_id',eventId).eq('member_id',ME.id);
+    _myRegistrations.delete(eventId);
+    btn.className='event-reg-btn reg'; btn.textContent='Đăng ký tham gia'+(ev?.points?' (+'+ev.points+'pt)':'');
+    toast('Đã huỷ đăng ký');
+  } else {
+    await db.from('bh_event_registrations').insert({event_id:eventId,member_id:ME.id,member_name:ME.name});
+    _myRegistrations.add(eventId);
+    btn.className='event-reg-btn unreg'; btn.textContent='✓ Đã đăng ký — Huỷ';
+    toast('Đã đăng ký!'+(ev?.points?' (+'+ev.points+'pt)':''));
+  }
+}
+
+function openEventModal(eventId=null){
+  if(!isManager()){ toast('Chỉ quản lý mới tạo được sự kiện!'); return; }
+  document.getElementById('event-modal-overlay').classList.add('open');
+  const delBtn=document.getElementById('ev-del-btn');
+  if(eventId){
+    const ev=_events.find(e=>e.id===eventId);
+    if(!ev) return;
+    document.getElementById('event-edit-id').value=ev.id;
+    document.getElementById('ev-title').value=ev.title||'';
+    document.getElementById('ev-type').value=ev.event_type||'webinar';
+    document.getElementById('ev-points').value=ev.points||'';
+    document.getElementById('ev-host').value=ev.host_name||'';
+    document.getElementById('ev-desc').value=ev.description||'';
+    if(ev.event_date) document.getElementById('ev-date').value=new Date(ev.event_date).toISOString().slice(0,16);
+    if(delBtn) delBtn.style.display='';
+  } else {
+    document.getElementById('event-edit-id').value='';
+    ['ev-title','ev-points','ev-host','ev-desc','ev-date'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+    document.getElementById('ev-type').value='webinar';
+    if(delBtn) delBtn.style.display='none';
+  }
+}
+
+function closeEventModal(){ document.getElementById('event-modal-overlay').classList.remove('open'); }
+
+async function saveEvent(){
+  if(!isManager()||!initSupabase()) return;
+  const title=document.getElementById('ev-title').value.trim();
+  if(!title){ toast('Nhập tên sự kiện!'); return; }
+  const payload={
+    title,
+    event_type:document.getElementById('ev-type').value,
+    event_date:document.getElementById('ev-date').value||null,
+    host_name:document.getElementById('ev-host').value.trim(),
+    description:document.getElementById('ev-desc').value.trim(),
+    points:parseInt(document.getElementById('ev-points').value)||0,
+    created_by:ME?.id,
+  };
+  const editId=document.getElementById('event-edit-id').value;
+  let error;
+  if(editId){ ({error}=await db.from('bh_events').update(payload).eq('id',editId)); }
+  else { ({error}=await db.from('bh_events').insert(payload)); }
+  if(error){ toast('Lỗi: '+error.message); return; }
+  closeEventModal();
+  await loadEvents();
+  toast(editId?'Đã cập nhật sự kiện':'Đã tạo sự kiện mới!');
+}
+
+async function deleteEvent(){
+  const editId=document.getElementById('event-edit-id').value;
+  if(!editId||!confirm('Xoá sự kiện này?')) return;
+  await db.from('bh_events').delete().eq('id',editId);
+  closeEventModal();
+  await loadEvents();
+  toast('Đã xoá sự kiện');
+}
+
+// ── HELPERS ──
+function escHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function timeAgo(d){
+  const diff=Math.floor((Date.now()-d)/1000);
+  if(diff<60) return 'Vừa xong';
+  if(diff<3600) return Math.floor(diff/60)+' phút trước';
+  if(diff<86400) return Math.floor(diff/3600)+' giờ trước';
+  return Math.floor(diff/86400)+' ngày trước';
+}
+
+
 function goTab(btn,id){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -3466,6 +4015,7 @@ function goTab(btn,id){
   if(id==='crm'){ initCRM(); setTimeout(applyAccessControl,200); }
   if(id==='team') setTimeout(loadCoachingNotes,100);
   if(id==='admin') initAdmin();
+  if(id==='cong-dong'){ initCommunity(); }
   if(id==='bao-cao') setTimeout(applyAccessControl,200);
 }
 
@@ -3477,7 +4027,14 @@ function toggleEdit(btn){
   if(!isSuperAdmin()){ toast("Chi Super Admin moi co quyen chinh sua!"); return; }
   editOn=!editOn;
   document.body.classList.toggle('edit-on',editOn);
+  // Enable ALL contenteditable elements + sprint-title
   document.querySelectorAll('[contenteditable]').forEach(el=>el.contentEditable=editOn?'true':'false');
+  // Also make sec-hdr and sub-hdr editable
+  document.querySelectorAll('.sec-hdr,.sub-hdr,.sprint-title').forEach(el=>{
+    el.contentEditable=editOn?'true':'false';
+    el.style.outline=editOn?'2px dashed rgba(232,160,32,.6)':'';
+    el.style.borderRadius=editOn?'4px':'';
+  });
   btn.textContent=editOn?'🔒 Khóa':'✏️ Chỉnh sửa';
   btn.classList.toggle('active',editOn);
   // Finance policy fields
@@ -3521,7 +4078,7 @@ document.getElementById('crm-modal-overlay').addEventListener('click',function(e
   if(e.target===this) closeCRMModal();
 });
 document.addEventListener('keydown',function(e){
-  if(e.key==='Escape'){ closeModal(); closeCRMModal(); closeCoachingModal(); }
+  if(e.key==='Escape'){ closeModal(); closeCRMModal(); closeCoachingModal(); closeEventModal(); }
   if(e.key==='Enter' && document.getElementById('modal-overlay').classList.contains('open')) addMember();
 });
 
@@ -3585,13 +4142,13 @@ document.addEventListener('DOMContentLoaded',()=>{
 <div class="overlay" id="coaching-modal-overlay">
   <div class="modal" style="width:500px;">
     <div class="modal-title" style="color:var(--c1);">Thêm ghi chú coaching</div>
-    <div class="modal-sub">Ghi chú sẽ hiển thị trong tab Team cho cả team tham khảo</div>
+    <div class="modal-sub">Ghi chú coaching hiển thị trong tab Team</div>
     <div class="form-group">
       <label class="form-label">Cho thành viên</label>
       <select class="form-input" id="coach-member-sel"></select>
     </div>
     <div class="form-group">
-      <label class="form-label">Tuần Sprint</label>
+      <label class="form-label">Tuần Chiến dịch</label>
       <select class="form-input" id="coach-week-sel">
         <option value="1">Tuần 1</option><option value="2">Tuần 2</option>
         <option value="3">Tuần 3</option><option value="4">Tuần 4</option>
@@ -3604,6 +4161,55 @@ document.addEventListener('DOMContentLoaded',()=>{
     <div class="modal-footer">
       <button class="btn btn-cancel" onclick="closeCoachingModal()">Huỷ</button>
       <button class="btn btn-green" onclick="saveCoachingNote()">Lưu ghi chú</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- EVENT CREATION MODAL -->
+<div class="overlay" id="event-modal-overlay">
+  <div class="modal" style="width:520px;">
+    <div class="modal-title">📅 Tạo Sự Kiện Mới</div>
+    <div class="modal-sub">Sự kiện sẽ hiển thị với toàn bộ team</div>
+    <input type="hidden" id="event-edit-id">
+    <div class="form-group">
+      <label class="form-label">Tên sự kiện *</label>
+      <input class="form-input" id="ev-title" type="text" placeholder="VD: Webinar kỹ năng xử lý từ chối">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group">
+        <label class="form-label">Loại</label>
+        <select class="form-input" id="ev-type">
+          <option value="webinar">🖥 Webinar Online</option>
+          <option value="thuc_dia">🏢 Thực địa</option>
+          <option value="hop">👥 Họp nội bộ</option>
+          <option value="dao_tao">📚 Đào tạo</option>
+          <option value="su_kien">🎉 Sự kiện đặc biệt</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Điểm thưởng khi tham gia</label>
+        <input class="form-input" id="ev-points" type="number" placeholder="VD: 15" min="0" max="100">
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group">
+        <label class="form-label">Ngày & giờ *</label>
+        <input class="form-input" id="ev-date" type="datetime-local">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Host / Người tổ chức</label>
+        <input class="form-input" id="ev-host" type="text" placeholder="VD: Coach Duy Nguyễn">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Mô tả</label>
+      <textarea class="form-input" id="ev-desc" rows="3" placeholder="Nội dung, link Zoom, địa điểm..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeEventModal()">Huỷ</button>
+      <button id="ev-del-btn" class="btn btn-red" onclick="deleteEvent()" style="display:none;margin-right:auto;">🗑 Xoá</button>
+      <button class="btn btn-green" onclick="saveEvent()">💾 Lưu sự kiện</button>
     </div>
   </div>
 </div>
