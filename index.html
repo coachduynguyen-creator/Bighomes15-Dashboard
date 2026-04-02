@@ -430,6 +430,80 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
 .event-reg-btn.reg:hover{background:#155a37;}
 .event-reg-btn.unreg{background:#fee2e2;color:#c44040;border:1px solid #fca5a5;}
 .create-event-btn{background:var(--cg);color:#fff;border:none;border-radius:9px;padding:10px 18px;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:16px;}
+
+/* ===== CALENDAR ===== */
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.cal-nav-btn{background:var(--cg);color:#fff;border:none;border-radius:8px;width:36px;height:36px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.cal-nav-btn:hover{background:var(--cg2);}
+.cal-title{font-size:18px;font-weight:800;color:var(--c1);text-transform:capitalize;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:16px;}
+.cal-dlbl{text-align:center;font-size:11px;font-weight:700;color:var(--cgray);padding:6px 0;text-transform:uppercase;letter-spacing:.3px;}
+.cal-cell{min-height:72px;border-radius:10px;padding:6px;cursor:pointer;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06);transition:all .15s;position:relative;overflow:hidden;}
+.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px);}
+.cal-empty{background:transparent;box-shadow:none;cursor:default;}
+.cal-empty:hover{transform:none;box-shadow:none;}
+.cal-today{background:linear-gradient(135deg,var(--c1),var(--cg));box-shadow:0 4px 14px rgba(30,90,30,.3);}
+.cal-today .cal-day-num{color:#fff;font-weight:900;}
+.cal-has-event{background:linear-gradient(135deg,#fef3c7,#fff8e1);border:2px solid var(--cy);}
+.cal-has-apt{border-left:3px solid var(--cg);}
+.cal-day-num{font-size:14px;font-weight:700;color:var(--c1);margin-bottom:3px;}
+.cal-today .cal-day-num{color:#fff;}
+.cal-apt-dots{display:flex;gap:2px;flex-wrap:wrap;margin-top:2px;}
+.cal-apt-dot{width:7px;height:7px;border-radius:50%;background:var(--cg);flex-shrink:0;}
+.cal-ev-badge{font-size:10px;font-weight:700;background:var(--cy);color:#fff;padding:2px 5px;border-radius:4px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
+.cal-ev-badge.event-special{background:linear-gradient(90deg,#e8a020,#c47a00);animation:pulse-gold 2s infinite;}
+@keyframes pulse-gold{0%,100%{box-shadow:0 0 0 0 rgba(232,160,32,.4);}50%{box-shadow:0 0 0 4px rgba(232,160,32,0);}}
+.cal-apt-name{font-size:10px;color:var(--cg);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;}
+.cal-legend{display:flex;gap:16px;margin-bottom:14px;flex-wrap:wrap;}
+.cal-leg-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--cgray);}
+.cal-detail-panel{background:#fff;border-radius:14px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,.1);margin-bottom:16px;border-top:4px solid var(--cg);}
+.cal-detail-date{font-size:16px;font-weight:800;color:var(--c1);margin-bottom:14px;}
+.cal-detail-empty{font-size:14px;color:var(--cgray);text-align:center;padding:20px;}
+.cal-detail-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:9px;margin-bottom:8px;cursor:pointer;transition:background .15s;}
+.cal-detail-item:hover{background:#f0f8f0;}
+.cal-apt-item{border-left:3px solid var(--cg);}
+.cal-ev-item{border-left:3px solid var(--cy);background:#fef9ec;}
+.cal-ev-item:hover{background:#fef3c7;}
+.cal-di-icon{font-size:20px;flex-shrink:0;}
+.cal-di-info{flex:1;min-width:0;}
+.cal-di-name{font-size:14px;font-weight:700;color:var(--c1);}
+.cal-di-sub{font-size:12px;color:var(--cgray);}
+
+/* ===== TODAY WIDGET (floating) ===== */
+.today-btn{position:fixed;bottom:80px;right:20px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--c1),var(--cg));border:none;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:800;display:flex;align-items:center;justify-content:center;font-size:22px;transition:transform .2s;}
+.today-btn:hover{transform:scale(1.1);}
+.today-badge{position:absolute;top:-4px;right:-4px;background:var(--cr);color:#fff;border-radius:99px;min-width:20px;height:20px;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #fff;}
+.today-widget{position:fixed;bottom:142px;right:20px;width:300px;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.18);z-index:799;display:none;max-height:420px;overflow:hidden;flex-direction:column;}
+.today-widget.open{display:flex;}
+.tw-hdr{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:linear-gradient(135deg,var(--c1),var(--cg));color:#fff;border-radius:16px 16px 0 0;flex-shrink:0;}
+.tw-hdr-title{font-size:14px;font-weight:800;}
+.tw-hdr-date{font-size:11px;opacity:.7;}
+.tw-close{background:none;border:none;color:#fff;font-size:18px;cursor:pointer;opacity:.8;line-height:1;}
+.tw-body{overflow-y:auto;padding:12px;}
+.tw-empty{text-align:center;padding:20px;color:var(--cgray);font-size:13px;}
+.tw-section{font-size:10px;font-weight:700;color:var(--cgray);text-transform:uppercase;letter-spacing:.4px;margin:8px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--cline);}
+.tw-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;cursor:pointer;margin-bottom:4px;transition:background .15s;}
+.tw-item:hover{background:#f0f8f0;}
+.tw-apt-item{border-left:3px solid var(--cg);}
+.tw-ev-item{border-left:3px solid var(--cy);background:#fef9ec;}
+.tw-ev-item:hover{background:#fef3c7;}
+.tw-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.tw-name{font-size:13px;font-weight:600;color:var(--c1);}
+.tw-sub{font-size:11px;color:var(--cgray);}
+
+/* ===== EVENT PUSH BANNER ===== */
+.event-push-banner{position:fixed;top:-120px;left:0;right:0;z-index:9999;transition:top .5s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
+.event-push-banner.show{top:0;pointer-events:all;}
+.epb-inner{background:linear-gradient(135deg,#152815 0%,#1e7a4a 50%,#c4a44e 100%);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 24px rgba(0,0,0,.35);}
+.epb-icon{font-size:32px;flex-shrink:0;animation:bounce-in .5s .3s both;}
+@keyframes bounce-in{0%{transform:scale(0);}60%{transform:scale(1.2);}100%{transform:scale(1);}}
+.epb-label{font-size:10px;font-weight:700;opacity:.7;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;}
+.epb-name{font-size:17px;font-weight:900;line-height:1.2;}
+.epb-date{font-size:12px;opacity:.8;margin-top:3px;}
+.epb-actions{margin-left:auto;display:flex;gap:8px;align-items:center;flex-shrink:0;}
+.epb-view-btn{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;padding:7px 14px;border-radius:7px;font-family:'Be Vietnam Pro',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:background .2s;}
+.epb-view-btn:hover{background:rgba(255,255,255,.3);}
+.epb-close{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;opacity:.7;padding:4px;}
 </style>
 </head>
 <body>
@@ -519,6 +593,7 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
   <button class="tab-btn" onclick="goTab(this,'tai-chinh')">Tài Chính MKT</button>
   <button class="tab-btn" onclick="goTab(this,'crm')">CRM Khách Hàng</button>
   <button class="tab-btn" onclick="goTab(this,'rui-ro')">Rủi Ro</button>
+  <button class="tab-btn" onclick="goTab(this,'lich')">📅 Lịch</button>
   <button class="tab-btn" onclick="goTab(this,'cong-dong')">🏡 Cộng Đồng</button>
   <button class="tab-btn" onclick="goTab(this,'huong-dan')">📖 Hướng Dẫn</button>
   <button class="tab-btn" id="admin-tab-btn" onclick="goTab(this,'admin')" style="display:none;color:#e8a020;border-bottom-color:transparent;">⚙ Quản Trị</button>
@@ -1140,6 +1215,31 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
         <button class="create-event-btn" id="create-event-btn" style="display:none;" onclick="openEventModal()">+ Tạo sự kiện</button>
       </div>
       <div class="event-grid" id="events-list"></div>
+    </div>
+  </div>
+
+
+  <!-- ===== LỊCH ===== -->
+  <div id="tab-lich" class="tab-pane">
+    <div class="sec-hdr" style="display:flex;justify-content:space-between;align-items:center;">
+      <span>📅 Lịch Tháng</span>
+      <div class="cal-nav">
+        <button class="cal-nav-btn" onclick="prevMonth()">←</button>
+        <span class="cal-title" id="cal-month-title">Tháng 4, 2026</span>
+        <button class="cal-nav-btn" onclick="nextMonth()">→</button>
+      </div>
+    </div>
+    <div class="cal-legend">
+      <div class="cal-leg-item"><span style="width:12px;height:12px;border-radius:50%;background:var(--cg);display:inline-block;"></span>Lịch hẹn KH</div>
+      <div class="cal-leg-item"><span style="width:12px;height:12px;border-radius:6px;background:var(--cy);display:inline-block;"></span>Sự kiện team</div>
+      <div class="cal-leg-item"><span style="width:12px;height:12px;border-radius:3px;background:linear-gradient(135deg,var(--c1),var(--cg));display:inline-block;"></span>Hôm nay</div>
+    </div>
+    <div class="card" style="padding:16px;margin-bottom:16px;">
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
+    <div id="cal-detail-panel" style="display:none;" class="cal-detail-panel">
+      <div class="cal-detail-date" id="cal-detail-date"></div>
+      <div id="cal-detail-content"></div>
     </div>
   </div>
 
@@ -3376,6 +3476,9 @@ function setupRealtime(){
     .on('postgres_changes',{event:'*',schema:'public',table:'bh_sprint_config'},payload=>{
       const r=payload.new; if(r) applyRuntimeConfig({[r.key]:r.value});
     })
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'bh_events'},payload=>{
+      if(payload.new) showEventPushNotification(payload.new);
+    })
     .subscribe(status=>{
       const p=document.getElementById('sync-pill'); if(!p) return;
       if(status==='SUBSCRIBED'){ p.className='sync-pill sync-ok'; p.textContent='\u26A1 Live'; p.style.display=''; }
@@ -4124,6 +4227,252 @@ function loadDemoCRM(){
   filterCRM();
 }
 
+
+// ============================================================
+// CALENDAR
+// ============================================================
+let calYear = new Date().getFullYear();
+let calMonth = new Date().getMonth();
+let calData = {};
+let _calSelectedDate = null;
+
+const CAL_DOW = ['T2','T3','T4','T5','T6','T7','CN'];
+const EV_TYPE_ICONS = {webinar:'🖥',thuc_dia:'🏢',hop:'👥',dao_tao:'📚',su_kien:'🎉'};
+
+async function initCalendar(){
+  await loadCalendarData();
+  renderCalendar();
+  buildTodayWidget();
+}
+
+async function loadCalendarData(){
+  calData={};
+  const pad=n=>String(n).padStart(2,'0');
+  const ym=calYear+'-'+pad(calMonth+1);
+  const start=ym+'-01';
+  const last=new Date(calYear,calMonth+1,0).getDate();
+  const end=ym+'-'+pad(last);
+
+  // CRM appointments
+  let apts=[];
+  if(ME?.isDemo){
+    apts=(typeof DEMO_CRM_DATA!=='undefined'?DEMO_CRM_DATA:[]).filter(c=>c.next_contact&&c.next_contact>=start&&c.next_contact<=end&&c.pipeline_stage!=='booked'&&c.pipeline_stage!=='rejected');
+  } else if(initSupabase()){
+    let q=db.from('bh_customers').select('id,name,phone_last4,pipeline_stage,product_interest,expected_price,member_id,member_name,next_contact,notes').gte('next_contact',start).lte('next_contact',end).not('pipeline_stage','in','(booked,rejected)');
+    if(!isManager()) q=q.eq('member_id',ME?.id||'');
+    const {data}=await q; apts=data||[];
+  }
+  apts.forEach(a=>{ const d=a.next_contact; if(!calData[d]) calData[d]={apts:[],events:[]}; calData[d].apts.push(a); });
+
+  // Events
+  if(initSupabase()&&!ME?.isDemo){
+    const {data}=await db.from('bh_events').select('*').gte('event_date',start+'T00:00:00').lte('event_date',end+'T23:59:59').order('event_date');
+    (data||[]).forEach(e=>{ const d=e.event_date?e.event_date.split('T')[0]:null; if(d){ if(!calData[d]) calData[d]={apts:[],events:[]}; calData[d].events.push(e); }});
+  }
+}
+
+function renderCalendar(){
+  const grid=document.getElementById('cal-grid');
+  const title=document.getElementById('cal-month-title');
+  if(!grid) return;
+
+  const monthNames=['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
+  if(title) title.textContent=monthNames[calMonth]+', '+calYear;
+
+  const today=new Date().toISOString().split('T')[0];
+  let firstDow=new Date(calYear,calMonth,1).getDay(); // 0=Sun
+  if(firstDow===0) firstDow=7; // Sun→7
+  const offset=firstDow-1; // Monday-based
+  const days=new Date(calYear,calMonth+1,0).getDate();
+  const pad=n=>String(n).padStart(2,'0');
+
+  let h=CAL_DOW.map(d=>'<div class="cal-dlbl">'+d+'</div>').join('');
+  for(let i=0;i<offset;i++) h+='<div class="cal-cell cal-empty"></div>';
+
+  for(let d=1;d<=days;d++){
+    const ds=calYear+'-'+pad(calMonth+1)+'-'+pad(d);
+    const isToday=ds===today;
+    const isSelected=ds===_calSelectedDate;
+    const data=calData[ds]||{apts:[],events:[]};
+    const hasApt=data.apts.length>0;
+    const hasEv=data.events.length>0;
+    let cls='cal-cell';
+    if(isToday) cls+=' cal-today';
+    else if(hasEv) cls+=' cal-has-event';
+    else if(hasApt) cls+=' cal-has-apt';
+    if(isSelected&&!isToday) cls+=' cal-has-apt';
+
+    let inner='<div class="cal-day-num">'+d+'</div>';
+    if(hasApt){
+      inner+='<div class="cal-apt-dots">';
+      for(let i=0;i<Math.min(data.apts.length,3);i++) inner+='<div class="cal-apt-dot"></div>';
+      inner+='</div>';
+      inner+='<div class="cal-apt-name">'+data.apts[0].name+(data.apts.length>1?' +'+( data.apts.length-1):'')+'</div>';
+    }
+    if(hasEv){
+      const ev=data.events[0];
+      const icon=EV_TYPE_ICONS[ev.event_type]||'📅';
+      const short=ev.title.length>14?ev.title.substring(0,13)+'…':ev.title;
+      inner+='<div class="cal-ev-badge event-special">'+icon+' '+short+'</div>';
+    }
+    h+='<div class="'+cls+'" onclick="showDayDetail(\''+ds+'\')" title="'+ds+'">'+inner+'</div>';
+  }
+  grid.innerHTML=h;
+}
+
+function showDayDetail(dateStr){
+  _calSelectedDate=dateStr;
+  renderCalendar();
+  const panel=document.getElementById('cal-detail-panel');
+  const dateEl=document.getElementById('cal-detail-date');
+  const content=document.getElementById('cal-detail-content');
+  if(!panel||!content) return;
+
+  const data=calData[dateStr]||{apts:[],events:[]};
+  const dt=new Date(dateStr+'T12:00:00');
+  const dayName=dt.toLocaleDateString('vi-VN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+  if(dateEl) dateEl.textContent=dayName;
+  if(!data.apts.length&&!data.events.length){
+    content.innerHTML='<div class="cal-detail-empty">Không có lịch trong ngày này</div>';
+  } else {
+    let h='';
+    if(data.events.length){
+      h+='<div style="font-size:12px;font-weight:700;color:var(--cy);text-transform:uppercase;letter-spacing:.3px;margin-bottom:8px;">🎯 Sự kiện team</div>';
+      h+=data.events.map(e=>{
+        const icon=EV_TYPE_ICONS[e.event_type]||'📅';
+        const time=e.event_date?new Date(e.event_date).toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}):'';
+        return '<div class="cal-detail-item cal-ev-item">'
+          +'<span class="cal-di-icon">'+icon+'</span>'
+          +'<div class="cal-di-info"><div class="cal-di-name">'+e.title+'</div>'
+          +'<div class="cal-di-sub">'+(time?time+' · ':'')+( e.host_name||'')+(e.points?' · +'+e.points+'pt':'')+'</div></div>'
+          +(e.description?'<span style="font-size:11px;color:var(--cgray);" title="'+e.description+'">ℹ</span>':'')
+        +'</div>';
+      }).join('');
+    }
+    if(data.apts.length){
+      h+='<div style="font-size:12px;font-weight:700;color:var(--cg);text-transform:uppercase;letter-spacing:.3px;margin:10px 0 8px;">📞 Lịch hẹn khách hàng</div>';
+      const stMap=Object.fromEntries(PIPELINE.map(p=>[p.id,p]));
+      h+=data.apts.map(a=>{
+        const st=stMap[a.pipeline_stage]||{label:a.pipeline_stage,col:'#9ca3af'};
+        return '<div class="cal-detail-item cal-apt-item" onclick="openCustomerFromCalendar(\''+a.id+'\',\''+a.member_id+'\')">'
+          +'<span class="cal-di-icon">👤</span>'
+          +'<div class="cal-di-info"><div class="cal-di-name">'+a.name+' '+(a.phone_last4?'(****'+a.phone_last4+')':'')+'</div>'
+          +'<div class="cal-di-sub"><span style="background:'+st.col+'22;color:'+st.col+';padding:1px 6px;border-radius:99px;font-weight:600;">'+st.label+'</span>'+(a.product_interest?' · '+a.product_interest:'')+'</div></div>'
+          +'<span style="font-size:11px;font-weight:600;color:var(--cg);">→ Hồ sơ</span>'
+        +'</div>';
+      }).join('');
+    }
+    content.innerHTML=h;
+  }
+  panel.style.display='';
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function openCustomerFromCalendar(customerId, memberId){
+  // Switch to CRM tab and open customer
+  const crmBtn=document.querySelector('.tab-btn[onclick*="crm"]');
+  if(crmBtn) goTab(crmBtn,'crm');
+  setTimeout(async()=>{
+    // Set member in CRM selector
+    if(memberId){
+      const sel=document.getElementById('crm-sel-member');
+      if(sel){ sel.value=memberId; await loadCRM(); }
+    }
+    // Find and open customer
+    setTimeout(()=>{
+      if(ME?.isDemo){
+        const c=crmCustomers.find(x=>x.id===customerId);
+        if(c) openCustomerModal(customerId);
+      } else {
+        const c=crmCustomers.find(x=>x.id===customerId);
+        if(c) openCustomerModal(customerId);
+      }
+    },600);
+  },300);
+}
+
+function prevMonth(){ calMonth--; if(calMonth<0){calMonth=11;calYear--;} loadCalendarData().then(renderCalendar); }
+function nextMonth(){ calMonth++; if(calMonth>11){calMonth=0;calYear++;} loadCalendarData().then(renderCalendar); }
+
+// ── TODAY WIDGET ──
+function buildTodayWidget(){
+  const todayStr=new Date().toISOString().split('T')[0];
+  const data=calData[todayStr]||{apts:[],events:[]};
+  const total=data.apts.length+data.events.length;
+
+  // Badge
+  const badge=document.getElementById('today-badge');
+  if(badge){ badge.textContent=total; badge.style.display=total>0?'':'none'; }
+
+  // Date header
+  const dateEl=document.getElementById('tw-date');
+  if(dateEl) dateEl.textContent=new Date().toLocaleDateString('vi-VN',{weekday:'long',day:'numeric',month:'long'});
+
+  // Body
+  const body=document.getElementById('tw-body');
+  if(!body) return;
+  if(!total){ body.innerHTML='<div class="tw-empty">🎉 Không có lịch hôm nay</div>'; return; }
+
+  const stMap=Object.fromEntries(PIPELINE.map(p=>[p.id,p]));
+  let h='';
+  if(data.events.length){
+    h+='<div class="tw-section">Sự kiện team hôm nay</div>';
+    h+=data.events.map(e=>{
+      const icon=EV_TYPE_ICONS[e.event_type]||'📅';
+      const time=e.event_date?new Date(e.event_date).toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}):'';
+      return '<div class="tw-item tw-ev-item"><span style="font-size:16px;">'+icon+'</span><div><div class="tw-name">'+e.title+'</div><div class="tw-sub">'+time+'</div></div></div>';
+    }).join('');
+  }
+  if(data.apts.length){
+    h+='<div class="tw-section">Lịch hẹn KH hôm nay</div>';
+    h+=data.apts.map(a=>{
+      const st=stMap[a.pipeline_stage]||{label:'',col:'var(--cg)'};
+      return '<div class="tw-item tw-apt-item" onclick="openCustomerFromCalendar(\''+a.id+'\',\''+a.member_id+'\')">'
+        +'<div class="tw-dot" style="background:var(--cg);"></div>'
+        +'<div><div class="tw-name">'+a.name+'</div>'
+        +'<div class="tw-sub" style="color:'+st.col+';">'+st.label+(a.product_interest?' · '+a.product_interest:'')+'</div></div>'
+      +'</div>';
+    }).join('');
+  }
+  body.innerHTML=h;
+}
+
+function toggleTodayWidget(){
+  const w=document.getElementById('today-widget');
+  if(w) w.classList.toggle('open');
+}
+
+// ── EVENT PUSH BANNER ──
+let _epbTimer=null;
+function showEventPushNotification(ev){
+  const nameEl=document.getElementById('epb-name');
+  const dateEl=document.getElementById('epb-date');
+  const banner=document.getElementById('event-push-banner');
+  if(!banner||!nameEl) return;
+  if(nameEl) nameEl.textContent=ev.title;
+  if(dateEl){
+    const icon=EV_TYPE_ICONS[ev.event_type]||'📅';
+    const dt=ev.event_date?new Date(ev.event_date).toLocaleDateString('vi-VN',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+' · '+new Date(ev.event_date).toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}):'Ngày TBD';
+    dateEl.textContent=icon+' '+dt;
+  }
+  banner.classList.add('show');
+  // Auto-dismiss after 12s
+  clearTimeout(_epbTimer);
+  _epbTimer=setTimeout(dismissEventBanner,12000);
+  // Refresh calendar if open
+  if(document.getElementById('tab-lich')?.classList.contains('active')){
+    loadCalendarData().then(()=>{ renderCalendar(); buildTodayWidget(); });
+  }
+  buildTodayWidget();
+}
+
+function dismissEventBanner(){
+  const b=document.getElementById('event-push-banner');
+  if(b) b.classList.remove('show');
+}
+
+
 function goTab(btn,id){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -4136,6 +4485,7 @@ function goTab(btn,id){
   if(id==='team') setTimeout(loadCoachingNotes,100);
   if(id==='admin') initAdmin();
   if(id==='cong-dong'){ initCommunity(); }
+  if(id==='lich'){ setTimeout(initCalendar,100); }
   if(id==='bao-cao') setTimeout(applyAccessControl,200);
 }
 
@@ -4214,7 +4564,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   updateCountdown();
   setInterval(updateCountdown, 60000);
   // Pull latest data from Supabase in background
-  setTimeout(()=>SYNC.pull().then(()=>{ renderReminders(); renderLeaderboard(); renderForecast(); loadSprintConfigForDisplay(); }), 800);
+  setTimeout(()=>SYNC.pull().then(async()=>{ renderReminders(); renderLeaderboard(); renderForecast(); loadSprintConfigForDisplay(); await loadCalendarData(); buildTodayWidget(); }), 1000);
   // Auto-sync every 5 minutes
   setInterval(()=>SYNC.pull(), 300000);
 });
@@ -4330,6 +4680,35 @@ document.addEventListener('DOMContentLoaded',()=>{
       <button class="btn btn-cancel" onclick="closeEventModal()">Huỷ</button>
       <button id="ev-del-btn" class="btn btn-red" onclick="deleteEvent()" style="display:none;margin-right:auto;">🗑 Xoá</button>
       <button class="btn btn-green" onclick="saveEvent()">💾 Lưu sự kiện</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- TODAY WIDGET -->
+<button class="today-btn" onclick="toggleTodayWidget()" title="Lịch hôm nay">
+  📅<span class="today-badge" id="today-badge" style="display:none;">0</span>
+</button>
+<div class="today-widget" id="today-widget">
+  <div class="tw-hdr">
+    <div><div class="tw-hdr-title">📅 Lịch hôm nay</div><div class="tw-hdr-date" id="tw-date"></div></div>
+    <button class="tw-close" onclick="toggleTodayWidget()">✕</button>
+  </div>
+  <div class="tw-body" id="tw-body"><div class="tw-empty">Đang tải...</div></div>
+</div>
+
+<!-- EVENT PUSH BANNER -->
+<div class="event-push-banner" id="event-push-banner">
+  <div class="epb-inner" id="epb-inner">
+    <div class="epb-icon">📅</div>
+    <div style="flex:1;min-width:0;">
+      <div class="epb-label">Sự kiện mới từ Coach Duy</div>
+      <div class="epb-name" id="epb-name"></div>
+      <div class="epb-date" id="epb-date"></div>
+    </div>
+    <div class="epb-actions">
+      <button class="epb-view-btn" onclick="goTab(document.querySelector('.tab-btn[onclick*=lich]'),'lich')">Xem lịch</button>
+      <button class="epb-close" onclick="dismissEventBanner()">✕</button>
     </div>
   </div>
 </div>
