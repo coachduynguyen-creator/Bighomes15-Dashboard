@@ -1721,7 +1721,9 @@ function loadDailyReport(){
   // Build perf chart data
   const perfByDay = Array.from({length:SPRINT_DAYS},(_,i)=>{
     const d=S.daily[`${cid}_${i+1}`]||{};
-    return { tc:parseInt(d.tiepCan||0), bk:parseInt(d.booking||0), ht:parseInt(d.hoanThanh||0) };
+    const tc=parseInt(d.tiepCan||0), bk=parseInt(d.booking||0), mt=parseInt(d.mucTieu||0);
+    const ht=mt>0?Math.round(bk/mt*100):0;
+    return { tc, bk, ht };
   });
   const weekHT = [0,1,2,3].map(w=>{
     const days=perfByDay.slice(w*7,w===3?30:(w+1)*7);
