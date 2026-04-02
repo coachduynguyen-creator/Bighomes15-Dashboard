@@ -436,7 +436,7 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
       </div>
       <span id="sync-pill" class="sync-pill sync-ok" style="display:none;">✓ Đồng bộ</span>
       <span class="date-badge" id="date-badge" style="font-size:12px;opacity:.65;"></span>
-      <button class="btn btn-edit" onclick="toggleEdit(this)">✏️ Chỉnh sửa</button>
+      <button class="btn btn-edit" id="edit-btn" onclick="toggleEdit(this)" style="display:none;">✏️ Chỉnh sửa</button>
       <button class="btn btn-save" onclick="saveAll()">💾 Lưu</button>
     </div>
   </div>
@@ -459,6 +459,7 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
   <button class="tab-btn" onclick="goTab(this,'tai-chinh')">Tài Chính MKT</button>
   <button class="tab-btn" onclick="goTab(this,'crm')">CRM Khách Hàng</button>
   <button class="tab-btn" onclick="goTab(this,'rui-ro')">Rủi Ro</button>
+  <button class="tab-btn" onclick="goTab(this,'huong-dan')">📖 Hướng Dẫn</button>
   <button class="tab-btn" id="admin-tab-btn" onclick="goTab(this,'admin')" style="display:none;color:#e8a020;border-bottom-color:transparent;">⚙ Quản Trị</button>
 </div>
 
@@ -952,6 +953,74 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
     <div id="adm-announcement-preview" class="card" style="display:none;border-left:4px solid var(--cy);">
       <div style="font-size:12px;font-weight:700;color:var(--cy);text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px;">Thông báo đang hiển thị với team</div>
       <div id="adm-announcement-text" style="font-size:14px;color:var(--c1);line-height:1.65;"></div>
+    </div>
+  </div>
+
+
+  <div id="tab-huong-dan" class="tab-pane">
+    <div class="sec-hdr">📖 Hướng Dẫn Sử Dụng</div>
+
+    <div class="card" style="margin-bottom:18px;border-left:4px solid var(--cg);">
+      <div class="sub-hdr" style="margin-top:0;">Hệ Thống Này Dùng Để Làm Gì?</div>
+      <p style="font-size:14px;color:var(--cgray);line-height:1.8;margin:0 0 12px;">Công cụ quản lý chiến dịch 30 ngày nhận booking Vinhomes Hạ Long Xanh. Mỗi ngày mỗi thành viên báo cáo hoạt động — hệ thống tự tổng hợp phễu, tiến độ booking và dự báo kết quả.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;">
+        <div style="background:#f0f8f0;border-radius:9px;padding:11px 14px;"><div style="font-size:12px;font-weight:700;color:var(--cg);margin-bottom:4px;">CVKD</div><div style="font-size:12px;color:var(--cgray);line-height:1.6;">Báo cáo ngày · CRM KH · Xem tiến độ bản thân</div></div>
+        <div style="background:#fef3c7;border-radius:9px;padding:11px 14px;"><div style="font-size:12px;font-weight:700;color:#b45309;margin-bottom:4px;">Quản Lý</div><div style="font-size:12px;color:var(--cgray);line-height:1.6;">Xem team · Review CRM · Ngân sách · Coaching</div></div>
+        <div style="background:#ede9fe;border-radius:9px;padding:11px 14px;"><div style="font-size:12px;font-weight:700;color:#6d28d9;margin-bottom:4px;">Coach Duy</div><div style="font-size:12px;color:var(--cgray);line-height:1.6;">Cấu hình · Reset PIN · Export · Thông báo</div></div>
+      </div>
+    </div>
+
+    <div class="g2" style="margin-bottom:18px;">
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card" style="margin-bottom:0;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:18px;">📊</span><strong>Tổng Quan</strong><span style="font-size:11px;background:#e5e7eb;padding:1px 7px;border-radius:99px;margin-left:4px;">Tất cả</span></div><div style="font-size:13px;color:var(--cgray);line-height:1.65;">Phễu team, bảng xếp hạng, KH cần gọi hôm nay, dự báo target. <strong>Mở đầu mỗi sáng.</strong></div></div>
+        <div class="card" style="margin-bottom:0;border-left:3px solid var(--cg);"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:18px;">📋</span><strong>Báo Cáo Ngày</strong><span style="font-size:11px;background:#d1fae5;padding:1px 7px;border-radius:99px;color:#065f46;margin-left:4px;">Quan trọng nhất</span></div><div style="font-size:13px;color:var(--cgray);line-height:1.65;">Điền số liệu + PDCA. <strong>Deadline 20:00 mỗi ngày.</strong> Chọn tên → điền hàng hôm nay → Lưu.</div></div>
+        <div class="card" style="margin-bottom:0;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:18px;">👥</span><strong>CRM Khách Hàng</strong><span style="font-size:11px;background:#dbeafe;padding:1px 7px;border-radius:99px;color:#1d4ed8;margin-left:4px;">Tất cả</span></div><div style="font-size:13px;color:var(--cgray);line-height:1.65;">Quản lý pipeline từng KH. Chuyển sang "Booking ✓" → hệ thống tự ghi vào báo cáo ngày.</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card" style="margin-bottom:0;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:18px;">🎯</span><strong>Team & Mục Tiêu</strong></div><div style="font-size:13px;color:var(--cgray);">Phân bổ booking, ghi chú coaching. Chỉ quản lý chỉnh mục tiêu.</div></div>
+        <div class="card" style="margin-bottom:0;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:18px;">💰</span><strong>Tài Chính MKT</strong><span style="font-size:11px;background:#fef3c7;padding:1px 7px;border-radius:99px;color:#b45309;margin-left:4px;">Quản lý</span></div><div style="font-size:13px;color:var(--cgray);">Ngân sách MKT theo kênh. CVKD không thấy tab này.</div></div>
+        <div class="card" style="margin-bottom:0;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:18px;">⚙</span><strong>Quản Trị</strong><span style="font-size:11px;background:#ede9fe;padding:1px 7px;border-radius:99px;color:#6d28d9;margin-left:4px;">Super Admin</span></div><div style="font-size:13px;color:var(--cgray);">Chỉ Coach Duy thấy. Cấu hình sprint, PIN, export dữ liệu.</div></div>
+      </div>
+    </div>
+
+    <div class="sub-hdr">Hướng Dẫn Báo Cáo Ngày</div>
+    <div class="card" style="margin-bottom:18px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--c1);margin-bottom:10px;border-bottom:2px solid var(--cg);padding-bottom:6px;">Các cột số liệu</div>
+          <div style="font-size:13px;line-height:2.1;"><span style="font-weight:700;color:var(--cb);">Data nhận</span> — SĐT nhận được hôm nay<br><span style="font-weight:700;color:var(--cg);">Tiếp cận</span> — Số KH đã liên hệ được<br><span style="font-weight:700;color:var(--cy);">Nghe GP</span> — Số KH đã nghe tư vấn<br><span style="font-weight:700;color:#c44040;">Từ chối</span> — Số KH từ chối<br><span style="font-weight:700;color:var(--cs);">Tiềm năng</span> — KH đang chăm sóc tiếp<br><span style="font-weight:700;color:var(--cg);">Booking</span> — Booking chốt hôm nay</div>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--c1);margin-bottom:10px;border-bottom:2px solid var(--cy);padding-bottom:6px;">PDCA là gì?</div>
+          <div style="font-size:13px;line-height:2.1;"><span style="font-weight:700;">P — Kế hoạch</span> → Sáng điền trước<br><span style="font-weight:700;">D — Thực hiện</span> → Tối điền lại<br><span style="font-weight:700;">C — Đánh giá</span> → So với kế hoạch<br><span style="font-weight:700;">A — Điều chỉnh</span> → Ngày mai làm gì khác</div>
+        </div>
+      </div>
+      <div style="background:#fef3c7;border-radius:9px;padding:11px 14px;margin-top:14px;border-left:3px solid var(--cy);">
+        <strong style="font-size:13px;">💡 Mẹo:</strong> <span style="font-size:13px;color:var(--cgray);">Điền P lúc 8:00 sáng (2-3 câu mục tiêu). Điền D, C, A lúc 19:00-20:00. Dùng 📱 Thẻ ngày trên điện thoại cho tiện.</span>
+      </div>
+    </div>
+
+    <div class="sub-hdr">Pipeline CRM — 8 Giai Đoạn</div>
+    <div class="card" style="margin-bottom:18px;">
+      <div style="display:flex;flex-direction:column;gap:6px;"><div style="display:flex;align-items:center;gap:12px;padding:9px 12px;background:#f8fbf8;border-radius:8px;"><span style="width:11px;height:11px;border-radius:50%;background:#6b7280;flex-shrink:0;"></span><span style="font-weight:700;font-size:13px;min-width:150px;color:#6b7280;">Mới tiếp cận</span><span style="font-size:13px;color:var(--cgray);">KH vừa liên hệ lần đầu, chưa khai thác nhu cầu</span></div><div style="display:flex;align-items:center;gap:12px;padding:9px 12px;background:#f8fbf8;border-radius:8px;"><span style="width:11px;height:11px;border-radius:50%;background:#1a4a6b;flex-shrink:0;"></span><span style="font-weight:700;font-size:13px;min-width:150px;color:#1a4a6b;">Đã nghe GP</span><span style="font-size:13px;color:var(--cgray);">KH đã được tư vấn, hiểu về dự án</span></div><div style="display:flex;align-items:center;gap:12px;padding:9px 12px;background:#f8fbf8;border-radius:8px;"><span style="width:11px;height:11px;border-radius:50%;background:#e8a020;flex-shrink:0;"></span><span style="font-weight:700;font-size:13px;min-width:150px;color:#e8a020;">Tiềm năng</span><span style="font-size:13px;color:var(--cgray);">KH có nhu cầu thực, đang trong quá trình thuyết phục</span></div><div style="display:flex;align-items:center;gap:12px;padding:9px 12px;background:#f8fbf8;border-radius:8px;"><span style="width:11px;height:11px;border-radius:50%;background:#7c3aed;flex-shrink:0;"></span><span style="font-weight:700;font-size:13px;min-width:150px;color:#7c3aed;">Đã hẹn gặp</span><span style="font-size:13px;color:var(--cgray);">Đã đặt lịch tư vấn trực tiếp hoặc site visit</span></div><div style="display:flex;align-items:center;gap:12px;padding:9px 12px;background:#f8fbf8;border-radius:8px;"><span style="width:11px;height:11px;border-radius:50%;background:#1a5a6b;flex-shrink:0;"></span><span style="font-weight:700;font-size:13px;min-width:150px;color:#1a5a6b;">Đã xem dự án</span><span style="font-size:13px;color:var(--cgray);">KH đã đi thực địa hoặc xem nhà mẫu</span></div><div style="display:flex;align-items:center;gap:12px;padding:9px 12px;background:#f8fbf8;border-radius:8px;"><span style="width:11px;height:11px;border-radius:50%;background:#c47a00;flex-shrink:0;"></span><span style="font-weight:700;font-size:13px;min-width:150px;color:#c47a00;">Chờ quyết định</span><span style="font-size:13px;color:var(--cgray);">KH đang cân nhắc, cần thêm thông tin</span></div><div style="display:flex;align-items:center;gap:12px;padding:9px 12px;background:#d1fae5;border-radius:8px;"><span style="width:11px;height:11px;border-radius:50%;background:#1e7a4a;flex-shrink:0;"></span><span style="font-weight:700;font-size:13px;min-width:150px;color:#1e7a4a;">Booking ✓</span><span style="font-size:13px;color:var(--cgray);">Đã ký hợp đồng. Hệ thống tự ghi +1 booking vào báo cáo ngày</span></div><div style="display:flex;align-items:center;gap:12px;padding:9px 12px;background:#fee2e2;border-radius:8px;"><span style="width:11px;height:11px;border-radius:50%;background:#c44040;flex-shrink:0;"></span><span style="font-weight:700;font-size:13px;min-width:150px;color:#c44040;">Từ chối</span><span style="font-size:13px;color:var(--cgray);">Không tiếp tục. Ghi rõ lý do để rút kinh nghiệm</span></div></div></div>
+
+    <div class="sub-hdr">Quy Định & FAQ</div>
+    <div class="g2" style="margin-bottom:18px;">
+      <div class="card" style="margin-bottom:0;">
+        <div style="font-size:13px;font-weight:700;color:var(--c1);margin-bottom:12px;border-bottom:2px solid var(--cg);padding-bottom:6px;">Quy Định Vận Hành</div>
+        <div style="font-size:13px;line-height:2.1;"><span style="font-weight:700;">📋 Báo cáo ngày:</span> Deadline 20:00 — điền đủ cả 4 ô PDCA, số 0 cũng phải điền<br><span style="font-weight:700;">📅 Họp tuần:</span> Thứ 2 lúc 09:00 — review toàn bộ pipeline<br><span style="font-weight:700;">👥 CRM:</span> Cập nhật ngay sau mỗi cuộc gọi — ghi rõ lịch follow-up<br><span style="font-weight:700;">🏆 Booking:</span> Phải vào CRM trước khi tính vào báo cáo</div>
+      </div>
+      <div class="card" style="margin-bottom:0;">
+        <div style="font-size:13px;font-weight:700;color:var(--c1);margin-bottom:12px;border-bottom:2px solid var(--cy);padding-bottom:6px;">Câu Hỏi Thường Gặp</div>
+        <div style="font-size:13px;line-height:2.0;"><span style="font-weight:700;color:var(--c1);">Điền nhầm, sửa được không?</span><br><span style="color:var(--cgray);">Được. Chọn tên → sửa → Lưu. Ghi đè lên cũ.</span><br><span style="font-weight:700;color:var(--c1);">Đã đặt booking CRM rồi, còn phải điền báo cáo không?</span><br><span style="color:var(--cgray);">Không. Booking CRM tự +1 vào báo cáo ngày.</span><br><span style="font-weight:700;color:var(--c1);">Quên PIN phải làm gì?</span><br><span style="color:var(--cgray);">Liên hệ Coach Duy Nguyễn để reset.</span><br><span style="font-weight:700;color:var(--c1);">Dữ liệu có bị mất không?</span><br><span style="color:var(--cgray);">Không. Lưu trên Supabase cloud, không phụ thuộc thiết bị.</span></div>
+      </div>
+    </div>
+
+    <div class="card" style="background:linear-gradient(135deg,var(--c1),var(--cg));">
+      <div style="color:#fff;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <div><div style="font-size:15px;font-weight:800;margin-bottom:5px;">📞 Hỗ Trợ Kỹ Thuật</div><div style="font-size:13px;opacity:.85;">Hệ thống lỗi · Cần tính năng · Quên PIN · Liên hệ <strong>Coach Duy Nguyễn</strong></div></div>
+        <button onclick="goTab(document.querySelector('.tab-btn'),'tong-quan')" style="background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.4);color:#fff;padding:9px 18px;border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">Vào Tổng Quan →</button>
+      </div>
     </div>
   </div>
 
@@ -2589,6 +2658,7 @@ function backToStep1(){
 async function goToPin(){
   const sel=document.getElementById('id-sel');
   if(!sel||!sel.value){ toast('Chọn tên của bạn trước!'); return; }
+  if(sel.value==='__demo__'){ loginDemoMode(); return; }
   const m=allMembers().find(x=>x.id===sel.value);
   if(!m) return;
   _pendingMember=m;
@@ -2661,6 +2731,8 @@ function applyAccessControl(){
   if(pinCard) pinCard.style.display='none'; // Moved to admin tab
   const adminBtn=document.getElementById('admin-tab-btn');
   if(adminBtn) adminBtn.style.display=isSuperAdmin()?'':'none';
+  const editBtn=document.getElementById('edit-btn');
+  if(editBtn) editBtn.style.display=isSuperAdmin()?'':'none';
   if(isManager()) return; // managers see everything
   // Lock báo cáo ngày member dropdown to self
   const drSel=document.getElementById('sel-cvkd');
@@ -3270,6 +3342,119 @@ function toggleDayCard(day){
   if(chev) chev.classList.toggle('open',opening);
 }
 
+const DEMO_ID='__demo__';
+function loginDemoMode(){
+  ME={id:DEMO_ID,name:'Demo — Xem mẫu',isManager:false,isDemo:true};
+  localStorage.setItem('bh_me_v3',JSON.stringify(ME));
+  document.getElementById('id-overlay').style.display='none';
+  updateMeBadge();
+  loadDemoData();
+  showDemoBanner();
+  toast('Chế độ Demo — Dữ liệu mẫu chỉ để xem!');
+}
+function showDemoBanner(){
+  let b=document.getElementById('demo-banner');
+  if(b) return;
+  b=document.createElement('div');
+  b.id='demo-banner';
+  b.style.cssText='position:fixed;top:0;left:0;right:0;background:linear-gradient(90deg,#b45309,#e8a020);color:#fff;text-align:center;padding:8px;font-size:13px;font-weight:700;z-index:9998;';
+  b.textContent='👁 CHẾ ĐỘ DEMO — Dữ liệu mẫu. Không lưu thực.';
+  document.body.insertBefore(b,document.body.firstChild);
+  const hdr=document.querySelector('.header');
+  if(hdr) hdr.style.top='34px';
+}
+function loadDemoData(){
+  const cid=DEMO_ID;
+  S.targets[cid]=3;S.bookings[cid]=2;
+  S.sources[cid]=['Facebook Ads','Zalo OA','Referral KH cu','Data CDT'];
+  S.srcData[cid+'_1_Facebook Ads']=5;
+  S.srcData[cid+'_1_Zalo OA']=3;
+  S.srcData[cid+'_1_Referral KH cu']=2;
+  S.srcData[cid+'_1_Data CDT']=1;
+  S.daily[cid+'_1']={data:15,tiepCan:5,ngheGP:0,tuChoi:3,tienNang:0,booking:0,mucTieu:3,keHoach:'Goi 5 KH tu data CDT. Chuan bi script mo dau.',thucHien:'Goi 5 KH - 3 nghe may. 1 KH hen gap T7. Script con cu.',danhGia:'Ti le nghe may 60% - on. Can cai thien phan xu ly tu choi.',dieuChinh:'Thu approach khac: hoi nhu cau truoc khi gioi thieu.',ghiChu:''};
+  S.srcData[cid+'_2_Facebook Ads']=4;
+  S.srcData[cid+'_2_Zalo OA']=2;
+  S.srcData[cid+'_2_Referral KH cu']=1;
+  S.srcData[cid+'_2_Data CDT']=2;
+  S.daily[cid+'_2']={data:12,tiepCan:6,ngheGP:2,tuChoi:2,tienNang:1,booking:0,mucTieu:3,keHoach:'Tiep can 6 KH moi. Follow up KH hen hom qua.',thucHien:'6 KH tiep can, 4 nghe - 2 nghe GP. KH hen confirm lich T7.',danhGia:'Tot hon hom qua. KH phan hoi tich cuc ve vi tri du an.',dieuChinh:'Chuan bi tai lieu so sanh vs doi thu truoc buoi gap.',ghiChu:''};
+  S.srcData[cid+'_3_Facebook Ads']=3;
+  S.srcData[cid+'_3_Zalo OA']=1;
+  S.srcData[cid+'_3_Referral KH cu']=2;
+  S.srcData[cid+'_3_Data CDT']=3;
+  S.daily[cid+'_3']={data:8,tiepCan:3,ngheGP:1,tuChoi:1,tienNang:0,booking:0,mucTieu:2,keHoach:'Follow up 3 KH tiem nang. Goi 4 KH Zalo OA.',thucHien:'Gap anh Minh - nghe GP 45p, quan tam can 2PN.',danhGia:'Buoi gap hieu qua. Anh Minh phan van tang cao vs tang trung.',dieuChinh:'Gui brochure + video cho anh Minh toi nay.',ghiChu:''};
+  S.daily[cid+'_4']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily[cid+'_5']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.srcData[cid+'_6_Facebook Ads']=8;
+  S.srcData[cid+'_6_Zalo OA']=3;
+  S.srcData[cid+'_6_Referral KH cu']=3;
+  S.srcData[cid+'_6_Data CDT']=1;
+  S.daily[cid+'_6']={data:20,tiepCan:8,ngheGP:3,tuChoi:3,tienNang:2,booking:0,mucTieu:4,keHoach:'Goi 8 KH data moi. Hen 2 buoi tu van trong tuan.',thucHien:'8 KH - 6 nghe, 3 nghe GP, 2 hen xem du an.',danhGia:'Tuan 2 khoi dong tot. FB Ads keo traffic chat luong.',dieuChinh:'Can cau tra loi phap ly ro hon. Hoi lai GDKD.',ghiChu:''};
+  S.srcData[cid+'_7_Facebook Ads']=7;
+  S.srcData[cid+'_7_Zalo OA']=4;
+  S.srcData[cid+'_7_Referral KH cu']=2;
+  S.srcData[cid+'_7_Data CDT']=1;
+  S.daily[cid+'_7']={data:18,tiepCan:9,ngheGP:4,tuChoi:2,tienNang:2,booking:0,mucTieu:4,keHoach:'Follow up toan bo pipeline. Goi 7 KH moi.',thucHien:'7 KH moi, 5 nghe. Anh Minh goi lai - tien trien tot.',danhGia:'Pipeline dang am. 3 KH tiem nang thuc su.',dieuChinh:'Chuan bi package day du cho KH di site visit cuoi tuan.',ghiChu:''};
+  S.srcData[cid+'_8_Facebook Ads']=5;
+  S.srcData[cid+'_8_Zalo OA']=3;
+  S.srcData[cid+'_8_Referral KH cu']=2;
+  S.srcData[cid+'_8_Data CDT']=1;
+  S.daily[cid+'_8']={data:15,tiepCan:8,ngheGP:4,tuChoi:2,tienNang:2,booking:1,mucTieu:4,keHoach:'Ho tro 2 KH di site visit Ha Long.',thucHien:'Ca 2 KH rat an tuong. Chi Lan quyet dinh dat booking!',danhGia:'BOOKING DAU TIEN! Chi Lan - Can 2PN tang 18.',dieuChinh:'Push KH con lai. Hoi chi Lan xin referral.',ghiChu:''};
+  S.srcData[cid+'_9_Facebook Ads']=6;
+  S.srcData[cid+'_9_Zalo OA']=4;
+  S.srcData[cid+'_9_Referral KH cu']=2;
+  S.srcData[cid+'_9_Data CDT']=2;
+  S.daily[cid+'_9']={data:22,tiepCan:10,ngheGP:5,tuChoi:3,tienNang:2,booking:0,mucTieu:4,keHoach:'Goi 10 KH moi. Nho chi Lan gioi thieu nguoi quen.',thucHien:'10 KH - 7 nghe, 4 nghe GP. Chi Lan gioi thieu anh ho.',danhGia:'Referral hoat dong! Pipeline manh.',dieuChinh:'Nurture KH anh chi Lan - referral chot nhanh hon.',ghiChu:''};
+  S.srcData[cid+'_10_Facebook Ads']=4;
+  S.srcData[cid+'_10_Zalo OA']=2;
+  S.srcData[cid+'_10_Referral KH cu']=2;
+  S.srcData[cid+'_10_Data CDT']=1;
+  S.daily[cid+'_10']={data:20,tiepCan:9,ngheGP:4,tuChoi:3,tienNang:3,booking:0,mucTieu:4,keHoach:'Follow up cuoi tuan. Goi 8 KH.',thucHien:'8 KH, 6 nghe - 2 nghe GP. Anh Tuan hen gap T2.',danhGia:'Tuan 2 solid: 1 booking, 3 tiem nang.',dieuChinh:'Tuan 3 target 1 booking. Focus anh Tuan va KH site visit.',ghiChu:''};
+  S.daily[cid+'_11']={data:10,tiepCan:5,ngheGP:2,tuChoi:1,tienNang:1,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.srcData[cid+'_12_Facebook Ads']=9;
+  S.srcData[cid+'_12_Zalo OA']=5;
+  S.srcData[cid+'_12_Referral KH cu']=3;
+  S.srcData[cid+'_12_Data CDT']=1;
+  S.daily[cid+'_12']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'Gap anh Tuan. Goi 12 KH data moi.',thucHien:'Anh Tuan quan tam studio dau tu cho thue. Can phan tich ROI.',danhGia:'Can bang ROI cho studio. Tiem nang cao.',dieuChinh:'Lam slide phan tich ROI. Gui anh Tuan truoc T3.',ghiChu:''};
+  S.srcData[cid+'_13_Facebook Ads']=8;
+  S.srcData[cid+'_13_Zalo OA']=4;
+  S.srcData[cid+'_13_Referral KH cu']=3;
+  S.srcData[cid+'_13_Data CDT']=2;
+  S.daily[cid+'_13']={data:25,tiepCan:12,ngheGP:6,tuChoi:4,tienNang:3,booking:0,mucTieu:5,keHoach:'Gui phan tich ROI. Goi 10 KH moi.',thucHien:'Anh Tuan hai long - xin 1 ngay. 10 KH moi, 8 nghe.',danhGia:'Sap booking thu 2. Kien nhan.',dieuChinh:'Goi xac nhan anh Tuan T4 sang.',ghiChu:''};
+  S.srcData[cid+'_14_Facebook Ads']=7;
+  S.srcData[cid+'_14_Zalo OA']=3;
+  S.srcData[cid+'_14_Referral KH cu']=3;
+  S.srcData[cid+'_14_Data CDT']=1;
+  S.daily[cid+'_14']={data:22,tiepCan:11,ngheGP:5,tuChoi:3,tienNang:2,booking:1,mucTieu:5,keHoach:'Chot booking voi anh Tuan.',thucHien:'ANH TUAN BOOKING! Studio tang 22.',danhGia:'2 BOOKING! 66% muc tieu. Con 1 booking nua.',dieuChinh:'Push 2 KH con lai. Xin referral.',ghiChu:''};
+  S.srcData[cid+'_15_Facebook Ads']=8;
+  S.srcData[cid+'_15_Zalo OA']=5;
+  S.srcData[cid+'_15_Referral KH cu']=3;
+  S.srcData[cid+'_15_Data CDT']=2;
+  S.daily[cid+'_15']={data:18,tiepCan:10,ngheGP:5,tuChoi:3,tienNang:3,booking:0,mucTieu:5,keHoach:'Goi 12 KH moi. Nurture pipeline.',thucHien:'12 KH, 9 nghe - 5 nghe GP. Chi Hoa quan tam 2PN.',danhGia:'Referral network tot.',dieuChinh:'Gap chi Hoa T6. Chuan bi proposal 2PN.',ghiChu:''};
+  S.srcData[cid+'_16_Facebook Ads']=5;
+  S.srcData[cid+'_16_Zalo OA']=3;
+  S.srcData[cid+'_16_Referral KH cu']=2;
+  S.srcData[cid+'_16_Data CDT']=1;
+  S.daily[cid+'_16']={data:20,tiepCan:11,ngheGP:6,tuChoi:3,tienNang:3,booking:0,mucTieu:5,keHoach:'Gap chi Hoa. Follow up toan bo.',thucHien:'Gap chi Hoa 90p - ky ve tai chinh. Can xem HTLS.',danhGia:'Chi Hoa can tu van HTLS cu the. Potential booking 3.',dieuChinh:'Hoi GDKD ve HTLS tot nhat cho KH 30% von.',ghiChu:''};
+  S.srcData[cid+'_17_Facebook Ads']=3;
+  S.srcData[cid+'_17_Zalo OA']=2;
+  S.srcData[cid+'_17_Referral KH cu']=1;
+  S.srcData[cid+'_17_Data CDT']=1;
+  S.daily[cid+'_17']={data:15,tiepCan:9,ngheGP:5,tuChoi:2,tienNang:3,booking:0,mucTieu:5,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.daily[cid+'_18']={data:8,tiepCan:4,ngheGP:2,tuChoi:1,tienNang:1,booking:0,mucTieu:2,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.srcData[cid+'_19_Facebook Ads']=10;
+  S.srcData[cid+'_19_Zalo OA']=5;
+  S.srcData[cid+'_19_Referral KH cu']=4;
+  S.srcData[cid+'_19_Data CDT']=2;
+  S.daily[cid+'_19']={data:0,tiepCan:0,ngheGP:0,tuChoi:0,tienNang:0,booking:0,mucTieu:0,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  S.srcData[cid+'_20_Facebook Ads']=9;
+  S.srcData[cid+'_20_Zalo OA']=4;
+  S.srcData[cid+'_20_Referral KH cu']=4;
+  S.srcData[cid+'_20_Data CDT']=2;
+  S.daily[cid+'_20']={data:28,tiepCan:13,ngheGP:7,tuChoi:4,tienNang:4,booking:0,mucTieu:5,keHoach:'',thucHien:'',danhGia:'',dieuChinh:'',ghiChu:''};
+  saveS();
+  rebuildAll();
+}
+
 function goTab(btn,id){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -3289,6 +3474,7 @@ function goTab(btn,id){
 // ============================================
 let editOn=false;
 function toggleEdit(btn){
+  if(!isSuperAdmin()){ toast("Chi Super Admin moi co quyen chinh sua!"); return; }
   editOn=!editOn;
   document.body.classList.toggle('edit-on',editOn);
   document.querySelectorAll('[contenteditable]').forEach(el=>el.contentEditable=editOn?'true':'false');
@@ -3366,7 +3552,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     <div id="id-step1">
       <div class="id-title">Bighomes 15 Sprint</div>
       <div class="id-sub">Vinhomes Hạ Long Xanh — 30 ngày chiến dịch<br>Chọn tên bạn để đăng nhập</div>
-      <select class="id-sel" id="id-sel"><option value="">-- Bạn là ai? --</option></select>
+      <select class="id-sel" id="id-sel"><option value="">-- Bạn là ai? --</option><option value="__demo__">👁 Demo — Xem dữ liệu mẫu</option></select>
       <button class="id-btn" onclick="goToPin()">Tiếp tục →</button>
     </div>
 
@@ -3389,7 +3575,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       <input class="id-sel" type="password" id="id-pin-enter" maxlength="4" inputmode="numeric" placeholder="Mã PIN" style="letter-spacing:8px;text-align:center;font-size:22px;" onkeydown="if(event.key==='Enter')verifyAndLogin()">
       <div id="id-pin-error" style="color:var(--cr);font-size:13px;margin-bottom:10px;display:none;">PIN không đúng. Thử lại.</div>
       <button class="id-btn" onclick="verifyAndLogin()">Đăng nhập</button>
-      <div style="margin-top:14px;font-size:12px;color:var(--cgray);">Quên PIN? Liên hệ <strong>Nghiêm Quân</strong> hoặc <strong>Phượng Tỷ Tỷ</strong> để reset.</div>
+      <div style="margin-top:14px;font-size:12px;color:var(--cgray);">Quên PIN? Liên hệ <strong>Coach Duy Nguyễn</strong> (Super Admin) để reset.</div>
       <button onclick="backToStep1()" style="background:none;border:none;color:var(--cgray);cursor:pointer;font-size:13px;margin-top:6px;font-family:inherit;">← Đổi tài khoản</button>
     </div>
   </div>
