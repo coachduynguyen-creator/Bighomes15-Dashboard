@@ -1,0 +1,3426 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sprint 30 Ngày — Booking Vinhomes Hạ Long Xanh | Bighomes 15</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+:root{
+  --c1:#152815;--c2:#0d1f0d;--cg:#3a8c3a;--cg2:#52a852;
+  --cy:#e8a020;--cy2:#f4c040;--cr:#c44040;--cs:#1e7a4a;
+  --cb:#1a4a6b;--cbg:#f0f4f0;--cgray:#6b7280;--cline:#e5e7eb;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Be Vietnam Pro',sans-serif;font-size:16px;background:var(--cbg);color:#1a1a1a;min-height:100vh;}
+
+/* HEADER */
+.hdr{background:linear-gradient(135deg,var(--c1) 0%,var(--cg) 100%);color:#fff;padding:20px 32px 16px;box-shadow:0 2px 16px rgba(0,0,0,.3);}
+.hdr-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
+.logo-area{display:flex;align-items:center;gap:13px;}
+.logo-badge{width:48px;height:48px;background:var(--cy);border-radius:11px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;color:var(--c1);flex-shrink:0;}
+.org-small{font-size:11px;opacity:.7;font-weight:500;text-transform:uppercase;letter-spacing:.5px;}
+.sprint-title{font-size:19px;font-weight:800;margin-top:2px;}
+.hdr-right{display:flex;gap:9px;align-items:center;flex-wrap:wrap;}
+
+/* COUNTDOWN WIDGET */
+.countdown-widget{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:8px 16px;text-align:center;min-width:140px;}
+.cd-label{font-size:10px;opacity:.65;text-transform:uppercase;letter-spacing:.5px;font-weight:600;}
+.cd-main{display:flex;align-items:baseline;gap:6px;justify-content:center;margin:2px 0;}
+.cd-days{font-size:28px;font-weight:900;color:var(--cy);line-height:1;}
+.cd-unit{font-size:11px;opacity:.7;font-weight:600;}
+.cd-hm{font-size:12px;opacity:.6;font-weight:500;letter-spacing:.3px;}
+.cd-urgent{color:#ff6b6b!important;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.6;}}
+
+.btn{padding:7px 16px;border-radius:8px;border:none;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;}
+.btn-edit{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);}
+.btn-edit:hover{background:rgba(255,255,255,.25);}
+.btn-edit.active{background:rgba(232,160,32,.35);border-color:var(--cy);}
+.btn-save{background:var(--cy);color:var(--c1);}
+.btn-save:hover{background:var(--cy2);}
+.btn-green{background:var(--cg);color:#fff;}
+.btn-green:hover{background:var(--cg2);}
+.btn-red{background:var(--cr);color:#fff;}
+
+.stats-row{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;}
+.stat-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:9px 12px;text-align:center;}
+.stat-v{font-size:22px;font-weight:900;color:var(--cy);line-height:1.2;}
+.stat-l{font-size:10px;opacity:.7;font-weight:500;text-transform:uppercase;letter-spacing:.3px;margin-top:2px;}
+
+/* TABS */
+.tab-bar{background:var(--c2);display:flex;overflow-x:auto;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--cg);}
+.tab-bar::-webkit-scrollbar{height:3px;}
+.tab-bar::-webkit-scrollbar-thumb{background:var(--cg);}
+.tab-btn{padding:12px 20px;background:none;border:none;color:rgba(255,255,255,.5);font-family:'Be Vietnam Pro',sans-serif;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.tab-btn:hover{color:rgba(255,255,255,.85);}
+.tab-btn.active{color:var(--cy);border-bottom-color:var(--cy);}
+
+/* CONTENT */
+.content{padding:24px 32px;max-width:1440px;margin:0 auto;}
+.tab-pane{display:none;}
+.tab-pane.active{display:block;}
+.sec-hdr{font-size:18px;font-weight:800;color:var(--c1);margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--cg);}
+.sub-hdr{font-size:14px;font-weight:700;color:var(--cg);margin:20px 0 11px;}
+
+/* CARDS */
+.card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 1px 5px rgba(0,0,0,.08);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+
+/* PROGRESS */
+.prog-wrap{background:var(--cline);border-radius:99px;height:9px;overflow:hidden;}
+.prog-bar{height:100%;background:linear-gradient(90deg,var(--cg),var(--cg2));border-radius:99px;transition:width .6s;}
+.prog-big{background:rgba(255,255,255,.15);border-radius:99px;height:13px;margin-top:13px;overflow:hidden;}
+.prog-big-bar{height:100%;background:var(--cy);border-radius:99px;transition:width .8s;}
+
+/* BOOKING HERO */
+.booking-hero{background:linear-gradient(135deg,var(--c1),var(--cg));border-radius:14px;padding:24px;color:#fff;margin-bottom:20px;}
+.bh-inner{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;}
+.bh-num{font-size:64px;font-weight:900;color:var(--cy);line-height:1;}
+.bh-lbl{font-size:11px;opacity:.7;text-transform:uppercase;letter-spacing:.7px;}
+.bh-target{font-size:16px;margin-top:5px;opacity:.9;}
+.bh-pct{font-size:44px;font-weight:900;color:#fff;}
+
+/* MEMBER CARDS */
+.member-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:13px;}
+.mc{background:#fff;border-radius:12px;padding:15px;box-shadow:0 1px 4px rgba(0,0,0,.08);border-top:4px solid var(--cg);transition:transform .2s,box-shadow .2s;position:relative;}
+.mc:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.12);}
+.mc.mgmt{border-top-color:var(--cy);}
+.mc.extra{border-top-color:var(--cb);}
+.avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;margin-bottom:9px;}
+.mc-name{font-size:14px;font-weight:700;color:var(--c1);margin-bottom:2px;}
+.mc-role{font-size:11px;color:var(--cgray);font-weight:500;margin-bottom:9px;}
+.kv{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-top:1px solid var(--cline);}
+.kl{font-size:12px;color:var(--cgray);}
+.kv-val{font-size:13px;font-weight:700;color:var(--cg);}
+.mc-del{position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:#fee2e2;color:var(--cr);border:none;cursor:pointer;font-size:13px;font-weight:700;display:none;align-items:center;justify-content:center;line-height:1;}
+.mc:hover .mc-del{display:flex;}
+.t-inp{width:50px;text-align:center;border:1px solid var(--cg);border-radius:6px;padding:3px 5px;font-size:13px;font-weight:700;color:var(--cg);font-family:'Be Vietnam Pro',sans-serif;background:#f0f8f0;}
+.b-inp{width:50px;text-align:center;border:1px solid var(--cy);border-radius:6px;padding:3px 5px;font-size:13px;font-weight:700;color:#b45309;font-family:'Be Vietnam Pro',sans-serif;background:#fffbf0;}
+
+/* TABLES */
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:14px;}
+th{background:var(--c1);color:#fff;padding:9px 10px;text-align:left;font-weight:600;white-space:nowrap;}
+th.sub{background:var(--cg);}
+th.sub2{background:var(--cb);}
+td{padding:8px 10px;border-bottom:1px solid var(--cline);vertical-align:middle;}
+tr:nth-child(even) td{background:#f8fbf8;}
+tr:hover td{background:#eef6ee;}
+.tr-total td{background:var(--c1)!important;color:#fff;font-weight:700;}
+.tr-today td{background:#fff8e1!important;}
+
+/* TAGS */
+.tag{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:600;}
+.t-red{background:#fee2e2;color:#c44040;}
+.t-yellow{background:#fef3c7;color:#b45309;}
+.t-green{background:#d1fae5;color:#065f46;}
+
+/* RISK */
+.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.risk-item{background:#fff;border-radius:10px;padding:14px;border-left:4px solid;box-shadow:0 1px 3px rgba(0,0,0,.07);}
+.ri-cao{border-color:var(--cr);}
+.ri-trung{border-color:var(--cy);}
+.ri-thap{border-color:var(--cs);}
+.ri-name{font-size:14px;font-weight:700;margin-bottom:4px;color:var(--c1);}
+.ri-desc{font-size:13px;color:var(--cgray);margin-bottom:7px;line-height:1.55;}
+.ri-action{font-size:13px;color:var(--c1);font-weight:600;}
+
+/* DAILY REPORT */
+.dr-select{padding:9px 14px;border:2px solid var(--cg);border-radius:8px;font-family:'Be Vietnam Pro',sans-serif;font-size:14px;font-weight:600;color:var(--c1);background:#fff;cursor:pointer;}
+.di{width:56px;border:1px solid #e0e0e0;border-radius:5px;padding:4px 5px;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;background:#fafafa;transition:border-color .2s;}
+.di:focus{outline:none;border-color:var(--cg);background:#fff;box-shadow:0 0 0 2px rgba(61,139,61,.15);}
+.di.wide{width:115px;}
+.di.xwide{width:145px;}
+
+/* FINANCE INPUTS */
+.tc-inp{border:1px solid #e0e0e0;border-radius:5px;padding:5px 7px;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;background:#fafafa;transition:border-color .2s;width:100%;}
+.tc-inp:focus{outline:none;border-color:var(--cg);background:#fff;box-shadow:0 0 0 2px rgba(61,139,61,.15);}
+.tc-num{width:80px;text-align:right;}
+
+/* EDIT MODE */
+body.edit-on [contenteditable]{outline:2px dashed var(--cy);border-radius:4px;padding:1px 4px;background:rgba(232,160,32,.06);cursor:text;}
+
+/* TIMELINE */
+.tl{position:relative;padding-left:21px;}
+.tl::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:var(--cg);}
+.tl-item{position:relative;margin-bottom:20px;}
+.tl-item::before{content:'';position:absolute;left:-18px;top:5px;width:11px;height:11px;border-radius:50%;background:var(--cg);border:2px solid #fff;box-shadow:0 0 0 2px var(--cg);}
+.tl-week{font-size:11px;font-weight:700;color:var(--cg);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;}
+.tl-title{font-size:14px;font-weight:700;color:var(--c1);margin-bottom:4px;}
+.tl-tasks{font-size:13px;color:var(--cgray);line-height:1.7;}
+.kpi-r{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-top:1px solid var(--cline);}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--cg);color:#fff;padding:10px 20px;border-radius:10px;font-weight:600;font-size:14px;box-shadow:0 4px 16px rgba(0,0,0,.2);z-index:9999;transition:opacity .4s;}
+
+/* PCT COLORS */
+.pc-hi{color:#1e7a4a;font-weight:700;}
+.pc-md{color:#b45309;font-weight:700;}
+.pc-lo{color:#c44040;font-weight:700;}
+
+/* ======= HTML CHARTS ======= */
+/* Funnel / horizontal bar */
+.fnl-row{display:flex;align-items:center;margin-bottom:10px;}
+.fnl-lbl{width:100px;text-align:right;font-weight:600;font-size:13px;flex-shrink:0;padding-right:12px;}
+.fnl-track{flex:1;position:relative;height:30px;display:flex;align-items:center;}
+.fnl-bg{position:absolute;inset:0;border-radius:6px;}
+.fnl-fill{position:absolute;left:0;top:0;bottom:0;border-radius:6px;display:flex;align-items:center;padding:0 10px;transition:width .7s cubic-bezier(.4,0,.2,1);}
+.fnl-num{color:#fff;font-weight:700;font-size:13px;white-space:nowrap;}
+.fnl-drop{position:absolute;right:-42px;font-size:11px;color:#9ca3af;white-space:nowrap;font-weight:500;}
+.fnl-empty{position:absolute;left:10px;font-size:13px;color:#9ca3af;}
+/* Week bar chart */
+.week-chart{display:flex;align-items:flex-end;gap:14px;height:120px;padding:0 4px;}
+.week-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:0;}
+.week-bar{width:100%;border-radius:5px 5px 0 0;transition:height .7s cubic-bezier(.4,0,.2,1);}
+.week-val{font-size:12px;font-weight:700;color:var(--c1);margin-bottom:4px;}
+.week-lbl{font-size:11px;color:var(--cgray);margin-top:6px;text-align:center;}
+.week-grid{display:flex;flex-direction:column;gap:0;margin-bottom:6px;}
+/* Source bar chart */
+.src-row{display:flex;align-items:center;margin-bottom:9px;}
+.src-lbl{width:110px;text-align:right;font-size:12px;font-weight:600;color:#374151;padding-right:10px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.src-track{flex:1;height:26px;position:relative;border-radius:5px;background:var(--cline);overflow:hidden;}
+.src-fill{height:100%;border-radius:5px;display:flex;align-items:center;padding:0 8px;transition:width .7s;}
+.src-num{color:#fff;font-size:12px;font-weight:700;}
+.src-pct-lbl{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:#9ca3af;}
+
+/* ======= MODAL ======= */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;}
+.overlay.open{display:flex;}
+.modal{background:#fff;border-radius:16px;padding:28px;width:440px;max-width:96vw;box-shadow:0 20px 60px rgba(0,0,0,.25);}
+.modal-title{font-size:18px;font-weight:800;color:var(--c1);margin-bottom:6px;}
+.modal-sub{font-size:13px;color:var(--cgray);margin-bottom:20px;}
+.form-group{margin-bottom:14px;}
+.form-label{font-size:12px;font-weight:700;color:var(--cgray);text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:5px;}
+.form-input{width:100%;padding:10px 13px;border:2px solid var(--cline);border-radius:8px;font-family:'Be Vietnam Pro',sans-serif;font-size:14px;font-weight:500;color:var(--c1);transition:border-color .2s;}
+.form-input:focus{outline:none;border-color:var(--cg);}
+.form-radio-group{display:flex;gap:10px;}
+.form-radio{display:flex;align-items:center;gap:7px;padding:9px 14px;border:2px solid var(--cline);border-radius:8px;cursor:pointer;flex:1;transition:all .2s;font-size:13px;font-weight:600;}
+.form-radio.selected{border-color:var(--cg);background:#f0f8f0;color:var(--c1);}
+.form-radio input{display:none;}
+.modal-footer{display:flex;gap:10px;margin-top:20px;justify-content:flex-end;}
+.btn-cancel{background:var(--cline);color:var(--cgray);}
+.btn-cancel:hover{background:#d1d5db;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .content{padding:14px;}
+  .stats-row{grid-template-columns:repeat(3,1fr);}
+  .g2,.g3{grid-template-columns:1fr;}
+  .risk-grid{grid-template-columns:1fr;}
+  .hdr{padding:16px 14px 12px;}
+  .countdown-widget{min-width:110px;}
+}
+/* ======= CRM ======= */
+.crm-stage-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:18px;}
+.crm-stage-card{background:#fff;border-radius:10px;padding:12px 14px;border-top:3px solid;box-shadow:0 1px 4px rgba(0,0,0,.07);cursor:pointer;transition:transform .15s,box-shadow .15s;}
+.crm-stage-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.12);}
+.crm-stage-card.active{box-shadow:0 0 0 2px var(--cg) inset;}
+.crm-stage-n{font-size:26px;font-weight:900;line-height:1.1;}
+.crm-stage-l{font-size:11px;color:var(--cgray);font-weight:500;margin-top:3px;}
+.crm-tbl td,.crm-tbl th{padding:9px 11px;}
+.crm-badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:700;white-space:nowrap;}
+.crm-row:hover td{background:#f0f8f0;cursor:pointer;}
+.crm-search-bar{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center;}
+.crm-inp{padding:8px 13px;border:2px solid var(--cline);border-radius:8px;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;font-weight:500;color:var(--c1);background:#fff;transition:border-color .2s;}
+.crm-inp:focus{outline:none;border-color:var(--cg);}
+/* CRM Modal */
+.crm-modal{background:#fff;border-radius:16px;padding:0;width:680px;max-width:96vw;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.crm-modal-hdr{background:linear-gradient(135deg,var(--c1),var(--cg));color:#fff;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.crm-modal-body{overflow-y:auto;padding:20px 24px;flex:1;}
+.crm-modal-ftr{padding:14px 24px;border-top:1px solid var(--cline);display:flex;justify-content:flex-end;gap:10px;flex-shrink:0;background:#fafafa;}
+.crm-sect{font-size:11px;font-weight:700;color:var(--cgray);text-transform:uppercase;letter-spacing:.4px;margin:16px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--cline);}
+.crm-sect:first-child{margin-top:0;}
+.crm-grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.crm-field{display:flex;flex-direction:column;gap:5px;}
+.crm-label{font-size:12px;font-weight:600;color:var(--cgray);}
+.crm-field input,.crm-field select,.crm-field textarea{padding:8px 11px;border:2px solid var(--cline);border-radius:7px;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;color:var(--c1);transition:border-color .2s;}
+.crm-field input:focus,.crm-field select:focus,.crm-field textarea:focus{outline:none;border-color:var(--cg);}
+.crm-field textarea{resize:vertical;min-height:60px;}
+
+/* ===== IDENTITY ===== */
+.id-overlay{position:fixed;inset:0;background:linear-gradient(135deg,var(--c1) 0%,var(--cg) 100%);z-index:9999;display:flex;align-items:center;justify-content:center;}
+.id-box{background:#fff;border-radius:20px;padding:40px 36px;width:420px;max-width:93vw;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.3);}
+.id-logo{width:64px;height:64px;background:linear-gradient(135deg,var(--c1),var(--cg));border-radius:18px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;color:var(--cy);margin:0 auto 18px;}
+.id-title{font-size:22px;font-weight:900;color:var(--c1);margin-bottom:6px;}
+.id-sub{font-size:13px;color:var(--cgray);margin-bottom:24px;line-height:1.55;}
+.id-sel{width:100%;padding:13px 15px;border:2px solid var(--cline);border-radius:10px;font-family:'Be Vietnam Pro',sans-serif;font-size:15px;font-weight:600;color:var(--c1);background:#fff;cursor:pointer;margin-bottom:13px;transition:border-color .2s;}
+.id-sel:focus{outline:none;border-color:var(--cg);}
+.id-btn{width:100%;padding:13px;border-radius:10px;border:none;background:var(--cg);color:#fff;font-family:'Be Vietnam Pro',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s;}
+.id-btn:hover{background:var(--cg2);}
+.pin-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--cline);}
+.pin-row:last-child{border-bottom:none;}
+.pin-status{display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:700;}
+.pin-has{background:#d1fae5;color:#065f46;}
+.pin-none{background:#fee2e2;color:var(--cr);}
+.pin-reset-btn{margin-left:auto;background:#fff3cd;color:#b45309;border:1px solid #fde68a;border-radius:6px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;transition:background .15s;}
+.pin-reset-btn:hover{background:#fde68a;}
+.id-pin-digit{width:52px;height:56px;border:2px solid var(--cline);border-radius:10px;font-size:24px;text-align:center;font-family:'Be Vietnam Pro',sans-serif;font-weight:900;transition:border-color .2s;}
+.id-pin-digit:focus{outline:none;border-color:var(--cg);}
+/* Me-badge in header */
+.me-badge{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:5px 11px;cursor:pointer;transition:background .2s;}
+.me-badge:hover{background:rgba(255,255,255,.22);}
+.me-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;flex-shrink:0;}
+.me-nm{font-size:12px;font-weight:700;color:#fff;}
+.me-change{font-size:10px;opacity:.6;color:#fff;}
+/* Sync indicator */
+.sync-pill{font-size:11px;padding:3px 10px;border-radius:99px;font-weight:600;transition:all .3s;}
+.sync-ok{background:rgba(30,122,74,.35);color:#6ee7b7;}
+.sync-spin{background:rgba(232,160,32,.35);color:#fde68a;}
+.sync-err{background:rgba(196,64,64,.35);color:#fca5a5;}
+/* Reminder widget */
+.rm-empty{text-align:center;padding:20px;color:var(--cgray);font-size:13px;}
+.rm-item{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid var(--cline);}
+.rm-item:last-child{border-bottom:none;}
+.rm-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.rm-info{flex:1;min-width:0;}
+.rm-kh{font-size:13px;font-weight:700;color:var(--c1);}
+.rm-who{font-size:11px;color:var(--cgray);}
+.rm-date{font-size:12px;font-weight:700;white-space:nowrap;padding:2px 8px;border-radius:6px;}
+.rm-overdue{background:#fee2e2;color:var(--cr);}
+.rm-today{background:#d1fae5;color:#065f46;}
+.rm-soon{background:#fef3c7;color:#b45309;}
+/* Leaderboard */
+.lb-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--cline);}
+.lb-row:last-child{border-bottom:none;}
+.lb-rank{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;color:#fff;}
+.lb-name{font-size:13px;font-weight:600;width:95px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lb-track{flex:1;height:9px;background:var(--cline);border-radius:99px;overflow:hidden;}
+.lb-fill{height:100%;border-radius:99px;transition:width .7s;}
+.lb-val{font-size:13px;font-weight:900;min-width:60px;text-align:right;}
+.lb-pct{font-size:11px;color:var(--cgray);}
+/* Forecast */
+.forecast-widget{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;}
+.fc-card{flex:1;min-width:120px;background:#f8fbf8;border-radius:10px;padding:12px 14px;border-top:3px solid;}
+.fc-val{font-size:22px;font-weight:900;line-height:1.1;}
+.fc-lbl{font-size:11px;color:var(--cgray);margin-top:4px;}
+/* Coaching notes */
+.coach-item{background:#f8fbf8;border-radius:9px;padding:12px 14px;margin-bottom:9px;border-left:3px solid var(--cg);}
+.coach-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
+.coach-who{font-size:11px;font-weight:700;color:var(--cg);}
+.coach-when{font-size:11px;color:var(--cgray);}
+.coach-txt{font-size:13px;color:var(--c1);line-height:1.65;}
+.coach-del{background:none;border:none;color:var(--cr);cursor:pointer;font-size:13px;padding:0;opacity:.6;}
+.coach-del:hover{opacity:1;}
+/* Mobile optimizations */
+@media(max-width:600px){
+  .crm-grid2{grid-template-columns:1fr!important;}
+  .crm-modal{width:100%;height:100%;border-radius:0;max-height:100vh;}
+  .crm-modal-overlay{align-items:flex-end;}
+  .fnl-lbl{width:80px;font-size:12px;}
+  .hdr-right .countdown-widget{display:none;}
+}
+
+/* ===== ADMIN TAB ===== */
+.adm-section{margin-bottom:22px;}
+.adm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:12px;}
+.adm-stat{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 4px rgba(0,0,0,.07);border-left:4px solid;}
+.adm-stat-val{font-size:26px;font-weight:900;line-height:1.1;}
+.adm-stat-lbl{font-size:12px;color:var(--cgray);margin-top:4px;}
+.adm-status-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px;}
+.adm-ok{background:#1e7a4a;}
+.adm-err{background:#c44040;}
+.adm-pin-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--cline);}
+.adm-pin-row:last-child{border-bottom:none;}
+.adm-export-btn{display:flex;align-items:center;gap:10px;padding:14px 18px;background:#fff;border:2px solid var(--cline);border-radius:10px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;font-size:14px;font-weight:600;color:var(--c1);transition:all .2s;width:100%;}
+.adm-export-btn:hover{border-color:var(--cg);background:#f0f8f0;}
+.adm-export-btn .icon{font-size:22px;}
+.adm-export-btn .desc{font-size:11px;color:var(--cgray);font-weight:400;margin-top:2px;}
+.adm-danger-btn{background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:7px 14px;color:var(--cr);font-family:'Be Vietnam Pro',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background .15s;}
+.adm-danger-btn:hover{background:#fca5a5;}
+.adm-cfg-field{margin-bottom:12px;}
+.adm-cfg-label{font-size:11px;font-weight:700;color:var(--cgray);text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:5px;}
+.adm-cfg-input{width:100%;padding:9px 12px;border:2px solid var(--cline);border-radius:8px;font-family:'Be Vietnam Pro',sans-serif;font-size:14px;color:var(--c1);transition:border-color .2s;}
+.adm-cfg-input:focus{outline:none;border-color:var(--cg);}
+textarea.adm-cfg-input{resize:vertical;min-height:72px;}
+
+.dr-view-toggle{display:flex;gap:8px;margin-bottom:12px;}
+.dr-view-btn{padding:6px 14px;border-radius:8px;border:2px solid var(--cline);background:#fff;font-family:'Be Vietnam Pro',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--cgray);transition:all .2s;}
+.dr-view-btn.active{border-color:var(--cg);background:#f0f8f0;color:var(--cg);}
+.dr-day-card{background:#fff;border-radius:12px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.07);border-left:4px solid var(--cline);}
+.dr-day-card.dr-today{border-left-color:var(--cy);}
+.dr-day-card.dr-filled{border-left-color:var(--cg);}
+.dr-day-hdr{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;background:#fafafa;user-select:none;}
+.dr-day-hdr:hover{background:#f0f8f0;}
+.dr-dlbl{font-weight:800;font-size:13px;color:var(--c1);flex-shrink:0;min-width:30px;}
+.dr-ddate{font-size:12px;color:var(--cgray);flex-shrink:0;}
+.dr-dpills{display:flex;gap:5px;flex:1;flex-wrap:wrap;}
+.dr-pill{font-size:11px;font-weight:700;padding:2px 7px;border-radius:99px;}
+.dr-pill.tc{background:#dbeafe;color:#1d4ed8;}
+.dr-pill.bk{background:#d1fae5;color:#065f46;}
+.dr-pill.mt{background:#f3f4f6;color:#6b7280;font-weight:400;font-style:italic;}
+.dr-chev{margin-left:auto;color:var(--cgray);font-size:11px;transition:transform .2s;flex-shrink:0;}
+.dr-chev.open{transform:rotate(90deg);}
+.dr-day-body{padding:14px;display:none;}
+.dr-day-body.open{display:block;}
+.dr-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.dr-nf{display:flex;flex-direction:column;gap:4px;}
+.dr-nl{font-size:10px;font-weight:700;color:var(--cgray);text-transform:uppercase;letter-spacing:.3px;}
+.dr-pdca{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.dr-pf{display:flex;flex-direction:column;gap:4px;}
+.dr-pf label{font-size:10px;font-weight:700;color:var(--cgray);text-transform:uppercase;letter-spacing:.3px;}
+.dr-pf textarea{padding:7px 10px;border:2px solid var(--cline);border-radius:7px;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;resize:vertical;min-height:52px;}
+.dr-pf textarea:focus{outline:none;border-color:var(--cg);}
+.dr-ht{display:flex;align-items:center;gap:8px;padding:9px 0;border-top:1px solid var(--cline);margin-top:10px;flex-wrap:wrap;}
+.dr-ht label{font-size:12px;color:var(--cgray);}
+@media(max-width:600px){
+  .dr-pdca{grid-template-columns:1fr;}
+  .dr-nums{grid-template-columns:repeat(2,1fr);}
+}
+.live-badge{position:fixed;top:68px;right:14px;background:var(--c1);color:#fff;padding:8px 14px;border-radius:10px;font-size:12px;font-weight:600;z-index:8000;box-shadow:0 4px 14px rgba(0,0,0,.25);pointer-events:none;}
+</style>
+</head>
+<body>
+
+<!-- MODAL THÊM NHÂN SỰ -->
+<div class="overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-title">Thêm nhân sự mới</div>
+    <div class="modal-sub">Nhân sự sẽ được cập nhật tự động vào tất cả bảng liên quan</div>
+    <div class="form-group">
+      <label class="form-label">Họ và tên</label>
+      <input class="form-input" id="inp-name" type="text" placeholder="VD: Nguyễn Văn A">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Chức vụ / Vai trò</label>
+      <input class="form-input" id="inp-role" type="text" placeholder="VD: Chuyên viên kinh doanh, Trưởng nhóm...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Loại nhân sự</label>
+      <div class="form-radio-group">
+        <label class="form-radio selected" id="radio-cvkd" onclick="selectType('cvkd')">
+          <input type="radio" name="type" value="cvkd" checked>
+          CVKD — Có báo cáo ngày & mục tiêu booking
+        </label>
+        <label class="form-radio" id="radio-mgmt" onclick="selectType('mgmt')">
+          <input type="radio" name="type" value="mgmt">
+          Quản lý — Hiển thị ở ban quản lý
+        </label>
+      </div>
+    </div>
+    <div class="form-group" id="grp-target" style="">
+      <label class="form-label">Mục tiêu booking (chỉ cho CVKD)</label>
+      <input class="form-input" id="inp-target" type="number" placeholder="VD: 2" min="0" max="20" value="2">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeModal()">Huỷ</button>
+      <button class="btn btn-green" onclick="addMember()">Thêm nhân sự</button>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="logo-area">
+      <div class="logo-badge">B15</div>
+      <div>
+        <div class="org-small">Bighomes 15 — Vinhomes Hạ Long Xanh</div>
+        <div class="sprint-title" contenteditable="false">Sprint 30 Ngày — Chiến Dịch Nhận Booking</div>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <div class="countdown-widget">
+        <div class="cd-label">Deadline 01/05/2026</div>
+        <div class="cd-main">
+          <span class="cd-days" id="cd-days">—</span>
+          <span class="cd-unit">ngày</span>
+        </div>
+        <div class="cd-hm" id="cd-hm">còn lại</div>
+      </div>
+      <div id="me-badge" class="me-badge" onclick="changeIdentity()" title="Đổi thành viên">
+        <div class="me-av" id="me-av" style="background:var(--cg);">?</div>
+        <div><div class="me-nm" id="me-nm">Chọn thành viên</div><div class="me-change">Nhấn để đổi</div></div>
+      </div>
+      <span id="sync-pill" class="sync-pill sync-ok" style="display:none;">✓ Đồng bộ</span>
+      <span class="date-badge" id="date-badge" style="font-size:12px;opacity:.65;"></span>
+      <button class="btn btn-edit" onclick="toggleEdit(this)">✏️ Chỉnh sửa</button>
+      <button class="btn btn-save" onclick="saveAll()">💾 Lưu</button>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-v" id="sv-done">0</div><div class="stat-l">Booking đạt</div></div>
+    <div class="stat-card"><div class="stat-v" id="sv-target">20</div><div class="stat-l">Mục tiêu</div></div>
+    <div class="stat-card"><div class="stat-v" id="sv-pct">0%</div><div class="stat-l">Hoàn thành</div></div>
+    <div class="stat-card"><div class="stat-v" id="sv-members">9</div><div class="stat-l">CVKD</div></div>
+    <div class="stat-card"><div class="stat-v" id="sv-days">30</div><div class="stat-l">Ngày sprint</div></div>
+    <div class="stat-card"><div class="stat-v" id="sv-leads">0</div><div class="stat-l">Leads hôm nay</div></div>
+  </div>
+</div>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="goTab(this,'tong-quan')">Tổng Quan</button>
+  <button class="tab-btn" onclick="goTab(this,'ke-hoach')">Kế Hoạch Sprint</button>
+  <button class="tab-btn" onclick="goTab(this,'team')">Team & Mục Tiêu</button>
+  <button class="tab-btn" onclick="goTab(this,'bao-cao')">Báo Cáo Ngày</button>
+  <button class="tab-btn" onclick="goTab(this,'tai-chinh')">Tài Chính MKT</button>
+  <button class="tab-btn" onclick="goTab(this,'crm')">CRM Khách Hàng</button>
+  <button class="tab-btn" onclick="goTab(this,'rui-ro')">Rủi Ro</button>
+  <button class="tab-btn" id="admin-tab-btn" onclick="goTab(this,'admin')" style="display:none;color:#e8a020;border-bottom-color:transparent;">⚙ Quản Trị</button>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- ===== TỔNG QUAN ===== -->
+  <div id="tab-tong-quan" class="tab-pane active">
+    <div class="sec-hdr">Tổng Quan Sprint</div>
+    <div class="booking-hero">
+      <div class="bh-inner">
+        <div>
+          <div class="bh-lbl">Booking đạt được</div>
+          <div class="bh-num" id="bh-done">0</div>
+          <div class="bh-target">/ <span id="bh-total">20</span> booking mục tiêu</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="bh-lbl">Tiến độ</div>
+          <div class="bh-pct" id="bh-pct">0%</div>
+          <div class="bh-lbl">hoàn thành</div>
+        </div>
+      </div>
+      <div class="prog-big"><div class="prog-big-bar" id="prog-big" style="width:0%"></div></div>
+    </div>
+    <div class="g2" style="margin-bottom:20px;">
+      <div class="card">
+        <div class="sub-hdr" style="margin-top:0;">Tiến độ từng CVKD</div>
+        <div id="ov-progress"></div>
+      </div>
+      <div class="card">
+        <div class="sub-hdr" style="margin-top:0;">Thông tin Sprint</div>
+        <div class="kpi-r"><span style="font-size:12px;color:var(--cgray);">Ngày bắt đầu</span><span style="font-weight:700;color:var(--cg);">02/04/2026</span></div>
+        <div class="kpi-r"><span style="font-size:12px;color:var(--cgray);">Deadline</span><span style="font-weight:700;color:var(--cr);">01/05/2026</span></div>
+        <div class="kpi-r"><span style="font-size:12px;color:var(--cgray);">Dự án</span><span style="font-weight:700;color:var(--c1);">Vinhomes Hạ Long Xanh</span></div>
+        <div class="kpi-r"><span style="font-size:12px;color:var(--cgray);">Phân khu</span><span style="font-weight:700;color:var(--c1);" contenteditable="false">Global Gate — Quảng Ninh</span></div>
+        <div class="kpi-r"><span style="font-size:12px;color:var(--cgray);">Tổng mục tiêu</span><span id="sprint-ttarget" style="font-weight:700;color:var(--cg);">20 booking</span></div>
+        <div class="kpi-r"><span style="font-size:12px;color:var(--cgray);">Deadline lãi suất</span><span style="font-weight:700;color:var(--cr);">30/04/2026</span></div>
+        <div style="margin-top:13px;padding:11px;background:#f0f8f0;border-radius:8px;border-left:3px solid var(--cg);">
+          <div style="font-size:13px;font-weight:700;color:var(--c1);margin-bottom:3px;">Ghi chú CEO</div>
+          <div style="font-size:13px;color:var(--cgray);line-height:1.65;" contenteditable="false">Sprint đầu tiên nhận booking Hạ Long Xanh. Ưu tiên chất lượng khách hàng, không ép số. Mỗi booking phải là khách đã hiểu rõ dự án và cam kết tài chính rõ ràng.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g2" style="margin-bottom:20px;">
+      <div class="card">
+        <div class="sub-hdr" style="margin-top:0;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;">
+          <span>KH cần liên hệ hôm nay</span>
+          <span id="rm-count" class="tag t-red" style="display:none;"></span>
+        </div>
+        <div id="rm-list"><div class="rm-empty">Đang tải...</div></div>
+      </div>
+      <div class="card">
+        <div class="sub-hdr" style="margin-top:0;margin-bottom:12px;">Bảng xếp hạng — Booking Sprint</div>
+        <div id="lb-list"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:20px;">
+      <div class="sub-hdr" style="margin-top:0;margin-bottom:12px;">Dự báo kết quả Sprint</div>
+      <div id="forecast-widget" class="forecast-widget"></div>
+    </div>
+    <div class="card" style="margin-bottom:20px;">
+      <div class="sub-hdr" style="margin-top:0;margin-bottom:16px;">Phễu Chuyển Đổi Toàn Team — Sprint đến nay</div>
+      <div id="ov-funnel-team" style="padding:4px 40px 4px 0;"></div>
+      <div id="ov-funnel-team-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px;"></div>
+    </div>
+  </div>
+
+  <!-- ===== KẾ HOẠCH ===== -->
+  <div id="tab-ke-hoach" class="tab-pane">
+    <div class="sec-hdr">Kế Hoạch Sprint 30 Ngày</div>
+    <div class="g2">
+      <div class="card">
+        <div class="sub-hdr" style="margin-top:0;">Timeline theo tuần</div>
+        <div class="tl">
+          <div class="tl-item">
+            <div class="tl-week">Tuần 1 — 02/04 đến 08/04</div>
+            <div class="tl-title" contenteditable="false">Khởi động & Nạp data</div>
+            <div class="tl-tasks" contenteditable="false">Toàn team training sản phẩm Hạ Long Xanh: pháp lý, chính sách, USP so với đối thủ.<br>Phân bổ data khách hàng theo từng CVKD, thiết lập quy trình báo cáo ngày.<br>Mỗi CVKD gọi tối thiểu 50 số, tiếp cận 8 KH tiềm năng trong tuần.<br>Coach Duy kiểm tra đầu ra training trước khi cho phép gọi KH.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-week">Tuần 2 — 09/04 đến 15/04</div>
+            <div class="tl-title" contenteditable="false">Tiếp cận & Kết nối</div>
+            <div class="tl-tasks" contenteditable="false">Đẩy mạnh telesale, phân loại KH: nóng / ấm / lạnh.<br>Tổ chức site visit đợt 1 tại Hạ Long, tối thiểu 10 KH tham gia.<br>CVKD trình bày giải pháp cho tối thiểu 3 KH tiềm năng/người.<br>GĐKD review data và tiến độ mỗi thứ 4.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-week">Tuần 3 — 16/04 đến 22/04</div>
+            <div class="tl-title" contenteditable="false">Thuyết phục & Chốt hẹn</div>
+            <div class="tl-tasks" contenteditable="false">Theo sát danh sách warm leads — gửi đề xuất tài chính cụ thể.<br>Mục tiêu 10 booking đầu tiên hoàn thành trước 22/04.<br>Coach Duy trực tiếp hỗ trợ các ca khó, role-play xử lý từ chối.<br>Site visit đợt 2 nếu cần.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-week">Tuần 4 — 23/04 đến 01/05</div>
+            <div class="tl-title" contenteditable="false">Push cuối — Chốt đủ mục tiêu booking</div>
+            <div class="tl-tasks" contenteditable="false">Kích hoạt lại danh sách KH chưa quyết định từ tuần 2–3.<br>Tận dụng deadline 30/04 (chính sách lãi suất CĐT) để tạo urgency có cơ sở.<br>GĐKD theo sát từng deal, hỗ trợ chốt trực tiếp khi cần.<br>Tổng kết Sprint ngày 01/05, đánh giá từng CVKD.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="sub-hdr" style="margin-top:0;">OKR Sprint</div>
+          <div style="background:var(--c1);color:#fff;padding:8px 12px;border-radius:8px;margin-bottom:9px;">
+            <div style="font-size:10px;opacity:.7;text-transform:uppercase;letter-spacing:.4px;">O1 — Mục tiêu</div>
+            <div style="font-weight:700;margin-top:2px;font-size:14px;" contenteditable="false">Hoàn thành 20 booking Vinhomes Hạ Long Xanh trong 30 ngày</div>
+          </div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Kết quả then chốt</th><th>Mục tiêu</th><th>Phụ trách</th></tr></thead>
+            <tbody>
+              <tr><td contenteditable="false">Booking đạt được</td><td contenteditable="false">20 booking</td><td contenteditable="false">Toàn team</td></tr>
+              <tr><td contenteditable="false">KH tiếp cận / CVKD</td><td contenteditable="false">≥ 80 KH</td><td contenteditable="false">9 CVKD</td></tr>
+              <tr><td contenteditable="false">KH nghe giải pháp</td><td contenteditable="false">≥ 30 KH</td><td contenteditable="false">Nghiêm Quân</td></tr>
+              <tr><td contenteditable="false">Site visit tổ chức</td><td contenteditable="false">≥ 2 đợt</td><td contenteditable="false">Phượng Tỷ Tỷ</td></tr>
+              <tr><td contenteditable="false">Tỷ lệ chuyển đổi</td><td contenteditable="false">≥ 25%</td><td contenteditable="false">Toàn team</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="sub-hdr" style="margin-top:0;">Cột mốc kiểm tra</div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Ngày</th><th>Cột mốc</th><th>Trạng thái</th></tr></thead>
+            <tbody>
+              <tr><td contenteditable="false">08/04</td><td contenteditable="false">Training xong, data đã phân bổ</td><td><span class="tag t-yellow" contenteditable="false">Chờ</span></td></tr>
+              <tr><td contenteditable="false">15/04</td><td contenteditable="false">Site visit đợt 1 + 5 booking đầu tiên</td><td><span class="tag t-yellow" contenteditable="false">Chờ</span></td></tr>
+              <tr><td contenteditable="false">22/04</td><td contenteditable="false">Đạt 10 booking, review warm leads</td><td><span class="tag t-yellow" contenteditable="false">Chờ</span></td></tr>
+              <tr><td contenteditable="false">30/04</td><td contenteditable="false">Deadline lãi suất CĐT — push tối đa</td><td><span class="tag t-red" contenteditable="false">Quan trọng</span></td></tr>
+              <tr><td contenteditable="false">01/05</td><td contenteditable="false">Tổng kết Sprint</td><td><span class="tag t-yellow" contenteditable="false">Chờ</span></td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TEAM ===== -->
+  <div id="tab-team" class="tab-pane">
+    <div class="sec-hdr" style="display:flex;justify-content:space-between;align-items:center;">
+      <span>Team & Phân Bổ Mục Tiêu</span>
+      <button class="btn btn-green" onclick="openModal()" style="font-size:13px;">+ Thêm nhân sự</button>
+    </div>
+
+    <div class="sub-hdr" style="margin-top:0;">Ban Quản Lý</div>
+    <div id="mgmt-grid" class="g3" style="margin-bottom:24px;"></div>
+
+
+    <div id="pin-mgmt-card" class="card" style="margin-bottom:22px;display:none;">
+      <div class="sub-hdr" style="margin-top:0;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;">
+        <span>Quản Lý Mã PIN — Dành cho Giám Đốc</span>
+        <button class="btn" style="background:#f0f8f0;color:var(--cg);font-size:12px;padding:5px 12px;" onclick="loadPinStatus()">🔄 Kiểm tra</button>
+      </div>
+      <div style="font-size:13px;color:var(--cgray);margin-bottom:14px;">Reset PIN của thành viên khi họ quên. Sau khi reset, thành viên sẽ tự đặt PIN mới khi đăng nhập lại.</div>
+      <div id="pin-status-list"></div>
+    </div>
+
+    <div class="sub-hdr" style="margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;">
+      <span>Ghi chú Coaching</span>
+      <button class="btn btn-green" onclick="openCoachingModal()" style="font-size:13px;padding:6px 14px;">+ Thêm ghi chú</button>
+    </div>
+    <div id="coaching-list" class="card" style="margin-bottom:22px;">
+      <div style="font-size:13px;color:var(--cgray);padding:8px 0;">Chưa có ghi chú coaching nào.</div>
+    </div>
+    <div class="sub-hdr">Chuyên Viên Kinh Doanh — Phân Bổ Mục Tiêu</div>
+    <div class="card" style="margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+      <div>
+        <div style="font-size:13px;color:var(--cgray);">Tổng mục tiêu booking (tự động cộng)</div>
+        <div style="font-size:26px;font-weight:900;color:var(--c1);">
+          <span id="sum-target">20</span>
+          <span style="font-size:15px;color:var(--cgray);"> / 20 mục tiêu Sprint</span>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--cgray);text-align:right;line-height:1.7;">
+        Điều chỉnh mục tiêu từng CVKD — tổng tự cập nhật<br>
+        <span style="color:var(--cg);font-weight:600;">Cột vàng = booking đã đạt</span>
+      </div>
+    </div>
+    <div class="member-grid" id="cvkd-grid"></div>
+  </div>
+
+  <!-- ===== BÁO CÁO NGÀY ===== -->
+  <div id="tab-bao-cao" class="tab-pane">
+    <div class="sec-hdr">Báo Cáo Ngày — PDCA Chiến Binh Bán Hàng</div>
+    <div class="dr-view-toggle">
+      <button class="dr-view-btn active" id="dr-btn-table" onclick="setDRView('table')">📋 Bảng (Desktop)</button>
+      <button class="dr-view-btn" id="dr-btn-card" onclick="setDRView('card')">📱 Thẻ ngày (Mobile)</button>
+    </div>
+    <div style="display:flex;gap:11px;align-items:flex-end;flex-wrap:wrap;margin-bottom:16px;">
+      <div>
+        <label style="font-size:11px;font-weight:700;color:var(--cgray);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px;">Chọn CVKD</label>
+        <select class="dr-select" id="sel-cvkd" onchange="loadDailyReport()">
+          <option value="">-- Chọn thành viên --</option>
+        </select>
+      </div>
+      <button class="btn btn-save" onclick="saveDailyReport()" style="background:var(--cg);color:#fff;height:41px;">💾 Lưu báo cáo</button>
+      <div id="dr-stats" style="display:flex;gap:9px;margin-left:auto;flex-wrap:wrap;"></div>
+    </div>
+    <div id="dr-container"><div style="text-align:center;padding:48px;color:var(--cgray);font-size:15px;">Chọn CVKD để xem và cập nhật nhật ký 30 ngày</div></div>
+  </div>
+
+  <!-- ===== RỦI RO ===== -->
+  <div id="tab-rui-ro" class="tab-pane">
+    <div class="sec-hdr">Rủi Ro & Phương Án Xử Lý</div>
+    <div style="background:#fff3cd;border:1px solid #f0c040;border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:14px;">
+      <strong>Bối cảnh:</strong> Mở bán dự án mới tại thị trường Quảng Ninh — đặc thù mua đầu tư/nghỉ dưỡng, phụ thuộc hạ tầng và chính sách CĐT.
+    </div>
+    <div class="sub-hdr" style="margin-top:0;">Rủi Ro Cao</div>
+    <div class="risk-grid" style="margin-bottom:16px;">
+      <div class="risk-item ri-cao">
+        <div class="ri-name">R1 — Chính sách CĐT thay đổi giữa sprint</div>
+        <div class="ri-desc">Vinhomes có thể điều chỉnh giá, điều kiện booking hoặc rút ưu đãi bất kỳ lúc nào.</div>
+        <div class="ri-action">Xử lý: GĐ duy trì kênh trực tiếp với CĐT, cập nhật team trong 2 giờ. Không hứa điều khoản chưa xác nhận bằng văn bản.</div>
+      </div>
+      <div class="risk-item ri-cao">
+        <div class="ri-name">R2 — KH chần chừ chờ lãi suất</div>
+        <div class="ri-desc">Tâm lý "chờ đáy lãi suất". Deadline 30/04 là cơ hội nhưng cũng là lý do KH trì hoãn.</div>
+        <div class="ri-action">Xử lý: Mô phỏng số tiền thiệt hại cụ thể nếu KH chờ thêm 3–6 tháng. Coach Duy chuẩn bị bộ so sánh 3 kịch bản lãi suất.</div>
+      </div>
+    </div>
+    <div class="sub-hdr">Rủi Ro Trung Bình</div>
+    <div class="risk-grid" style="margin-bottom:16px;">
+      <div class="risk-item ri-trung">
+        <div class="ri-name">R3 — Thiếu data KH chất lượng</div>
+        <div class="ri-desc">Data cold leads có tỷ lệ chuyển đổi thấp, 9 CVKD cần đủ data để duy trì nhịp tiếp cận.</div>
+        <div class="ri-action">Xử lý: Làm sạch data tuần 1. Bổ sung qua referral KH cũ và mạng lưới cá nhân CVKD.</div>
+      </div>
+      <div class="risk-item ri-trung">
+        <div class="ri-name">R4 — CVKD thiếu kiến thức sản phẩm mới</div>
+        <div class="ri-desc">Hạ Long Xanh là dự án mới. Sai thông tin pháp lý, tiến độ khi tư vấn KH gây mất uy tín.</div>
+        <div class="ri-action">Xử lý: Pass bài kiểm tra sản phẩm trước khi được phép gọi KH. Coach Duy phụ trách kiểm tra tuần 1.</div>
+      </div>
+      <div class="risk-item ri-trung">
+        <div class="ri-name">R5 — Cạnh tranh từ F1/F2 khác</div>
+        <div class="ri-desc">Nhiều đơn vị phân phối cùng mở bán. KH bị tiếp cận đồng thời từ nhiều nguồn gây nhiễu.</div>
+        <div class="ri-action">Xử lý: Không cạnh tranh bằng giảm hoa hồng. Tập trung vào chất lượng tư vấn và KH đã giao dịch qua Bighomes.</div>
+      </div>
+      <div class="risk-item ri-trung">
+        <div class="ri-name">R6 — Site visit khó tổ chức</div>
+        <div class="ri-desc">Quảng Ninh cách Hà Nội 3–4 tiếng. KH bận lịch ảnh hưởng tốc độ quyết định.</div>
+        <div class="ri-action">Xử lý: Chuẩn bị video walkthrough + tour 360° chất lượng. Phối hợp CĐT tổ chức đoàn xe đón cuối tuần.</div>
+      </div>
+    </div>
+    <div class="sub-hdr">Rủi Ro Thấp</div>
+    <div class="risk-grid" style="margin-bottom:20px;">
+      <div class="risk-item ri-thap">
+        <div class="ri-name">R7 — CVKD giảm động lực giữa sprint</div>
+        <div class="ri-desc">30 ngày liên tục với áp lực KPI. Tuần 1–2 kết quả thấp có thể khiến một số CVKD nản.</div>
+        <div class="ri-action">Xử lý: GĐKD họp 1-1 hàng tuần. Ghi nhận tiến bộ nhỏ công khai. Không chỉ đánh giá booking.</div>
+      </div>
+      <div class="risk-item ri-thap">
+        <div class="ri-name">R8 — Thanh khoản thị trường Hạ Long chậm</div>
+        <div class="ri-desc">Hạ Long có lịch sử hấp thụ chậm hơn Hà Nội. KH đầu tư thuần túy cần thời gian ra quyết định.</div>
+        <div class="ri-action">Xử lý: Ưu tiên nhóm KH mua để ở/nghỉ dưỡng gia đình — nhóm này quyết định nhanh hơn.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="sub-hdr" style="margin-top:0;">Lịch Báo Cáo & Phân Quyền</div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Báo cáo</th><th>Tần suất</th><th>Người nhận</th><th>Giờ</th><th>Kênh</th></tr></thead>
+        <tbody>
+          <tr><td contenteditable="false">Nhật ký ngày (CVKD)</td><td contenteditable="false">Hàng ngày</td><td contenteditable="false">Nghiêm Quân</td><td contenteditable="false">20:00</td><td contenteditable="false">Dashboard này</td></tr>
+          <tr><td contenteditable="false">Tổng hợp tuần</td><td contenteditable="false">Thứ 2</td><td contenteditable="false">Phượng Tỷ Tỷ + Coach Duy</td><td contenteditable="false">09:00</td><td contenteditable="false">Họp trực tiếp</td></tr>
+          <tr><td contenteditable="false">Review deal nóng</td><td contenteditable="false">3 lần / tuần</td><td contenteditable="false">Nghiêm Quân + CVKD</td><td contenteditable="false">Khi có deal</td><td contenteditable="false">Zalo</td></tr>
+          <tr><td contenteditable="false">Tổng kết Sprint</td><td contenteditable="false">01/05/2026</td><td contenteditable="false">Toàn ban quản lý</td><td contenteditable="false">09:00</td><td contenteditable="false">Họp full team</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+  <!-- ===== TÀI CHÍNH MKT ===== -->
+  <div id="tab-tai-chinh" class="tab-pane">
+    <div class="sec-hdr" style="display:flex;justify-content:space-between;align-items:center;">
+      <span>Tài Chính MKT — Sprint Vinhomes Hạ Long Xanh</span>
+      <button class="btn btn-save" onclick="saveTaiChinh()" style="font-size:13px;">💾 Lưu tài chính</button>
+    </div>
+
+    <!-- KPI CARDS TỔNG HỢP -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;">
+      <div class="stat-card" style="background:var(--c1);border-radius:12px;padding:16px 20px;color:#fff;">
+        <div style="font-size:12px;opacity:.7;text-transform:uppercase;letter-spacing:.4px;">Tổng ngân sách duyệt</div>
+        <div style="font-size:28px;font-weight:900;color:var(--cy);margin-top:4px;" id="tc-total-budget">0</div>
+        <div style="font-size:12px;opacity:.6;margin-top:2px;">triệu đồng</div>
+      </div>
+      <div class="stat-card" style="background:var(--cr);border-radius:12px;padding:16px 20px;color:#fff;">
+        <div style="font-size:12px;opacity:.8;text-transform:uppercase;letter-spacing:.4px;">Đã chi</div>
+        <div style="font-size:28px;font-weight:900;color:#fff;margin-top:4px;" id="tc-total-spent">0</div>
+        <div style="font-size:12px;opacity:.7;margin-top:2px;">triệu đồng</div>
+      </div>
+      <div class="stat-card" style="background:var(--cs);border-radius:12px;padding:16px 20px;color:#fff;">
+        <div style="font-size:12px;opacity:.8;text-transform:uppercase;letter-spacing:.4px;">Còn lại</div>
+        <div style="font-size:28px;font-weight:900;color:#fff;margin-top:4px;" id="tc-total-remain">0</div>
+        <div style="font-size:12px;opacity:.7;margin-top:2px;">triệu đồng</div>
+      </div>
+    </div>
+
+    <div class="g2" style="margin-bottom:20px;align-items:start;">
+
+      <!-- CHÍNH SÁCH HỖ TRỢ MKT -->
+      <div class="card">
+        <div class="sub-hdr" style="margin-top:0;display:flex;justify-content:space-between;align-items:center;">
+          <span>Chính Sách Hỗ Trợ MKT từ Công Ty</span>
+          <span style="font-size:11px;color:var(--cgray);font-weight:400;">Tất cả nội dung có thể chỉnh sửa</span>
+        </div>
+
+        <div style="background:#f0f8f0;border-radius:8px;padding:14px;margin-bottom:12px;border-left:3px solid var(--cg);">
+          <div style="font-size:12px;font-weight:700;color:var(--cgray);text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px;">Thông báo chính sách</div>
+          <div contenteditable="false" id="policy-notice" style="font-size:14px;color:var(--c1);line-height:1.75;min-height:60px;outline:none;">Bighomes 15 hỗ trợ ngân sách MKT cho các CVKD chạy quảng cáo trong sprint nhận booking Vinhomes Hạ Long Xanh. Ngân sách được giải ngân theo thực chi, yêu cầu nộp chứng từ đầy đủ trước khi thanh toán.</div>
+        </div>
+
+        <div class="kpi-r"><span style="font-size:13px;color:var(--cgray);">Mức hỗ trợ tối đa / người</span><span contenteditable="false" id="policy-amount" style="font-weight:700;color:var(--c1);font-size:14px;">2 triệu đồng / tháng</span></div>
+        <div class="kpi-r"><span style="font-size:13px;color:var(--cgray);">Kênh được duyệt</span><span contenteditable="false" id="policy-channels" style="font-weight:700;color:var(--c1);font-size:14px;">Facebook Ads, Zalo OA, TikTok Ads</span></div>
+        <div class="kpi-r"><span style="font-size:13px;color:var(--cgray);">Hạn nộp chứng từ</span><span contenteditable="false" id="policy-deadline" style="font-weight:700;color:var(--cr);font-size:14px;">05/05/2026</span></div>
+        <div class="kpi-r"><span style="font-size:13px;color:var(--cgray);">Thanh toán qua</span><span contenteditable="false" id="policy-payment" style="font-weight:700;color:var(--c1);font-size:14px;">Phòng kế toán — xuất hoá đơn VAT</span></div>
+        <div class="kpi-r"><span style="font-size:13px;color:var(--cgray);">Điều kiện</span><span contenteditable="false" id="policy-condition" style="font-weight:700;color:var(--c1);font-size:14px;">Đạt tối thiểu 1 booking trong sprint</span></div>
+
+        <div style="background:#fff3cd;border-radius:8px;padding:12px;margin-top:12px;border-left:3px solid var(--cy);">
+          <div style="font-size:12px;font-weight:700;color:#b45309;text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px;">Lưu ý quan trọng</div>
+          <div contenteditable="false" id="policy-note" style="font-size:13px;color:var(--c1);line-height:1.7;outline:none;">Chứng từ bao gồm: screenshot chiến dịch quảng cáo (ngày chạy, chi phí, kết quả), hoá đơn hoặc lịch sử giao dịch. Không có chứng từ hợp lệ sẽ không được thanh toán.</div>
+        </div>
+      </div>
+
+      <!-- LỊCH SỬ THÔNG BÁO -->
+      <div class="card">
+        <div class="sub-hdr" style="margin-top:0;display:flex;justify-content:space-between;align-items:center;">
+          <span>Thông Báo & Cập Nhật MKT</span>
+          <button class="btn btn-green" onclick="addAnnouncement()" style="font-size:12px;padding:5px 12px;">+ Thêm thông báo</button>
+        </div>
+        <div id="announce-list"></div>
+      </div>
+    </div>
+
+    <!-- BẢNG NGÂN SÁCH TỪNG NGƯỜI -->
+    <div class="card">
+      <div class="sub-hdr" style="margin-top:0;">Ngân Sách Quảng Cáo — Từng Thành Viên</div>
+      <div style="font-size:13px;color:var(--cgray);margin-bottom:14px;">Mỗi người tự cập nhật ngân sách và chi phí thực của mình. Cột "Còn lại" tự động tính.</div>
+      <div class="tbl-wrap">
+        <table id="budget-table">
+          <thead>
+            <tr>
+              <th>Thành viên</th>
+              <th>Kênh chạy</th>
+              <th style="text-align:right;">Ngân sách duyệt (tr.đ)</th>
+              <th style="text-align:right;">Đã chi (tr.đ)</th>
+              <th style="text-align:right;">Còn lại (tr.đ)</th>
+              <th>Ghi chú</th>
+            </tr>
+          </thead>
+          <tbody id="budget-tbody"></tbody>
+          <tfoot>
+            <tr class="tr-total">
+              <td colspan="2">TỔNG CỘNG</td>
+              <td style="text-align:right;" id="tc-foot-budget">0</td>
+              <td style="text-align:right;" id="tc-foot-spent">0</td>
+              <td style="text-align:right;" id="tc-foot-remain">0</td>
+              <td colspan="2"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CRM KHÁCH HÀNG ===== -->
+  <div id="tab-crm" class="tab-pane">
+    <div class="sec-hdr" style="display:flex;justify-content:space-between;align-items:center;">
+      <span>CRM Khách Hàng — Vinhomes Hạ Long Xanh</span>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <div id="crm-sync-status" style="font-size:12px;color:var(--cgray);"></div>
+        <button class="btn btn-green" onclick="openCustomerModal()" style="font-size:13px;">+ Thêm KH</button>
+      </div>
+    </div>
+
+    <!-- Member selector + search -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="crm-search-bar">
+        <div>
+          <label style="font-size:11px;font-weight:700;color:var(--cgray);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px;">Xem CRM của</label>
+          <select class="crm-inp" id="crm-sel-member" onchange="loadCRM()" style="min-width:200px;">
+            <option value="">-- Chọn thành viên --</option>
+            <option value="__all__">Toàn team (chỉ xem)</option>
+          </select>
+        </div>
+        <div style="flex:1;min-width:180px;">
+          <label style="font-size:11px;font-weight:700;color:var(--cgray);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px;">Tìm kiếm</label>
+          <input class="crm-inp" id="crm-search" placeholder="Tên KH..." oninput="filterCRM()" style="width:100%;">
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:700;color:var(--cgray);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px;">Lọc tình trạng</label>
+          <select class="crm-inp" id="crm-filter-stage" onchange="filterCRM()">
+            <option value="">Tất cả</option>
+          </select>
+        </div>
+        <div style="margin-top:20px;">
+          <button class="btn btn-save" onclick="loadCRM()" style="font-size:13px;height:38px;">🔄 Làm mới</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pipeline stage cards -->
+    <div id="crm-pipeline-cards" class="crm-stage-grid"></div>
+
+    <!-- Customer table -->
+    <div class="card" id="crm-table-wrap">
+      <div style="text-align:center;padding:40px;color:var(--cgray);font-size:14px;">Chọn thành viên để xem danh sách khách hàng</div>
+    </div>
+  </div>
+
+
+  <!-- ===== ADMIN — SUPER ADMIN ONLY ===== -->
+  <div id="tab-admin" class="tab-pane">
+    <div class="sec-hdr" style="display:flex;justify-content:space-between;align-items:center;">
+      <span>⚙ Quản Trị Viên — Coach Duy Nguyễn</span>
+      <button class="btn btn-save" onclick="adminRefreshAll()" style="font-size:13px;">🔄 Làm mới tất cả</button>
+    </div>
+
+    <!-- ROW 1: Status + Config -->
+    <div class="g2" style="margin-bottom:20px;">
+
+      <!-- STATUS HỆ THỐNG -->
+      <div class="card adm-section">
+        <div class="sub-hdr" style="margin-top:0;">Trạng Thái Hệ Thống</div>
+        <div id="adm-status-content">
+          <div style="font-size:13px;color:var(--cgray);">Đang kiểm tra...</div>
+        </div>
+        <div class="adm-grid" id="adm-stats-grid" style="margin-top:14px;"></div>
+      </div>
+
+      <!-- CÀI ĐẶT SPRINT -->
+      <div class="card adm-section">
+        <div class="sub-hdr" style="margin-top:0;">Cài Đặt Sprint</div>
+        <div class="adm-cfg-field">
+          <label class="adm-cfg-label">Tên Sprint</label>
+          <input id="adm-sprint-name" class="adm-cfg-input" type="text" placeholder="Sprint 30 Ngày — Chiến Dịch Nhận Booking">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div class="adm-cfg-field">
+            <label class="adm-cfg-label">Ngày bắt đầu</label>
+            <input id="adm-sprint-start" class="adm-cfg-input" type="date">
+          </div>
+          <div class="adm-cfg-field">
+            <label class="adm-cfg-label">Ngày kết thúc</label>
+            <input id="adm-sprint-end" class="adm-cfg-input" type="date">
+          </div>
+        </div>
+        <div class="adm-cfg-field">
+          <label class="adm-cfg-label">Thông báo toàn team (hiển thị trên Tổng Quan)</label>
+          <textarea id="adm-announcement" class="adm-cfg-input" placeholder="Nhập thông báo cho cả team..."></textarea>
+        </div>
+        <button class="btn btn-green" onclick="saveSprintConfig()" style="width:100%;margin-top:4px;">💾 Lưu cài đặt</button>
+      </div>
+    </div>
+
+    <!-- ROW 2: PIN + Export -->
+    <div class="g2" style="margin-bottom:20px;">
+
+      <!-- QUẢN LÝ PIN -->
+      <div class="card adm-section">
+        <div class="sub-hdr" style="margin-top:0;">Quản Lý Mã PIN</div>
+        <div style="font-size:13px;color:var(--cgray);margin-bottom:12px;">Reset PIN để thành viên đặt lại khi đăng nhập lần sau.</div>
+        <div id="adm-pin-list"><div style="font-size:13px;color:var(--cgray);">Đang tải...</div></div>
+      </div>
+
+      <!-- XUẤT DỮ LIỆU -->
+      <div class="card adm-section">
+        <div class="sub-hdr" style="margin-top:0;">Xuất Dữ Liệu</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+          <button class="adm-export-btn" onclick="exportDailyReports()">
+            <span class="icon">📊</span>
+            <div><div>Báo cáo ngày (CSV)</div><div class="desc">Toàn bộ nhật ký PDCA 30 ngày của tất cả thành viên</div></div>
+          </button>
+          <button class="adm-export-btn" onclick="exportCRM()">
+            <span class="icon">👥</span>
+            <div><div>CRM Khách Hàng (CSV)</div><div class="desc">Danh sách KH + pipeline + thông tin chi tiết</div></div>
+          </button>
+          <button class="adm-export-btn" onclick="exportSummary()">
+            <span class="icon">📋</span>
+            <div><div>Tổng hợp Sprint (CSV)</div><div class="desc">KPI tổng hợp từng thành viên toàn sprint</div></div>
+          </button>
+        </div>
+
+        <!-- RESET DỮ LIỆU -->
+        <div style="border-top:1px solid var(--cline);padding-top:14px;">
+          <div style="font-size:12px;font-weight:700;color:var(--cr);text-transform:uppercase;letter-spacing:.3px;margin-bottom:10px;">⚠ Vùng nguy hiểm</div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <select id="adm-reset-member" class="crm-inp" style="flex:1;min-width:160px;">
+              <option value="">-- Chọn thành viên --</option>
+            </select>
+            <button class="adm-danger-btn" onclick="resetMemberDailyData()">Xóa báo cáo ngày</button>
+          </div>
+          <div style="font-size:11px;color:var(--cgray);margin-top:6px;">Xóa toàn bộ nhật ký PDCA của thành viên trên Supabase. Không thể khôi phục.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEAM ANNOUNCEMENT PREVIEW -->
+    <div id="adm-announcement-preview" class="card" style="display:none;border-left:4px solid var(--cy);">
+      <div style="font-size:12px;font-weight:700;color:var(--cy);text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px;">Thông báo đang hiển thị với team</div>
+      <div id="adm-announcement-text" style="font-size:14px;color:var(--c1);line-height:1.65;"></div>
+    </div>
+  </div>
+
+</div><!-- end .content -->
+
+<!-- ===== CUSTOMER MODAL ===== -->
+<div class="overlay" id="crm-modal-overlay">
+  <div class="crm-modal">
+    <div class="crm-modal-hdr">
+      <div>
+        <div style="font-size:16px;font-weight:800;" id="crm-modal-title">Thêm khách hàng mới</div>
+        <div style="font-size:12px;opacity:.7;margin-top:2px;">Vinhomes Hạ Long Xanh — Sprint 30 ngày</div>
+      </div>
+      <button onclick="closeCRMModal()" style="background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>
+    <div class="crm-modal-body">
+      <input type="hidden" id="crm-edit-id">
+
+      <div class="crm-sect">Thông tin cơ bản</div>
+      <div class="crm-grid2">
+        <div class="crm-field">
+          <label class="crm-label">Họ tên KH *</label>
+          <input id="cf-name" type="text" placeholder="VD: Nguyễn Văn A">
+        </div>
+        <div class="crm-field">
+          <label class="crm-label">SĐT (4 số cuối)</label>
+          <input id="cf-phone" type="text" placeholder="VD: 7890" maxlength="4">
+        </div>
+        <div class="crm-field">
+          <label class="crm-label">CVKD phụ trách</label>
+          <select id="cf-member"></select>
+        </div>
+        <div class="crm-field">
+          <label class="crm-label">Nguồn data</label>
+          <select id="cf-source">
+            <option value="">-- Chọn nguồn --</option>
+            <option>Data CĐT cấp</option>
+            <option>Cold call</option>
+            <option>Referral / Giới thiệu</option>
+            <option>Facebook Ads</option>
+            <option>Zalo / Zalo OA</option>
+            <option>Sự kiện / Event</option>
+            <option>Mạng lưới cá nhân</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="crm-sect">Tình trạng pipeline</div>
+      <div class="crm-grid2">
+        <div class="crm-field" style="grid-column:1/-1;">
+          <label class="crm-label">Giai đoạn hiện tại *</label>
+          <select id="cf-stage"></select>
+        </div>
+      </div>
+
+      <div class="crm-sect">Thông tin sản phẩm</div>
+      <div class="crm-grid2">
+        <div class="crm-field">
+          <label class="crm-label">Sản phẩm quan tâm</label>
+          <select id="cf-product">
+            <option value="">-- Chọn --</option>
+            <option>Căn hộ Studio</option>
+            <option>Căn hộ 1 phòng ngủ</option>
+            <option>Căn hộ 2 phòng ngủ</option>
+            <option>Căn hộ 3 phòng ngủ</option>
+            <option>Shophouse</option>
+            <option>Biệt thự</option>
+            <option>Nhà phố</option>
+            <option>Chưa xác định</option>
+          </select>
+        </div>
+        <div class="crm-field">
+          <label class="crm-label">Giá dự kiến</label>
+          <input id="cf-price" type="text" placeholder="VD: 3.5 tỷ">
+        </div>
+        <div class="crm-field">
+          <label class="crm-label">Mục đích</label>
+          <select id="cf-purpose">
+            <option value="">-- Chọn --</option>
+            <option>Để ở</option>
+            <option>Đầu tư</option>
+            <option>Cho thuê</option>
+            <option>Nghỉ dưỡng</option>
+            <option>Chưa rõ</option>
+          </select>
+        </div>
+        <div class="crm-field">
+          <label class="crm-label">Tài chính</label>
+          <select id="cf-finance">
+            <option value="">-- Chọn --</option>
+            <option>Tự có (Cash)</option>
+            <option>Vay ngân hàng</option>
+            <option>Kết hợp (có + vay)</option>
+            <option>Chưa xác định</option>
+          </select>
+        </div>
+        <div class="crm-field">
+          <label class="crm-label">Khu vực KH</label>
+          <input id="cf-region" type="text" placeholder="VD: Hà Nội, HCM...">
+        </div>
+      </div>
+
+      <div class="crm-sect">Phân tích KH</div>
+      <div class="crm-grid2">
+        <div class="crm-field" style="grid-column:1/-1;">
+          <label class="crm-label">Lý do mua / Động lực</label>
+          <textarea id="cf-buy-reason" placeholder="VD: Muốn có nơi nghỉ dưỡng cuối tuần cho gia đình..."></textarea>
+        </div>
+        <div class="crm-field" style="grid-column:1/-1;">
+          <label class="crm-label">Lý do từ chối / Rào cản</label>
+          <textarea id="cf-reject-reason" placeholder="VD: Còn phân vân về dòng tiền, chờ lãi suất giảm..."></textarea>
+        </div>
+      </div>
+
+      <div class="crm-sect">Lịch chăm sóc</div>
+      <div class="crm-grid2">
+        <div class="crm-field">
+          <label class="crm-label">Ngày tiếp cận đầu tiên</label>
+          <input id="cf-first-contact" type="date">
+        </div>
+        <div class="crm-field">
+          <label class="crm-label">Hẹn liên hệ tiếp theo</label>
+          <input id="cf-next-contact" type="date">
+        </div>
+        <div class="crm-field" style="grid-column:1/-1;">
+          <label class="crm-label">Ghi chú thêm</label>
+          <textarea id="cf-notes" placeholder="Thông tin bổ sung, lịch sử trao đổi..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="crm-modal-ftr">
+      <button class="btn btn-cancel" onclick="closeCRMModal()">Huỷ</button>
+      <button id="crm-del-btn" class="btn btn-red" onclick="deleteCustomer()" style="display:none;margin-right:auto;">🗑 Xoá</button>
+      <button class="btn btn-save" onclick="saveCustomer()">💾 Lưu khách hàng</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================
+// CONSTANTS
+// ============================================
+const SPRINT_START = new Date('2026-04-02');
+const SPRINT_END   = new Date('2026-05-01T23:59:59');
+const SPRINT_DAYS  = 30;
+let SPRINT_END_DYN = new Date('2026-05-01T23:59:59');
+let SPRINT_START_DYN = new Date('2026-04-02');
+
+const PALETTE = [
+  'linear-gradient(135deg,#1a6b3a,#2d9b5a)',
+  'linear-gradient(135deg,#1a3a6b,#2d5a9b)',
+  'linear-gradient(135deg,#6b1a3a,#9b2d5a)',
+  'linear-gradient(135deg,#3a6b1a,#5a9b2d)',
+  'linear-gradient(135deg,#6b3a1a,#9b5a2d)',
+  'linear-gradient(135deg,#1a5a6b,#2d8a9b)',
+  'linear-gradient(135deg,#4a1a6b,#6a2d9b)',
+  'linear-gradient(135deg,#6b5a1a,#9b8a2d)',
+  'linear-gradient(135deg,#1a6b6b,#2d9b9b)',
+  'linear-gradient(135deg,#5a1a6b,#8a2d9b)',
+  'linear-gradient(135deg,#1a6b4a,#2d9b7a)',
+  'linear-gradient(135deg,#6b4a1a,#9b7a2d)',
+];
+
+const BASE_CVKDS = [
+  {id:'dinhhoang', name:'Đinh Hoàng',  ini:'DH'},
+  {id:'thaiha',    name:'Thái Hà',     ini:'TH'},
+  {id:'phammanh',  name:'Phạm Mạnh',   ini:'PM'},
+  {id:'ductruong', name:'Đức Trường',  ini:'ĐT'},
+  {id:'theanh',    name:'Thế Anh',     ini:'TA'},
+  {id:'bathe',     name:'Bá Thế',      ini:'BT'},
+  {id:'quanghuy',  name:'Quang Huy',   ini:'QH'},
+  {id:'kimhue',    name:'Kim Huê',     ini:'KH'},
+  {id:'quanha',    name:'Quân Hà',     ini:'QH'},
+];
+
+const BASE_MGMT = [
+  {id:'phuongtyty', name:'Phượng Tỷ Tỷ', ini:'PT', role:'Giám Đốc Bighomes 15', sells:true,
+   bg:'linear-gradient(135deg,#c47a00,#e8a020)',
+   kpis:[['Chịu trách nhiệm','Kết quả toàn sprint'],['Site visit','≥ 2 đợt'],['Review tuần','Thứ 2 mỗi tuần'],['Quan hệ CĐT','Liên tục']]},
+  {id:'coachduy', name:'Coach Duy Nguyễn', ini:'CD', role:'Giám Đốc Đào Tạo', sells:false,
+   bg:'linear-gradient(135deg,#1a5a6b,#2d8a9b)',
+   kpis:[['Training sản phẩm','Tuần 1'],['Hỗ trợ ca khó','On-demand'],['Đánh giá CVKD','Tuần 2 + 4'],['Script & tài liệu','≥ 3 bộ']]},
+  {id:'nghiemquan', name:'Nghiêm Quân', ini:'NQ', role:'Giám Đốc Kinh Doanh', sells:true,
+   bg:'linear-gradient(135deg,#4a1a6b,#6a2d9b)',
+   kpis:[['Theo sát booking','Hàng ngày'],['Họp deal review','3 lần / tuần'],['Hỗ trợ chốt','Đồng hành CVKD'],['Báo cáo tổng hợp','Hàng ngày → GĐ']]},
+];
+// Giám đốc tham gia bán hàng (trừ Giám đốc đào tạo)
+const BASE_SELLING_MGMT = BASE_MGMT.filter(m=>m.sells);
+
+// ============================================
+// STATE
+// ============================================
+let S = {};
+function loadS(){
+  try{ S = JSON.parse(localStorage.getItem('bh_sprint_v3')||'{}'); }catch(e){S={};}
+  if(!S.targets){S.targets={}; BASE_CVKDS.forEach((c,i)=>S.targets[c.id]=[3,2,2,2,2,2,2,2,3][i]);}
+  if(!S.bookings){S.bookings={}; BASE_CVKDS.forEach(c=>S.bookings[c.id]=0);}
+  // Init targets/bookings cho giám đốc tham gia bán hàng
+  BASE_SELLING_MGMT.forEach(m=>{ if(S.targets[m.id]===undefined) S.targets[m.id]=2; if(S.bookings[m.id]===undefined) S.bookings[m.id]=0; });
+  if(!S.daily){S.daily={};}
+  if(!S.extraCVKDs){S.extraCVKDs=[];}
+  if(!S.extraMgmt){S.extraMgmt=[];}
+  if(!S.sources){S.sources={};}
+  if(!S.srcData){S.srcData={};}
+  if(!S.finance){S.finance={budget:{},announcements:[]};}
+}
+function saveS(){ localStorage.setItem('bh_sprint_v3',JSON.stringify(S)); }
+
+// ============================================
+// COMPUTED LISTS
+// ============================================
+function getCVKDS(){
+  return [...BASE_CVKDS, ...S.extraCVKDs.map(m=>({id:m.id,name:m.name,ini:initials(m.name)}))];
+}
+// Tất cả thành viên tham gia bán hàng: GĐ bán + CVKD + GĐ bổ sung
+function getSellingMembers(){
+  const extraMgmtSelling = S.extraMgmt.map(m=>({id:m.id,name:m.name,ini:initials(m.name),role:m.role,isMgmt:true}));
+  return [...BASE_SELLING_MGMT, ...getCVKDS().map(c=>({...c,isMgmt:false})), ...extraMgmtSelling];
+}
+function getMGMT(){
+  return [...BASE_MGMT, ...S.extraMgmt.map(m=>({
+    id:m.id, name:m.name, ini:initials(m.name), role:m.role,
+    bg:'linear-gradient(135deg,#1a5a3a,#2d8a5a)',
+    kpis:[['Vai trò',m.role],['Gia nhập','Bổ sung'],['Chức vụ',m.role]]
+  }))];
+}
+
+function initials(name){
+  const parts=name.trim().split(/\s+/);
+  if(parts.length>=2) return (parts[parts.length-2][0]+(parts[parts.length-1][0]||'')).toUpperCase();
+  return name.substring(0,2).toUpperCase();
+}
+function genId(name){ return name.toLowerCase().replace(/\s+/g,'').replace(/[^a-z0-9]/g,'')+'_'+Date.now(); }
+
+// ============================================
+// COUNTDOWN
+// ============================================
+function updateCountdown(){
+  const now=new Date();
+  const diff=SPRINT_END_DYN-now;
+  if(diff<=0){
+    document.getElementById('cd-days').textContent='0';
+    document.getElementById('cd-hm').textContent='Đã hết hạn';
+    document.getElementById('cd-days').classList.add('cd-urgent');
+    return;
+  }
+  const totalHours=Math.floor(diff/3600000);
+  const days=Math.floor(totalHours/24);
+  const hours=totalHours%24;
+  const mins=Math.floor((diff%3600000)/60000);
+  const el=document.getElementById('cd-days');
+  el.textContent=days;
+  document.getElementById('cd-hm').textContent=`${String(hours).padStart(2,'0')}:${String(mins).padStart(2,'0')} còn lại`;
+  if(days<=3) el.classList.add('cd-urgent'); else el.classList.remove('cd-urgent');
+}
+
+// ============================================
+// STATS
+// ============================================
+function totalTarget(){
+  return getSellingMembers().reduce((a,c)=>a+(parseInt(S.targets[c.id])||0),0);
+}
+function totalBooked(){
+  return getSellingMembers().reduce((a,c)=>a+(parseInt(S.bookings[c.id])||0),0);
+}
+function pctClass(p){ return p>=100?'pc-hi':p>=50?'pc-md':'pc-lo'; }
+function dash(v){ return (v&&v!=='0'&&v!=='')?v:'—'; }
+function sprintDay(){ return Math.max(1,Math.min(Math.floor((new Date()-SPRINT_START_DYN)/864e5)+1,SPRINT_DAYS)); }
+
+function updateStats(){
+  const done=totalBooked(), tgt=totalTarget(), cvkds=getCVKDS();
+  const pct=tgt>0?Math.round(done/tgt*100):0;
+  document.getElementById('sv-done').textContent=done;
+  document.getElementById('sv-target').textContent=tgt;
+  document.getElementById('sv-pct').textContent=pct+'%';
+  document.getElementById('sv-members').textContent=getCVKDS().length;
+  const spDay=sprintDay();
+  document.getElementById('sv-days').textContent=spDay+'/30';
+  document.getElementById('bh-done').textContent=done;
+  document.getElementById('bh-total').textContent=tgt;
+  document.getElementById('bh-pct').textContent=pct+'%';
+  document.getElementById('prog-big').style.width=Math.min(pct,100)+'%';
+  document.getElementById('sprint-ttarget').textContent=tgt+' booking';
+  const sumEl=document.getElementById('sum-target');
+  if(sumEl) sumEl.textContent=tgt;
+
+  // leads today — tất cả thành viên bán hàng
+  let leads=0;
+  const td=sprintDay();
+  getSellingMembers().forEach(c=>{
+    const d=S.daily[`${c.id}_${td}`]||{};
+    leads+=parseInt(d.tiepCan||0);
+  });
+  document.getElementById('sv-leads').textContent=leads;
+}
+
+// ============================================
+// RENDER OVERVIEW PROGRESS
+// ============================================
+function renderOvProgress(){
+  const el=document.getElementById('ov-progress');
+  if(!el) return;
+  const members=getSellingMembers();
+  el.innerHTML=members.map((c,i)=>{
+    const tgt=S.targets[c.id]||0, done=S.bookings[c.id]||0;
+    const pct=tgt>0?Math.round(done/tgt*100):0;
+    const bg=c.isMgmt?(BASE_MGMT.find(m=>m.id===c.id)?.bg||PALETTE[i%PALETTE.length]):PALETTE[i%PALETTE.length];
+    const label=c.isMgmt?`<span style="font-size:10px;background:#fef3c7;color:#b45309;padding:1px 6px;border-radius:99px;font-weight:600;margin-left:5px;">GĐ</span>`:'';
+    return `<div style="margin-bottom:11px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+        <span style="font-size:13px;font-weight:600;">${c.name}${label}</span>
+        <span style="font-size:12px;color:var(--cgray);">${done}/${tgt} booking</span>
+      </div>
+      <div class="prog-wrap"><div class="prog-bar" style="width:${Math.min(pct,100)}%;background:${bg}"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================
+// RENDER TODAY TABLE
+// ============================================
+function renderTodayTable(){
+  const tbody=document.getElementById('today-tbody');
+  if(!tbody) return;
+  const td=sprintDay();
+  tbody.innerHTML=getSellingMembers().map(c=>{
+    const d=S.daily[`${c.id}_${td}`]||{};
+    const pct=parseInt(d.hoanThanh||0);
+    const roleTag=c.isMgmt?` <span style="font-size:10px;background:#fef3c7;color:#b45309;padding:1px 5px;border-radius:99px;font-weight:600;">GĐ</span>`:'';
+    const mucTieu=parseInt(d.mucTieu||0);
+    return `<tr>
+      <td style="font-weight:600;">${c.name}${roleTag}</td>
+      <td>${dash(d.data)}</td><td>${dash(d.tiepCan)}</td><td>${dash(d.ngheGP)}</td>
+      <td style="font-weight:700;color:var(--cs);">${dash(d.booking)}</td>
+      <td style="font-weight:700;color:var(--cb);">${mucTieu>0?mucTieu:'—'}</td>
+      <td><span class="${pctClass(pct)}">${pct>0?pct+'%':'—'}</span></td>
+      <td style="font-size:12px;color:var(--cgray);">${d.ghiChu||''}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ============================================
+// RENDER MGMT GRID
+// ============================================
+function renderMgmtGrid(){
+  const grid=document.getElementById('mgmt-grid');
+  if(!grid) return;
+  grid.innerHTML=getMGMT().map((m,i)=>{
+    const isExtra=i>=BASE_MGMT.length;
+    const delBtn=isExtra?`<button class="mc-del" onclick="deleteMember('mgmt','${m.id}')" title="Xoá">✕</button>`:'';
+    const kpiRows=(m.kpis||[]).map(([l,v])=>`<div class="kv"><span class="kl">${l}</span><span class="kv-val">${v}</span></div>`).join('');
+    return `<div class="mc mgmt${isExtra?' extra':''}">
+      ${delBtn}
+      <div class="avatar" style="background:${m.bg||PALETTE[i%PALETTE.length]}">${m.ini}</div>
+      <div class="mc-name">${m.name}</div>
+      <div class="mc-role">${m.role}</div>
+      ${kpiRows}
+    </div>`;
+  }).join('');
+}
+
+// ============================================
+// RENDER CVKD GRID
+// ============================================
+function renderCVKDGrid(){
+  const grid=document.getElementById('cvkd-grid');
+  if(!grid) return;
+  const cvkds=getCVKDS();
+  grid.innerHTML=cvkds.map((c,i)=>{
+    const tgt=S.targets[c.id]||0, done=S.bookings[c.id]||0;
+    const pct=tgt>0?Math.round(done/tgt*100):0;
+    const bg=PALETTE[i%PALETTE.length];
+    const isExtra=i>=BASE_CVKDS.length;
+    const delBtn=isExtra?`<button class="mc-del" onclick="deleteMember('cvkd','${c.id}')" title="Xoá">✕</button>`:'';
+    return `<div class="mc${isExtra?' extra':''}">
+      ${delBtn}
+      <div class="avatar" style="background:${bg}">${c.ini}</div>
+      <div class="mc-name">${c.name}</div>
+      <div class="mc-role">${isExtra?(S.extraCVKDs.find(x=>x.id===c.id)?.role||'Chuyên viên kinh doanh'):'Chuyên viên kinh doanh'}</div>
+      <div class="kv">
+        <span class="kl">Mục tiêu booking</span>
+        <input type="number" class="t-inp" value="${tgt}" min="0" max="50"
+          onchange="setTarget('${c.id}',this.value)" oninput="setTarget('${c.id}',this.value)">
+      </div>
+      <div class="kv">
+        <span class="kl">Đã booking</span>
+        <input type="number" class="b-inp" value="${done}" min="0"
+          onchange="setBooked('${c.id}',this.value)">
+      </div>
+      <div class="kv"><span class="kl">Tiến độ</span><span class="${pctClass(pct)}">${pct}%</span></div>
+      <div class="prog-wrap" style="margin-top:7px;">
+        <div class="prog-bar" style="width:${Math.min(pct,100)}%;background:${bg}"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================
+// REBUILD ALL VIEWS
+// ============================================
+function rebuildAll(){
+  updateStats();
+  renderMgmtGrid();
+  renderCVKDGrid();
+  renderOvProgress();
+  rebuildDropdown();
+  setTimeout(renderOvCharts, 150);
+}
+
+function rebuildDropdown(){
+  const sel=document.getElementById('sel-cvkd');
+  if(!sel) return;
+  const cur=sel.value;
+  sel.innerHTML='<option value="">-- Chọn thành viên --</option>';
+  // Giám đốc bán hàng trước
+  const smGroup=document.createElement('optgroup');
+  smGroup.label='Ban Quản Lý';
+  BASE_SELLING_MGMT.forEach(m=>{
+    const opt=document.createElement('option');
+    opt.value=m.id; opt.textContent=m.name+' ('+m.role+')';
+    smGroup.appendChild(opt);
+  });
+  sel.appendChild(smGroup);
+  // CVKD
+  const cvkdGroup=document.createElement('optgroup');
+  cvkdGroup.label='Chuyên Viên Kinh Doanh';
+  getCVKDS().forEach(c=>{
+    const opt=document.createElement('option');
+    opt.value=c.id; opt.textContent=c.name;
+    cvkdGroup.appendChild(opt);
+  });
+  sel.appendChild(cvkdGroup);
+  // Extra mgmt
+  if(S.extraMgmt.length){
+    const exGroup=document.createElement('optgroup');
+    exGroup.label='Quản Lý Bổ Sung';
+    S.extraMgmt.forEach(m=>{
+      const opt=document.createElement('option');
+      opt.value=m.id; opt.textContent=m.name+' ('+m.role+')';
+      exGroup.appendChild(opt);
+    });
+    sel.appendChild(exGroup);
+  }
+  if(cur) sel.value=cur;
+}
+
+function setTarget(id,v){ S.targets[id]=parseInt(v)||0; updateStats(); renderOvProgress(); renderLeaderboard(); renderForecast(); saveS(); const s=document.getElementById('sum-target'); if(s)s.textContent=totalTarget(); SYNC.pushTargets(); }
+function setBooked(id,v){ S.bookings[id]=parseInt(v)||0; updateStats(); renderOvProgress(); renderLeaderboard(); renderForecast(); saveS(); SYNC.pushTargets(); }
+
+// ============================================
+// ADD MEMBER
+// ============================================
+let selectedType='cvkd';
+function selectType(t){
+  selectedType=t;
+  document.getElementById('radio-cvkd').classList.toggle('selected',t==='cvkd');
+  document.getElementById('radio-mgmt').classList.toggle('selected',t==='mgmt');
+  document.getElementById('grp-target').style.display=t==='cvkd'?'':'none';
+}
+function openModal(){ document.getElementById('modal-overlay').classList.add('open'); document.getElementById('inp-name').focus(); }
+function closeModal(){ document.getElementById('modal-overlay').classList.remove('open'); document.getElementById('inp-name').value=''; document.getElementById('inp-role').value=''; document.getElementById('inp-target').value='2'; selectType('cvkd'); }
+
+function addMember(){
+  const name=document.getElementById('inp-name').value.trim();
+  const role=document.getElementById('inp-role').value.trim()||'Chuyên viên kinh doanh';
+  const tgt=parseInt(document.getElementById('inp-target').value)||2;
+  if(!name){ document.getElementById('inp-name').focus(); return; }
+
+  const id=genId(name);
+  if(selectedType==='cvkd'){
+    S.extraCVKDs.push({id,name,role});
+    S.targets[id]=tgt;
+    S.bookings[id]=0;
+  } else {
+    S.extraMgmt.push({id,name,role});
+    S.targets[id]=tgt;
+    S.bookings[id]=0;
+  }
+  saveS();
+  rebuildAll();
+  closeModal();
+  toast(`Đã thêm: ${name}`);
+}
+
+function deleteMember(type,id){
+  if(!confirm('Xoá nhân sự này? Dữ liệu báo cáo của họ vẫn được giữ lại.')) return;
+  if(type==='cvkd'){
+    S.extraCVKDs=S.extraCVKDs.filter(m=>m.id!==id);
+  } else {
+    S.extraMgmt=S.extraMgmt.filter(m=>m.id!==id);
+  }
+  saveS();
+  rebuildAll();
+  toast('Đã xoá nhân sự');
+}
+
+// ============================================
+// DAILY REPORT + SOURCE ANALYSIS
+// ============================================
+function loadDailyReport(){
+  const cid=document.getElementById('sel-cvkd').value;
+  const con=document.getElementById('dr-container');
+  if(!cid){
+    con.innerHTML='<div style="text-align:center;padding:48px;color:var(--cgray);font-size:15px;">Chọn thành viên để xem nhật ký và phân tích nguồn data</div>';
+    document.getElementById('dr-stats').innerHTML='';
+    return;
+  }
+  const cvkd=getSellingMembers().find(c=>c.id===cid);
+  const srcs=S.sources[cid]||[];
+  let totData=0,totTC=0,totNGP=0,totTCh=0,totHD=0;
+  let rows='';
+  const today=sprintDay();
+
+  // Build PDCA rows
+  for(let day=1;day<=SPRINT_DAYS;day++){
+    const key=`${cid}_${day}`;
+    const d=S.daily[key]||{};
+    const {thu,date}=getDayInfo(day);
+    const isToday=(day===today);
+    // %HT auto-calc: booking / mucTieu * 100
+    const bkVal=parseInt(d.booking||0);
+    const mtVal=parseInt(d.mucTieu||0);
+    const pct=mtVal>0?Math.round(bkVal/mtVal*100):(parseInt(d.hoanThanh||0));
+    // Data
+    const srcSum=srcs.reduce((a,s)=>a+(parseInt(S.srcData[`${cid}_${day}_${s}`])||0),0);
+    const dataVal=srcs.length>0?srcSum:(parseInt(d.data||0));
+    totData+=dataVal;
+    totTC+=parseInt(d.tiepCan||0);
+    totNGP+=parseInt(d.ngheGP||0);
+    totTCh+=parseInt(d.tuChoi||0);
+    totHD+=bkVal;
+    const dataDisplay=srcs.length>0
+      ? `<span style="font-size:12px;font-weight:700;color:var(--cg);">${srcSum}</span>`
+      : `<input type="number" class="di" data-f="data" data-day="${day}" data-cid="${cid}" value="${d.data||''}" placeholder="0" min="0">`;
+
+    rows+=`<tr class="${isToday?'tr-today':''}" id="row-${day}">
+      <td style="font-weight:700;white-space:nowrap;">${thu}${isToday?' ★':''}</td>
+      <td style="white-space:nowrap;font-size:13px;">${date.substring(0,5)}</td>
+      <td style="text-align:center;">${dataDisplay}</td>
+      <td><input type="number" class="di" data-f="tiepCan" data-day="${day}" data-cid="${cid}" value="${d.tiepCan||''}" placeholder="0" min="0"></td>
+      <td><input type="number" class="di" data-f="ngheGP" data-day="${day}" data-cid="${cid}" value="${d.ngheGP||''}" placeholder="0" min="0"></td>
+      <td><input type="number" class="di" data-f="tuChoi" data-day="${day}" data-cid="${cid}" value="${d.tuChoi||''}" placeholder="0" min="0"></td>
+      <td><input type="number" class="di" data-f="tienNang" data-day="${day}" data-cid="${cid}" value="${d.tienNang||''}" placeholder="0" min="0" title="KH có tiềm năng — đang chăm sóc tiếp"></td>
+      <td><input type="number" class="di" data-f="booking" data-day="${day}" data-cid="${cid}" value="${d.booking||''}" placeholder="0" min="0" oninput="recalcHT(this,${day})"></td>
+      <td class="${pctClass(pct)}" style="font-weight:700;white-space:nowrap;" id="ht-cell-${day}">${pct>0?pct+'%':'—'}</td>
+      <td><input type="number" class="di" data-f="mucTieu" data-day="${day}" data-cid="${cid}" value="${d.mucTieu||''}" placeholder="0" min="0" oninput="recalcHT(this,${day})"></td>
+      <td><input type="text" class="di wide" data-f="keHoach" data-day="${day}" data-cid="${cid}" value="${d.keHoach||''}" placeholder="P — Kế hoạch..."></td>
+      <td><input type="text" class="di xwide" data-f="thucHien" data-day="${day}" data-cid="${cid}" value="${d.thucHien||''}" placeholder="D — Thực hiện..."></td>
+      <td><input type="text" class="di wide" data-f="danhGia" data-day="${day}" data-cid="${cid}" value="${d.danhGia||''}" placeholder="C — Đánh giá..."></td>
+      <td><input type="text" class="di xwide" data-f="dieuChinh" data-day="${day}" data-cid="${cid}" value="${d.dieuChinh||''}" placeholder="A — Điều chỉnh..."></td>
+      <td><input type="text" class="di wide" data-f="ghiChu" data-day="${day}" data-cid="${cid}" value="${d.ghiChu||''}" placeholder="Ghi chú..."></td>
+    </tr>`;
+  }
+
+  // Source tracking table rows
+  const srcRows=Array.from({length:SPRINT_DAYS},(_,i)=>{
+    const day=i+1;
+    const {thu,date}=getDayInfo(day);
+    const isToday=(day===today);
+    const rowSum=srcs.reduce((a,s)=>a+(parseInt(S.srcData[`${cid}_${day}_${s}`])||0),0);
+    const srcCells=srcs.map(s=>{
+      const v=S.srcData[`${cid}_${day}_${s}`]||'';
+      return `<td><input type="number" class="src-inp" data-cid="${cid}" data-day="${day}" data-src="${s}" value="${v}" placeholder="0" min="0" oninput="onSrcInput(this)"></td>`;
+    }).join('');
+    return `<tr class="${isToday?'tr-today':''}">
+      <td style="font-weight:600;white-space:nowrap;">${thu}${isToday?' ★':''}</td>
+      <td style="white-space:nowrap;font-size:13px;">${date.substring(0,5)}</td>
+      ${srcCells}
+      <td style="font-weight:700;color:var(--cg);text-align:center;" id="src-row-total-${day}">${rowSum||'—'}</td>
+    </tr>`;
+  }).join('');
+
+  const srcHeaders=srcs.map(s=>`<th class="sub">${s}</th>`).join('');
+  const tgt=S.targets[cid]||0;
+  const conv=totTC>0?Math.round(totHD/totTC*100):0;
+
+  // Build perf chart data
+  const perfByDay = Array.from({length:SPRINT_DAYS},(_,i)=>{
+    const d=S.daily[`${cid}_${i+1}`]||{};
+    return { tc:parseInt(d.tiepCan||0), bk:parseInt(d.booking||0), ht:parseInt(d.hoanThanh||0) };
+  });
+  const weekHT = [0,1,2,3].map(w=>{
+    const days=perfByDay.slice(w*7,w===3?30:(w+1)*7);
+    const vals=days.map(d=>d.ht).filter(v=>v>0);
+    return vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):0;
+  });
+
+  const perfSectionHtml =
+    '<div class="g2" style="margin-bottom:14px;">'
+    + '<div class="card"><div class="sub-hdr" style="margin-top:0;margin-bottom:10px;">Xu hướng tiếp cận & booking (30 ngày)</div>'
+    + '<canvas id="perf-trend" height="160"></canvas></div>'
+    + '<div class="card"><div class="sub-hdr" style="margin-top:0;margin-bottom:10px;">%HT trung bình theo tuần</div>'
+    + '<div id="perf-week" style="padding:4px 0 0;"></div></div>'
+    + '</div>'
+    + '<div class="card" style="margin-bottom:14px;">'
+    + '<div class="sub-hdr" style="margin-top:0;margin-bottom:12px;">Phễu chuyển đổi cá nhân — toàn sprint</div>'
+    + '<div id="perf-funnel" style="padding:4px 40px 4px 0;"></div>'
+    + '<div id="perf-funnel-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px;"></div></div>';
+
+  const srcChipsHtml = srcs.length===0
+    ? '<div style="font-size:13px;color:var(--cgray);font-style:italic;">Chưa có nguồn data. Nhập tên và nhấn Thêm để bắt đầu.</div>'
+    : srcs.map(function(s){
+        return '<div style="display:inline-flex;align-items:center;gap:6px;background:#f0f8f0;border:1px solid var(--cg);border-radius:99px;padding:5px 12px;">'
+          + '<span style="font-size:13px;font-weight:600;color:var(--c1);">'+s+'</span>'
+          + '<button onclick="removeSource(\''+cid+'\',\''+s+'\')" style="background:none;border:none;color:var(--cr);cursor:pointer;font-size:14px;font-weight:700;padding:0;line-height:1;">✕</button>'
+          + '</div>';
+      }).join('');
+
+  const srcSectionHtml = srcs.length===0 ? '' :
+    '<div class="g2" style="margin-bottom:14px;">'
+    + '<div class="card"><div class="sub-hdr" style="margin-top:0;margin-bottom:12px;">Tổng data theo nguồn (Sprint)</div>'
+    + '<div id="chart-src-bar" style="padding:4px 0;"></div>'
+    + '<div id="chart-src-bar-legend" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;"></div></div>'
+    + '<div class="card"><div class="sub-hdr" style="margin-top:0;margin-bottom:12px;">Xu hướng theo tuần</div>'
+    + '<canvas id="chart-src-line" height="180"></canvas>'
+    + '<div id="chart-src-line-legend" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:8px;"></div></div>'
+    + '</div>'
+    + '<div class="card" style="margin-bottom:14px;">'
+    + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:10px;">'
+    + '<div><div style="font-size:15px;font-weight:700;color:var(--c1);">Nhập Data Theo Nguồn — Từng Ngày</div>'
+    + '<div style="font-size:12px;color:var(--cgray);margin-top:2px;">Cột "Tổng" tự cộng và cập nhật vào cột Data của nhật ký PDCA</div></div>'
+    + '<button class="btn btn-green" onclick="saveSourceData(\''+cid+'\')" style="font-size:13px;">💾 Lưu nguồn data</button></div>'
+    + '<div class="tbl-wrap"><table style="font-size:13px;"><thead><tr><th>Thứ</th><th>Ngày</th>'
+    + srcHeaders+'<th style="background:var(--cs);">Tổng</th></tr></thead>'
+    + '<tbody>'+srcRows+'</tbody></table></div></div>';
+
+  const dataColLabel = srcs.length>0 ? 'Data (tự động)' : 'Data';
+  const dataNote = srcs.length>0 ? '| Cột Data lấy tự động từ bảng nguồn' : '';
+
+  if(drViewMode==='card'){
+    const cardHtml=buildDailyCards(cid,srcs,today);
+    const statsArr=[[totHD,'BOOKING','var(--cg)'],[totTC,'KH TIEP CAN','var(--c1)'],[conv+'%','CHUYEN DOI','var(--cy)'],[totData,'DATA TONG','var(--cb)']];
+    con.innerHTML=perfSectionHtml+'<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;"><div><div style="font-size:16px;font-weight:800;color:var(--c1);">'+cvkd.name+'</div><div style="font-size:12px;color:var(--cgray);">Dien cuoi ngay truoc 20:00</div></div><div style="text-align:right;"><div style="font-size:12px;color:var(--cgray);">Muc tieu</div><div style="font-size:20px;font-weight:900;color:var(--cg);">'+tgt+' booking</div></div></div>'+cardHtml+'</div>';
+    document.getElementById('dr-stats').innerHTML=statsArr.map(function(a){ return '<div style="background:#fff;border-radius:8px;padding:8px 14px;text-align:center;min-width:84px;box-shadow:0 1px 4px rgba(0,0,0,.08);"><div style="font-size:18px;font-weight:900;color:'+a[2]+';">'+a[0]+'</div><div style="font-size:10px;color:var(--cgray);font-weight:600;">'+a[1]+'</div></div>'; }).join('');
+    setTimeout(function(){ renderPerfTrend(perfByDay); renderPerfWeek(weekHT); renderPerfFunnel(totData,totTC,totNGP,totHD); },200);
+    if(srcs.length>0) setTimeout(function(){ renderSrcBarChart(cid); renderSrcLineChart(cid); },200);
+    return;
+  }
+  con.innerHTML =
+    perfSectionHtml
+    + '<div class="card" style="margin-bottom:14px;">'
+    + '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px;">'
+    + '<div><div style="font-size:16px;font-weight:800;color:var(--c1);">Nguồn Data — '+cvkd.name+'</div>'
+    + '<div style="font-size:12px;color:var(--cgray);margin-top:2px;">Tự định nghĩa các kênh data của mình. Mỗi người một danh sách riêng.</div></div>'
+    + '<div style="display:flex;gap:8px;align-items:center;">'
+    + '<input id="new-src-inp" class="form-input" style="width:180px;padding:8px 12px;font-size:13px;" placeholder="Tên nguồn..." onkeydown="if(event.key===\'Enter\')addSource(\''+cid+'\')">'
+    + '<button class="btn btn-green" onclick="addSource(\''+cid+'\')" style="font-size:13px;height:36px;">+ Thêm</button>'
+    + '</div></div>'
+    + '<div id="src-chips-'+cid+'" style="display:flex;flex-wrap:wrap;gap:8px;">'+srcChipsHtml+'</div>'
+    + '</div>'
+    + srcSectionHtml
+    + '<div class="card">'
+    + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:10px;">'
+    + '<div><div style="font-size:16px;font-weight:800;color:var(--c1);">Nhật Ký PDCA 30 Ngày — '+cvkd.name+'</div>'
+    + '<div style="font-size:12px;color:var(--cgray);">Điền cuối ngày trước 20:00 '+dataNote+'</div></div>'
+    + '<div style="text-align:right;"><div style="font-size:12px;color:var(--cgray);">Mục tiêu</div>'
+    + '<div style="font-size:20px;font-weight:900;color:var(--cg);">'+tgt+' booking</div></div></div>'
+    + '<div class="tbl-wrap"><table style="font-size:13px;"><thead>'
+    + '<tr><th rowspan="2">Thứ</th><th rowspan="2">Ngày</th>'
+    + '<th colspan="6" class="sub" style="text-align:center;">CHỈ TIÊU BÁO CÁO</th>'
+    + '<th rowspan="2">%HT <span style="font-size:9px;font-weight:400;opacity:.7;">(tự tính)</span></th><th rowspan="2">Mục tiêu ngày</th>'
+    + '<th colspan="4" class="sub2" style="text-align:center;">PDCA — NHẬT KÝ NGÀY</th>'
+    + '<th rowspan="2">Ghi chú</th></tr>'
+    + '<tr><th class="sub">'+dataColLabel+'</th><th class="sub">Tiếp cận</th><th class="sub">Nghe GP</th><th class="sub">Từ chối</th><th class="sub" style="background:#1a5a3a;">Tiềm năng</th><th class="sub">Booking</th>'
+    + '<th class="sub2">P — Kế hoạch</th><th class="sub2">D — Thực hiện</th>'
+    + '<th class="sub2">C — Đánh giá</th><th class="sub2">A — Điều chỉnh</th></tr>'
+    + '</thead><tbody>'+rows+'</tbody>'
+    + '<tfoot><tr class="tr-total"><td colspan="2">TỔNG CỘNG</td>'
+    + '<td>'+totData+'</td><td>'+totTC+'</td><td>'+totNGP+'</td><td>'+totTCh+'</td><td>—</td><td>'+totHD+'</td>'
+    + '<td colspan="7"></td></tr></tfoot></table></div></div>';
+
+  document.getElementById('dr-stats').innerHTML=[
+    [totHD,'BOOKING','var(--cg)'],
+    [totTC,'KH TIẾP CẬN','var(--c1)'],
+    [conv+'%','CHUYỂN ĐỔI','var(--cy)'],
+    [totData,'DATA TỔNG','var(--cb)']
+  ].map(([v,l,c])=>`<div style="background:#fff;border-radius:8px;padding:8px 14px;text-align:center;min-width:84px;box-shadow:0 1px 4px rgba(0,0,0,.08);">
+    <div style="font-size:18px;font-weight:900;color:${c};">${v}</div>
+    <div style="font-size:10px;color:var(--cgray);font-weight:600;">${l}</div>
+  </div>`).join('');
+
+  const tr=document.getElementById('row-'+today);
+  if(tr) setTimeout(()=>tr.scrollIntoView({behavior:'smooth',block:'center'}),300);
+  if(srcs.length>0) setTimeout(()=>{ renderSrcBarChart(cid); renderSrcLineChart(cid); },200);
+  setTimeout(()=>{ renderPerfTrend(perfByDay); renderPerfWeek(weekHT); renderPerfFunnel(totData,totTC,totNGP,totHD); },200);
+}
+
+// ============================================
+// OVERVIEW SPRINT CHARTS
+// ============================================
+function renderOvCharts(){
+  renderOvTeamFunnel();
+}
+
+function renderOvTeamFunnel(){
+  const el=document.getElementById('ov-funnel-team');
+  if(!el) return;
+  const statsEl=document.getElementById('ov-funnel-team-stats');
+
+  let totData=0,totTC=0,totNGP=0,totTN=0,totBK=0;
+  getSellingMembers().forEach(m=>{
+    for(let d=1;d<=SPRINT_DAYS;d++){
+      const day=S.daily[`${m.id}_${d}`]||{};
+      const srcs=S.sources[m.id]||[];
+      const srcSum=srcs.reduce((a,s)=>a+(parseInt(S.srcData[`${m.id}_${d}_${s}`])||0),0);
+      totData+=srcs.length>0?srcSum:parseInt(day.data||0);
+      totTC+=parseInt(day.tiepCan||0);
+      totNGP+=parseInt(day.ngheGP||0);
+      totTN+=parseInt(day.tienNang||0);
+      totBK+=parseInt(day.booking||0);
+    }
+  });
+
+  const stages=[
+    {label:'Data nhận',val:totData,col:'#1a4a6b',prev:null},
+    {label:'Tiếp cận',val:totTC,col:'#3a8c3a',prev:totData},
+    {label:'Nghe GP',val:totNGP,col:'#e8a020',prev:totTC},
+    {label:'Tiềm năng',val:totTN,col:'#1a5a6b',prev:totNGP},
+    {label:'Booking',val:totBK,col:'#1e7a4a',prev:totNGP},
+  ];
+  const maxV=Math.max(totData,1);
+
+  el.innerHTML=stages.map(s=>{
+    const fillPct=Math.round(s.val/maxV*100);
+    const dropPct=s.prev>0?Math.round(s.val/s.prev*100):null;
+    return '<div class="fnl-row">'
+      +'<div class="fnl-lbl" style="color:'+s.col+'">'+s.label+'</div>'
+      +'<div class="fnl-track">'
+        +'<div class="fnl-bg" style="background:'+s.col+'18;"></div>'
+        +(s.val>0
+          ?'<div class="fnl-fill" style="width:'+fillPct+'%;background:'+s.col+';">'
+            +(fillPct>8?'<span class="fnl-num">'+s.val+'</span>':'')
+            +'</div>'
+            +(fillPct<=8?'<span style="position:absolute;left:'+Math.max(fillPct+1,3)+'%;font-size:13px;font-weight:700;color:'+s.col+'">'+s.val+'</span>':'')
+          :'<span class="fnl-empty">—</span>')
+        +(dropPct!==null?'<span class="fnl-drop">'+dropPct+'%</span>':'')
+      +'</div>'
+    +'</div>';
+  }).join('');
+
+  if(statsEl){
+    const r1=totData>0?Math.round(totTC/totData*100):0;
+    const r2=totTC>0?Math.round(totNGP/totTC*100):0;
+    const r3=totNGP>0?Math.round(totBK/totNGP*100):0;
+    const r4=totTC>0?Math.round(totBK/totTC*100):0;
+    statsEl.innerHTML=[
+      ['Data → Tiếp cận','#3a8c3a',r1+'%',totTC+' / '+totData],
+      ['Tiếp cận → Nghe GP','#e8a020',r2+'%',totNGP+' / '+totTC],
+      ['Nghe GP → Booking','#1e7a4a',r3+'%',totBK+' / '+totNGP],
+      ['Chuyển đổi tổng','#1a4a6b',r4+'%',totBK+' booking'],
+    ].map(([l,c,v,sub])=>
+      '<div style="background:#f8fbf8;border-radius:10px;padding:14px 16px;border-top:3px solid '+c+';text-align:center;">'
+      +'<div style="font-size:11px;color:var(--cgray);margin-bottom:6px;line-height:1.4;">'+l+'</div>'
+      +'<div style="font-size:26px;font-weight:900;color:'+c+';line-height:1;">'+v+'</div>'
+      +'<div style="font-size:11px;color:var(--cgray);margin-top:5px;">'+sub+'</div>'
+      +'</div>'
+    ).join('');
+  }
+}
+
+function statBox(label,color,value){
+  return '<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 12px;background:#f8fbf8;border-radius:8px;border-left:3px solid '+color+';">'
+    +'<span style="font-size:12px;color:var(--cgray);">'+label+'</span>'
+    +'<span style="font-size:16px;font-weight:800;color:'+color+';">'+value+'</span></div>';
+}
+
+// ============================================
+// DAILY REPORT PERF CHARTS
+// ============================================
+function renderPerfTrend(perfByDay){
+  const canvas=document.getElementById('perf-trend');
+  if(!canvas) return;
+  const dpr=window.devicePixelRatio||1;
+  const W=canvas.offsetWidth||canvas.parentElement.offsetWidth||400;
+  const H=160;
+  canvas.width=W*dpr; canvas.height=H*dpr;
+  canvas.style.width=W+'px'; canvas.style.height=H+'px';
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,W,H);
+  const padL=28, padR=10, padT=14, padB=26;
+  const cW=W-padL-padR, cH=H-padT-padB;
+  const maxTC=Math.max(...perfByDay.map(d=>d.tc),1);
+  // Grid
+  ctx.strokeStyle='#e5e7eb'; ctx.lineWidth=1;
+  [0,.5,1].forEach(f=>{
+    const y=padT+cH*(1-f);
+    ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(W-padR,y); ctx.stroke();
+    ctx.fillStyle='#9ca3af'; ctx.font='10px sans-serif'; ctx.textAlign='right';
+    ctx.fillText(Math.round(maxTC*f),padL-3,y+3);
+  });
+  // X labels
+  ['T1','T2','T3','T4'].forEach((lbl,i)=>{
+    ctx.fillStyle='#9ca3af'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(lbl,padL+((i*7+3)/SPRINT_DAYS)*cW,H-6);
+  });
+  const today=sprintDay();
+  // Tiếp cận line
+  const drawLine=(dataFn,color,dashed)=>{
+    if(dashed) ctx.setLineDash([3,3]); else ctx.setLineDash([]);
+    ctx.strokeStyle=color; ctx.lineWidth=2;
+    ctx.beginPath();
+    let started=false;
+    perfByDay.forEach((d,i)=>{
+      if(i>=today) return;
+      const x=padL+(i/SPRINT_DAYS)*cW;
+      const y=padT+cH*(1-dataFn(d)/maxTC);
+      if(!started){ctx.moveTo(x,y);started=true;} else ctx.lineTo(x,y);
+    });
+    ctx.stroke(); ctx.setLineDash([]);
+  };
+  drawLine(d=>d.tc,'var(--cg)',false);
+  drawLine(d=>d.bk*3,'var(--cy)',false); // scale booking for visibility
+  // Legend
+  ctx.fillStyle='var(--cg)'; ctx.fillRect(padL,padT-10,20,3);
+  ctx.fillStyle='#555'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+  ctx.fillText('Tiếp cận',padL+24,padT-7);
+  ctx.fillStyle='var(--cy)'; ctx.fillRect(padL+80,padT-10,20,3);
+  ctx.fillText('Booking (×3)',padL+104,padT-7);
+}
+
+function renderPerfWeek(weekHT){
+  const el=document.getElementById('perf-week');
+  if(!el) return;
+  const labels=['Tuần 1','Tuần 2','Tuần 3','Tuần 4'];
+  const colors=['#1a4a6b','#3a8c3a','#e8a020','#1e7a4a'];
+  const hasData=weekHT.some(v=>v>0);
+  if(!hasData){
+    el.innerHTML='<div style="text-align:center;padding:40px 0;font-size:13px;color:var(--cgray);">Chưa có dữ liệu</div>';
+    return;
+  }
+  const maxV=100;
+  el.innerHTML='<div class="week-chart">'
+    +weekHT.map((v,i)=>{
+      const h=v>0?Math.round(v/maxV*110):0;
+      return '<div class="week-col">'
+        +(v>0?'<div class="week-val">'+v+'%</div>':'')
+        +'<div class="week-bar" style="height:'+h+'px;background:'+colors[i]+(v===0?'22':'')+'"></div>'
+        +'<div class="week-lbl">'+labels[i]+'</div>'
+      +'</div>';
+    }).join('')
+    +'</div>';
+}
+
+function renderPerfFunnel(data,tc,ngp,bk){
+  const el=document.getElementById('perf-funnel');
+  if(!el) return;
+  const statsEl=document.getElementById('perf-funnel-stats');
+  const stages=[
+    {label:'Data nhận',val:data,col:'#1a4a6b',prev:null},
+    {label:'Tiếp cận',val:tc,col:'#3a8c3a',prev:data},
+    {label:'Nghe GP',val:ngp,col:'#e8a020',prev:tc},
+    {label:'Booking',val:bk,col:'#1e7a4a',prev:ngp},
+  ];
+  const maxV=Math.max(data,1);
+
+  el.innerHTML=stages.map(s=>{
+    const fillPct=Math.round(s.val/maxV*100);
+    const dropPct=s.prev>0?Math.round(s.val/s.prev*100):null;
+    return '<div class="fnl-row">'
+      +'<div class="fnl-lbl" style="color:'+s.col+'">'+s.label+'</div>'
+      +'<div class="fnl-track">'
+        +'<div class="fnl-bg" style="background:'+s.col+'18;"></div>'
+        +(s.val>0
+          ?'<div class="fnl-fill" style="width:'+fillPct+'%;background:'+s.col+';">'
+            +(fillPct>8?'<span class="fnl-num">'+s.val+'</span>':'')
+            +'</div>'
+            +(fillPct<=8?'<span style="position:absolute;left:'+Math.max(fillPct+1,3)+'%;font-size:13px;font-weight:700;color:'+s.col+'">'+s.val+'</span>':'')
+          :'<span class="fnl-empty">—</span>')
+        +(dropPct!==null?'<span class="fnl-drop">'+dropPct+'%</span>':'')
+      +'</div>'
+    +'</div>';
+  }).join('');
+
+  if(statsEl){
+    const r1=data>0?Math.round(tc/data*100):0;
+    const r2=tc>0?Math.round(ngp/tc*100):0;
+    const r3=ngp>0?Math.round(bk/ngp*100):0;
+    const r4=tc>0?Math.round(bk/tc*100):0;
+    statsEl.innerHTML=[
+      ['Data → Tiếp cận','#3a8c3a',r1+'%'],
+      ['Tiếp cận → Nghe GP','#e8a020',r2+'%'],
+      ['Nghe GP → Booking','#1e7a4a',r3+'%'],
+      ['Chuyển đổi tổng','#1a4a6b',r4+'%'],
+    ].map(([l,c,v])=>'<div style="background:#f8fbf8;border-radius:8px;padding:12px;border-top:3px solid '+c+';text-align:center;">'
+      +'<div style="font-size:11px;color:var(--cgray);margin-bottom:5px;">'+l+'</div>'
+      +'<div style="font-size:22px;font-weight:900;color:'+c+';">'+v+'</div>'
+      +'</div>'
+    ).join('');
+  }
+}
+
+// %HT live recalc
+function recalcHT(inp, day){
+  const row = document.getElementById('row-'+day);
+  if(!row) return;
+  const bk = parseInt(row.querySelector('[data-f="booking"]')?.value||0);
+  const mt = parseInt(row.querySelector('[data-f="mucTieu"]')?.value||0);
+  const cell = document.getElementById('ht-cell-'+day);
+  if(!cell) return;
+  if(mt > 0){
+    const pct = Math.round(bk/mt*100);
+    cell.textContent = pct+'%';
+    cell.className = pctClass(pct);
+  } else {
+    cell.textContent = '—';
+    cell.className = 'pc-lo';
+  }
+}
+
+// ── Source management ──
+function addSource(cid){
+  const inp=document.getElementById('new-src-inp');
+  const name=(inp?.value||'').trim();
+  if(!name) return;
+  if(!S.sources[cid]) S.sources[cid]=[];
+  if(S.sources[cid].includes(name)){ toast('Nguồn này đã có rồi'); return; }
+  S.sources[cid].push(name);
+  saveS();
+  SYNC.pushSources(cid);
+  loadDailyReport();
+  toast(`Đã thêm nguồn: ${name}`);
+}
+
+function removeSource(cid,src){
+  if(!confirm(`Xoá nguồn "${src}"? Dữ liệu đã nhập của nguồn này sẽ bị xoá.`)) return;
+  S.sources[cid]=(S.sources[cid]||[]).filter(s=>s!==src);
+  Object.keys(S.srcData).forEach(k=>{ if(k.startsWith(`${cid}_`)&&k.endsWith(`_${src}`)) delete S.srcData[k]; });
+  saveS();
+  loadDailyReport();
+  toast(`Đã xoá nguồn: ${src}`);
+}
+
+function onSrcInput(inp){
+  const {cid,day,src}=inp.dataset;
+  S.srcData[`${cid}_${day}_${src}`]=parseInt(inp.value)||0;
+  const srcs=S.sources[cid]||[];
+  const rowSum=srcs.reduce((a,s)=>a+(parseInt(S.srcData[`${cid}_${day}_${s}`])||0),0);
+  const cell=document.getElementById(`src-row-total-${day}`);
+  if(cell) cell.textContent=rowSum||'—';
+}
+
+function saveSourceData(cid){
+  document.querySelectorAll('.src-inp').forEach(inp=>{
+    const {cid:c,day,src}=inp.dataset;
+    if(c!==cid) return;
+    S.srcData[`${cid}_${day}_${src}`]=parseInt(inp.value)||0;
+  });
+  saveS();
+  renderSrcBarChart(cid);
+  renderSrcLineChart(cid);
+  SYNC.pushSources(cid);
+  toast('Đã lưu nguồn data');
+}
+
+// ── Charts ──
+const SRC_COLORS=['#3a8c3a','#1a4a6b','#e8a020','#c44040','#1e7a4a','#6b1a3a','#4a1a6b','#6b5a1a','#1a6b6b','#6b3a1a'];
+
+function renderSrcBarChart(cid){
+  const el=document.getElementById('chart-src-bar');
+  if(!el) return;
+  const srcs=S.sources[cid]||[];
+  if(!srcs.length) return;
+  const totals=srcs.map(s=>{
+    let sum=0;
+    for(let d=1;d<=SPRINT_DAYS;d++) sum+=parseInt(S.srcData[`${cid}_${d}_${s}`]||0);
+    return sum;
+  });
+  const grandTotal=totals.reduce((a,b)=>a+b,0)||1;
+  const maxVal=Math.max(...totals,1);
+
+  el.innerHTML=srcs.map((s,i)=>{
+    const pct=Math.round(totals[i]/maxVal*100);
+    const col=SRC_COLORS[i%SRC_COLORS.length];
+    const lbl=s.length>18?s.substring(0,17)+'…':s;
+    return '<div class="src-row">'
+      +'<div class="src-lbl" title="'+s+'">'+lbl+'</div>'
+      +'<div class="src-track">'
+        +(totals[i]>0
+          ?'<div class="src-fill" style="width:'+pct+'%;background:'+col+';">'
+            +(pct>10?'<span class="src-num">'+totals[i]+'</span>':'')
+            +'</div>'
+            +(pct<=10?'<span style="position:absolute;left:'+Math.max(pct+1,2)+'%;font-size:12px;font-weight:700;color:'+col+'">'+totals[i]+'</span>':'')
+          :'<span style="position:absolute;left:8px;font-size:12px;color:#9ca3af;">—</span>')
+        +'<span class="src-pct-lbl">'+Math.round(totals[i]/grandTotal*100)+'%</span>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+
+  const leg=document.getElementById('chart-src-bar-legend');
+  if(leg){
+    leg.innerHTML=srcs.map((s,i)=>'<div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--cgray);">'
+      +'<span style="width:10px;height:10px;border-radius:3px;background:'+SRC_COLORS[i%SRC_COLORS.length]+';flex-shrink:0;display:inline-block;"></span>'
+      +s+': <strong>'+totals[i]+'</strong></div>'
+    ).join('');
+  }
+}
+
+function renderSrcLineChart(cid){
+  const canvas=document.getElementById('chart-src-line');
+  if(!canvas) return;
+  const srcs=S.sources[cid]||[];
+  if(!srcs.length) return;
+  const dpr=window.devicePixelRatio||1;
+  const W=canvas.offsetWidth||canvas.parentElement.offsetWidth||400;
+  const H=180;
+  canvas.width=W*dpr; canvas.height=H*dpr;
+  canvas.style.width=W+'px'; canvas.style.height=H+'px';
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,W,H);
+
+  // Aggregate by week (4 weeks + remainder)
+  const weeks=['Tuần 1','Tuần 2','Tuần 3','Tuần 4'];
+  const weekRanges=[[1,7],[8,14],[15,21],[22,30]];
+  const series=srcs.map(s=>weekRanges.map(([from,to])=>{
+    let sum=0;
+    for(let d=from;d<=to;d++) sum+=parseInt(S.srcData[`${cid}_${d}_${s}`]||0);
+    return sum;
+  }));
+  const allVals=series.flat();
+  const maxVal=Math.max(...allVals,1);
+
+  const padL=32,padR=12,padT=16,padB=32;
+  const chartW=W-padL-padR, chartH=H-padT-padB;
+  const stepX=chartW/3;
+
+  // Grid lines
+  ctx.strokeStyle='#e5e7eb'; ctx.lineWidth=1;
+  [0,.25,.5,.75,1].forEach(f=>{
+    const y=padT+chartH*(1-f);
+    ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(W-padR,y); ctx.stroke();
+    ctx.fillStyle='#9ca3af'; ctx.font='10px sans-serif'; ctx.textAlign='right';
+    ctx.fillText(Math.round(maxVal*f),padL-4,y+4);
+  });
+
+  // Week labels
+  weeks.forEach((w,i)=>{
+    ctx.fillStyle='#6b7280'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(w,padL+i*stepX,H-8);
+  });
+
+  // Lines
+  series.forEach((wkData,si)=>{
+    const col=SRC_COLORS[si%SRC_COLORS.length];
+    ctx.beginPath(); ctx.strokeStyle=col; ctx.lineWidth=2.5;
+    wkData.forEach((v,i)=>{
+      const x=padL+i*stepX, y=padT+chartH*(1-v/maxVal);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+    // Dots
+    wkData.forEach((v,i)=>{
+      const x=padL+i*stepX, y=padT+chartH*(1-v/maxVal);
+      ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2);
+      ctx.fillStyle=col; ctx.fill();
+      ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(x,y,2,0,Math.PI*2); ctx.fill();
+      if(v>0){
+        ctx.fillStyle=col; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+        ctx.fillText(v,x,y-8);
+      }
+    });
+  });
+
+  const leg=document.getElementById('chart-src-line-legend');
+  if(leg) leg.innerHTML=srcs.map((s,i)=>`
+    <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--cgray);">
+      <span style="width:16px;height:3px;border-radius:2px;background:${SRC_COLORS[i%SRC_COLORS.length]};display:inline-block;"></span>${s}
+    </div>`).join('');
+}
+
+function getDayInfo(dayNum){
+  const d=new Date(SPRINT_START_DYN); d.setDate(d.getDate()+dayNum-1);
+  const DN=['CN','T2','T3','T4','T5','T6','T7'];
+  const dd=String(d.getDate()).padStart(2,'0');
+  const mm=String(d.getMonth()+1).padStart(2,'0');
+  return {thu:DN[d.getDay()], date:`${dd}/${mm}`};
+}
+
+function saveDailyReport(){
+  const cid=document.getElementById('sel-cvkd').value;
+  if(!cid){ toast('Chọn CVKD trước!'); return; }
+  document.querySelectorAll('.di').forEach(inp=>{
+    const day=inp.dataset.day, f=inp.dataset.f;
+    if(!day||!f) return;
+    const key=`${cid}_${day}`;
+    if(!S.daily[key]) S.daily[key]={};
+    S.daily[key][f]=inp.value;
+  });
+  let total=0;
+  for(let day=1;day<=SPRINT_DAYS;day++) total+=parseInt(S.daily[`${cid}_${day}`]?.booking||0);
+  S.bookings[cid]=total;
+  saveS();
+  updateStats(); renderCVKDGrid(); renderOvProgress(); renderTodayTable();
+  loadDailyReport();
+  renderLeaderboard(); renderForecast();
+  // Push all 30 days for this member to Supabase
+  const daysToSync=Array.from({length:SPRINT_DAYS},(_,i)=>i+1);
+  SYNC.pushDailyReport(cid,daysToSync);
+  toast('Đã lưu — '+getSellingMembers().find(c=>c.id===cid)?.name);
+}
+
+// ============================================
+// TÀI CHÍNH MKT
+// ============================================
+function initFinance(){
+  if(!S.finance) S.finance={ budget:{}, announcements:[] };
+  renderBudgetTable();
+  renderAnnouncements();
+  updateFinanceSummary();
+  // Restore policy text
+  const fields=['policy-notice','policy-amount','policy-channels','policy-deadline','policy-payment','policy-condition','policy-note'];
+  fields.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el && S.finance[id]) el.innerHTML=S.finance[id];
+  });
+}
+
+function renderBudgetTable(){
+  const tbody=document.getElementById('budget-tbody');
+  if(!tbody) return;
+  const members=getSellingMembers();
+  tbody.innerHTML=members.map((m,i)=>{
+    const b=S.finance?.budget?.[m.id]||{};
+    const approved=parseFloat(b.approved||0);
+    const spent=parseFloat(b.spent||0);
+    const remain=(approved-spent).toFixed(1);
+    const pct=approved>0?Math.round(spent/approved*100):0;
+    const tag=m.isMgmt?'<span style="font-size:10px;background:#fef3c7;color:#b45309;padding:1px 5px;border-radius:99px;font-weight:600;margin-left:4px;">GĐ</span>':'';
+    return `<tr>
+      <td style="font-weight:600;white-space:nowrap;">${m.name}${tag}</td>
+      <td><input type="text" class="tc-inp" data-mid="${m.id}" data-f="channel" value="${b.channel||''}" placeholder="Facebook, Zalo..." style="width:140px;"></td>
+      <td style="text-align:right;"><input type="number" class="tc-inp tc-num" data-mid="${m.id}" data-f="approved" value="${b.approved||''}" placeholder="0" min="0" step="0.1" oninput="recalcRow(this)"></td>
+      <td style="text-align:right;"><input type="number" class="tc-inp tc-num" data-mid="${m.id}" data-f="spent" value="${b.spent||''}" placeholder="0" min="0" step="0.1" oninput="recalcRow(this)"></td>
+      <td style="text-align:right;font-weight:700;" id="remain-${m.id}"><span style="color:${parseFloat(remain)<0?'var(--cr)':parseFloat(remain)===0?'var(--cgray)':'var(--cs)'};">${approved>0?remain:'—'}</span></td>
+      <td><input type="text" class="tc-inp" data-mid="${m.id}" data-f="note" value="${b.note||''}" placeholder="Ghi chú..." style="width:130px;"></td>
+    </tr>`;
+  }).join('');
+}
+
+function recalcRow(inp){
+  const mid=inp.dataset.mid;
+  const row=inp.closest('tr');
+  const appEl=row.querySelector('[data-f="approved"]');
+  const sptEl=row.querySelector('[data-f="spent"]');
+  const approved=parseFloat(appEl?.value||0);
+  const spent=parseFloat(sptEl?.value||0);
+  const remain=(approved-spent).toFixed(1);
+  const cell=document.getElementById(`remain-${mid}`);
+  if(cell){
+    const color=parseFloat(remain)<0?'var(--cr)':parseFloat(remain)===0&&approved>0?'var(--cgray)':'var(--cs)';
+    cell.innerHTML=`<span style="color:${color};">${approved>0?remain:'—'}</span>`;
+  }
+  updateFinanceSummary();
+}
+
+function updateFinanceSummary(){
+  let totB=0, totS=0;
+  document.querySelectorAll('.tc-num').forEach(inp=>{
+    const f=inp.dataset.f;
+    if(f==='approved') totB+=parseFloat(inp.value||0);
+    if(f==='spent') totS+=parseFloat(inp.value||0);
+  });
+  const totR=totB-totS;
+  const fmt=v=>v.toFixed(1);
+  ['tc-total-budget','tc-foot-budget'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent=fmt(totB); });
+  ['tc-total-spent','tc-foot-spent'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent=fmt(totS); });
+  ['tc-total-remain','tc-foot-remain'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent=fmt(totR); });
+}
+
+function saveTaiChinh(){
+  if(!S.finance) S.finance={budget:{},announcements:[]};
+  // Save budget rows
+  document.querySelectorAll('.tc-inp').forEach(inp=>{
+    const mid=inp.dataset.mid, f=inp.dataset.f;
+    if(!S.finance.budget[mid]) S.finance.budget[mid]={};
+    S.finance.budget[mid][f]=inp.value;
+  });
+  // Save policy text
+  const fields=['policy-notice','policy-amount','policy-channels','policy-deadline','policy-payment','policy-condition','policy-note'];
+  fields.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) S.finance[id]=el.innerHTML;
+  });
+  saveS();
+  updateFinanceSummary();
+  toast('Đã lưu tài chính MKT');
+}
+
+// Announcements
+function renderAnnouncements(){
+  const el=document.getElementById('announce-list');
+  if(!el) return;
+  const list=S.finance?.announcements||[];
+  if(!list.length){
+    el.innerHTML='<div style="font-size:13px;color:var(--cgray);font-style:italic;padding:8px 0;">Chưa có thông báo nào.</div>';
+    return;
+  }
+  el.innerHTML=list.map((a,i)=>`
+    <div style="border:1px solid var(--cline);border-radius:8px;padding:12px;margin-bottom:10px;position:relative;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+        <div>
+          <span style="font-size:11px;font-weight:700;color:var(--cg);text-transform:uppercase;letter-spacing:.3px;">${a.date}</span>
+          ${a.urgent?'<span style="font-size:11px;background:#fee2e2;color:var(--cr);padding:1px 7px;border-radius:99px;font-weight:600;margin-left:6px;">Quan trọng</span>':''}
+        </div>
+        <button onclick="deleteAnnouncement(${i})" style="background:none;border:none;color:var(--cr);cursor:pointer;font-size:14px;padding:0;line-height:1;" title="Xoá">✕</button>
+      </div>
+      <div style="font-size:14px;color:var(--c1);line-height:1.65;" contenteditable="false">${a.content}</div>
+    </div>`).join('');
+}
+
+function addAnnouncement(){
+  const content=prompt('Nội dung thông báo:');
+  if(!content?.trim()) return;
+  const urgent=confirm('Đánh dấu là "Quan trọng"?');
+  if(!S.finance) S.finance={budget:{},announcements:[]};
+  const now=new Date();
+  const date=`${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()}`;
+  S.finance.announcements.unshift({date,content:content.trim(),urgent});
+  saveS();
+  renderAnnouncements();
+  toast('Đã thêm thông báo');
+}
+
+function deleteAnnouncement(i){
+  if(!confirm('Xoá thông báo này?')) return;
+  S.finance.announcements.splice(i,1);
+  saveS();
+  renderAnnouncements();
+}
+
+// ============================================
+// SUPABASE CONFIG
+// ============================================
+const SUPA_URL='https://weqmpbzraoefmtuifdft.supabase.co';
+const SUPA_KEY='sb_publishable_sfWJz_RQZf6ArYRoOU4tYQ_GEVMEBxa';
+let db=null;
+function initSupabase(){
+  if(window.supabase&&!db){ db=window.supabase.createClient(SUPA_URL,SUPA_KEY); setTimeout(setupRealtime,1200); }
+  return !!db;
+}
+
+// ============================================
+// PIPELINE STAGES
+// ============================================
+const PIPELINE=[
+  {id:'new',       label:'Mới tiếp cận',   col:'#6b7280'},
+  {id:'listened',  label:'Đã nghe GP',      col:'#1a4a6b'},
+  {id:'potential', label:'Tiềm năng',        col:'#e8a020'},
+  {id:'appointed', label:'Đã hẹn gặp',      col:'#7c3aed'},
+  {id:'visited',   label:'Đã xem dự án',    col:'#1a5a6b'},
+  {id:'deciding',  label:'Chờ quyết định',  col:'#c47a00'},
+  {id:'booked',    label:'Booking ✓',       col:'#1e7a4a'},
+  {id:'rejected',  label:'Từ chối',         col:'#c44040'},
+];
+
+let crmCustomers=[];
+let crmActiveStage='';
+
+function initCRM(){
+  if(!initSupabase()){
+    document.getElementById('crm-table-wrap').innerHTML='<div style="text-align:center;padding:30px;color:var(--cr);">Không kết nối được Supabase.</div>';
+    return;
+  }
+  const selTab=document.getElementById('crm-sel-member');
+  if(selTab&&selTab.options.length<=2){
+    selTab.innerHTML='<option value="">-- Chọn thành viên --</option><option value="__all__">Toàn team (chỉ xem)</option>';
+    getSellingMembers().forEach(m=>{ selTab.innerHTML+='<option value="'+m.id+'">'+m.name+'</option>'; });
+  }
+  const filt=document.getElementById('crm-filter-stage');
+  if(filt&&filt.options.length<=1){
+    filt.innerHTML='<option value="">Tất cả</option>';
+    PIPELINE.forEach(p=>{ filt.innerHTML+='<option value="'+p.id+'">'+p.label+'</option>'; });
+  }
+  loadCRM();
+}
+
+async function loadCRM(){
+  if(!initSupabase()) return;
+  const mid=document.getElementById('crm-sel-member')?.value;
+  if(!mid){ renderCRMEmpty('Chọn thành viên để xem danh sách khách hàng'); return; }
+  setSyncStatus('⏳ Đang tải...');
+  try{
+    let q=db.from('bh_customers').select('*').order('created_at',{ascending:false});
+    if(mid!=='__all__') q=q.eq('member_id',mid);
+    const {data,error}=await q;
+    if(error) throw error;
+    crmCustomers=data||[];
+    renderCRMPipeline();
+    filterCRM();
+    setSyncStatus('✓ '+new Date().toLocaleTimeString('vi-VN'));
+  }catch(e){
+    setSyncStatus('❌ '+e.message);
+  }
+}
+
+function renderCRMEmpty(msg){
+  document.getElementById('crm-pipeline-cards').innerHTML='';
+  document.getElementById('crm-table-wrap').innerHTML='<div style="text-align:center;padding:40px;color:var(--cgray);font-size:14px;">'+msg+'</div>';
+}
+
+function renderCRMPipeline(){
+  const el=document.getElementById('crm-pipeline-cards');
+  if(!el) return;
+  el.innerHTML=PIPELINE.map(p=>{
+    const count=crmCustomers.filter(c=>c.pipeline_stage===p.id).length;
+    return '<div class="crm-stage-card'+(crmActiveStage===p.id?' active':'')+'" style="border-top-color:'+p.col+';" onclick="filterByStage(\''+p.id+'\')">'
+      +'<div class="crm-stage-n" style="color:'+p.col+';">'+count+'</div>'
+      +'<div class="crm-stage-l">'+p.label+'</div>'
+    +'</div>';
+  }).join('');
+}
+
+function filterByStage(sid){
+  crmActiveStage=crmActiveStage===sid?'':sid;
+  document.getElementById('crm-filter-stage').value=crmActiveStage;
+  renderCRMPipeline();
+  filterCRM();
+}
+
+function filterCRM(){
+  const search=(document.getElementById('crm-search')?.value||'').toLowerCase();
+  const stage=document.getElementById('crm-filter-stage')?.value||'';
+  const list=crmCustomers.filter(c=>{
+    const mn=!search||(c.name||'').toLowerCase().includes(search);
+    const ms=!stage||c.pipeline_stage===stage;
+    return mn&&ms;
+  });
+  renderCustomerTable(list);
+}
+
+function renderCustomerTable(list){
+  const wrap=document.getElementById('crm-table-wrap');
+  if(!wrap) return;
+  const mid=document.getElementById('crm-sel-member')?.value;
+  if(!list.length){
+    wrap.innerHTML='<div style="text-align:center;padding:32px;color:var(--cgray);">Không có khách hàng phù hợp</div>';
+    return;
+  }
+  const sm=Object.fromEntries(PIPELINE.map(p=>[p.id,p]));
+  const hdStyle='background:var(--c1);color:#fff;padding:9px 11px;text-align:left;font-weight:600;white-space:nowrap;font-size:13px;';
+  wrap.innerHTML='<div class="tbl-wrap"><table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr>'
+    +(mid==='__all__'?'<th style="'+hdStyle+'">CVKD</th>':'')
+    +'<th style="'+hdStyle+'">Tên KH</th>'
+    +'<th style="'+hdStyle+'">SĐT</th>'
+    +'<th style="'+hdStyle+'">Nguồn</th>'
+    +'<th style="'+hdStyle+'">Sản phẩm</th>'
+    +'<th style="'+hdStyle+'">Giá</th>'
+    +'<th style="'+hdStyle+'">Mục đích</th>'
+    +'<th style="'+hdStyle+'">Tình trạng</th>'
+    +'<th style="'+hdStyle+'">Hẹn tiếp</th>'
+    +'</tr></thead><tbody>'
+    +list.map(c=>{
+      const st=sm[c.pipeline_stage]||{label:c.pipeline_stage,col:'#9ca3af'};
+      const m=getSellingMembers().find(m=>m.id===c.member_id);
+      const nd=c.next_contact?new Date(c.next_contact):null;
+      const od=nd&&nd<new Date();
+      return '<tr onclick="openCustomerModal(\''+c.id+'\')" style="border-bottom:1px solid var(--cline);cursor:pointer;" onmouseover="this.style.background=\'#f0f8f0\'" onmouseout="this.style.background=\'\'">'
+        +(mid==='__all__'?'<td style="font-weight:600;color:var(--cg);">'+(m?m.name:'—')+'</td>':'')
+        +'<td style="font-weight:700;color:var(--c1);padding:9px 11px;">'+c.name+'</td>'
+        +'<td style="padding:9px 11px;color:var(--cgray);">'+(c.phone_last4?'****'+c.phone_last4:'—')+'</td>'
+        +'<td style="padding:9px 11px;font-size:12px;color:var(--cgray);">'+(c.source||'—')+'</td>'
+        +'<td style="padding:9px 11px;font-size:12px;">'+(c.product_interest||'—')+'</td>'
+        +'<td style="padding:9px 11px;font-weight:600;color:var(--cs);">'+(c.expected_price||'—')+'</td>'
+        +'<td style="padding:9px 11px;font-size:12px;">'+(c.purpose||'—')+'</td>'
+        +'<td style="padding:9px 11px;"><span class="crm-badge" style="background:'+st.col+'22;color:'+st.col+';">'+st.label+'</span></td>'
+        +'<td style="padding:9px 11px;font-size:12px;color:'+(od?'var(--cr)':'var(--cgray)')+';font-weight:'+(od?700:400)+';">'
+          +(c.next_contact?(od?'⚠ ':'')+new Date(c.next_contact).toLocaleDateString('vi-VN'):'—')
+        +'</td>'
+      +'</tr>';
+    }).join('')
+    +'</tbody></table></div>';
+}
+
+function setSyncStatus(msg){
+  const el=document.getElementById('crm-sync-status');
+  if(el) el.textContent=msg;
+}
+
+// ── Customer Modal ──
+function openCustomerModal(id=null){
+  if(!initSupabase()){ toast('Chưa kết nối Supabase'); return; }
+  // Init dropdowns
+  const selM=document.getElementById('cf-member');
+  if(selM&&selM.options.length<=1){
+    selM.innerHTML='<option value="">-- Chọn CVKD --</option>';
+    getSellingMembers().forEach(m=>{ selM.innerHTML+='<option value="'+m.id+'">'+m.name+'</option>'; });
+  }
+  const stgSel=document.getElementById('cf-stage');
+  if(stgSel&&stgSel.options.length===0){
+    stgSel.innerHTML=PIPELINE.map(p=>'<option value="'+p.id+'">'+p.label+'</option>').join('');
+  }
+  document.getElementById('crm-modal-overlay').classList.add('open');
+  const delBtn=document.getElementById('crm-del-btn');
+  const fields=['cf-name','cf-phone','cf-member','cf-source','cf-stage','cf-product','cf-price','cf-purpose','cf-finance','cf-region','cf-buy-reason','cf-reject-reason','cf-first-contact','cf-next-contact','cf-notes'];
+
+  if(id){
+    const c=crmCustomers.find(x=>x.id===id);
+    if(!c) return;
+    document.getElementById('crm-modal-title').textContent='Chỉnh sửa: '+c.name;
+    document.getElementById('crm-edit-id').value=c.id;
+    document.getElementById('cf-name').value=c.name||'';
+    document.getElementById('cf-phone').value=c.phone_last4||'';
+    document.getElementById('cf-member').value=c.member_id||'';
+    document.getElementById('cf-source').value=c.source||'';
+    document.getElementById('cf-stage').value=c.pipeline_stage||'new';
+    document.getElementById('cf-product').value=c.product_interest||'';
+    document.getElementById('cf-price').value=c.expected_price||'';
+    document.getElementById('cf-purpose').value=c.purpose||'';
+    document.getElementById('cf-finance').value=c.finance_type||'';
+    document.getElementById('cf-region').value=c.region||'';
+    document.getElementById('cf-buy-reason').value=c.buy_reason||'';
+    document.getElementById('cf-reject-reason').value=c.reject_reason||'';
+    document.getElementById('cf-first-contact').value=c.first_contact||'';
+    document.getElementById('cf-next-contact').value=c.next_contact||'';
+    document.getElementById('cf-notes').value=c.notes||'';
+    delBtn.style.display='block';
+  } else {
+    document.getElementById('crm-modal-title').textContent='Thêm khách hàng mới';
+    document.getElementById('crm-edit-id').value='';
+    fields.forEach(fid=>{ const el=document.getElementById(fid); if(el) el.value=''; });
+    document.getElementById('cf-stage').value='new';
+    const curMid=document.getElementById('crm-sel-member')?.value;
+    if(curMid&&curMid!=='__all__') document.getElementById('cf-member').value=curMid;
+    document.getElementById('cf-first-contact').value=new Date().toISOString().split('T')[0];
+    delBtn.style.display='none';
+  }
+}
+
+function closeCRMModal(){
+  document.getElementById('crm-modal-overlay').classList.remove('open');
+}
+
+async function saveCustomer(){
+  if(!initSupabase()) return;
+  const name=document.getElementById('cf-name').value.trim();
+  if(!name){ document.getElementById('cf-name').focus(); toast('Nhập tên KH!'); return; }
+  let memberId=document.getElementById('cf-member').value;
+  if(!memberId){ toast('Chọn CVKD phụ trách!'); return; }
+  // CVKD can only save customers for themselves
+  if(ME && !isManager() && memberId !== ME.id){ toast('Bạn chỉ có thể thêm KH cho chính mình!'); return; }
+  const memberName=getSellingMembers().find(m=>m.id===memberId)?.name||'';
+  const payload={
+    member_id:memberId, member_name:memberName,
+    name, phone_last4:document.getElementById('cf-phone').value.trim(),
+    source:document.getElementById('cf-source').value,
+    pipeline_stage:document.getElementById('cf-stage').value||'new',
+    product_interest:document.getElementById('cf-product').value,
+    expected_price:document.getElementById('cf-price').value.trim(),
+    purpose:document.getElementById('cf-purpose').value,
+    finance_type:document.getElementById('cf-finance').value,
+    region:document.getElementById('cf-region').value.trim(),
+    buy_reason:document.getElementById('cf-buy-reason').value.trim(),
+    reject_reason:document.getElementById('cf-reject-reason').value.trim(),
+    first_contact:document.getElementById('cf-first-contact').value||null,
+    next_contact:document.getElementById('cf-next-contact').value||null,
+    notes:document.getElementById('cf-notes').value.trim(),
+    updated_at:new Date().toISOString(),
+  };
+  const editId=document.getElementById('crm-edit-id').value;
+  setSyncStatus('⏳ Đang lưu...');
+  try{
+    let error;
+    if(editId){ ({error}=await db.from('bh_customers').update(payload).eq('id',editId)); }
+    else { ({error}=await db.from('bh_customers').insert(payload)); }
+    if(error) throw error;
+    const oldStage=editId?crmCustomers.find(x=>x.id===editId)?.pipeline_stage:null;
+    await syncBookingFromCRM(memberId,oldStage==='booked',payload.pipeline_stage==='booked');
+    closeCRMModal();
+    await loadCRM();
+    toast(editId?'Đã cập nhật KH':'Đã thêm: '+name);
+  }catch(e){
+    setSyncStatus('❌ Lỗi lưu');
+    toast('Lỗi: '+e.message);
+  }
+}
+
+async function deleteCustomer(){
+  const editId=document.getElementById('crm-edit-id').value;
+  if(!editId) return;
+  const name=document.getElementById('cf-name').value;
+  if(!confirm('Xoá KH "'+name+'"?')) return;
+  try{
+    const {error}=await db.from('bh_customers').delete().eq('id',editId);
+    if(error) throw error;
+    closeCRMModal();
+    await loadCRM();
+    toast('Đã xoá: '+name);
+  }catch(e){ toast('Lỗi: '+e.message); }
+}
+
+
+// ============================================================
+// SYNC LAYER — Supabase ↔ localStorage
+// ============================================================
+const SYNC = {
+  status: 'idle',
+  setPill(state, msg){
+    this.status=state;
+    const el=document.getElementById('sync-pill');
+    if(!el) return;
+    el.style.display='';
+    el.className='sync-pill '+(state==='ok'?'sync-ok':state==='loading'?'sync-spin':'sync-err');
+    el.textContent=msg;
+  },
+  async pull(){
+    if(!initSupabase()) return;
+    this.setPill('loading','⏳ Đồng bộ...');
+    try{
+      const [r1,r2,r3,r4]=await Promise.all([
+        db.from('bh_daily_reports').select('*'),
+        db.from('bh_targets').select('*'),
+        db.from('bh_member_sources').select('*'),
+        db.from('bh_src_daily').select('*'),
+      ]);
+      // Daily reports
+      if(r1.data){
+        r1.data.forEach(r=>{
+          const key=r.member_id+'_'+r.sprint_day;
+          S.daily[key]={
+            data:r.data_count,tiepCan:r.tiep_can,ngheGP:r.nghe_gp,
+            tuChoi:r.tu_choi,tienNang:r.tien_nang,booking:r.booking,
+            mucTieu:r.muc_tieu,keHoach:r.ke_hoach||'',thucHien:r.thuc_hien||'',
+            danhGia:r.danh_gia||'',dieuChinh:r.dieu_chinh||'',ghiChu:r.ghi_chu||'',
+          };
+        });
+      }
+      // Targets & bookings
+      if(r2.data) r2.data.forEach(r=>{S.targets[r.member_id]=r.target||0;S.bookings[r.member_id]=r.booking||0;});
+      // Sources
+      if(r3.data){r3.data.forEach(r=>{S.sources[r.member_id]=r.sources||[];});}
+      if(r4.data){r4.data.forEach(r=>{S.srcData[r.member_id+'_'+r.sprint_day+'_'+r.source_name]=r.count||0;});}
+      saveS();
+      rebuildAll();
+      if(document.getElementById('tab-tong-quan').classList.contains('active')) renderOvCharts();
+      this.setPill('ok','✓ '+new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}));
+    }catch(e){
+      this.setPill('err','❌ Lỗi sync');
+      console.error('SYNC.pull error:',e);
+    }
+  },
+  async pushDailyReport(memberId, daysToSync){
+    if(!initSupabase()) return;
+    const rows=daysToSync.map(day=>{
+      const d=S.daily[memberId+'_'+day]||{};
+      return {
+        member_id:memberId,sprint_day:day,
+        data_count:parseInt(d.data)||0,tiep_can:parseInt(d.tiepCan)||0,
+        nghe_gp:parseInt(d.ngheGP)||0,tu_choi:parseInt(d.tuChoi)||0,
+        tien_nang:parseInt(d.tienNang)||0,booking:parseInt(d.booking)||0,
+        muc_tieu:parseInt(d.mucTieu)||0,ke_hoach:d.keHoach||'',
+        thuc_hien:d.thucHien||'',danh_gia:d.danhGia||'',
+        dieu_chinh:d.dieuChinh||'',ghi_chu:d.ghiChu||'',
+        updated_at:new Date().toISOString(),
+      };
+    });
+    this.setPill('loading','⏳ Lưu...');
+    try{
+      const {error}=await db.from('bh_daily_reports').upsert(rows,{onConflict:'member_id,sprint_day'});
+      if(error) throw error;
+      this.setPill('ok','✓ Đã lưu cloud');
+    }catch(e){ this.setPill('err','❌ Lưu thất bại'); console.error(e); }
+  },
+  async pushTargets(){
+    if(!initSupabase()) return;
+    const rows=getSellingMembers().map(m=>({member_id:m.id,target:S.targets[m.id]||0,booking:S.bookings[m.id]||0}));
+    await db.from('bh_targets').upsert(rows,{onConflict:'member_id'}).catch(console.error);
+  },
+  async pushSources(memberId){
+    if(!initSupabase()) return;
+    await db.from('bh_member_sources').upsert({member_id:memberId,sources:S.sources[memberId]||[]},{onConflict:'member_id'}).catch(console.error);
+    const rows=[];
+    for(let d=1;d<=SPRINT_DAYS;d++){
+      (S.sources[memberId]||[]).forEach(s=>{
+        const cnt=parseInt(S.srcData[memberId+'_'+d+'_'+s]||0);
+        rows.push({member_id:memberId,sprint_day:d,source_name:s,count:cnt});
+      });
+    }
+    if(rows.length) await db.from('bh_src_daily').upsert(rows,{onConflict:'member_id,sprint_day,source_name'}).catch(console.error);
+  },
+};
+
+// ============================================================
+// IDENTITY + PIN AUTH
+// ============================================================
+let ME = null;
+const MANAGER_IDS = ['phuongtyty','nghiemquan','coachduy'];
+const SUPER_ADMIN_ID = 'coachduy';
+function isSuperAdmin(){ return ME && ME.id===SUPER_ADMIN_ID; }
+function isManager(){ return ME && MANAGER_IDS.includes(ME.id); }
+
+let _pendingMember = null; // member being logged in (step 1 → step 2)
+
+function allMembers(){
+  return [...BASE_MGMT, ...getCVKDS().map(c=>({id:c.id,name:c.name,role:'cvkd'}))];
+}
+
+function initIdentity(){
+  const saved = localStorage.getItem('bh_me_v3');
+  if(saved){
+    try{
+      ME=JSON.parse(saved);
+      updateMeBadge();
+      return;
+    }catch(e){}
+  }
+  showIdentityOverlay();
+}
+
+function showIdentityOverlay(){
+  const overlay=document.getElementById('id-overlay');
+  if(!overlay) return;
+  overlay.style.display='flex';
+  showStep(1);
+  const sel=document.getElementById('id-sel');
+  if(sel){
+    sel.innerHTML='<option value="">-- Bạn là ai? --</option>';
+    BASE_MGMT.forEach(m=>{ sel.innerHTML+='<option value="'+m.id+'">'+m.name+' (Quản lý)</option>'; });
+    getCVKDS().forEach(m=>{ sel.innerHTML+='<option value="'+m.id+'">'+m.name+'</option>'; });
+  }
+}
+
+function showStep(n){
+  ['id-step1','id-step2-new','id-step2-existing'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(el) el.style.display=(i===n-1)?'':'none';
+  });
+}
+
+function backToStep1(){
+  _pendingMember=null;
+  showStep(1);
+}
+
+async function goToPin(){
+  const sel=document.getElementById('id-sel');
+  if(!sel||!sel.value){ toast('Chọn tên của bạn trước!'); return; }
+  const m=allMembers().find(x=>x.id===sel.value);
+  if(!m) return;
+  _pendingMember=m;
+  // Check if PIN exists in Supabase
+  if(!initSupabase()){ toast('Không kết nối được Supabase'); return; }
+  const {data}=await db.from('bh_pins').select('member_id').eq('member_id',m.id).maybeSingle();
+  if(data){
+    // Has PIN → show enter PIN
+    document.getElementById('id-step2-name').textContent=m.name;
+    document.getElementById('id-pin-enter').value='';
+    document.getElementById('id-pin-error').style.display='none';
+    showStep(3); // step2-existing
+    setTimeout(()=>document.getElementById('id-pin-enter')?.focus(),100);
+  } else {
+    // No PIN → show set PIN
+    document.getElementById('id-step2-new-name').textContent=m.name;
+    document.getElementById('id-pin-new').value='';
+    document.getElementById('id-pin-confirm').value='';
+    showStep(2); // step2-new
+    setTimeout(()=>document.getElementById('id-pin-new')?.focus(),100);
+  }
+}
+
+async function createPin(){
+  const pin=document.getElementById('id-pin-new').value;
+  const confirm=document.getElementById('id-pin-confirm').value;
+  if(pin.length!==4||!/^\d{4}$/.test(pin)){ toast('PIN phải là 4 chữ số!'); return; }
+  if(pin!==confirm){ toast('PIN không khớp. Nhập lại.'); return; }
+  if(!_pendingMember) return;
+  const {error}=await db.from('bh_pins').insert({member_id:_pendingMember.id,pin_hash:pin});
+  if(error){ toast('Lỗi lưu PIN: '+error.message); return; }
+  loginSuccess(_pendingMember);
+}
+
+async function verifyAndLogin(){
+  const pin=document.getElementById('id-pin-enter').value;
+  const errEl=document.getElementById('id-pin-error');
+  if(pin.length!==4){ toast('Nhập đủ 4 số!'); return; }
+  if(!_pendingMember) return;
+  const {data}=await db.from('bh_pins').select('pin_hash').eq('member_id',_pendingMember.id).maybeSingle();
+  if(!data||data.pin_hash!==pin){
+    errEl.style.display='';
+    document.getElementById('id-pin-enter').value='';
+    document.getElementById('id-pin-enter').focus();
+    return;
+  }
+  errEl.style.display='none';
+  loginSuccess(_pendingMember);
+}
+
+function loginSuccess(m){
+  ME={id:m.id,name:m.name,isManager:MANAGER_IDS.includes(m.id)};
+  localStorage.setItem('bh_me_v3',JSON.stringify(ME));
+  document.getElementById('id-overlay').style.display='none';
+  updateMeBadge();
+  preselectMe();
+  applyAccessControl();
+  toast('Xin chào, '+ME.name+'! 👋');
+}
+
+function changeIdentity(){
+  ME=null;
+  localStorage.removeItem('bh_me_v3');
+  showIdentityOverlay();
+}
+
+function applyAccessControl(){
+  if(!ME) return;
+  const pinCard=document.getElementById('pin-mgmt-card');
+  if(pinCard) pinCard.style.display='none'; // Moved to admin tab
+  const adminBtn=document.getElementById('admin-tab-btn');
+  if(adminBtn) adminBtn.style.display=isSuperAdmin()?'':'none';
+  if(isManager()) return; // managers see everything
+  // Lock báo cáo ngày member dropdown to self
+  const drSel=document.getElementById('sel-cvkd');
+  if(drSel){
+    drSel.value=ME.id;
+    drSel.disabled=true;
+    drSel.style.opacity='0.7';
+  }
+  // Lock CRM member selector to self (CVKD only see own customers)
+  const crmSel=document.getElementById('crm-sel-member');
+  if(crmSel){
+    crmSel.value=ME.id;
+    crmSel.disabled=true;
+    crmSel.style.opacity='0.7';
+  }
+  // Hide finance tab for CVKD
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    if(btn.textContent.includes('Tài Chính')) btn.style.display='none';
+  });
+}
+
+function updateMeBadge(){
+  if(!ME) return;
+  const av=document.getElementById('me-av');
+  const nm=document.getElementById('me-nm');
+  if(av){
+    const ini=initials(ME.name);
+    const m=getSellingMembers().find(x=>x.id===ME.id);
+    const i=getSellingMembers().indexOf(m);
+    av.textContent=ini;
+    av.style.background=PALETTE[i%PALETTE.length]||'var(--cg)';
+  }
+  if(nm) nm.textContent=ME.name;
+}
+
+function preselectMe(){
+  if(!ME) return;
+  const drSel=document.getElementById('sel-cvkd');
+  if(drSel) for(let opt of drSel.options){ if(opt.value===ME.id){ drSel.value=ME.id; break; } }
+  const crmSel=document.getElementById('crm-sel-member');
+  if(crmSel) for(let opt of crmSel.options){ if(opt.value===ME.id){ crmSel.value=ME.id; break; } }
+}
+
+// ============================================================
+// REMINDERS — KH cần liên hệ hôm nay
+// ============================================================
+async function renderReminders(){
+  const el=document.getElementById('rm-list');
+  const cnt=document.getElementById('rm-count');
+  if(!el) return;
+  if(!initSupabase()){ el.innerHTML='<div class="rm-empty">Chưa kết nối Supabase</div>'; return; }
+  const today=new Date(); today.setHours(0,0,0,0);
+  const in3=new Date(today); in3.setDate(in3.getDate()+3);
+  const todayStr=today.toISOString().split('T')[0];
+  const in3Str=in3.toISOString().split('T')[0];
+  try{
+    const {data,error}=await db.from('bh_customers')
+      .select('id,name,member_name,member_id,next_contact,pipeline_stage,product_interest')
+      .lte('next_contact',in3Str)
+      .neq('pipeline_stage','booked').neq('pipeline_stage','rejected')
+      .order('next_contact',{ascending:true}).limit(20);
+    if(error) throw error;
+    if(!data||!data.length){
+      el.innerHTML='<div class="rm-empty">Không có KH nào cần liên hệ trong 3 ngày tới</div>';
+      if(cnt) cnt.style.display='none';
+      return;
+    }
+    const overdue=data.filter(c=>c.next_contact<todayStr);
+    if(cnt){ cnt.style.display=''; cnt.textContent=overdue.length>0?overdue.length+' quá hạn':data.length+' KH'; cnt.className='tag '+(overdue.length?'t-red':'t-yellow'); }
+    el.innerHTML=data.map(c=>{
+      const d=new Date(c.next_contact+'T00:00:00');
+      const isOver=c.next_contact<todayStr;
+      const isToday=c.next_contact===todayStr;
+      const label=isOver?'Quá hạn '+c.next_contact.split('-').reverse().join('/'): isToday?'Hôm nay':''+d.toLocaleDateString('vi-VN');
+      const dateCls=isOver?'rm-overdue':isToday?'rm-today':'rm-soon';
+      const dotCol=isOver?'var(--cr)':isToday?'var(--cs)':'var(--cy)';
+      const m=getSellingMembers().find(x=>x.id===c.member_id);
+      return '<div class="rm-item">'
+        +'<div class="rm-dot" style="background:'+dotCol+';"></div>'
+        +'<div class="rm-info"><div class="rm-kh">'+c.name+'</div>'
+        +'<div class="rm-who">'+(m?m.name:c.member_name||'')+(c.product_interest?' · '+c.product_interest:'')+'</div></div>'
+        +'<div class="rm-date '+dateCls+'">'+label+'</div>'
+      +'</div>';
+    }).join('');
+  }catch(e){ el.innerHTML='<div class="rm-empty">Lỗi tải reminder</div>'; }
+}
+
+// ============================================================
+// LEADERBOARD
+// ============================================================
+function renderLeaderboard(){
+  const el=document.getElementById('lb-list');
+  if(!el) return;
+  const members=getSellingMembers();
+  const sorted=[...members].sort((a,b)=>(S.bookings[b.id]||0)-(S.bookings[a.id]||0));
+  const maxBK=Math.max(...sorted.map(m=>S.bookings[m.id]||0),1);
+  const rankColors=['#e8a020','#9ca3af','#c47a00','#3a8c3a','#1a4a6b','#1e7a4a','#6b7280','#7c3aed','#c44040','#1a5a6b','#3a6b1a'];
+  el.innerHTML=sorted.map((m,i)=>{
+    const bk=S.bookings[m.id]||0;
+    const tgt=S.targets[m.id]||1;
+    const pct=Math.round(bk/tgt*100);
+    const fillW=Math.round(bk/maxBK*100);
+    const col=PALETTE[getSellingMembers().indexOf(m)%PALETTE.length].match(/#[0-9a-fA-F]{6}/)?.[0]||'#3a8c3a';
+    const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+    return '<div class="lb-row">'
+      +'<div class="lb-rank" style="background:'+(rankColors[i]||'#6b7280')+';font-size:'+(medal?'14px':'11px')+';">'+(medal||i+1)+'</div>'
+      +'<div class="lb-name" title="'+m.name+'">'+(m.isMgmt?'<span style="font-size:10px;background:#fef3c7;color:#b45309;padding:1px 4px;border-radius:4px;margin-right:3px;">GĐ</span>':'')+m.name+'</div>'
+      +'<div class="lb-track"><div class="lb-fill" style="width:'+fillW+'%;background:'+col+';"></div></div>'
+      +'<div class="lb-val" style="color:'+(pct>=100?'var(--cs)':pct>=50?'var(--cy)':'var(--cr)')+';">'+bk+'/'+tgt+'</div>'
+      +'<div class="lb-pct">'+pct+'%</div>'
+    +'</div>';
+  }).join('');
+}
+
+// ============================================================
+// FORECAST
+// ============================================================
+function renderForecast(){
+  const el=document.getElementById('forecast-widget');
+  if(!el) return;
+  const today=sprintDay();
+  const totalBK=totalBooked();
+  const totalTgt=totalTarget();
+  const dailyRate=today>0?totalBK/today:0;
+  const projected=Math.round(dailyRate*SPRINT_DAYS);
+  const remain=SPRINT_DAYS-today;
+  const needed=Math.max(totalTgt-totalBK,0);
+  const neededPerDay=remain>0?(needed/remain).toFixed(1):0;
+  const willHit=projected>=totalTgt;
+
+  el.innerHTML=[
+    {label:'Tỷ lệ hiện tại',val:(dailyRate).toFixed(2),sub:'booking/ngày',col:dailyRate>0?'var(--cg)':'var(--cgray)'},
+    {label:'Dự báo cuối sprint',val:projected,sub:'booking (nếu giữ nhịp)',col:willHit?'var(--cs)':'var(--cr)'},
+    {label:'Còn cần đạt',val:needed,sub:remain+' ngày còn lại',col:needed===0?'var(--cs)':'var(--cy)'},
+    {label:'Cần đạt mỗi ngày',val:neededPerDay,sub:'booking/ngày từ hôm nay',col:parseFloat(neededPerDay)>2?'var(--cr)':'var(--cg)'},
+  ].map(c=>'<div class="fc-card" style="border-top-color:'+c.col+';">'
+    +'<div class="fc-val" style="color:'+c.col+';">'+c.val+'</div>'
+    +'<div style="font-size:12px;font-weight:700;color:var(--c1);margin-top:3px;">'+c.label+'</div>'
+    +'<div class="fc-lbl">'+c.sub+'</div>'
+  +'</div>').join('');
+}
+
+// ============================================================
+// COACHING NOTES
+// ============================================================
+async function loadPinStatus(){
+  const el=document.getElementById('pin-status-list');
+  if(!el||!initSupabase()) return;
+  el.innerHTML='<div style="font-size:13px;color:var(--cgray);">Đang tải...</div>';
+  try{
+    const {data}=await db.from('bh_pins').select('member_id,created_at');
+    const hasPinSet=new Set((data||[]).map(r=>r.member_id));
+    const members=[...BASE_MGMT,...getCVKDS()];
+    el.innerHTML=members.map(m=>{
+      const has=hasPinSet.has(m.id);
+      const isSelf=ME&&ME.id===m.id;
+      return '<div class="pin-row">'
+        +'<div style="font-size:13px;font-weight:600;color:var(--c1);width:160px;flex-shrink:0;">'+m.name+'</div>'
+        +'<div style="font-size:11px;color:var(--cgray);">'+(m.role||m.sells===false?'Quản lý':'CVKD')+'</div>'
+        +'<span class="pin-status '+(has?'pin-has':'pin-none')+'">'+(has?'Đã có PIN':'Chưa có PIN')+'</span>'
+        +(has&&!isSelf?'<button class="pin-reset-btn" onclick="resetMemberPin(\''+m.id+'\',\''+m.name+'\')">Reset PIN</button>':'')
+        +(isSelf?'<span style="font-size:11px;color:var(--cgray);margin-left:auto;">Bạn</span>':'')
+      +'</div>';
+    }).join('');
+  }catch(e){
+    el.innerHTML='<div style="color:var(--cr);font-size:13px;">Lỗi tải: '+e.message+'</div>';
+  }
+}
+
+async function resetMemberPin(memberId, memberName){
+  if(!isManager()){ toast('Chỉ Giám Đốc mới có thể reset PIN!'); return; }
+  if(!confirm('Reset PIN của '+memberName+'?\n\nSau khi reset, họ sẽ cần đặt PIN mới khi đăng nhập lại.')) return;
+  if(!initSupabase()) return;
+  try{
+    const {error}=await db.from('bh_pins').delete().eq('member_id',memberId);
+    if(error) throw error;
+    toast('Đã reset PIN của '+memberName+'. Họ sẽ đặt PIN mới khi đăng nhập lại.');
+    loadPinStatus();
+  }catch(e){
+    toast('Lỗi reset: '+e.message);
+  }
+}
+
+async function loadCoachingNotes(){
+  const el=document.getElementById('coaching-list');
+  if(!el||!initSupabase()) return;
+  try{
+    const {data}=await db.from('bh_coaching').select('*').order('created_at',{ascending:false}).limit(50);
+    if(!data||!data.length){
+      el.innerHTML='<div style="font-size:13px;color:var(--cgray);padding:8px 0;">Chưa có ghi chú coaching nào.</div>';
+      return;
+    }
+    const members=getSellingMembers();
+        window._coachData=data;
+    el.innerHTML=data.map((n,i)=>{
+      const m=members.find(x=>x.id===n.member_id);
+      const dt=new Date(n.created_at).toLocaleDateString('vi-VN');
+      return '<div class="coach-item">'
+        +'<div class="coach-meta">'
+        +'<span class="coach-who">'+(m?m.name:n.member_id)+' — Tuần '+n.sprint_week+'</span>'
+        +'<span><span class="coach-when">'+dt+(n.coach_name?' · '+n.coach_name:'')+'</span>'
+        +'<button class="coach-del" data-idx="'+i+'" onclick="deleteCoaching(window._coachData[this.dataset.idx].id)" title="Xoá">✕</button></span>'
+        +'</div>'
+        +'<div class="coach-txt">'+n.note+'</div>'
+      +'</div>';
+    }).join('');
+  }catch(e){ console.error(e); }
+}
+
+function openCoachingModal(){
+  const overlay=document.getElementById('coaching-modal-overlay');
+  if(!overlay) return;
+  const sel=document.getElementById('coach-member-sel');
+  if(sel&&sel.options.length<=1){
+    sel.innerHTML='<option value="">-- Chọn thành viên --</option>';
+    getSellingMembers().forEach(m=>{ sel.innerHTML+='<option value="'+m.id+'">'+m.name+'</option>'; });
+  }
+  document.getElementById('coach-note').value='';
+  overlay.classList.add('open');
+}
+
+function closeCoachingModal(){
+  document.getElementById('coaching-modal-overlay').classList.remove('open');
+}
+
+async function saveCoachingNote(){
+  if(!initSupabase()) return;
+  const memberId=document.getElementById('coach-member-sel').value;
+  const note=document.getElementById('coach-note').value.trim();
+  const week=document.getElementById('coach-week-sel').value;
+  if(!memberId||!note){ toast('Chọn thành viên và nhập nội dung!'); return; }
+  const coachName=ME?.name||'CEO';
+  const {error}=await db.from('bh_coaching').insert({member_id:memberId,note,sprint_week:parseInt(week),coach_name:coachName});
+  if(error){ toast('Lỗi: '+error.message); return; }
+  closeCoachingModal();
+  loadCoachingNotes();
+  toast('Đã lưu ghi chú coaching');
+}
+
+async function deleteCoaching(id){
+  if(!confirm('Xoá ghi chú này?')||!initSupabase()) return;
+  await db.from('bh_coaching').delete().eq('id',id);
+  loadCoachingNotes();
+}
+
+
+// ============================================================
+// ADMIN — SUPER ADMIN ONLY (Coach Duy)
+// ============================================================
+async function initAdmin(){
+  if(!isSuperAdmin()){ toast('Không có quyền truy cập!'); return; }
+  populateAdminMemberSelect();
+  await Promise.all([adminLoadStatus(), adminLoadPins(), adminLoadConfig()]);
+}
+
+function adminRefreshAll(){
+  adminLoadStatus();
+  adminLoadPins();
+  adminLoadConfig();
+}
+
+function populateAdminMemberSelect(){
+  const sel=document.getElementById('adm-reset-member');
+  if(!sel||sel.options.length>1) return;
+  getSellingMembers().forEach(m=>{ sel.innerHTML+='<option value="'+m.id+'">'+m.name+'</option>'; });
+}
+
+async function adminLoadStatus(){
+  if(!initSupabase()) return;
+  const statusEl=document.getElementById('adm-status-content');
+  const gridEl=document.getElementById('adm-stats-grid');
+  statusEl.innerHTML='<div style="display:flex;align-items:center;gap:8px;"><span class="adm-status-dot adm-ok"></span><span style="font-size:13px;font-weight:600;color:var(--cs);">Supabase kết nối thành công</span></div>';
+  try{
+    const tables=['bh_customers','bh_daily_reports','bh_pins','bh_targets','bh_coaching'];
+    const labels=['KH (CRM)','Báo cáo ngày','PINs','Mục tiêu','Coaching'];
+    const colors=['var(--cb)','var(--cg)','var(--cy)','var(--cs)','#7c3aed'];
+    const counts=await Promise.all(tables.map(t=>db.from(t).select('*',{count:'exact',head:true})));
+    gridEl.innerHTML=counts.map((r,i)=>'<div class="adm-stat" style="border-left-color:'+colors[i]+';">'
+      +'<div class="adm-stat-val" style="color:'+colors[i]+';">'+(r.count||0)+'</div>'
+      +'<div class="adm-stat-lbl">'+labels[i]+' records</div>'
+    +'</div>').join('');
+    const syncTime=new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    statusEl.innerHTML='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">'
+      +'<span class="adm-status-dot adm-ok"></span>'
+      +'<span style="font-size:13px;font-weight:600;color:var(--cs);">Supabase kết nối OK</span>'
+      +'<span style="font-size:12px;color:var(--cgray);margin-left:8px;">Kiểm tra lúc '+syncTime+'</span>'
+    +'</div>';
+  }catch(e){
+    statusEl.innerHTML='<div style="display:flex;align-items:center;gap:8px;">'
+      +'<span class="adm-status-dot adm-err"></span>'
+      +'<span style="font-size:13px;font-weight:600;color:var(--cr);">Lỗi: '+e.message+'</span>'
+    +'</div>';
+  }
+}
+
+async function adminLoadPins(){
+  const el=document.getElementById('adm-pin-list');
+  if(!el||!initSupabase()) return;
+  try{
+    const {data}=await db.from('bh_pins').select('member_id,created_at');
+    const hasPinSet=new Set((data||[]).map(r=>r.member_id));
+    const members=[...BASE_MGMT,...getCVKDS()];
+    el.innerHTML=members.map(m=>{
+      const has=hasPinSet.has(m.id);
+      const isSelf=m.id===SUPER_ADMIN_ID;
+      const resetBtn=has&&!isSelf ? '<button class="pin-reset-btn" data-id="'+m.id+'" data-nm="'+m.name+'" onclick="adminResetPin(this.dataset.id,this.dataset.nm)">Reset</button>' : '';
+      return '<div class="adm-pin-row">'
+        +'<div style="font-size:13px;font-weight:600;color:var(--c1);min-width:130px;">'+m.name+'</div>'
+        +'<span class="pin-status '+(has?'pin-has':'pin-none')+'">'+(has?'Có PIN':'Chưa có')+'</span>'
+        +resetBtn
+        +(isSelf?'<span style="font-size:11px;color:var(--cgray);margin-left:auto;">Super Admin</span>':'')
+      +'</div>';
+    }).join('');
+  }catch(e){ el.innerHTML='<div style="color:var(--cr);font-size:13px;">Lỗi: '+e.message+'</div>'; }
+}
+
+async function adminResetPin(memberId, memberName){
+  if(!isSuperAdmin()){ toast('Không có quyền!'); return; }
+  if(!confirm('Reset PIN của '+memberName+'? Ho se dat PIN moi khi dang nhap lai.')) return;
+  const {error}=await db.from('bh_pins').delete().eq('member_id',memberId);
+  if(error){ toast('Lỗi: '+error.message); return; }
+  toast('Đã reset PIN — '+memberName);
+  adminLoadPins();
+}
+
+// Sprint config
+async function adminLoadConfig(){
+  if(!initSupabase()) return;
+  try{
+    const {data}=await db.from('bh_sprint_config').select('key,value');
+    const cfg=Object.fromEntries((data||[]).map(r=>[r.key,r.value]));
+    applyRuntimeConfig(cfg);
+    const es=['sprint_name','sprint_start','sprint_end','announcement'];
+    es.forEach(k=>{ const el=document.getElementById('adm-'+k.replace('_','-')); if(el&&cfg[k]) el.value=cfg[k]; });
+  }catch(e){ console.error('adminLoadConfig',e); }
+}
+
+async function saveSprintConfig(){
+  if(!initSupabase()) return;
+  const rows=[
+    {key:'sprint_name',value:document.getElementById('adm-sprint-name').value.trim()},
+    {key:'sprint_start',value:document.getElementById('adm-sprint-start').value},
+    {key:'sprint_end',value:document.getElementById('adm-sprint-end').value},
+    {key:'announcement',value:document.getElementById('adm-announcement').value.trim()},
+  ].filter(r=>r.value);
+  const {error}=await db.from('bh_sprint_config').upsert(rows,{onConflict:'key'});
+  if(error){ toast('Lỗi lưu: '+error.message); return; }
+  // Update sprint title in header if name changed
+  const name=rows.find(r=>r.key==='sprint_name')?.value;
+  if(name){
+    const titleEl=document.querySelector('.sprint-title');
+    if(titleEl) titleEl.textContent=name;
+  }
+  // Show announcement
+  const ann=rows.find(r=>r.key==='announcement')?.value;
+  showTeamAnnouncement(ann||'');
+  // Show preview
+  const prev=document.getElementById('adm-announcement-preview');
+  if(prev){ prev.style.display=ann?'':'none'; }
+  const cfgToApply={}; rows.forEach(r=>cfgToApply[r.key]=r.value); applyRuntimeConfig(cfgToApply);
+  toast('Đã lưu — áp dụng ngay');
+}
+
+function showTeamAnnouncement(text){
+  const prev=document.getElementById('adm-announcement-preview');
+  const txt=document.getElementById('adm-announcement-text');
+  if(!prev||!txt) return;
+  if(text){ prev.style.display=''; txt.textContent=text; }
+  else { prev.style.display='none'; }
+  // Also show in tổng quan
+  let annCard=document.getElementById('team-announcement-banner');
+  if(text){
+    if(!annCard){
+      annCard=document.createElement('div');
+      annCard.id='team-announcement-banner';
+      annCard.style.cssText='background:linear-gradient(135deg,#152815,#3a8c3a);color:#fff;border-radius:12px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;';
+      annCard.innerHTML='<span style="font-size:20px;">📢</span><div><div style="font-size:12px;font-weight:700;opacity:.7;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;">Thông báo từ Coach Duy</div><div id="team-ann-text" style="font-size:14px;line-height:1.6;"></div></div>';
+      const hero=document.querySelector('.booking-hero');
+      if(hero&&hero.parentNode) hero.parentNode.insertBefore(annCard,hero);
+    }
+    document.getElementById('team-ann-text').textContent=text;
+  } else if(annCard){ annCard.remove(); }
+}
+
+// ── Data Export ──
+async function exportDailyReports(){
+  if(!initSupabase()){ toast('Không kết nối Supabase'); return; }
+  toast('Đang tải dữ liệu...');
+  const {data,error}=await db.from('bh_daily_reports').select('*').order('member_id').order('sprint_day');
+  if(error){ toast('Lỗi: '+error.message); return; }
+  const headers=['Thành viên','Ngày Sprint','Data','Tiếp cận','Nghe GP','Từ chối','Tiềm năng','Booking','Mục tiêu','P - Kế hoạch','D - Thực hiện','C - Đánh giá','A - Điều chỉnh','Ghi chú'];
+  const members=Object.fromEntries(getSellingMembers().map(m=>[m.id,m.name]));
+  const rows=data.map(r=>[
+    members[r.member_id]||r.member_id, r.sprint_day,
+    r.data_count,r.tiep_can,r.nghe_gp,r.tu_choi,r.tien_nang,r.booking,r.muc_tieu,
+    r.ke_hoach,r.thuc_hien,r.danh_gia,r.dieu_chinh,r.ghi_chu
+  ]);
+  downloadCSV('bighomes_baocaongay.csv', headers, rows);
+  toast('Đã xuất báo cáo ngày ('+data.length+' dòng)');
+}
+
+async function exportCRM(){
+  if(!initSupabase()){ toast('Không kết nối Supabase'); return; }
+  toast('Đang tải dữ liệu CRM...');
+  const {data,error}=await db.from('bh_customers').select('*').order('member_name').order('created_at');
+  if(error){ toast('Lỗi: '+error.message); return; }
+  const stageMap=Object.fromEntries(PIPELINE.map(p=>[p.id,p.label]));
+  const headers=['CVKD','Tên KH','SĐT','Nguồn','Sản phẩm','Giá','Mục đích','Tài chính','Khu vực','Tình trạng','Lý do mua','Lý do từ chối','Ngày tiếp cận','Hẹn tiếp','Ghi chú'];
+  const rows=data.map(r=>[
+    r.member_name,r.name,'****'+(r.phone_last4||''),r.source,
+    r.product_interest,r.expected_price,r.purpose,r.finance_type,r.region,
+    stageMap[r.pipeline_stage]||r.pipeline_stage,
+    r.buy_reason,r.reject_reason,r.first_contact,r.next_contact,r.notes
+  ]);
+  downloadCSV('bighomes_crm.csv', headers, rows);
+  toast('Đã xuất CRM ('+data.length+' KH)');
+}
+
+async function exportSummary(){
+  if(!initSupabase()){ toast('Không kết nối'); return; }
+  const {data}=await db.from('bh_daily_reports').select('*');
+  const members=getSellingMembers();
+  const headers=['Thành viên','Vai trò','Mục tiêu booking','Booking đạt','% HT','Tổng data','Tổng tiếp cận','Tổng nghe GP','Tổng tiềm năng','Tỷ lệ chuyển đổi (%)'];
+  const rows=members.map(m=>{
+    const myReports=(data||[]).filter(r=>r.member_id===m.id);
+    const totData=myReports.reduce((a,r)=>a+(r.data_count||0),0);
+    const totTC=myReports.reduce((a,r)=>a+(r.tiep_can||0),0);
+    const totNGP=myReports.reduce((a,r)=>a+(r.nghe_gp||0),0);
+    const totTN=myReports.reduce((a,r)=>a+(r.tien_nang||0),0);
+    const totBK=myReports.reduce((a,r)=>a+(r.booking||0),0);
+    const tgt=S.targets[m.id]||0;
+    const pct=tgt>0?Math.round(totBK/tgt*100):0;
+    const conv=totTC>0?Math.round(totBK/totTC*100):0;
+    const role=MANAGER_IDS.includes(m.id)?'Quản lý':'CVKD';
+    return [m.name,role,tgt,totBK,pct+'%',totData,totTC,totNGP,totTN,conv+'%'];
+  });
+  downloadCSV('bighomes_tonghop.csv', headers, rows);
+  toast('Đã xuất tổng hợp');
+}
+
+function downloadCSV(filename, headers, rows){
+  const BOM='﻿';
+  const escape=v=>{ v=String(v==null?'':v); if(v.indexOf(',')>=0||v.indexOf('"')>=0||v.indexOf('\n')>=0){ return '"'+v.replace(/"/g,'""')+'"'; } return v; };
+  const csv=BOM+[headers,...rows].map(r=>r.map(escape).join(',')).join(String.fromCharCode(13,10));
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download=filename;
+  a.click();
+}
+
+async function resetMemberDailyData(){
+  if(!isSuperAdmin()){ toast('Không có quyền!'); return; }
+  const mid=document.getElementById('adm-reset-member').value;
+  if(!mid){ toast('Chọn thành viên cần xóa dữ liệu!'); return; }
+  const m=getSellingMembers().find(x=>x.id===mid);
+  if(!confirm('XÓA TOÀN BỘ báo cáo ngày của '+m?.name+'? Du lieu KHONG THE khoi phuc. Chac chan?')) return;
+  if(!confirm('Xac nhan lan 2: Xoa het du lieu cua '+m?.name+'?')) return;
+  const {error}=await db.from('bh_daily_reports').delete().eq('member_id',mid);
+  if(error){ toast('Lỗi: '+error.message); return; }
+  // Also clear local state
+  for(let d=1;d<=SPRINT_DAYS;d++) delete S.daily[mid+'_'+d];
+  S.bookings[mid]=0;
+  saveS(); rebuildAll();
+  toast('Đã xóa dữ liệu của '+m?.name);
+}
+
+// Load sprint config on tong-quan load (for announcement)
+async function loadSprintConfigForDisplay(){
+  if(!initSupabase()) return;
+  try{
+    const {data}=await db.from('bh_sprint_config').select('key,value');
+    const cfg=Object.fromEntries((data||[]).map(r=>[r.key,r.value]));
+    applyRuntimeConfig(cfg);
+  }catch(e){}
+}
+
+function applyRuntimeConfig(cfg){
+  if(cfg.sprint_end){ SPRINT_END_DYN=new Date(cfg.sprint_end+'T23:59:59'); updateCountdown(); }
+  if(cfg.sprint_start) SPRINT_START_DYN=new Date(cfg.sprint_start);
+  if(cfg.sprint_name){ const t=document.querySelector('.sprint-title'); if(t) t.textContent=cfg.sprint_name; }
+  if(cfg.announcement) showTeamAnnouncement(cfg.announcement);
+}
+
+let _rtCh=null;
+function setupRealtime(){
+  if(!db||_rtCh) return;
+  _rtCh=db.channel('bh-live')
+    .on('postgres_changes',{event:'*',schema:'public',table:'bh_daily_reports'},payload=>{
+      const r=payload.new||payload.old; if(!r) return;
+      const key=r.member_id+'_'+r.sprint_day;
+      if(payload.eventType==='DELETE'){ delete S.daily[key]; }
+      else{ S.daily[key]={data:r.data_count,tiepCan:r.tiep_can,ngheGP:r.nghe_gp,tuChoi:r.tu_choi,tienNang:r.tien_nang,booking:r.booking,mucTieu:r.muc_tieu,keHoach:r.ke_hoach||'',thucHien:r.thuc_hien||'',danhGia:r.danh_gia||'',dieuChinh:r.dieu_chinh||'',ghiChu:r.ghi_chu||''}; }
+      let tot=0; for(let d=1;d<=SPRINT_DAYS;d++) tot+=parseInt(S.daily[r.member_id+'_'+d]?.booking||0);
+      S.bookings[r.member_id]=tot;
+      updateStats(); renderOvProgress(); renderLeaderboard(); renderForecast();
+      if(r.member_id!==ME?.id){ const nm=getSellingMembers().find(m=>m.id===r.member_id)?.name; if(nm) showLiveBadge(nm+' vừa cập nhật'); }
+    })
+    .on('postgres_changes',{event:'*',schema:'public',table:'bh_targets'},payload=>{
+      const r=payload.new; if(!r) return;
+      S.targets[r.member_id]=r.target||0; S.bookings[r.member_id]=r.booking||0;
+      updateStats(); renderLeaderboard(); renderForecast();
+    })
+    .on('postgres_changes',{event:'*',schema:'public',table:'bh_customers'},()=>{
+      if(document.getElementById('tab-crm').classList.contains('active')) loadCRM();
+      renderReminders();
+    })
+    .on('postgres_changes',{event:'*',schema:'public',table:'bh_sprint_config'},payload=>{
+      const r=payload.new; if(r) applyRuntimeConfig({[r.key]:r.value});
+    })
+    .subscribe(status=>{
+      const p=document.getElementById('sync-pill'); if(!p) return;
+      if(status==='SUBSCRIBED'){ p.className='sync-pill sync-ok'; p.textContent='\u26A1 Live'; p.style.display=''; }
+      else if(status==='CHANNEL_ERROR'){ p.className='sync-pill sync-err'; p.textContent='\u274C Offline'; }
+    });
+}
+
+function showLiveBadge(msg){
+  let b=document.getElementById('live-badge-el');
+  if(!b){ b=document.createElement('div'); b.id='live-badge-el'; b.className='live-badge'; document.body.appendChild(b); }
+  b.textContent='\U0001F4E1 '+msg; b.style.opacity='1';
+  clearTimeout(b._t); b._t=setTimeout(()=>{ b.style.opacity='0'; setTimeout(()=>b.remove(),400); },3000);
+}
+
+async function syncBookingFromCRM(memberId,wasBooked,isNowBooked){
+  if(wasBooked===isNowBooked) return;
+  const today=sprintDay(); const key=memberId+'_'+today;
+  if(!S.daily[key]) S.daily[key]={};
+  if(!wasBooked&&isNowBooked){
+    S.daily[key].booking=(parseInt(S.daily[key].booking)||0)+1;
+    S.bookings[memberId]=(S.bookings[memberId]||0)+1;
+    showLiveBadge('Booking ghi tự động vào báo cáo');
+  } else if(wasBooked&&!isNowBooked){
+    S.daily[key].booking=Math.max((parseInt(S.daily[key].booking)||0)-1,0);
+    S.bookings[memberId]=Math.max((S.bookings[memberId]||0)-1,0);
+  }
+  saveS(); updateStats(); renderLeaderboard(); renderForecast();
+  await SYNC.pushDailyReport(memberId,[today]);
+}
+
+let drViewMode=window.innerWidth<700?'card':'table';
+function setDRView(mode){
+  drViewMode=mode;
+  document.getElementById('dr-btn-table').classList.toggle('active',mode==='table');
+  document.getElementById('dr-btn-card').classList.toggle('active',mode==='card');
+  const cid=document.getElementById('sel-cvkd')?.value;
+  if(cid) loadDailyReport();
+}
+
+function buildDailyCards(cid,srcs,today){
+  let out='';
+  for(let day=SPRINT_DAYS;day>=1;day--){
+    const d=S.daily[cid+'_'+day]||{};
+    const {thu,date}=getDayInfo(day);
+    const isToday=day===today;
+    const srcSum=srcs.reduce((a,s)=>a+(parseInt(S.srcData[cid+'_'+day+'_'+s])||0),0);
+    const dataVal=srcs.length>0?srcSum:parseInt(d.data||0);
+    const tc=parseInt(d.tiepCan||0),bk=parseInt(d.booking||0),mt=parseInt(d.mucTieu||0);
+    const pct=mt>0?Math.round(bk/mt*100):0;
+    const hasFilled=tc>0||bk>0||dataVal>0;
+    const cls='dr-day-card'+(isToday?' dr-today':hasFilled?' dr-filled':'');
+    const dataInp=srcs.length>0
+      ?'<input type="number" class="di" style="width:100%;" value="'+srcSum+'" readonly tabindex="-1">'
+      :'<input type="number" class="di" style="width:100%;" data-f="data" data-day="'+day+'" data-cid="'+cid+'" value="'+(d.data||'')+'" placeholder="0" min="0">';
+    const pills=(tc>0?'<span class="dr-pill tc">'+tc+' TC</span>':'')+' '+(bk>0?'<span class="dr-pill bk">'+bk+' BK</span>':'')+(!hasFilled?'<span class="dr-pill mt">Chưa cập nhật</span>':'');
+    const bodyOpen=isToday?' open':''; const chevOpen=isToday?' open':'';
+    out+='<div class="'+cls+'" id="dcard-'+day+'">'
+      +'<div class="dr-day-hdr" onclick="toggleDayCard('+day+')">'
+        +'<span class="dr-dlbl">'+thu+(isToday?' \u2605':'')+'</span>'
+        +'<span class="dr-ddate">'+date+'</span>'
+        +'<div class="dr-dpills">'+pills+'</div>'
+        +'<span class="dr-chev'+chevOpen+'" id="chev-'+day+'">\u25B6</span>'
+      +'</div>'
+      +'<div class="dr-day-body'+bodyOpen+'" id="dbody-'+day+'">'
+        +'<div class="dr-nums">'
+          +'<div class="dr-nf"><span class="dr-nl">Data</span>'+dataInp+'</div>'
+          +'<div class="dr-nf"><span class="dr-nl">Ti\u1EBFp c\u1EADn</span><input type="number" class="di" style="width:100%;" data-f="tiepCan" data-day="'+day+'" data-cid="'+cid+'" value="'+(d.tiepCan||'')+'" placeholder="0" min="0"></div>'
+          +'<div class="dr-nf"><span class="dr-nl">Nghe GP</span><input type="number" class="di" style="width:100%;" data-f="ngheGP" data-day="'+day+'" data-cid="'+cid+'" value="'+(d.ngheGP||'')+'" placeholder="0" min="0"></div>'
+          +'<div class="dr-nf"><span class="dr-nl">T\u1EEB ch\u1ED1i</span><input type="number" class="di" style="width:100%;" data-f="tuChoi" data-day="'+day+'" data-cid="'+cid+'" value="'+(d.tuChoi||'')+'" placeholder="0" min="0"></div>'
+          +'<div class="dr-nf"><span class="dr-nl">Ti\u1EC1m n\u0103ng</span><input type="number" class="di" style="width:100%;" data-f="tienNang" data-day="'+day+'" data-cid="'+cid+'" value="'+(d.tienNang||'')+'" placeholder="0" min="0"></div>'
+          +'<div class="dr-nf"><span class="dr-nl" style="color:var(--cg);">Booking</span><input type="number" class="di" style="width:100%;border-color:var(--cg);" data-f="booking" data-day="'+day+'" data-cid="'+cid+'" value="'+(d.booking||'')+'" placeholder="0" min="0" oninput="recalcHT(this,'+day+')"></div>'
+        +'</div>'
+        +'<div class="dr-ht">'
+          +'<label>M\u1EE5c ti\xEAu ng\xE0y</label>'
+          +'<input type="number" class="di" style="width:60px;" data-f="mucTieu" data-day="'+day+'" data-cid="'+cid+'" value="'+(d.mucTieu||'')+'" placeholder="0" min="0" oninput="recalcHT(this,'+day+')">'
+          +'<label style="margin-left:10px;">%HT</label>'
+          +'<span class="'+pctClass(pct)+'" id="ht-cell-'+day+'" style="font-weight:700;">'+(pct>0?pct+'%':'\u2014')+'</span>'
+        +'</div>'
+        +'<div class="dr-pdca">'
+          +'<div class="dr-pf"><label>P \u2014 K\u1EBF ho\u1EA1ch</label><textarea class="di" data-f="keHoach" data-day="'+day+'" data-cid="'+cid+'" placeholder="K\u1EBF ho\u1EA1ch h\xF4m nay...">'+(d.keHoach||'')+'</textarea></div>'
+          +'<div class="dr-pf"><label>D \u2014 Th\u1EF1c hi\u1EC7n</label><textarea class="di" data-f="thucHien" data-day="'+day+'" data-cid="'+cid+'" placeholder="Th\u1EF1c t\u1EBF \u0111\xE3 l\xE0m...">'+(d.thucHien||'')+'</textarea></div>'
+          +'<div class="dr-pf"><label>C \u2014 \u0110\xE1nh gi\xE1</label><textarea class="di" data-f="danhGia" data-day="'+day+'" data-cid="'+cid+'" placeholder="\u0110\xE1nh gi\xE1 k\u1EBFt qu\u1EA3...">'+(d.danhGia||'')+'</textarea></div>'
+          +'<div class="dr-pf"><label>A \u2014 \u0110i\u1EC1u ch\u1EC9nh</label><textarea class="di" data-f="dieuChinh" data-day="'+day+'" data-cid="'+cid+'" placeholder="\u0110i\u1EC1u ch\u1EC9nh ng\xE0y mai...">'+(d.dieuChinh||'')+'</textarea></div>'
+        +'</div>'
+        +'<div class="dr-pf" style="margin-top:8px;"><label>Ghi ch\xFA</label><textarea class="di" style="min-height:44px;" data-f="ghiChu" data-day="'+day+'" data-cid="'+cid+'" placeholder="Ghi ch\xFA th\xEAm...">'+(d.ghiChu||'')+'</textarea></div>'
+      +'</div>'
+    +'</div>';
+  }
+  return out;
+}
+
+function toggleDayCard(day){
+  const body=document.getElementById('dbody-'+day);
+  const chev=document.getElementById('chev-'+day);
+  if(!body) return;
+  const opening=!body.classList.contains('open');
+  body.classList.toggle('open',opening);
+  if(chev) chev.classList.toggle('open',opening);
+}
+
+function goTab(btn,id){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='bao-cao') loadDailyReport();
+  if(id==='tai-chinh') initFinance();
+  if(id==='tong-quan'){ setTimeout(renderOvCharts,100); setTimeout(renderReminders,200); renderLeaderboard(); renderForecast(); setTimeout(loadSprintConfigForDisplay,300); }
+  if(id==='crm'){ initCRM(); setTimeout(applyAccessControl,200); }
+  if(id==='team') setTimeout(loadCoachingNotes,100);
+  if(id==='admin') initAdmin();
+  if(id==='bao-cao') setTimeout(applyAccessControl,200);
+}
+
+// ============================================
+// EDIT MODE
+// ============================================
+let editOn=false;
+function toggleEdit(btn){
+  editOn=!editOn;
+  document.body.classList.toggle('edit-on',editOn);
+  document.querySelectorAll('[contenteditable]').forEach(el=>el.contentEditable=editOn?'true':'false');
+  btn.textContent=editOn?'🔒 Khóa':'✏️ Chỉnh sửa';
+  btn.classList.toggle('active',editOn);
+  // Finance policy fields
+  const fields=['policy-notice','policy-amount','policy-channels','policy-deadline','policy-payment','policy-condition','policy-note'];
+  fields.forEach(id=>{ const el=document.getElementById(id); if(el) el.contentEditable=editOn?'true':'false'; });
+  // Announce items
+  document.querySelectorAll('#announce-list [contenteditable]').forEach(el=>el.contentEditable=editOn?'true':'false');
+}
+function saveAll(){ saveS(); toast('Đã lưu!'); }
+
+// ============================================
+// TOAST
+// ============================================
+function toast(msg){
+  const t=document.createElement('div');
+  t.className='toast'; t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';},2200);
+  setTimeout(()=>t.remove(),2600);
+}
+
+// ============================================
+// DATE + BOOT
+// ============================================
+function initDate(){
+  const now=new Date();
+  const DN=['Chủ nhật','Thứ hai','Thứ ba','Thứ tư','Thứ năm','Thứ sáu','Thứ bảy'];
+  const dd=String(now.getDate()).padStart(2,'0');
+  const mm=String(now.getMonth()+1).padStart(2,'0');
+  const yyyy=now.getFullYear();
+  const str=`${DN[now.getDay()]}, ${dd}/${mm}/${yyyy}`;
+  document.getElementById('date-badge').textContent=str;
+  const lbl=document.getElementById('today-lbl');
+  if(lbl) lbl.textContent=str;
+}
+
+document.getElementById('modal-overlay').addEventListener('click',function(e){
+  if(e.target===this) closeModal();
+});
+document.getElementById('crm-modal-overlay').addEventListener('click',function(e){
+  if(e.target===this) closeCRMModal();
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){ closeModal(); closeCRMModal(); closeCoachingModal(); }
+  if(e.key==='Enter' && document.getElementById('modal-overlay').classList.contains('open')) addMember();
+});
+
+document.addEventListener('DOMContentLoaded',()=>{
+  loadS();
+  initDate();
+  initSupabase();
+  initIdentity();
+  rebuildAll();
+  setTimeout(applyAccessControl,500);
+  renderLeaderboard();
+  renderForecast();
+  updateCountdown();
+  setInterval(updateCountdown, 60000);
+  // Pull latest data from Supabase in background
+  setTimeout(()=>SYNC.pull().then(()=>{ renderReminders(); renderLeaderboard(); renderForecast(); loadSprintConfigForDisplay(); }), 800);
+  // Auto-sync every 5 minutes
+  setInterval(()=>SYNC.pull(), 300000);
+});
+</script>
+
+<!-- IDENTITY OVERLAY -->
+<div class="id-overlay" id="id-overlay" style="display:none;">
+  <div class="id-box">
+    <div class="id-logo">B15</div>
+
+    <!-- STEP 1: Chọn tên -->
+    <div id="id-step1">
+      <div class="id-title">Bighomes 15 Sprint</div>
+      <div class="id-sub">Vinhomes Hạ Long Xanh — 30 ngày chiến dịch<br>Chọn tên bạn để đăng nhập</div>
+      <select class="id-sel" id="id-sel"><option value="">-- Bạn là ai? --</option></select>
+      <button class="id-btn" onclick="goToPin()">Tiếp tục →</button>
+    </div>
+
+    <!-- STEP 2A: Thiết lập PIN lần đầu -->
+    <div id="id-step2-new" style="display:none;">
+      <div class="id-title">Đặt mã PIN</div>
+      <div class="id-sub" id="id-step2-new-name" style="font-weight:700;color:var(--cg);font-size:15px;margin-bottom:8px;"></div>
+      <div class="id-sub">Đây là lần đầu đăng nhập. Đặt mã PIN 4 số để bảo vệ tài khoản của bạn.</div>
+      <input class="id-sel" type="password" id="id-pin-new" maxlength="4" inputmode="numeric" placeholder="Mã PIN 4 số" style="letter-spacing:8px;text-align:center;font-size:22px;">
+      <input class="id-sel" type="password" id="id-pin-confirm" maxlength="4" inputmode="numeric" placeholder="Nhập lại PIN" style="letter-spacing:8px;text-align:center;font-size:22px;">
+      <button class="id-btn" onclick="createPin()">Xác nhận đặt PIN</button>
+      <button onclick="backToStep1()" style="background:none;border:none;color:var(--cgray);cursor:pointer;font-size:13px;margin-top:10px;font-family:inherit;">← Quay lại</button>
+    </div>
+
+    <!-- STEP 2B: Nhập PIN -->
+    <div id="id-step2-existing" style="display:none;">
+      <div class="id-title">Nhập mã PIN</div>
+      <div class="id-sub" id="id-step2-name" style="font-weight:700;color:var(--cg);font-size:15px;margin-bottom:8px;"></div>
+      <div class="id-sub">Nhập mã PIN 4 số của bạn để tiếp tục</div>
+      <input class="id-sel" type="password" id="id-pin-enter" maxlength="4" inputmode="numeric" placeholder="Mã PIN" style="letter-spacing:8px;text-align:center;font-size:22px;" onkeydown="if(event.key==='Enter')verifyAndLogin()">
+      <div id="id-pin-error" style="color:var(--cr);font-size:13px;margin-bottom:10px;display:none;">PIN không đúng. Thử lại.</div>
+      <button class="id-btn" onclick="verifyAndLogin()">Đăng nhập</button>
+      <div style="margin-top:14px;font-size:12px;color:var(--cgray);">Quên PIN? Liên hệ <strong>Nghiêm Quân</strong> hoặc <strong>Phượng Tỷ Tỷ</strong> để reset.</div>
+      <button onclick="backToStep1()" style="background:none;border:none;color:var(--cgray);cursor:pointer;font-size:13px;margin-top:6px;font-family:inherit;">← Đổi tài khoản</button>
+    </div>
+  </div>
+</div>
+
+<!-- COACHING MODAL -->
+<div class="overlay" id="coaching-modal-overlay">
+  <div class="modal" style="width:500px;">
+    <div class="modal-title" style="color:var(--c1);">Thêm ghi chú coaching</div>
+    <div class="modal-sub">Ghi chú sẽ hiển thị trong tab Team cho cả team tham khảo</div>
+    <div class="form-group">
+      <label class="form-label">Cho thành viên</label>
+      <select class="form-input" id="coach-member-sel"></select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Tuần Sprint</label>
+      <select class="form-input" id="coach-week-sel">
+        <option value="1">Tuần 1</option><option value="2">Tuần 2</option>
+        <option value="3">Tuần 3</option><option value="4">Tuần 4</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nội dung ghi chú</label>
+      <textarea class="form-input" id="coach-note" rows="4" placeholder="Điểm mạnh, điểm cần cải thiện, kế hoạch hành động..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeCoachingModal()">Huỷ</button>
+      <button class="btn btn-green" onclick="saveCoachingNote()">Lưu ghi chú</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

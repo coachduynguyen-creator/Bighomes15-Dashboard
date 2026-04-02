@@ -1,0 +1,17 @@
+{
+  "name": "Bighomes 15 — Sprint Hạ Long Xanh",
+  "short_name": "BH15 Sprint",
+  "description": "Hệ thống quản lý chiến dịch booking Vinhomes Hạ Long Xanh",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#152815",
+  "theme_color": "#152815",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='40' fill='%23152815'/><text y='.85em' font-size='130' x='96' text-anchor='middle' fill='%23e8a020' font-family='sans-serif' font-weight='900'>B</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}
