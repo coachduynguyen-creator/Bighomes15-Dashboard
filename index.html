@@ -519,7 +519,7 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
 .cal-detail-add-btn:hover{background:#f0f8f0;}
 
 /* Sticky save bar for daily report */
-.sticky-save-bar{position:sticky;bottom:0;background:#fff;border-top:2px solid var(--cline);padding:10px 0;z-index:50;display:flex;align-items:center;gap:12px;box-shadow:0 -2px 12px rgba(0,0,0,.08);}
+.sticky-save-bar{background:#fff;padding:10px 0;z-index:10;display:flex;align-items:center;gap:12px;}
 .dirty-hint{font-size:12px;color:var(--cr);font-weight:600;animation:blink 1.5s infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.4;}}
 
@@ -569,6 +569,12 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
 .crm-kh-footer{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:8px;border-top:1px solid var(--cline);}
 .crm-kh-owner{font-size:11px;color:var(--cgray);}
 .crm-kh-date{font-size:11px;font-weight:600;}
+
+/* Stats grid responsive */
+#dr-stats{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:8px!important;}
+@media(max-width:600px){
+  #dr-stats{grid-template-columns:repeat(2,1fr)!important;gap:6px!important;}
+}
 </style>
 </head>
 <body>
@@ -841,19 +847,27 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
   <!-- ===== BÁO CÁO NGÀY ===== -->
   <div id="tab-bao-cao" class="tab-pane">
     <div class="sec-hdr">Báo Cáo Ngày — PDCA Chiến Binh Bán Hàng</div>
-    <div class="dr-view-toggle">
-      <button class="dr-view-btn active" id="dr-btn-table" onclick="setDRView('table')">📋 Bảng (Desktop)</button>
-      <button class="dr-view-btn" id="dr-btn-card" onclick="setDRView('card')">📱 Thẻ ngày (Mobile)</button>
+    <div class="dr-view-toggle" style="margin-bottom:8px;">
+      <button class="dr-view-btn active" id="dr-btn-table" onclick="setDRView('table')">📋 Bảng</button>
+      <button class="dr-view-btn" id="dr-btn-card" onclick="setDRView('card')">📱 Thẻ ngày</button>
     </div>
-    <div class="sticky-save-bar">
-      <div>
-        <label style="font-size:11px;font-weight:700;color:var(--cgray);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px;">Chọn CVKD</label>
-        <select class="dr-select" id="sel-cvkd" onchange="loadDailyReport()">
-          <option value="">-- Chọn thành viên --</option>
-        </select>
+    <!-- Báo cáo ngày controls -->
+    <div style="background:#fff;padding:12px 0;margin-bottom:8px;">
+      <!-- Row 1: selector + save -->
+      <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:10px;">
+        <div style="flex:1;min-width:160px;">
+          <label style="font-size:11px;font-weight:700;color:var(--cgray);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px;">Chọn CVKD</label>
+          <select class="dr-select" id="sel-cvkd" onchange="loadDailyReport()" style="width:100%;">
+            <option value="">-- Chọn thành viên --</option>
+          </select>
+        </div>
+        <button class="btn btn-save" onclick="saveDailyReport()" id="save-daily-btn" style="background:var(--cg);color:#fff;height:42px;flex-shrink:0;position:relative;">
+          💾 Lưu báo cáo
+          <span id="save-dirty-dot" style="display:none;position:absolute;top:-4px;right:-4px;width:10px;height:10px;border-radius:50%;background:var(--cr);border:2px solid #fff;"></span>
+        </button>
       </div>
-      <button class="btn btn-save" onclick="saveDailyReport()" id="save-daily-btn" style="background:var(--cg);color:#fff;height:41px;position:relative;">💾 Lưu báo cáo<span id="save-dirty-dot" style="display:none;position:absolute;top:-4px;right:-4px;width:10px;height:10px;border-radius:50%;background:var(--cr);border:2px solid #fff;"></span></button>
-      <div id="dr-stats" style="display:flex;gap:9px;margin-left:auto;flex-wrap:wrap;"></div>
+      <!-- Row 2: stats cards -->
+      <div id="dr-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;"></div>
     </div>
     <div id="dr-container"><div style="text-align:center;padding:48px;color:var(--cgray);font-size:15px;">Chọn CVKD để xem và cập nhật nhật ký 30 ngày</div></div>
   </div>
@@ -1959,7 +1973,7 @@ function loadDailyReport(){
     const cardHtml=buildDailyCards(cid,srcs,today);
     const statsArr=[[totHD,'BOOKING','var(--cg)'],[totTC,'KH TIEP CAN','var(--c1)'],[conv+'%','CHUYEN DOI','var(--cy)'],[totData,'DATA TONG','var(--cb)']];
     con.innerHTML=perfSectionHtml+'<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;"><div><div style="font-size:16px;font-weight:800;color:var(--c1);">'+cvkd.name+'</div><div style="font-size:12px;color:var(--cgray);">Dien cuoi ngay truoc 20:00</div></div><div style="text-align:right;"><div style="font-size:12px;color:var(--cgray);">Muc tieu</div><div style="font-size:20px;font-weight:900;color:var(--cg);">'+tgt+' booking</div></div></div>'+cardHtml+'</div>';
-    document.getElementById('dr-stats').innerHTML=statsArr.map(function(a){ return '<div style="background:#fff;border-radius:8px;padding:8px 14px;text-align:center;min-width:84px;box-shadow:0 1px 4px rgba(0,0,0,.08);"><div style="font-size:18px;font-weight:900;color:'+a[2]+';">'+a[0]+'</div><div style="font-size:10px;color:var(--cgray);font-weight:600;">'+a[1]+'</div></div>'; }).join('');
+    document.getElementById('dr-stats').innerHTML=statsArr.map(function(a){ return '<div style="background:#fff;border-radius:9px;padding:10px 8px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.08);"><div style="font-size:20px;font-weight:900;color:'+a[2]+';">'+a[0]+'</div><div style="font-size:10px;color:var(--cgray);font-weight:600;margin-top:2px;">'+a[1]+'</div></div>'; }).join('');
     setTimeout(function(){ renderPerfTrend(perfByDay); renderPerfWeek(weekHT); renderPerfFunnel(totData,totTC,totNGP,totHD); },200);
     if(srcs.length>0) setTimeout(function(){ renderSrcBarChart(cid); renderSrcLineChart(cid); },200);
     return;
