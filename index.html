@@ -164,7 +164,7 @@ body.edit-on [contenteditable]{outline:2px dashed var(--cy);border-radius:4px;pa
 /* ======= HTML CHARTS ======= */
 /* Funnel / horizontal bar */
 .fnl-row{display:flex;align-items:center;margin-bottom:10px;}
-.fnl-lbl{width:100px;text-align:right;font-weight:600;font-size:13px;flex-shrink:0;padding-right:12px;}
+.fnl-lbl{width:80px;text-align:right;font-weight:600;font-size:12px;flex-shrink:0;padding-right:8px;}
 .fnl-track{flex:1;position:relative;height:30px;display:flex;align-items:center;}
 .fnl-bg{position:absolute;inset:0;border-radius:6px;}
 .fnl-fill{position:absolute;left:0;top:0;bottom:0;border-radius:6px;display:flex;align-items:center;padding:0 10px;transition:width .7s cubic-bezier(.4,0,.2,1);}
@@ -292,9 +292,9 @@ body.edit-on [contenteditable]{outline:2px dashed var(--cy);border-radius:4px;pa
 .lb-val{font-size:13px;font-weight:900;min-width:60px;text-align:right;}
 .lb-pct{font-size:11px;color:var(--cgray);}
 /* Forecast */
-.forecast-widget{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;}
-.fc-card{flex:1;min-width:120px;background:#f8fbf8;border-radius:10px;padding:12px 14px;border-top:3px solid;}
-.fc-val{font-size:22px;font-weight:900;line-height:1.1;}
+.forecast-widget{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px;}
+.fc-card{background:#f8fbf8;border-radius:10px;padding:11px 12px;border-top:3px solid;}
+.fc-val{font-size:20px;font-weight:900;line-height:1.1;}
 .fc-lbl{font-size:11px;color:var(--cgray);margin-top:4px;}
 /* Coaching notes */
 .coach-item{background:#f8fbf8;border-radius:9px;padding:12px 14px;margin-bottom:9px;border-left:3px solid var(--cg);}
@@ -309,8 +309,11 @@ body.edit-on [contenteditable]{outline:2px dashed var(--cy);border-radius:4px;pa
   .crm-grid2{grid-template-columns:1fr!important;}
   .crm-modal{width:100%;height:100%;border-radius:0;max-height:100vh;}
   .crm-modal-overlay{align-items:flex-end;}
-  .fnl-lbl{width:80px;font-size:12px;}
+  .fnl-lbl{width:80px;font-size:11px;}
   .hdr-right .countdown-widget{display:none;}
+  .fc-val{font-size:17px!important;}
+  .forecast-widget{gap:8px;}
+  .fc-card{padding:9px 10px;}
 }
 
 /* ===== ADMIN TAB ===== */
@@ -470,11 +473,13 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
 .cal-di-sub{font-size:12px;color:var(--cgray);}
 
 /* ===== TODAY WIDGET (floating) ===== */
-.today-btn{position:fixed;bottom:80px;right:20px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--c1),var(--cg));border:none;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:800;display:flex;align-items:center;justify-content:center;font-size:22px;transition:transform .2s;}
-.today-btn:hover{transform:scale(1.1);}
+.today-btn{position:fixed;bottom:24px;right:20px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--c1),var(--cg));border:none;cursor:grab;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:800;display:flex;align-items:center;justify-content:center;font-size:22px;touch-action:none;user-select:none;}
+.today-btn:active{cursor:grabbing;}
 .today-badge{position:absolute;top:-4px;right:-4px;background:var(--cr);color:#fff;border-radius:99px;min-width:20px;height:20px;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #fff;}
-.today-widget{position:fixed;bottom:142px;right:20px;width:300px;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.18);z-index:799;display:none;max-height:420px;overflow:hidden;flex-direction:column;}
+.today-widget{position:fixed;width:300px;max-width:calc(100vw - 24px);background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.18);z-index:799;display:none;max-height:420px;overflow:hidden;flex-direction:column;}
 .today-widget.open{display:flex;}
+.tw-hdr{cursor:grab;}
+.tw-hdr:active{cursor:grabbing;}
 .tw-hdr{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:linear-gradient(135deg,var(--c1),var(--cg));color:#fff;border-radius:16px 16px 0 0;flex-shrink:0;}
 .tw-hdr-title{font-size:14px;font-weight:800;}
 .tw-hdr-date{font-size:11px;opacity:.7;}
@@ -660,7 +665,7 @@ textarea.adm-cfg-input{resize:vertical;min-height:72px;}
     <div class="card" style="margin-bottom:20px;">
       <div class="sub-hdr" style="margin-top:0;margin-bottom:16px;">Phễu Chuyển Đổi Toàn Team — Chiến dịch đến nay</div>
       <div id="ov-funnel-team" style="padding:4px 40px 4px 0;"></div>
-      <div id="ov-funnel-team-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px;"></div>
+      <div id="ov-funnel-team-stats" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px;"></div>
     </div>
   </div>
 
@@ -4440,7 +4445,10 @@ function buildTodayWidget(){
 
 function toggleTodayWidget(){
   const w=document.getElementById('today-widget');
-  if(w) w.classList.toggle('open');
+  if(!w) return;
+  const wasOpen=w.classList.contains('open');
+  w.classList.toggle('open');
+  if(!wasOpen && window._positionWidget) setTimeout(window._positionWidget,10);
 }
 
 // ── EVENT PUSH BANNER ──
@@ -4472,6 +4480,77 @@ function dismissEventBanner(){
   if(b) b.classList.remove('show');
 }
 
+
+
+// ============================================================
+// DRAGGABLE TODAY WIDGET
+// ============================================================
+(function(){
+  var dragging=false, dragEl=null, ox=0, oy=0, sx=0, sy=0, moved=false;
+  var M=12;
+  function clamp(v,a,b){ return Math.min(Math.max(v,a),b); }
+  function getXY(e){ return e.touches?{x:e.touches[0].clientX,y:e.touches[0].clientY}:{x:e.clientX,y:e.clientY}; }
+  function setPos(el,left,top){
+    el.style.left=left+'px'; el.style.top=top+'px';
+    el.style.right=''; el.style.bottom='';
+  }
+
+  function startDrag(e,target){
+    if(e.type==='touchstart') e.preventDefault();
+    var p=getXY(e), rect=target.getBoundingClientRect();
+    sx=p.x; sy=p.y; ox=p.x-rect.left; oy=p.y-rect.top;
+    dragging=true; dragEl=target; moved=false;
+    document.body.style.userSelect='none';
+  }
+  function onMove(e){
+    if(!dragging||!dragEl) return;
+    if(e.type==='touchmove') e.preventDefault();
+    var p=getXY(e);
+    if(Math.abs(p.x-sx)>5||Math.abs(p.y-sy)>5) moved=true;
+    if(!moved) return;
+    var nl=clamp(p.x-ox,M,window.innerWidth-dragEl.offsetWidth-M);
+    var nt=clamp(p.y-oy,M,window.innerHeight-dragEl.offsetHeight-M);
+    setPos(dragEl,nl,nt);
+  }
+  function endDrag(e){
+    if(!dragging) return;
+    var wasMoved=moved, wasBtn=dragEl===document.getElementById('today-btn');
+    dragging=false; moved=false; dragEl=null;
+    document.body.style.userSelect='';
+    if(!wasMoved && wasBtn) toggleTodayWidget();
+  }
+
+  document.addEventListener('DOMContentLoaded',function(){
+    setTimeout(function(){
+      var btn=document.getElementById('today-btn');
+      var widget=document.getElementById('today-widget');
+      var handle=document.getElementById('tw-drag-handle');
+      if(!btn||!widget) return;
+
+      btn.addEventListener('mousedown',function(e){startDrag(e,btn);});
+      btn.addEventListener('touchstart',function(e){startDrag(e,btn);},{passive:false});
+      if(handle){
+        handle.addEventListener('mousedown',function(e){startDrag(e,widget);});
+        handle.addEventListener('touchstart',function(e){startDrag(e,widget);},{passive:false});
+      }
+      document.addEventListener('mousemove',onMove);
+      document.addEventListener('touchmove',onMove,{passive:false});
+      document.addEventListener('mouseup',endDrag);
+      document.addEventListener('touchend',endDrag);
+
+      window._positionWidget=function(){
+        var bRect=btn.getBoundingClientRect();
+        var wW=widget.offsetWidth||300, wH=Math.min(widget.scrollHeight||300,420);
+        var left=bRect.left+26-wW/2;
+        var top=bRect.top-wH-12;
+        if(top<M) top=bRect.bottom+12;
+        left=clamp(left,M,window.innerWidth-wW-M);
+        top=clamp(top,M,window.innerHeight-wH-M);
+        setPos(widget,left,top);
+      };
+    },600);
+  });
+})();
 
 function goTab(btn,id){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
@@ -4686,11 +4765,11 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 
 <!-- TODAY WIDGET -->
-<button class="today-btn" onclick="toggleTodayWidget()" title="Lịch hôm nay">
+<button class="today-btn" id="today-btn" title="Nhấn để mở · Giữ để kéo">
   📅<span class="today-badge" id="today-badge" style="display:none;">0</span>
 </button>
 <div class="today-widget" id="today-widget">
-  <div class="tw-hdr">
+  <div class="tw-hdr" id="tw-drag-handle">
     <div><div class="tw-hdr-title">📅 Lịch hôm nay</div><div class="tw-hdr-date" id="tw-date"></div></div>
     <button class="tw-close" onclick="toggleTodayWidget()">✕</button>
   </div>
