@@ -425,6 +425,17 @@ body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-
 
     <div class="login-err" id="loginErr" style="text-align:center;font-size:12px;color:var(--red);min-height:16px;margin-bottom:10px"></div>
     <button class="login-btn" id="loginBtn" onclick="doLogin()" disabled>Đăng Nhập</button>
+
+    <div style="display:flex;align-items:center;gap:10px;margin-top:16px">
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+      <div style="font-size:10px;color:var(--t3);font-weight:600;letter-spacing:1px">HOẶC</div>
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+    </div>
+
+    <button onclick="loginDemo()" style="width:100%;margin-top:14px;padding:12px;background:rgba(100,116,139,0.12);border:1px dashed rgba(100,116,139,0.4);border-radius:10px;color:#94a3b8;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px">
+      <span style="font-size:16px">🎭</span> Vào Bằng Tài Khoản Demo
+    </button>
+    <div style="text-align:center;font-size:10px;color:var(--t3);margin-top:7px">Xem được tất cả · Không ghi dữ liệu</div>
   </div>
 </div>
 
@@ -1005,6 +1016,20 @@ function can(action) {
 }
 
 function isDemo() { return currentUser?.role === 'demo'; }
+
+function loginDemo() {
+  // Find demo account from loaded members or use fallback
+  const demo = members.find(m => m.role === 'demo') || {
+    id: 'f-demo', name: 'Demo', display_name: 'Tai Khoan Demo',
+    initials: 'DM', color: '#64748b', role: 'demo', pin: '', active: true
+  };
+  currentUser = demo;
+  sessionStorage.setItem('bh-user', JSON.stringify(currentUser));
+  sessionStorage.setItem('bh-pin-changed', '1'); // skip PIN change
+  document.getElementById('loginOverlay').style.display = 'none';
+  document.getElementById('appWrap').style.display = 'flex';
+  initApp();
+}
 
 // ══ INIT APP ══
 function initApp() {
