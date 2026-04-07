@@ -47,6 +47,10 @@ body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-
 .member-chip:hover{background:rgba(61,139,61,0.07)}
 .member-chip.sel{background:rgba(61,139,61,0.13)}
 .member-chip.sel .chip-name{color:var(--green-l);font-weight:700}
+.demo-chip{background:rgba(100,116,139,0.04)}
+.demo-chip:hover{background:rgba(100,116,139,0.08)}
+.demo-chip.sel{background:rgba(100,116,139,0.12)}
+.demo-chip.sel .chip-name{color:#94a3b8}
 .member-chip.sel::after{content:"✓";margin-left:auto;color:var(--green-l);font-size:13px;font-weight:800}
 .chip-name{font-size:13px;font-weight:600;color:var(--t1);flex:1}
 .chip-role{font-size:10px;color:var(--t3);margin-top:1px}
@@ -119,6 +123,7 @@ body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-
 .role-gd{background:rgba(167,139,218,0.12);color:var(--purple);border:1px solid rgba(167,139,218,0.2)}
 .role-nvkd{background:rgba(61,139,61,0.12);color:var(--green-l);border:1px solid rgba(61,139,61,0.2)}
 .role-admin{background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.18)}
+.role-demo{background:rgba(100,116,139,0.12);color:#94a3b8;border:1px solid rgba(100,116,139,0.22)}
 
 /* ══ CARDS ══ */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
@@ -826,7 +831,8 @@ const ROLES = {
   ceo: { label: 'Giám Đốc Dự Án', cls: 'role-ceo' },
   gd_kinh_doanh: { label: 'GĐ Kinh Doanh', cls: 'role-gd' },
   nvkd: { label: 'NVKD', cls: 'role-nvkd' },
-  admin: { label: 'Admin', cls: 'role-admin' }
+  admin: { label: 'Admin', cls: 'role-admin' },
+  demo: { label: 'Tài Khoản Demo', cls: 'role-demo' }
 };
 
 const STAGES = ['Tiếp cận','Khai thác','Tư vấn','Quan tâm','Gặp mặt','Thương lượng','Chờ ký','Chốt'];
@@ -871,6 +877,7 @@ const FALLBACK_MEMBERS = [
   {id:'f-10',name:'Quang Huy',display_name:'Quang Huy',initials:'QH',color:'#84cc16',role:'nvkd',pin:'3307',active:true},
   {id:'f-11',name:'Kim Huê',display_name:'Kim Huê',initials:'KH',color:'#ec4899',role:'nvkd',pin:'3308',active:true},
   {id:'f-12',name:'Quân Hà',display_name:'Quân Hà',initials:'QHà',color:'#a78bda',role:'nvkd',pin:'3309',active:true},
+  {id:'f-demo',name:'Demo',display_name:'Tài Khoản Demo',initials:'DM',color:'#64748b',role:'demo',pin:'8888',active:true},
 ];
 
 async function loadMembers() {
@@ -900,14 +907,20 @@ function renderMemberGrid(filter = '') {
     grid.innerHTML = '<div style="padding:16px;text-align:center;color:var(--t3);font-size:12px">Không tìm thấy</div>';
     return;
   }
-  grid.innerHTML = filtered.map(m => `
-    <div class="member-chip" onclick="selectMember('${m.id}')" id="chip-${m.id}">
+  // Separate demo from real members
+  const real = filtered.filter(m => m.role !== 'demo');
+  const demo = filtered.filter(m => m.role === 'demo');
+  const renderChip = m => `
+    <div class="member-chip ${m.role==='demo'?'demo-chip':''}" onclick="selectMember('${m.id}')" id="chip-${m.id}">
       <div class="member-av" style="background:${m.color}">${m.initials}</div>
       <div style="flex:1;min-width:0">
         <div class="chip-name">${m.display_name}</div>
         <div class="chip-role">${ROLE_LABELS[m.role] || m.role}</div>
       </div>
-    </div>`).join('');
+      ${m.role==='demo'?'<span style="font-size:9px;color:#94a3b8;background:rgba(100,116,139,0.15);padding:2px 7px;border-radius:4px;border:1px solid rgba(100,116,139,0.25)">PIN: 8888</span>':''}
+    </div>`;
+  const sep = demo.length && real.length ? '<div style="padding:6px 14px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--t3);background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border)">Demo</div>' : '';
+  grid.innerHTML = real.map(renderChip).join('') + sep + demo.map(renderChip).join('');
 }
 
 function filterMembers(val) {
@@ -974,6 +987,11 @@ function doLogout() {
 function can(action) {
   if (!currentUser) return false;
   const r = currentUser.role;
+  // Demo account can VIEW everything but not write
+  if (r === 'demo') {
+    const demoAllow = ['view_all_reports'];
+    return demoAllow.includes(action);
+  }
   const perms = {
     manage_members: ['superadmin'],
     manage_pins: ['superadmin','ceo','admin'],
@@ -985,6 +1003,8 @@ function can(action) {
   };
   return perms[action]?.includes(r) ?? false;
 }
+
+function isDemo() { return currentUser?.role === 'demo'; }
 
 // ══ INIT APP ══
 function initApp() {
@@ -1019,9 +1039,26 @@ function initApp() {
   loadPinnedBanner();
   loadThongBao();
 
-  // Prompt PIN change if using default PIN
+  // Demo banner
+  if (isDemo()) {
+    const banner = document.createElement('div');
+    banner.id = 'demo-banner';
+    banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9000;background:rgba(100,116,139,0.95);backdrop-filter:blur(10px);padding:10px 20px;display:flex;align-items:center;gap:12px;border-top:1px solid rgba(148,163,184,0.3)';
+    banner.innerHTML = `
+      <span style="font-size:16px">🎭</span>
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:700;color:#f1f5f9">Tài Khoản Demo</div>
+        <div style="font-size:11px;color:#94a3b8">Xem được tất cả tính năng. Các thao tác ghi dữ liệu bị vô hiệu để bảo vệ data thật.</div>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:#94a3b8;padding:5px 12px;border:1px solid rgba(148,163,184,0.3);border-radius:6px;cursor:pointer" onclick="doLogout()">Thoát Demo</div>`;
+    document.body.appendChild(banner);
+    // Add bottom padding to main
+    document.querySelector('.main').style.paddingBottom = '52px';
+  }
+
+  // Prompt PIN change if using default PIN (skip for demo)
   const alreadyChanged = sessionStorage.getItem('bh-pin-changed');
-  if (!alreadyChanged && isDefaultPin(currentUser.pin)) {
+  if (!alreadyChanged && !isDemo() && isDefaultPin(currentUser.pin)) {
     setTimeout(() => showChangePinOverlay(), 800);
   }
 }
@@ -1244,6 +1281,7 @@ function showAddCustomer() {
 }
 
 async function saveCustomer() {
+  if (isDemo()) { alert('Tài khoản Demo không thể ghi dữ liệu.'); return; }
   const name = document.getElementById('c-name')?.value.trim();
   if (!name) return;
   // bh_customers schema: member_id, member_name, name, phone_last4, source, pipeline_stage, product_interest, expected_price, purpose, finance_type, notes
@@ -1345,6 +1383,7 @@ function showAddReport() {
 }
 
 async function saveReport() {
+  if (isDemo()) { alert('Tài khoản Demo không thể ghi dữ liệu.'); return; }
   const sprintDay = getCurrentSprintDay();
   // bh_daily_reports: member_id, sprint_day, tiep_can, nghe_gp, tu_choi, tien_nang, booking, muc_tieu, ke_hoach, thuc_hien, danh_gia, dieu_chinh, ghi_chu
   const { error } = await sb.from('bh_daily_reports').upsert({
@@ -1483,6 +1522,7 @@ function showAddCost() {
 }
 
 async function saveCost() {
+  if (isDemo()) { alert('Tài khoản Demo không thể ghi dữ liệu.'); return; }
   // bh_src_daily: member_id, sprint_day, source_name, count
   const { error } = await sb.from('bh_src_daily').upsert({
     member_id: currentUser.id,
@@ -1544,6 +1584,7 @@ function showAddEvent() {
 }
 
 async function saveEvent() {
+  if (isDemo()) { alert('Tài khoản Demo không thể ghi dữ liệu.'); return; }
   const { error } = await sb.from('bh_events').insert({
     title: document.getElementById('ev-title')?.value.trim(),
     event_date: document.getElementById('ev-date')?.value,
@@ -1579,6 +1620,7 @@ async function loadCommunity() {
 }
 
 async function submitPost() {
+  if (isDemo()) { alert('Tài khoản Demo không thể ghi dữ liệu.'); return; }
   const content = document.getElementById('new-post-input')?.value.trim();
   if (!content) return;
   const { error } = await sb.from('bh_posts').insert({
@@ -1859,6 +1901,7 @@ function newPinClear() {
 }
 
 async function saveNewPin(pin) {
+  if (isDemo()) { skipChangePin(); return; }
   document.getElementById('cpErr').textContent = '';
   document.getElementById('cpStep').textContent = 'Đang lưu...';
 
