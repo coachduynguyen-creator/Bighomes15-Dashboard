@@ -1029,42 +1029,54 @@ function initApp() {
 // ══ SUPABASE DATA LOADERS ══
 async function loadDashboardStats() {
   // Members count
-  const { data: mData } = await sb.from('bh_members').select('id', { count: 'exact' }).eq('active', true);
+  const { data: mData } = await sb.from('bh_members').select('id').eq('active', true);
   document.getElementById('stat-members').textContent = mData?.length || '...';
 
-  // Targets / booking
-  const { data: tData } = await sb.from('bh_targets').select('current_value,target_value').limit(1);
+  // Targets: member_id, target, booking
+  const { data: tData } = await sb.from('bh_targets').select('*');
   if (tData?.length) {
-    document.getElementById('stat-booking').textContent = tData[0].current_value || 0;
-    document.getElementById('stat-target').textContent = '/' + (tData[0].target_value || 20);
-    const pct = Math.round((tData[0].current_value / tData[0].target_value) * 100);
+    const totalBooking = tData.reduce((s,r) => s + (r.booking||0), 0);
+    const totalTarget = tData.reduce((s,r) => s + (r.target||0), 0) || 20;
+    document.getElementById('stat-booking').textContent = totalBooking;
+    document.getElementById('stat-target').textContent = '/' + totalTarget;
+    const pct = Math.round((totalBooking / totalTarget) * 100);
     document.getElementById('stat-pct').textContent = `${pct}% mục tiêu`;
   }
 
-  // Daily reports today
-  const today = new Date().toISOString().slice(0,10);
-  const { data: rData } = await sb.from('bh_daily_reports').select('id', { count: 'exact' }).eq('report_date', today);
+  // Daily reports: dùng sprint_day hiện tại
+  const sprintDay = getCurrentSprintDay();
+  const { data: rData } = await sb.from('bh_daily_reports').select('member_id').eq('sprint_day', sprintDay);
   document.getElementById('stat-reports').textContent = rData?.length || 0;
+}
+
+function getCurrentSprintDay() {
+  // Sprint bắt đầu 01/04/2026
+  const sprintStart = new Date('2026-04-01');
+  const today = new Date();
+  const diff = Math.floor((today - sprintStart) / 86400000);
+  return Math.max(1, Math.min(diff + 1, 30));
 }
 
 async function loadLeaderboardMini() {
   const el = document.getElementById('dash-leaderboard');
-  const { data } = await sb.from('bh_targets').select('*').order('current_value', { ascending: false }).limit(5);
+  // bh_targets: member_id, target, booking
+  const { data } = await sb.from('bh_targets').select('*').order('booking', { ascending: false }).limit(5);
   if (!data || !data.length) { el.innerHTML = '<div style="color:var(--t3);font-size:12px;padding:10px">Chưa có dữ liệu</div>'; return; }
+  const totalTarget = data.reduce((s,r) => s+(r.target||0), 0) || 20;
   el.innerHTML = `<div style="font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:10px">Booking · Hạ Long Xanh</div>` +
     data.map((r, i) => {
-      const m = members.find(x => x.name === r.member_name || x.display_name === r.member_name) || {};
-      const pct = r.target_value ? Math.round((r.current_value / r.target_value) * 100) : 0;
+      const m = members.find(x => x.id === r.member_id || x.name === r.member_id || x.display_name === r.member_id) || {};
+      const pct = r.target ? Math.round(((r.booking||0) / r.target) * 100) : 0;
       return `<div class="kr">
         <div class="k-rank ${i<2?'top':''}">${i+1}</div>
-        <div class="kav" style="background:${m.color||'#3d8b3d'}">${m.initials||r.member_name?.substring(0,2)||'??'}</div>
-        <div class="k-name">${m.display_name||r.member_name}</div>
-        <div class="k-metric">${r.current_value||0} deals</div>
-        <div class="bar-w"><div class="bar" style="width:${pct}%;background:${i===0?'var(--amber)':'var(--green)'}"></div></div>
+        <div class="kav" style="background:${m.color||'#3d8b3d'}">${m.initials||r.member_id?.substring(0,2)||'??'}</div>
+        <div class="k-name">${m.display_name||r.member_id}</div>
+        <div class="k-metric">${r.booking||0}/${r.target||0}</div>
+        <div class="bar-w"><div class="bar" style="width:${Math.min(100,pct)}%;background:${i===0?'var(--amber)':'var(--green)'}"></div></div>
       </div>`;
     }).join('') +
     `<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:11px;color:var(--t3)">
-      Mục tiêu tháng: <span style="color:var(--amber);font-weight:700">20 booking</span>
+      Tổng mục tiêu: <span style="color:var(--amber);font-weight:700">${totalTarget} booking</span>
     </div>`;
 }
 
@@ -1096,90 +1108,112 @@ async function loadThongBao() {
 
 // ══ CAMPAIGN DASHBOARD ══
 async function loadCampaign() {
-  // Stats
   const statsEl = document.getElementById('campaign-stats');
   const { data: cfg } = await sb.from('bh_sprint_config').select('*').limit(1);
+  // bh_targets: member_id, target, booking
   const { data: tgt } = await sb.from('bh_targets').select('*');
-  const totalBooking = tgt ? tgt.reduce((s, r) => s + (r.current_value || 0), 0) : 0;
-  const targetBooking = cfg?.[0]?.target_bookings || 20;
-  const endDate = cfg?.[0]?.end_date ? new Date(cfg[0].end_date) : new Date('2026-05-01');
+  const totalBooking = tgt ? tgt.reduce((s,r) => s+(r.booking||0), 0) : 0;
+  const totalTarget = tgt ? tgt.reduce((s,r) => s+(r.target||0), 0) : 20;
+  const endDate = new Date('2026-05-01');
   const daysLeft = Math.max(0, Math.ceil((endDate - new Date()) / 86400000));
-  const pct = Math.round((totalBooking / targetBooking) * 100);
+  const pct = totalTarget ? Math.round((totalBooking/totalTarget)*100) : 0;
 
   statsEl.innerHTML = `
-    <div class="sc"><div class="sc-lbl">Mục Tiêu</div><div class="sc-val"><span>${targetBooking}</span></div><div class="sc-sub">Booking tổng chiến dịch</div></div>
+    <div class="sc"><div class="sc-lbl">Mục Tiêu</div><div class="sc-val"><span>${totalTarget}</span></div><div class="sc-sub">Booking tổng chiến dịch</div></div>
     <div class="sc"><div class="sc-lbl">Đã Đạt</div><div class="sc-val"><span style="color:var(--amber)">${totalBooking}</span></div><div class="sc-sub">${pct}% mục tiêu</div></div>
-    <div class="sc"><div class="sc-lbl">Còn Lại</div><div class="sc-val"><span style="color:var(--red)">${targetBooking - totalBooking}</span></div><div class="sc-sub">Cần đạt thêm</div></div>
+    <div class="sc"><div class="sc-lbl">Còn Lại</div><div class="sc-val"><span style="color:var(--red)">${totalTarget-totalBooking}</span></div><div class="sc-sub">Cần đạt thêm</div></div>
     <div class="sc"><div class="sc-lbl">Ngày Còn Lại</div><div class="sc-val"><span style="color:${daysLeft<7?'var(--red)':'var(--green-l)'}">${daysLeft}</span></div><div class="sc-sub">Trước deadline 01/05</div></div>`;
 
-  // Progress by member
+  // Progress by member — bh_targets: member_id, target, booking
   const progEl = document.getElementById('campaign-progress');
   if (tgt?.length) {
-    progEl.innerHTML = tgt.sort((a,b) => (b.current_value||0)-(a.current_value||0)).map((r,i) => {
-      const m = members.find(x => x.name === r.member_name || x.display_name === r.member_name) || {};
-      const p = r.target_value ? Math.round(((r.current_value||0) / r.target_value) * 100) : 0;
+    progEl.innerHTML = [...tgt].sort((a,b)=>(b.booking||0)-(a.booking||0)).map((r,i) => {
+      const m = members.find(x=>x.id===r.member_id||x.name===r.member_id||x.display_name===r.member_id)||{};
+      const p = r.target ? Math.round(((r.booking||0)/r.target)*100) : 0;
       return `<div class="kr">
         <div class="k-rank ${i<2?'top':''}">${i+1}</div>
-        <div class="kav" style="background:${m.color||'#3d8b3d'}">${m.initials||'??'}</div>
-        <div class="k-name">${m.display_name||r.member_name}</div>
-        <div class="k-metric">${r.current_value||0}/${r.target_value||0}</div>
-        <div class="bar-w" style="width:80px"><div class="bar" style="width:${Math.min(100,p)}%;background:${i===0?'var(--amber)':'var(--green)'}"></div></div>
+        <div class="kav" style="background:${m.color||'#3d8b3d'}">${m.initials||r.member_id?.substring(0,2)||'??'}</div>
+        <div class="k-name">${m.display_name||r.member_id}</div>
+        <div class="k-metric">${r.booking||0}/${r.target||0}</div>
+        <div class="bar-w"><div class="bar" style="width:${Math.min(100,p)}%;background:${i===0?'var(--amber)':'var(--green)'}"></div></div>
       </div>`;
     }).join('');
-  } else { progEl.innerHTML = '<div style="color:var(--t3);font-size:12px">Chưa có dữ liệu targets</div>'; }
+  } else { progEl.innerHTML='<div style="color:var(--t3);font-size:12px">Chưa có dữ liệu</div>'; }
 
-  // Today's updates
+  // Today reports — bh_daily_reports: member_id, sprint_day, tiep_can, nghe_gp, tu_choi, tien_nang, booking, ke_hoach, thuc_hien, danh_gia, dieu_chinh, ghi_chu
   const todayEl = document.getElementById('campaign-today');
-  const today = new Date().toISOString().slice(0,10);
-  const { data: rData } = await sb.from('bh_daily_reports').select('*').eq('report_date', today).order('created_at', { ascending: false });
+  const sprintDay = getCurrentSprintDay();
+  const { data: rData } = await sb.from('bh_daily_reports').select('*').eq('sprint_day', sprintDay);
   if (rData?.length) {
-    todayEl.innerHTML = rData.map(r => `
-      <div style="padding:10px 0;border-bottom:1px solid var(--border)">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-          <div style="font-size:12px;font-weight:700;color:var(--t1)">${r.member_name}</div>
-          <div style="margin-left:auto;font-size:10px;color:var(--t3)">${new Date(r.created_at).toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'})}</div>
+    todayEl.innerHTML = rData.map(r => {
+      const m = members.find(x=>x.id===r.member_id||x.name===r.member_id||x.display_name===r.member_id)||{};
+      return `<div style="padding:10px 0;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <div class="kav" style="background:${m.color||'#3d8b3d'};width:26px;height:26px;font-size:9px">${m.initials||'??'}</div>
+          <div style="font-size:12px;font-weight:700;color:var(--t1)">${m.display_name||r.member_id}</div>
+          <div style="margin-left:auto;font-size:10px;color:var(--t3)">Ngày ${r.sprint_day}</div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
-          ${[['Gặp mặt', r.meetings||0],['Tư vấn', r.consultations||0],['Follow-up', r.followups||0],['Booking', r.bookings||0]].map(([l,v]) =>
-            `<div style="text-align:center;padding:6px;background:rgba(255,255,255,0.02);border-radius:6px;border:1px solid var(--border)"><div style="font-size:16px;font-weight:800;color:var(--t1)">${v}</div><div style="font-size:9px;color:var(--t3);margin-top:2px">${l}</div></div>`
-          ).join('')}
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px">
+          ${[['Tiếp Cận',r.tiep_can||0],['Nghe GP',r.nghe_gp||0],['Từ Chối',r.tu_choi||0],['Tiềm Năng',r.tien_nang||0],['Booking',r.booking||0]].map(([l,v])=>
+            `<div style="text-align:center;padding:5px 3px;background:rgba(255,255,255,0.02);border-radius:6px;border:1px solid var(--border)">
+              <div style="font-size:15px;font-weight:800;color:var(--t1)">${v}</div>
+              <div style="font-size:8px;color:var(--t3);margin-top:1px">${l}</div>
+            </div>`).join('')}
         </div>
-      </div>`).join('');
-  } else { todayEl.innerHTML = '<div style="color:var(--t3);font-size:12px;padding:10px 0">Chưa có báo cáo hôm nay</div>'; }
+        ${r.ghi_chu?`<div style="margin-top:7px;font-size:11px;color:var(--t2);line-height:1.6;padding:7px 10px;background:rgba(255,255,255,.02);border-radius:6px;border-left:2px solid var(--border)">${r.ghi_chu}</div>`:''}
+      </div>`;
+    }).join('');
+  } else { todayEl.innerHTML='<div style="color:var(--t3);font-size:12px;padding:8px 0">Chưa có báo cáo ngày ${sprintDay}</div>'; }
 }
 
 // ══ CRM ══
+// bh_customers stages từ field pipeline_stage
+const PIPELINE_STAGE_MAP = {
+  '1':'Tiếp cận','2':'Khai thác','3':'Tư vấn','4':'Quan tâm',
+  '5':'Gặp mặt','6':'Thương lượng','7':'Chờ ký','8':'Chốt'
+};
+
 async function loadCRM() {
   const el = document.getElementById('crm-pipeline');
-  const query = can('view_all_reports')
-    ? sb.from('bh_customers').select('*').order('created_at', { ascending: false })
-    : sb.from('bh_customers').select('*').eq('assigned_to', currentUser.name).order('created_at', { ascending: false });
+  // bh_customers: id, member_id, member_name, name, phone_last4, source, pipeline_stage, product_interest, expected_price, purpose, finance_type, region, buy_reason, reject_reason, first_contact, next_contact, notes
+  let query = sb.from('bh_customers').select('*').order('created_at', { ascending: false });
+  if (!can('view_all_reports')) {
+    query = query.eq('member_id', currentUser.id);
+  }
   const { data } = await query;
 
   document.getElementById('crm-total').textContent = data?.length || 0;
-  if (!data?.length) { el.innerHTML = '<div style="color:var(--t3);font-size:12px;min-width:100%;padding:20px">Chưa có khách hàng nào trong CRM.</div>'; return; }
+  if (!data?.length) { el.innerHTML='<div style="color:var(--t3);font-size:12px;min-width:100%;padding:20px">Chưa có khách hàng nào.</div>'; return; }
 
   const byStage = {};
-  STAGES.forEach(s => byStage[s] = []);
-  data.forEach(c => { if (byStage[c.stage]) byStage[c.stage].push(c); else byStage[STAGES[0]].push(c); });
+  STAGES.forEach((_,i) => byStage[String(i+1)] = []);
+  data.forEach(c => {
+    const stg = c.pipeline_stage || '1';
+    if (!byStage[stg]) byStage[stg] = [];
+    byStage[stg].push(c);
+  });
 
-  el.innerHTML = STAGES.map((stage, i) => `
-    <div class="pipeline-col">
+  el.innerHTML = STAGES.map((stageName, i) => {
+    const stgKey = String(i+1);
+    const cards = byStage[stgKey] || [];
+    return `<div class="pipeline-col">
       <div class="pipeline-header" style="background:${STAGE_COLORS[i]}22;color:${STAGE_COLORS[i]};border:1px solid ${STAGE_COLORS[i]}44">
-        <span>${stage}</span><span style="background:${STAGE_COLORS[i]}33;padding:1px 7px;border-radius:10px;font-size:10px">${byStage[stage].length}</span>
+        <span>${stageName}</span><span style="background:${STAGE_COLORS[i]}33;padding:1px 7px;border-radius:10px;font-size:10px">${cards.length}</span>
       </div>
       <div class="pipeline-body">
-        ${byStage[stage].map(c => `
-          <div class="crm-card" onclick="viewCustomer('${c.id}')">
-            <div class="crm-name">${c.full_name}</div>
-            <div class="crm-phone">${c.phone||''}</div>
+        ${cards.map(c => `
+          <div class="crm-card">
+            <div class="crm-name">${c.name||'Khách hàng'}</div>
+            <div class="crm-phone">${c.phone_last4 ? '****' + c.phone_last4 : ''}</div>
             <div class="crm-meta">
-              ${c.priority==='hot'?'<span class="crm-badge hot">HOT</span>':c.priority==='warm'?'<span class="crm-badge warm">WARM</span>':'<span class="crm-badge cold">COLD</span>'}
-              ${c.product_interest?`<span class="crm-badge">${c.product_interest}</span>`:''}
+              ${c.source?`<span class="crm-badge">${c.source}</span>`:''}
+              ${c.product_interest?`<span class="crm-badge warm">${c.product_interest}</span>`:''}
+              ${c.expected_price?`<span class="crm-badge">${c.expected_price}</span>`:''}
             </div>
           </div>`).join('') || '<div style="color:var(--t3);font-size:11px;padding:8px">Trống</div>'}
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 function showAddCustomer() {
@@ -1191,14 +1225,17 @@ function showAddCustomer() {
     </div>
     <div class="form-row">
       <div class="form-group"><label class="form-label">Họ Tên</label><input class="form-input" id="c-name" placeholder="Nguyễn Văn A"></div>
-      <div class="form-group"><label class="form-label">Số Điện Thoại</label><input class="form-input" id="c-phone" placeholder="0901234567"></div>
+      <div class="form-group"><label class="form-label">4 Số Cuối SĐT</label><input class="form-input" id="c-phone" placeholder="1234" maxlength="10"></div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Giai Đoạn</label><select class="form-input" id="c-stage">${STAGES.map(s=>`<option>${s}</option>`).join('')}</select></div>
-      <div class="form-group"><label class="form-label">Mức Độ Quan Tâm</label><select class="form-input" id="c-priority"><option value="hot">HOT</option><option value="warm" selected>WARM</option><option value="cold">COLD</option></select></div>
+      <div class="form-group"><label class="form-label">Giai Đoạn</label><select class="form-input" id="c-stage">${STAGES.map((s,i)=>`<option value="${i+1}">${s}</option>`).join('')}</select></div>
+      <div class="form-group"><label class="form-label">Mục Đích</label><select class="form-input" id="c-purpose"><option value="dau_tu">Đầu tư</option><option value="o_thuc">Ở thực</option><option value="nghi_duong">Nghỉ dưỡng</option></select></div>
     </div>
-    <div class="form-group"><label class="form-label">Sản Phẩm Quan Tâm</label><input class="form-input" id="c-product" placeholder="Căn hộ 2PN Hạ Long Xanh"></div>
-    <div class="form-group"><label class="form-label">Ghi Chú</label><textarea class="form-input" id="c-note" rows="2" placeholder="Ghi chú thêm..."></textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Sản Phẩm Quan Tâm</label><input class="form-input" id="c-product" placeholder="Căn hộ 2PN Global Gate"></div>
+      <div class="form-group"><label class="form-label">Nguồn Khách</label><input class="form-input" id="c-source" placeholder="Facebook, giới thiệu..."></div>
+    </div>
+    <div class="form-group"><label class="form-label">Ghi Chú</label><textarea class="form-input" id="c-note" rows="2" placeholder="Tình trạng tài chính, timeline quyết định..."></textarea></div>
     <div style="display:flex;gap:10px;margin-top:6px">
       <button class="btn-secondary" onclick="closeModal()">Hủy</button>
       <button class="btn-primary" style="flex:1" onclick="saveCustomer()">Lưu Khách Hàng</button>
@@ -1209,68 +1246,97 @@ function showAddCustomer() {
 async function saveCustomer() {
   const name = document.getElementById('c-name')?.value.trim();
   if (!name) return;
+  // bh_customers schema: member_id, member_name, name, phone_last4, source, pipeline_stage, product_interest, expected_price, purpose, finance_type, notes
+  const phone = document.getElementById('c-phone')?.value.trim();
   const { error } = await sb.from('bh_customers').insert({
-    full_name: name,
-    phone: document.getElementById('c-phone')?.value.trim(),
-    stage: document.getElementById('c-stage')?.value,
-    priority: document.getElementById('c-priority')?.value,
+    member_id: currentUser.id,
+    member_name: currentUser.display_name,
+    name,
+    phone_last4: phone.slice(-4),
+    pipeline_stage: document.getElementById('c-stage')?.value || '1',
     product_interest: document.getElementById('c-product')?.value.trim(),
+    source: document.getElementById('c-source')?.value.trim(),
+    purpose: document.getElementById('c-purpose')?.value,
     notes: document.getElementById('c-note')?.value.trim(),
-    assigned_to: currentUser.name,
+    first_contact: new Date().toISOString().slice(0,10),
     created_at: new Date().toISOString()
   });
   if (!error) { closeModal(); loadCRM(); }
+  else console.error(error);
 }
 
 // ══ PDCA ══
 async function loadPDCA() {
   const el = document.getElementById('pdca-list');
-  const dateFilter = document.getElementById('pdca-date-filter')?.value || new Date().toISOString().slice(0,10);
   const myBtn = document.getElementById('pdca-my-btn');
-
-  // Add report button for NVKD
   myBtn.innerHTML = `<button class="btn-primary" style="font-size:12px;padding:8px 16px" onclick="showAddReport()">+ Báo Cáo Hôm Nay</button>`;
 
-  let query = sb.from('bh_daily_reports').select('*').eq('report_date', dateFilter).order('created_at', { ascending: false });
-  if (!can('view_all_reports')) query = query.eq('member_name', currentUser.display_name);
+  // Filter by sprint_day instead of date
+  const sprintDay = getCurrentSprintDay();
+  const dayInput = document.getElementById('pdca-date-filter');
+  if (dayInput) { dayInput.type='number'; dayInput.min=1; dayInput.max=30; dayInput.placeholder='Ngày sprint'; if(!dayInput.value) dayInput.value=sprintDay; }
+  const filterDay = parseInt(dayInput?.value)||sprintDay;
 
+  // bh_daily_reports: member_id, sprint_day, tiep_can, nghe_gp, tu_choi, tien_nang, booking, muc_tieu, ke_hoach, thuc_hien, danh_gia, dieu_chinh, ghi_chu
+  let query = sb.from('bh_daily_reports').select('*').eq('sprint_day', filterDay);
+  if (!can('view_all_reports')) query = query.eq('member_id', currentUser.id);
   const { data } = await query;
-  if (!data?.length) { el.innerHTML = '<div class="loading" style="color:var(--t3)">Không có báo cáo nào cho ngày này.</div>'; return; }
 
-  el.innerHTML = data.map(r => `
-    <div class="pdca-card">
+  if (!data?.length) { el.innerHTML=`<div class="loading" style="color:var(--t3)">Không có báo cáo ngày sprint ${filterDay}.</div>`; return; }
+
+  el.innerHTML = data.map(r => {
+    const m = members.find(x=>x.id===r.member_id||x.name===r.member_id||x.display_name===r.member_id)||{};
+    return `<div class="pdca-card">
       <div class="pdca-header">
-        <div class="kav" style="background:${members.find(m=>m.display_name===r.member_name)?.color||'#3d8b3d'}">${r.member_name?.substring(0,2)||'??'}</div>
-        <div class="pdca-name">${r.member_name}</div>
-        <div class="pdca-date">${new Date(r.created_at).toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'})}</div>
+        <div class="kav" style="background:${m.color||'#3d8b3d'};width:32px;height:32px;font-size:10px">${m.initials||'??'}</div>
+        <div class="pdca-name">${m.display_name||r.member_id}</div>
+        <div class="pdca-date">Ngày ${r.sprint_day} · ${r.updated_at?new Date(r.updated_at).toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}):''}</div>
       </div>
       <div class="pdca-grid">
-        ${[['Gặp Mặt',r.meetings||0,'👥'],['Tư Vấn',r.consultations||0,'💬'],['Follow-up',r.followups||0,'📞'],['Booking',r.bookings||0,'🎯']].map(([l,v,ic]) =>
+        ${[['Tiếp Cận',r.tiep_can||0,'📞'],['Nghe GP',r.nghe_gp||0,'👂'],['Từ Chối',r.tu_choi||0,'❌'],['Tiềm Năng',r.tien_nang||0,'⭐'],['Booking',r.booking||0,'🎯'],['Mục Tiêu',r.muc_tieu||0,'🏁']].map(([l,v,ic])=>
           `<div class="pdca-metric"><div class="pdca-metric-val">${ic} ${v}</div><div class="pdca-metric-lbl">${l}</div></div>`
         ).join('')}
       </div>
-      ${r.notes?`<div style="margin-top:10px;font-size:11.5px;color:var(--t2);line-height:1.65;padding-top:10px;border-top:1px solid var(--border)">${r.notes}</div>`:''}
-    </div>`).join('');
+      ${r.ke_hoach||r.thuc_hien||r.danh_gia||r.dieu_chinh?`
+      <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        ${r.ke_hoach?`<div style="padding:8px;background:rgba(61,139,61,.06);border-radius:6px;border:1px solid var(--border)"><div style="font-size:9px;font-weight:700;color:var(--green-l);letter-spacing:1px;margin-bottom:4px">KẾ HOẠCH</div><div style="font-size:11px;color:var(--t2)">${r.ke_hoach}</div></div>`:''}
+        ${r.thuc_hien?`<div style="padding:8px;background:rgba(61,139,61,.06);border-radius:6px;border:1px solid var(--border)"><div style="font-size:9px;font-weight:700;color:var(--green-l);letter-spacing:1px;margin-bottom:4px">THỰC HIỆN</div><div style="font-size:11px;color:var(--t2)">${r.thuc_hien}</div></div>`:''}
+        ${r.danh_gia?`<div style="padding:8px;background:rgba(212,160,40,.06);border-radius:6px;border:1px solid var(--border)"><div style="font-size:9px;font-weight:700;color:var(--amber);letter-spacing:1px;margin-bottom:4px">ĐÁNH GIÁ</div><div style="font-size:11px;color:var(--t2)">${r.danh_gia}</div></div>`:''}
+        ${r.dieu_chinh?`<div style="padding:8px;background:rgba(239,68,68,.05);border-radius:6px;border:1px solid var(--border)"><div style="font-size:9px;font-weight:700;color:#f87171;letter-spacing:1px;margin-bottom:4px">ĐIỀU CHỈNH</div><div style="font-size:11px;color:var(--t2)">${r.dieu_chinh}</div></div>`:''}
+      </div>`:''}
+      ${r.ghi_chu?`<div style="margin-top:8px;font-size:11px;color:var(--t2);line-height:1.65;padding:7px 10px;background:rgba(255,255,255,.02);border-radius:6px;border-left:2px solid var(--border)">${r.ghi_chu}</div>`:''}
+    </div>`;
+  }).join('');
 }
 
 function showAddReport() {
   const box = document.getElementById('modalBox');
-  const today = new Date().toISOString().slice(0,10);
+  const sprintDay = getCurrentSprintDay();
   box.innerHTML = `
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
-      <div style="font-size:15px;font-weight:800;color:var(--t1)">Báo Cáo PDCA Hôm Nay</div>
+      <div style="font-size:15px;font-weight:800;color:var(--t1)">Báo Cáo PDCA · Ngày ${sprintDay}</div>
       <div onclick="closeModal()" style="cursor:pointer;color:var(--t3);font-size:18px">✕</div>
     </div>
-    <div style="font-size:12px;color:var(--t3);margin-bottom:14px">${currentUser.display_name} · ${today}</div>
+    <div style="font-size:11.5px;color:var(--t3);margin-bottom:14px;padding:8px 12px;background:rgba(61,139,61,.06);border-radius:7px">${currentUser.display_name} · Sprint ngày ${sprintDay}</div>
+    <div style="font-size:10px;font-weight:700;color:var(--green-l);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">Số liệu hoạt động</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
+      <div class="form-group" style="margin:0"><label class="form-label">Tiếp Cận</label><input class="form-input" id="r-tiepcan" type="number" min="0" value="0"></div>
+      <div class="form-group" style="margin:0"><label class="form-label">Nghe GP</label><input class="form-input" id="r-nghegp" type="number" min="0" value="0"></div>
+      <div class="form-group" style="margin:0"><label class="form-label">Từ Chối</label><input class="form-input" id="r-tuchoi" type="number" min="0" value="0"></div>
+      <div class="form-group" style="margin:0"><label class="form-label">Tiềm Năng</label><input class="form-input" id="r-tiennang" type="number" min="0" value="0"></div>
+      <div class="form-group" style="margin:0"><label class="form-label">Booking</label><input class="form-input" id="r-booking" type="number" min="0" value="0"></div>
+      <div class="form-group" style="margin:0"><label class="form-label">Mục Tiêu Ngày</label><input class="form-input" id="r-muctieu" type="number" min="0" value="1"></div>
+    </div>
+    <div style="font-size:10px;font-weight:700;color:var(--green-l);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">PDCA</div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Gặp Mặt Khách</label><input class="form-input" id="r-meetings" type="number" min="0" value="0"></div>
-      <div class="form-group"><label class="form-label">Buổi Tư Vấn</label><input class="form-input" id="r-consultations" type="number" min="0" value="0"></div>
+      <div class="form-group"><label class="form-label">Kế Hoạch</label><textarea class="form-input" id="r-kehoach" rows="2" placeholder="Dự kiến hôm nay..."></textarea></div>
+      <div class="form-group"><label class="form-label">Thực Hiện</label><textarea class="form-input" id="r-thuchien" rows="2" placeholder="Thực tế đã làm..."></textarea></div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Follow-up</label><input class="form-input" id="r-followups" type="number" min="0" value="0"></div>
-      <div class="form-group"><label class="form-label">Booking</label><input class="form-input" id="r-bookings" type="number" min="0" value="0"></div>
+      <div class="form-group"><label class="form-label">Đánh Giá</label><textarea class="form-input" id="r-danhgia" rows="2" placeholder="Tốt / Chưa tốt điều gì..."></textarea></div>
+      <div class="form-group"><label class="form-label">Điều Chỉnh</label><textarea class="form-input" id="r-dieuchinḥ" rows="2" placeholder="Sẽ làm khác thế nào..."></textarea></div>
     </div>
-    <div class="form-group"><label class="form-label">Ghi Chú / Bài Học Hôm Nay</label><textarea class="form-input" id="r-notes" rows="3" placeholder="Điều tốt đã làm hôm nay, điều cần cải thiện..."></textarea></div>
+    <div class="form-group"><label class="form-label">Ghi Chú Thêm</label><textarea class="form-input" id="r-ghichu" rows="2" placeholder="Bài học, khó khăn, đề xuất..."></textarea></div>
     <div style="display:flex;gap:10px;margin-top:6px">
       <button class="btn-secondary" onclick="closeModal()">Hủy</button>
       <button class="btn-primary" style="flex:1" onclick="saveReport()">Gửi Báo Cáo</button>
@@ -1279,61 +1345,75 @@ function showAddReport() {
 }
 
 async function saveReport() {
-  const { error } = await sb.from('bh_daily_reports').insert({
-    member_name: currentUser.display_name,
-    report_date: new Date().toISOString().slice(0,10),
-    meetings: parseInt(document.getElementById('r-meetings')?.value)||0,
-    consultations: parseInt(document.getElementById('r-consultations')?.value)||0,
-    followups: parseInt(document.getElementById('r-followups')?.value)||0,
-    bookings: parseInt(document.getElementById('r-bookings')?.value)||0,
-    notes: document.getElementById('r-notes')?.value.trim(),
-    created_at: new Date().toISOString()
-  });
+  const sprintDay = getCurrentSprintDay();
+  // bh_daily_reports: member_id, sprint_day, tiep_can, nghe_gp, tu_choi, tien_nang, booking, muc_tieu, ke_hoach, thuc_hien, danh_gia, dieu_chinh, ghi_chu
+  const { error } = await sb.from('bh_daily_reports').upsert({
+    member_id: currentUser.id,
+    sprint_day: sprintDay,
+    tiep_can: parseInt(document.getElementById('r-tiepcan')?.value)||0,
+    nghe_gp: parseInt(document.getElementById('r-nghegp')?.value)||0,
+    tu_choi: parseInt(document.getElementById('r-tuchoi')?.value)||0,
+    tien_nang: parseInt(document.getElementById('r-tiennang')?.value)||0,
+    booking: parseInt(document.getElementById('r-booking')?.value)||0,
+    muc_tieu: parseInt(document.getElementById('r-muctieu')?.value)||0,
+    ke_hoach: document.getElementById('r-kehoach')?.value.trim(),
+    thuc_hien: document.getElementById('r-thuchien')?.value.trim(),
+    danh_gia: document.getElementById('r-danhgia')?.value.trim(),
+    dieu_chinh: document.getElementById('r-dieuchinḥ')?.value.trim(),
+    ghi_chu: document.getElementById('r-ghichu')?.value.trim(),
+    updated_at: new Date().toISOString()
+  }, { onConflict: 'member_id,sprint_day' });
   if (!error) { closeModal(); loadPDCA(); }
+  else console.error('saveReport error:', error);
 }
 
 // ══ LEADERBOARD ══
 async function loadLeaderboard() {
   const el = document.getElementById('leaderboard-grid');
-  const { data: tgt } = await sb.from('bh_targets').select('*').order('current_value', { ascending: false });
-  const { data: rpts } = await sb.from('bh_daily_reports').select('member_name,bookings,meetings,consultations').gte('report_date', new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().slice(0,10));
+  // bh_targets: member_id, target, booking
+  const { data: tgt } = await sb.from('bh_targets').select('*').order('booking', { ascending: false });
+  // bh_daily_reports: aggregate tiep_can, tien_nang by member_id
+  const { data: rpts } = await sb.from('bh_daily_reports').select('member_id,tiep_can,tien_nang,booking');
 
-  if (!tgt?.length) { el.innerHTML = '<div style="color:var(--t3);font-size:12px;grid-column:1/-1">Chưa có dữ liệu targets</div>'; return; }
+  if (!tgt?.length) { el.innerHTML='<div style="color:var(--t3);font-size:12px;grid-column:1/-1">Chưa có dữ liệu targets</div>'; return; }
 
-  const reportMap = {};
+  // Aggregate daily stats per member
+  const statsMap = {};
   rpts?.forEach(r => {
-    if (!reportMap[r.member_name]) reportMap[r.member_name] = { meetings:0, consultations:0 };
-    reportMap[r.member_name].meetings += r.meetings||0;
-    reportMap[r.member_name].consultations += r.consultations||0;
+    if (!statsMap[r.member_id]) statsMap[r.member_id] = {tiep_can:0, tien_nang:0};
+    statsMap[r.member_id].tiep_can += r.tiep_can||0;
+    statsMap[r.member_id].tien_nang += r.tien_nang||0;
   });
 
+  const medals = ['🥇','🥈','🥉'];
   el.innerHTML = tgt.map((t, i) => {
-    const m = members.find(x => x.name === t.member_name || x.display_name === t.member_name) || {};
-    const stats = reportMap[t.member_name] || reportMap[m.display_name] || {};
-    const pct = t.target_value ? Math.min(100, Math.round(((t.current_value||0) / t.target_value) * 100)) : 0;
-    const medals = ['🥇','🥈','🥉'];
-    return `<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;position:relative;overflow:hidden;transition:all .2s" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''">
-      ${i<3?`<div style="position:absolute;top:12px;right:14px;font-size:22px">${medals[i]}</div>`:''}
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-        <div class="kav" style="background:${m.color||'#3d8b3d'};width:40px;height:40px;font-size:13px">${m.initials||'??'}</div>
+    const m = members.find(x=>x.id===t.member_id||x.name===t.member_id||x.display_name===t.member_id)||{};
+    const stats = statsMap[t.member_id]||{};
+    const pct = t.target ? Math.min(100,Math.round(((t.booking||0)/t.target)*100)) : 0;
+    return `<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;position:relative;overflow:hidden;transition:all .2s" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''">
+      ${i<3?`<div style="position:absolute;top:12px;right:13px;font-size:22px">${medals[i]}</div>`:''}
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div class="kav" style="background:${m.color||'#3d8b3d'};width:38px;height:38px;font-size:12px">${m.initials||'??'}</div>
         <div>
-          <div style="font-size:13px;font-weight:700;color:var(--t1)">${m.display_name||t.member_name}</div>
+          <div style="font-size:13px;font-weight:700;color:var(--t1)">${m.display_name||t.member_id}</div>
           <div style="font-size:10px;color:var(--t3);margin-top:1px">${(ROLES[m.role]||{}).label||'CVKD'}</div>
         </div>
       </div>
-      <div style="font-size:30px;font-weight:800;color:${i===0?'var(--amber)':'var(--green-l)'};letter-spacing:-1px;margin-bottom:4px">${t.current_value||0}<span style="font-size:14px;color:var(--t3);font-weight:500">/${t.target_value||0}</span></div>
-      <div style="font-size:10px;color:var(--t3);margin-bottom:10px">Booking · ${pct}% mục tiêu</div>
-      <div style="background:rgba(255,255,255,0.05);border-radius:4px;height:5px;overflow:hidden">
+      <div style="font-size:28px;font-weight:800;color:${i===0?'var(--amber)':'var(--green-l)'};letter-spacing:-1px;margin-bottom:3px">
+        ${t.booking||0}<span style="font-size:13px;color:var(--t3);font-weight:500">/${t.target||0}</span>
+      </div>
+      <div style="font-size:10px;color:var(--t3);margin-bottom:9px">Booking · ${pct}% mục tiêu</div>
+      <div style="background:rgba(255,255,255,0.05);border-radius:4px;height:4px;overflow:hidden;margin-bottom:10px">
         <div style="height:100%;border-radius:4px;background:${i===0?'var(--amber)':'var(--green)'};width:${pct}%;transition:width .5s"></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
         <div style="text-align:center;padding:6px;background:rgba(255,255,255,0.02);border-radius:6px;border:1px solid var(--border)">
-          <div style="font-size:16px;font-weight:800;color:var(--t1)">${stats.meetings||0}</div>
-          <div style="font-size:9px;color:var(--t3)">Gặp Mặt</div>
+          <div style="font-size:15px;font-weight:800;color:var(--t1)">${stats.tiep_can||0}</div>
+          <div style="font-size:9px;color:var(--t3)">Tiếp Cận</div>
         </div>
         <div style="text-align:center;padding:6px;background:rgba(255,255,255,0.02);border-radius:6px;border:1px solid var(--border)">
-          <div style="font-size:16px;font-weight:800;color:var(--t1)">${stats.consultations||0}</div>
-          <div style="font-size:9px;color:var(--t3)">Tư Vấn</div>
+          <div style="font-size:15px;font-weight:800;color:var(--t1)">${stats.tien_nang||0}</div>
+          <div style="font-size:9px;color:var(--t3)">Tiềm Năng</div>
         </div>
       </div>
     </div>`;
@@ -1343,66 +1423,75 @@ async function loadLeaderboard() {
 // ══ MKT COSTS ══
 async function loadMKT() {
   if (!can('add_cost')) document.getElementById('add-cost-btn').style.display = 'none';
-
-  const { data } = await sb.from('bh_src_daily').select('*').order('date', { ascending: false });
   const statsEl = document.getElementById('mkt-stats');
   const tableEl = document.getElementById('mkt-table');
 
-  if (!data?.length) { statsEl.innerHTML = '<div style="grid-column:1/-1;color:var(--t3);font-size:12px">Chưa có dữ liệu chi phí</div>'; tableEl.innerHTML = ''; return; }
+  // bh_src_daily: member_id, sprint_day, source_name, count
+  const { data } = await sb.from('bh_src_daily').select('*').order('sprint_day', { ascending: false });
 
-  const total = data.reduce((s, r) => s + (r.amount||0), 0);
-  const budget = 50; // default budget in triệu, can be pulled from bh_sprint_config
-  const remain = budget - total;
+  if (!data?.length) {
+    statsEl.innerHTML='<div style="grid-column:1/-1;color:var(--t3);font-size:12px">Chưa có dữ liệu nguồn MKT</div>';
+    tableEl.innerHTML=''; return;
+  }
+
+  // Aggregate by source_name
+  const sourceMap = {};
+  data.forEach(r => {
+    if (!sourceMap[r.source_name]) sourceMap[r.source_name] = 0;
+    sourceMap[r.source_name] += r.count||0;
+  });
+  const totalLeads = data.reduce((s,r)=>s+(r.count||0),0);
+  const topSource = Object.entries(sourceMap).sort((a,b)=>b[1]-a[1])[0];
 
   statsEl.innerHTML = `
-    <div class="sc"><div class="sc-lbl">Ngân Sách</div><div class="sc-val"><span>${budget}</span></div><div class="sc-sub">triệu VND</div></div>
-    <div class="sc"><div class="sc-lbl">Đã Chi</div><div class="sc-val"><span style="color:var(--amber)">${total.toFixed(1)}</span></div><div class="sc-sub">triệu VND</div></div>
-    <div class="sc"><div class="sc-lbl">Còn Lại</div><div class="sc-val"><span style="color:${remain<10?'var(--red)':'var(--green-l)'}">${remain.toFixed(1)}</span></div><div class="sc-sub">triệu VND</div></div>`;
+    <div class="sc"><div class="sc-lbl">Tổng Leads</div><div class="sc-val"><span>${totalLeads}</span></div><div class="sc-sub">Từ tất cả nguồn</div></div>
+    <div class="sc"><div class="sc-lbl">Nguồn Tốt Nhất</div><div class="sc-val" style="font-size:16px;font-weight:700"><span>${topSource?.[0]||'N/A'}</span></div><div class="sc-sub">${topSource?.[1]||0} leads</div></div>
+    <div class="sc"><div class="sc-lbl">Số Nguồn</div><div class="sc-val"><span>${Object.keys(sourceMap).length}</span></div><div class="sc-sub">Kênh đang chạy</div></div>`;
 
   tableEl.innerHTML = `<table class="kpi-table">
-    <thead><tr><th>Ngày</th><th>Danh Mục</th><th>Mô Tả</th><th>Số Tiền (tr)</th><th>Người Chi</th></tr></thead>
-    <tbody>${data.map(r => `<tr>
-      <td>${r.date||''}</td>
-      <td>${r.category||''}</td>
-      <td>${r.description||''}</td>
-      <td class="amber">${(r.amount||0).toFixed(1)}</td>
-      <td>${r.created_by||''}</td>
-    </tr>`).join('')}</tbody>
+    <thead><tr><th>CVKD</th><th>Sprint Ngày</th><th>Nguồn</th><th>Số Leads</th></tr></thead>
+    <tbody>${data.map(r => {
+      const m = members.find(x=>x.id===r.member_id||x.name===r.member_id)||{};
+      return `<tr>
+        <td>${m.display_name||r.member_id}</td>
+        <td>Ngày ${r.sprint_day}</td>
+        <td>${r.source_name||''}</td>
+        <td class="green">${r.count||0}</td>
+      </tr>`;
+    }).join('')}</tbody>
   </table>`;
 }
 
 function showAddCost() {
   const box = document.getElementById('modalBox');
+  const sprintDay = getCurrentSprintDay();
   box.innerHTML = `
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
-      <div style="font-size:15px;font-weight:800;color:var(--t1)">Thêm Chi Phí MKT</div>
+      <div style="font-size:15px;font-weight:800;color:var(--t1)">Cập Nhật Nguồn Leads</div>
       <div onclick="closeModal()" style="cursor:pointer;color:var(--t3);font-size:18px">✕</div>
     </div>
+    <div style="font-size:11px;color:var(--t3);margin-bottom:14px">${currentUser.display_name} · Sprint ngày ${sprintDay}</div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Ngày</label><input class="form-input" id="cost-date" type="date" value="${new Date().toISOString().slice(0,10)}"></div>
-      <div class="form-group"><label class="form-label">Số Tiền (triệu VND)</label><input class="form-input" id="cost-amount" type="number" step="0.1" placeholder="1.5"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">Danh Mục</label><select class="form-input" id="cost-cat"><option>Facebook Ads</option><option>Google Ads</option><option>Tờ rơi</option><option>Event</option><option>Khác</option></select></div>
-      <div class="form-group"><label class="form-label">Mô Tả</label><input class="form-input" id="cost-desc" placeholder="Chi tiết chi phí..."></div>
+      <div class="form-group"><label class="form-label">Nguồn Khách</label><select class="form-input" id="cost-source"><option>Facebook Ads</option><option>Zalo Ads</option><option>Google Ads</option><option>Giới thiệu</option><option>Telesale</option><option>Tờ rơi</option><option>Sự kiện</option><option>Khác</option></select></div>
+      <div class="form-group"><label class="form-label">Số Leads</label><input class="form-input" id="cost-count" type="number" min="0" placeholder="5"></div>
     </div>
     <div style="display:flex;gap:10px;margin-top:6px">
       <button class="btn-secondary" onclick="closeModal()">Hủy</button>
-      <button class="btn-primary" style="flex:1" onclick="saveCost()">Lưu Chi Phí</button>
+      <button class="btn-primary" style="flex:1" onclick="saveCost()">Lưu</button>
     </div>`;
   openModal();
 }
 
 async function saveCost() {
-  const { error } = await sb.from('bh_src_daily').insert({
-    date: document.getElementById('cost-date')?.value,
-    amount: parseFloat(document.getElementById('cost-amount')?.value)||0,
-    category: document.getElementById('cost-cat')?.value,
-    description: document.getElementById('cost-desc')?.value.trim(),
-    created_by: currentUser.display_name,
-    created_at: new Date().toISOString()
-  });
+  // bh_src_daily: member_id, sprint_day, source_name, count
+  const { error } = await sb.from('bh_src_daily').upsert({
+    member_id: currentUser.id,
+    sprint_day: getCurrentSprintDay(),
+    source_name: document.getElementById('cost-source')?.value,
+    count: parseInt(document.getElementById('cost-count')?.value)||0
+  }, { onConflict: 'member_id,sprint_day,source_name' });
   if (!error) { closeModal(); loadMKT(); }
+  else console.error('saveCost error:', error);
 }
 
 // ══ EVENTS ══
@@ -1595,26 +1684,31 @@ async function updateMember(id) {
 // ══ LIVE KPI TABLE ══
 async function loadLiveKPI() {
   const el = document.getElementById('live-kpi-table');
-  const { data } = await sb.from('bh_targets').select('*').order('current_value', { ascending: false });
-  if (!data?.length) { el.innerHTML = '<div style="color:var(--t3);font-size:12px">Chưa có dữ liệu</div>'; return; }
+  // bh_targets: member_id, target, booking
+  const { data } = await sb.from('bh_targets').select('*').order('booking', { ascending: false });
+  if (!data?.length) { el.innerHTML='<div style="color:var(--t3);font-size:12px">Chưa có dữ liệu targets</div>'; return; }
+
+  const totalBooking = data.reduce((s,r)=>s+(r.booking||0),0);
+  const totalTarget = data.reduce((s,r)=>s+(r.target||0),0);
 
   const rows = data.map(r => {
-    const pct = r.target_value ? Math.round(((r.current_value||0)/r.target_value)*100) : 0;
+    const m = members.find(x=>x.id===r.member_id||x.name===r.member_id||x.display_name===r.member_id)||{};
+    const pct = r.target ? Math.round(((r.booking||0)/r.target)*100) : 0;
     return `<tr>
-      <td>${r.member_name}</td>
-      <td>${r.current_value||0}</td>
-      <td>${(r.revenue_achieved||0).toFixed(0)} tỷ</td>
+      <td>${m.display_name||r.member_id}</td>
+      <td>${r.booking||0}</td>
+      <td>${r.target||0}</td>
       <td>${pct}%</td>
-      <td class="${pct>=100?'green':pct>=50?'amber':'red'}">${pct>=100?'Đạt xuất sắc':pct>=50?'Đang theo':pct>0?'Dưới mục tiêu':'Chưa bắt đầu'}</td>
+      <td class="${pct>=100?'green':pct>=50?'amber':'red'}">${pct>=100?'Xuất sắc':pct>=50?'Đang theo':pct>0?'Dưới mục tiêu':'Chưa bắt đầu'}</td>
     </tr>`;
   }).join('');
 
   el.innerHTML = `<table class="kpi-table">
-    <thead><tr><th>CVKD</th><th>Booking</th><th>Doanh Số</th><th>% Mục Tiêu</th><th>Trạng Thái</th></tr></thead>
+    <thead><tr><th>CVKD</th><th>Đã Booking</th><th>Mục Tiêu</th><th>% Đạt</th><th>Trạng Thái</th></tr></thead>
     <tbody>${rows}</tbody>
   </table>
   <div style="margin-top:12px;padding:10px 13px;background:rgba(212,160,40,0.07);border:1px solid rgba(212,160,40,0.2);border-radius:8px;font-size:11.5px;color:var(--t2)">
-    Mục tiêu tháng 4: <strong style="color:var(--amber)">20 booking</strong> · Tổng đạt: <strong style="color:var(--green-l)">${data.reduce((s,r)=>s+(r.current_value||0),0)} booking</strong>
+    Tổng mục tiêu: <strong style="color:var(--amber)">${totalTarget} booking</strong> · Đã đạt: <strong style="color:var(--green-l)">${totalBooking} booking</strong>
   </div>`;
 }
 
@@ -1638,7 +1732,7 @@ const PAGE_MAP = {
   'crm':       { id:'pg-crm',        title:'CRM Pipeline',            crumb:' / Chiến Dịch Live',       loader: loadCRM },
   'pdca':      { id:'pg-pdca',       title:'Báo Cáo PDCA',            crumb:' / Chiến Dịch Live',       loader: loadPDCA },
   'leaderboard':{ id:'pg-leaderboard',title:'Leaderboard',            crumb:' / Chiến Dịch Live',       loader: loadLeaderboard },
-  'mkt':       { id:'pg-mkt',        title:'Chi Phí MKT',             crumb:' / Chiến Dịch Live',       loader: loadMKT },
+  'mkt':       { id:'pg-mkt',        title:'Nguồn Leads MKT',         crumb:' / Chiến Dịch Live',       loader: loadMKT },
   'events':    { id:'pg-events',     title:'Lịch Sự Kiện',            crumb:' / Chiến Dịch Live',       loader: loadEvents },
   'community': { id:'pg-community',  title:'Community Feed',           crumb:' / Chiến Dịch Live',       loader: loadCommunity },
   'members':   { id:'pg-members',    title:'Quản Lý Thành Viên',      crumb:' / Quản Trị',              loader: loadMembers_admin },
