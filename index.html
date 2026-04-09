@@ -982,21 +982,19 @@ let fontIdx = parseInt(localStorage.getItem('bh-font-idx') || '2');
 
 function applyFont() {
   const scale = fontScales[fontIdx];
-  // zoom scales everything including px values — most reliable approach
   const main = document.querySelector('.main');
   const sb = document.querySelector('.sb');
   if (main) main.style.zoom = scale;
   if (sb) sb.style.zoom = scale;
-  // Update A-/A+ button visual feedback
-  const btns = document.querySelectorAll('[data-font-btn]');
-  btns.forEach(b => b.style.opacity = '1');
-  if (fontIdx === 0) document.querySelector('[data-font-btn="-"]').style.opacity = '0.4';
-  if (fontIdx === fontScales.length-1) document.querySelector('[data-font-btn="+"]').style.opacity = '0.4';
+  // Safe button feedback — only if buttons exist
+  const btnMinus = document.querySelector('[data-font-btn="-"]');
+  const btnPlus = document.querySelector('[data-font-btn="+"]');
+  if (btnMinus) btnMinus.style.opacity = fontIdx === 0 ? '0.4' : '1';
+  if (btnPlus) btnPlus.style.opacity = fontIdx === fontScales.length-1 ? '0.4' : '1';
 }
 
-// Apply on load — wait for DOM
+// Apply after DOM ready
 document.addEventListener('DOMContentLoaded', applyFont);
-setTimeout(applyFont, 100); // fallback
 
 function changeFont(dir) {
   fontIdx = Math.max(0, Math.min(fontScales.length - 1, fontIdx + dir));
