@@ -351,6 +351,263 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   .sb.collapsed .nav-lbl{display:block!important}
 }
 ::-webkit-scrollbar-thumb{background:rgba(61,139,61,.25);border-radius:2px}
+
+/* ══ FINANCIAL TOOLS (scoped) ══ */
+
+#ft-wrap{
+  --bg:#f4f6f4;--white:#fff;--sf2:#f8faf8;--sf3:#eef3ee;
+  --brd:#d6e4d6;--brd2:#e8f0e8;
+  --g:#2e7d2e;--gl:#3a9a3a;--gdim:#edf6ed;--gtext:#1a5c1a;
+  --tx:#1a2e1a;--tx2:#3a5a3a;--tm:#6b896b;
+  --red:#c0392b;--reddim:#fdf0ef;
+  --amb:#b7770d;--ambdim:#fef9ec;
+  --blu:#1e6fa8;--bludim:#eef5fb;--lime:#5a8a1a;
+  --sh:0 1px 3px rgba(0,0,0,0.07),0 1px 2px rgba(0,0,0,0.04);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+#ft-wrap{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.6;}
+#ft-wrap .hdr{background:var(--white);border-bottom:1px solid var(--brd);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:sticky;top:0;z-index:200;box-shadow:var(--sh);}
+#ft-wrap .logo{display:flex;align-items:center;gap:10px;}
+#ft-wrap .logo-em{width:34px;height:34px;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#fff;border-radius:4px;flex-shrink:0;}
+#ft-wrap .logo-name{font-size:16px;font-weight:700;color:var(--tx);}
+#ft-wrap .logo-sub{font-size:10px;color:var(--tm);}
+#ft-wrap .hdr-r{display:flex;align-items:center;gap:10px;}
+#ft-wrap .hdr-date{font-size:11px;color:var(--tm);font-weight:500;white-space:nowrap;display:none;}
+@media(min-width:600px){.hdr-date{display:block;}}
+#ft-wrap .btn-print{background:var(--g);color:#fff;border:none;padding:8px 16px;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border-radius:4px;}
+#ft-wrap .btn-print:hover{background:var(--gl);}
+#ft-wrap .session{background:var(--white);border-bottom:1px solid var(--brd);padding:12px 16px;display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;}
+#ft-wrap .ses-ttl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--g);white-space:nowrap;padding-top:18px;}
+#ft-wrap .sf{display:flex;gap:8px;flex-wrap:wrap;flex:1;}
+#ft-wrap .sfi{display:flex;flex-direction:column;gap:4px;min-width:130px;flex:1;}
+#ft-wrap .sfi label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--tm);}
+#ft-wrap .sfi input{background:var(--sf2);border:1px solid var(--brd);color:var(--tx);padding:7px 10px;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;font-weight:500;outline:none;border-radius:4px;width:100%;}
+#ft-wrap .sfi input:focus{border-color:var(--g);background:var(--white);}
+#ft-wrap .tabs{background:var(--white);border-bottom:2px solid var(--brd);display:flex;padding:0 8px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+#ft-wrap .tabs::-webkit-scrollbar{height:0;}
+#ft-wrap .tab{padding:12px 12px;font-size:12px;font-weight:600;color:var(--tm);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:6px;flex-shrink:0;}
+#ft-wrap .tab:hover{color:var(--g);}
+#ft-wrap .tab.active{color:var(--g);border-bottom-color:var(--g);}
+#ft-wrap .ti{width:18px;height:18px;border-radius:50%;background:var(--gdim);color:var(--gtext);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+#ft-wrap .tab.active .ti{background:var(--g);color:#fff;}
+#ft-wrap .main{max-width:1300px;margin:0 auto;padding:16px;}
+@media(min-width:600px){.main{padding:20px 24px;}}
+#ft-wrap .panel{display:none;}
+#ft-wrap .panel.active{display:block;}
+#ft-wrap .th{margin-bottom:18px;}
+#ft-wrap .tt{font-size:20px;font-weight:800;color:var(--tx);letter-spacing:-0.3px;margin-bottom:4px;}
+@media(min-width:600px){.tt{font-size:24px;}}
+#ft-wrap .ts{font-size:13px;color:var(--tm);}
+#ft-wrap .tg{margin-top:10px;padding:10px 14px;background:var(--gdim);border-left:3px solid var(--g);font-size:12px;color:var(--tx2);border-radius:0 4px 4px 0;}
+#ft-wrap .g2{display:grid;grid-template-columns:1fr;gap:14px;}
+@media(min-width:860px){.g2{grid-template-columns:380px 1fr;gap:20px;}}
+#ft-wrap .g3{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(min-width:700px){.g3{grid-template-columns:1fr 1fr 1fr;}}
+#ft-wrap .g4{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media(min-width:700px){.g4{grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;}}
+#ft-wrap .ch2{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:14px;}
+@media(min-width:700px){.ch2{grid-template-columns:1fr 1fr;}}
+#ft-wrap .card{background:var(--white);border:1px solid var(--brd);border-radius:8px;padding:16px;box-shadow:var(--sh);}
+@media(min-width:600px){.card{padding:20px;}}
+#ft-wrap .ctit{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gtext);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--brd2);}
+#ft-wrap .f{margin-bottom:12px;}
+#ft-wrap .f label{display:block;font-size:12px;font-weight:600;color:var(--tx2);margin-bottom:5px;}
+#ft-wrap .f input, #ft-wrap .f select{width:100%;background:var(--sf2);border:1px solid var(--brd);color:var(--tx);padding:9px 12px;font-family:'Be Vietnam Pro',sans-serif;font-size:14px;font-weight:500;outline:none;border-radius:6px;}
+#ft-wrap .f input:focus, #ft-wrap .f select:focus{border-color:var(--g);background:var(--white);}
+#ft-wrap .f input[type=range]{background:none;border:none;padding:4px 0;accent-color:var(--g);cursor:pointer;box-shadow:none;}
+#ft-wrap .fr{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+#ft-wrap .f3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+#ft-wrap .btn{width:100%;background:var(--g);color:#fff;border:none;padding:13px;font-family:'Be Vietnam Pro',sans-serif;font-weight:700;font-size:14px;cursor:pointer;border-radius:6px;margin-top:10px;}
+#ft-wrap .btn:hover{background:var(--gl);}
+#ft-wrap .btn2{background:transparent;border:1px solid var(--brd);color:var(--tx2);padding:9px 12px;font-family:'Be Vietnam Pro',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border-radius:6px;margin-top:6px;}
+#ft-wrap .btn2:hover{border-color:var(--g);color:var(--g);background:var(--gdim);}
+#ft-wrap .kbox{background:var(--sf2);border:1px solid var(--brd);border-radius:8px;padding:12px 14px;position:relative;overflow:hidden;}
+#ft-wrap .kbox::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--g);border-radius:8px 8px 0 0;}
+#ft-wrap .kbox.red-top::after{background:var(--red);}
+#ft-wrap .kbox.amb-top::after{background:var(--amb);}
+#ft-wrap .kbox.blu-top::after{background:var(--blu);}
+#ft-wrap .kl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--tm);margin-bottom:5px;}
+#ft-wrap .kv{font-size:16px;font-weight:800;color:var(--g);line-height:1.2;}
+@media(min-width:600px){.kv{font-size:18px;}.kv.big{font-size:22px;}}
+#ft-wrap .kv.big{font-size:18px;}
+#ft-wrap .kv.red{color:var(--red);}
+#ft-wrap .kv.amb{color:var(--amb);}
+#ft-wrap .kv.wh{color:var(--tx);}
+#ft-wrap .kv.grn{color:var(--g);}
+#ft-wrap .ks{font-size:10px;color:var(--tm);margin-top:3px;font-weight:500;}
+#ft-wrap .rtbl{margin-top:4px;}
+#ft-wrap .rr{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--brd2);}
+#ft-wrap .rr:last-child{border-bottom:none;}
+#ft-wrap .rl{font-size:12px;color:var(--tm);font-weight:500;flex:1;}
+#ft-wrap .rv2{font-size:13px;color:var(--tx);font-weight:700;text-align:right;white-space:nowrap;}
+#ft-wrap .rv2.hl{color:var(--g);font-size:15px;}
+#ft-wrap .rv2.red{color:var(--red);}
+#ft-wrap .rv2.grn{color:var(--g);}
+#ft-wrap .rv2.amb{color:var(--amb);}
+#ft-wrap .tw{overflow-x:auto;margin-top:14px;border-radius:6px;border:1px solid var(--brd);-webkit-overflow-scrolling:touch;}
+#ft-wrap table{width:100%;border-collapse:collapse;font-size:12px;}
+#ft-wrap thead tr{background:var(--sf3);}
+#ft-wrap th{padding:9px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gtext);border-bottom:1px solid var(--brd);white-space:nowrap;}
+#ft-wrap th.r, #ft-wrap td.r{text-align:right;}
+#ft-wrap td{padding:8px 10px;border-bottom:1px solid var(--brd2);color:var(--tx2);font-size:12px;font-weight:500;white-space:nowrap;}
+#ft-wrap tr:last-child td{border-bottom:none;}
+#ft-wrap tr:hover td{background:var(--sf2);}
+#ft-wrap td.lb{color:var(--tm);}
+#ft-wrap tr.gp td{background:var(--gdim);color:var(--gtext);font-weight:700;}
+#ft-wrap tr.ft td{background:var(--sf3);color:var(--g);font-weight:700;border-top:1px solid var(--brd);}
+#ft-wrap .chbox{background:var(--white);border:1px solid var(--brd);border-radius:8px;padding:14px;box-shadow:var(--sh);overflow:hidden;}
+#ft-wrap .chtit{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--tm);margin-bottom:10px;}
+#ft-wrap .chleg{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;}
+#ft-wrap .li{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--tm);}
+#ft-wrap .ld2{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+#ft-wrap canvas{display:block;max-width:100%;height:auto;}
+#ft-wrap .badge{display:inline-block;padding:2px 7px;font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;border-radius:4px;}
+#ft-wrap .bg{background:var(--gdim);color:var(--gtext);}
+#ft-wrap .br{background:var(--reddim);color:var(--red);}
+#ft-wrap .ba{background:var(--ambdim);color:var(--amb);}
+#ft-wrap .bbl{background:var(--bludim);color:var(--blu);}
+#ft-wrap .wfbar{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+#ft-wrap .wfi{display:grid;grid-template-columns:1fr;gap:4px;}
+@media(min-width:500px){.wfi{grid-template-columns:150px 1fr 100px;gap:8px;align-items:center;}}
+#ft-wrap .wfl{font-size:12px;font-weight:600;color:var(--tx2);}
+@media(min-width:500px){.wfl{text-align:right;}}
+#ft-wrap .wft{height:28px;background:var(--sf3);border-radius:4px;overflow:hidden;border:1px solid var(--brd);}
+#ft-wrap .wff{height:100%;display:flex;align-items:center;padding-left:10px;font-size:12px;font-weight:700;border-radius:4px;}
+#ft-wrap .wfn{font-size:12px;font-weight:700;}
+#ft-wrap .phr{display:grid;grid-template-columns:2fr 1fr 56px auto;gap:6px;margin-bottom:8px;align-items:end;}
+#ft-wrap .div{border:none;border-top:1px solid var(--brd);margin:14px 0;}
+#ft-wrap .stl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--g);margin:14px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--brd2);}
+#ft-wrap .note{font-size:11px;color:var(--tm);line-height:1.7;margin-top:10px;padding:10px 12px;background:var(--sf2);border-radius:4px;border:1px solid var(--brd2);}
+/* Print */
+@media print{
+  .hdr,.tabs,.session,.btn,.btn2,.tg{display:none!important;}
+  body{background:#fff;font-size:11px;}
+  .main{padding:0;max-width:100%;}
+  .panel{display:block!important;}
+  .card,.kbox,.chbox{box-shadow:none;border:1px solid #ddd;}
+  .ph{display:flex!important;}
+}
+@media screen{.ph{display:none!important;}}
+#ft-wrap .ph{justify-content:space-between;align-items:flex-start;padding:20px 0;border-bottom:2px solid var(--g);margin-bottom:24px;}
+#ft-wrap .ph-logo{font-size:20px;font-weight:800;color:var(--g);}
+#ft-wrap .ph-meta{text-align:right;font-size:11px;color:#555;line-height:2;}
+
+/* ── SLIDE-OVER HELP ── */
+#ft-wrap .help-btn{
+  background:none;border:1px solid var(--brd);color:var(--tm);
+  padding:6px 14px;border-radius:20px;font-family:'Be Vietnam Pro',sans-serif;
+  font-size:12px;font-weight:600;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:10px;transition:all .15s;
+}
+#ft-wrap .help-btn:hover{border-color:var(--g);color:var(--g);background:var(--gdim);}
+#ft-wrap .help-btn svg{width:14px;height:14px;}
+
+#ft-wrap .overlay{
+  position:fixed;inset:0;background:rgba(10,20,10,0.45);
+  z-index:999;opacity:0;pointer-events:none;transition:opacity .25s;
+}
+#ft-wrap .overlay.open{opacity:1;pointer-events:all;}
+
+#ft-wrap .slideover{
+  position:fixed;top:0;right:0;bottom:0;width:min(480px,100vw);
+  background:var(--white);z-index:1000;
+  transform:translateX(100%);transition:transform .28s cubic-bezier(.32,.72,0,1);
+  display:flex;flex-direction:column;box-shadow:-8px 0 32px rgba(0,0,0,0.12);
+}
+#ft-wrap .slideover.open{transform:translateX(0);}
+
+#ft-wrap .so-head{
+  padding:20px 24px 16px;border-bottom:1px solid var(--brd);
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+  background:var(--sf3);flex-shrink:0;
+}
+#ft-wrap .so-title{font-size:16px;font-weight:800;color:var(--tx);}
+#ft-wrap .so-sub{font-size:12px;color:var(--tm);margin-top:3px;}
+#ft-wrap .so-close{
+  background:none;border:none;cursor:pointer;color:var(--tm);
+  padding:4px;border-radius:4px;flex-shrink:0;
+}
+#ft-wrap .so-close:hover{color:var(--tx);background:var(--brd);}
+
+#ft-wrap .so-body{overflow-y:auto;flex:1;padding:20px 24px;}
+
+#ft-wrap .so-section{margin-bottom:20px;}
+#ft-wrap .so-section-title{
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;
+  color:var(--gtext);margin-bottom:10px;padding-bottom:6px;
+  border-bottom:1px solid var(--brd2);
+}
+#ft-wrap .so-text{font-size:13px;color:var(--tx2);line-height:1.7;font-weight:400;}
+#ft-wrap .so-text li{margin-left:16px;margin-bottom:4px;}
+#ft-wrap .so-text ul{margin-top:6px;}
+
+#ft-wrap .so-script{
+  background:var(--gdim);border-left:3px solid var(--g);
+  border-radius:0 8px 8px 0;padding:14px 16px;
+  font-size:13px;color:var(--gtext);line-height:1.8;
+  font-weight:500;margin-top:8px;
+  font-style:italic;
+}
+#ft-wrap .so-script strong{font-style:normal;color:var(--g);font-weight:700;}
+#ft-wrap .so-warn{
+  background:var(--ambdim);border-left:3px solid var(--amb);
+  border-radius:0 8px 8px 0;padding:12px 14px;
+  font-size:12px;color:var(--amb);line-height:1.7;margin-top:8px;
+}
+#ft-wrap .so-kpi-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;
+}
+#ft-wrap .so-kpi{
+  background:var(--sf2);border:1px solid var(--brd);border-radius:6px;
+  padding:10px 12px;
+}
+#ft-wrap .so-kpi .label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--tm);margin-bottom:4px;}
+#ft-wrap .so-kpi .val{font-size:13px;font-weight:700;color:var(--g);}
+
+/* ── FONT SIZE SWITCHER ── */
+#ft-wrap .fs-switcher{display:flex;align-items:center;gap:4px;background:var(--sf2);border:1px solid var(--brd);border-radius:6px;padding:2px;}
+#ft-wrap .fs-btn{background:none;border:none;cursor:pointer;padding:5px 10px;border-radius:4px;font-family:'Be Vietnam Pro',sans-serif;font-size:12px;font-weight:700;color:var(--tm);transition:all .15s;line-height:1;}
+#ft-wrap .fs-btn:hover{color:var(--g);}
+#ft-wrap .fs-btn.active{background:var(--g);color:#fff;}
+
+/* Font size levels applied to .main */
+#ft-wrap .fs-sm .main{font-size:12px;}
+#ft-wrap .fs-sm .tt{font-size:18px;}
+#ft-wrap .fs-sm th, #ft-wrap body.fs-sm td{font-size:11px;}
+#ft-wrap .fs-sm .kv{font-size:15px;}
+#ft-wrap .fs-sm .kv.big{font-size:18px;}
+
+#ft-wrap .fs-md .main{font-size:14px;}
+
+#ft-wrap .fs-lg .main{font-size:16px;}
+#ft-wrap .fs-lg .tt{font-size:26px;}
+#ft-wrap .fs-lg th, #ft-wrap body.fs-lg td{font-size:13px;}
+#ft-wrap .fs-lg .kv{font-size:20px;}
+#ft-wrap .fs-lg .kv.big{font-size:24px;}
+#ft-wrap .fs-lg .f input, #ft-wrap .fs-lg .f select, #ft-wrap .fs-lg .sfi input{font-size:15px;}
+#ft-wrap .fs-lg .btn{font-size:15px;}
+#ft-wrap .fs-lg .tab{font-size:13px;}
+#ft-wrap .fs-lg .rr .rl, #ft-wrap .fs-lg .rr .rv2{font-size:14px;}
+#ft-wrap .fs-lg .rv2.hl{font-size:17px;}
+#ft-wrap .fs-lg .note, #ft-wrap .fs-lg .so-text, #ft-wrap .fs-lg .so-script{font-size:14px;}
+
+#ft-wrap .fs-xl .main{font-size:18px;}
+#ft-wrap .fs-xl .tt{font-size:28px;}
+#ft-wrap .fs-xl th, #ft-wrap body.fs-xl td{font-size:14px;}
+#ft-wrap .fs-xl .kv{font-size:22px;}
+#ft-wrap .fs-xl .kv.big{font-size:26px;}
+#ft-wrap .fs-xl .f input, #ft-wrap .fs-xl .f select, #ft-wrap .fs-xl .sfi input{font-size:17px;}
+#ft-wrap .fs-xl .f label{font-size:14px;}
+#ft-wrap .fs-xl .btn{font-size:16px;padding:14px;}
+#ft-wrap .fs-xl .tab{font-size:14px;padding:14px 16px;}
+#ft-wrap .fs-xl .rr .rl, #ft-wrap .fs-xl .rr .rv2{font-size:15px;}
+#ft-wrap .fs-xl .rv2.hl{font-size:19px;}
+#ft-wrap .fs-xl .kl{font-size:11px;}
+#ft-wrap .fs-xl .ks{font-size:12px;}
+#ft-wrap .fs-xl .note, #ft-wrap .fs-xl .so-text, #ft-wrap .fs-xl .so-script{font-size:15px;}
+#ft-wrap .fs-xl .so-title{font-size:18px;}
+
 [data-theme="light"] .form-input{background:rgba(0,0,0,.03)}
 [data-theme="light"] .pk{background:rgba(0,0,0,.03)}
 </style>
@@ -568,15 +825,429 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <div id="events-list"><div class="loading"><div class="spinner"></div></div></div>
     </div>
 
-    <!-- TOOL EMBED -->
-    <div class="page" id="pg-tool" style="padding:0;position:fixed;inset:0;z-index:50;background:var(--bg);display:none;flex-direction:column">
-      <div style="display:flex;align-items:center;gap:12px;padding:11px 20px;background:var(--card);border-bottom:1px solid var(--border);flex-shrink:0">
-        <div id="tool-title" style="font-size:13.5px;font-weight:800;color:var(--t1)">Công Cụ</div>
-        <div style="margin-left:auto">
-          <button onclick="closeToolPage()" style="padding:6px 14px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s">← Quay lại</button>
-        </div>
+    <!-- TOOL EMBED (integrated) -->
+    <div class="page" id="pg-tool">
+      <div id="ft-wrap"><div class="ph">
+  <div><div class="ph-logo">Bighomes 15</div><div style="font-size:11px;color:#666;margin-top:2px;">Báo Cáo Phân Tích Tài Chính Bất Động Sản</div></div>
+  <div class="ph-meta" id="pmeta"></div>
+</div>
+
+<div class="hdr">
+  <div class="logo">
+    <div class="logo-em">B</div>
+    <div><div class="logo-name">Bighomes 15</div><div class="logo-sub">Financial Advisory Suite</div></div>
+  </div>
+  <div class="hdr-r">
+    <div class="hdr-date" id="hdate"></div>
+    <div class="fs-switcher">
+    <button class="fs-btn" data-fs="fs-sm" onclick="setFontSize('fs-sm')" title="Chữ nhỏ">A</button>
+    <button class="fs-btn active" data-fs="fs-md" onclick="setFontSize('fs-md')" title="Chữ vừa" style="font-size:14px;">A</button>
+    <button class="fs-btn" data-fs="fs-lg" onclick="setFontSize('fs-lg')" title="Chữ lớn" style="font-size:16px;">A</button>
+    <button class="fs-btn" data-fs="fs-xl" onclick="setFontSize('fs-xl')" title="Chữ rất lớn" style="font-size:18px;">A</button>
+  </div>
+    <button class="btn-print" onclick="window.print()">In Báo Cáo</button>
+  </div>
+</div>
+
+<div class="session">
+  <div class="ses-ttl">Phiên<br>tư vấn</div>
+  <div class="sf">
+    <div class="sfi"><label>Dự án</label><input id="s1" type="text" placeholder="Vinhomes Hạ Long Xanh" oninput="sm()"></div>
+    <div class="sfi"><label>Mã sản phẩm</label><input id="s2" type="text" placeholder="HLX-A02-08" oninput="sm()"></div>
+    <div class="sfi"><label>Khách hàng</label><input id="s3" type="text" placeholder="Họ và tên" oninput="sm()"></div>
+    <div class="sfi"><label>Tư vấn viên</label><input id="s4" type="text" placeholder="Tên sales" oninput="sm()"></div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="go(0)"><span class="ti">1</span>Vay NH</div>
+  <div class="tab" onclick="go(1)"><span class="ti">2</span>Lịch TT</div>
+  <div class="tab" onclick="go(2)"><span class="ti">3</span>ROI</div>
+  <div class="tab" onclick="go(3)"><span class="ti">4</span>So Sánh</div>
+  <div class="tab" onclick="go(4)"><span class="ti">5</span>Thuê vs Mua</div>
+  <div class="tab" onclick="go(5)"><span class="ti">6</span>Giãn Xây</div>
+</div>
+
+<div class="main">
+<!-- PANEL 1: LOAN -->
+<div class="panel active" id="p0">
+  <div class="th"><div class="tt">Phân Tích Khoản Vay Ngân Hàng</div><div class="ts">Tính khoản vay và lịch trả nợ theo phương pháp dư nợ giảm dần qua 3 giai đoạn lãi suất.</div><div class="tg">Nhập giá trị BĐS và cấu trúc lãi suất ưu đãi. Hệ thống xuất lịch trả nợ đầy đủ kèm biểu đồ.</div>
+  <button class="help-btn" onclick="openHelp(0)"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><circle cx="10" cy="10" r="8"/><path d="M10 14v-4M10 7v.5"/></svg> Hướng dẫn sử dụng</button></div>
+  <div class="g2">
+    <div class="card"><div class="ctit">Thông số khoản vay</div>
+      <div class="f"><label>Giá trị bất động sản (tỷ VND)</label><input type="number" id="l0" value="5" step="0.1" min="0.5"></div>
+      <div class="f"><label>Tỷ lệ vay — <span id="l1v" style="color:var(--g);font-weight:800">70%</span></label><input type="range" id="l1" min="50" max="80" value="70" step="5" oninput="document.getElementById('l1v').textContent=this.value+'%'"></div>
+      <div class="f"><label>Thời hạn vay — <span id="l2v" style="color:var(--g);font-weight:800">20 năm</span></label><input type="range" id="l2" min="5" max="30" value="20" step="1" oninput="document.getElementById('l2v').textContent=this.value+' năm'"></div>
+      <div class="div"></div><div class="stl">Cấu trúc lãi suất theo giai đoạn</div>
+      <div class="fr"><div class="f"><label>Lãi ưu đãi GĐ1 (%/năm)</label><input type="number" id="l3" value="7.5" step="0.1" min="0"></div><div class="f"><label>Thời gian GĐ1 (tháng)</label><input type="number" id="l4" value="12" min="0" max="36"></div></div>
+      <div class="fr"><div class="f"><label>Lãi ưu đãi GĐ2 (%/năm)</label><input type="number" id="l5" value="9.0" step="0.1" min="0"></div><div class="f"><label>Thời gian GĐ2 (tháng)</label><input type="number" id="l6" value="12" min="0" max="36"></div></div>
+      <div class="f"><label>Lãi suất thả nổi sau ưu đãi (%/năm)</label><input type="number" id="l7" value="11.5" step="0.1" min="0"></div>
+      <button class="btn" onclick="calcL()">Phân Tích Khoản Vay</button>
+    </div>
+    <div id="lo"><div class="card" style="color:var(--tm);padding:40px 16px;text-align:center;"><div style="font-size:28px;margin-bottom:8px;">🏦</div><div style="font-size:14px;font-weight:600;color:var(--tx2);">Nhập thông số và nhấn <span style="color:var(--g)">Phân Tích Khoản Vay</span></div></div></div>
+  </div>
+  <div id="lcharts" style="display:none;margin-top:14px;">
+    <div class="ch2"><div class="chbox"><div class="chtit">Phân bổ gốc / lãi theo năm (triệu VND)</div><canvas id="lbc"></canvas><div class="chleg"><div class="li"><div class="ld2" style="background:#2e7d2e"></div>Tiền gốc</div><div class="li"><div class="ld2" style="background:#c0392b"></div>Tiền lãi</div></div></div>
+    <div class="chbox"><div class="chtit">Dư nợ & lãi tích lũy (tỷ VND)</div><canvas id="llc"></canvas><div class="chleg"><div class="li"><div class="ld2" style="background:#3a9a3a"></div>Dư nợ còn lại</div><div class="li"><div class="ld2" style="background:#1e6fa8"></div>Lãi tích lũy</div></div></div></div>
+    <div class="card"><div class="ctit">Lịch trả nợ chi tiết — Dư nợ giảm dần</div><div class="tw"><table><thead><tr><th>Tháng</th><th>GĐ</th><th class="r">Dư nợ đầu kỳ</th><th class="r">Tiền gốc</th><th class="r">Tiền lãi</th><th class="r">Tổng trả/tháng</th><th class="r">Dư nợ cuối kỳ</th></tr></thead><tbody id="lam"></tbody></table></div><div class="note">Phương pháp dư nợ giảm dần — tiền gốc không đổi, tiền lãi giảm dần.</div></div>
+  </div>
+</div>
+
+<!-- PANEL 2: SCHEDULE -->
+<div class="panel" id="p1">
+  <div class="th"><div class="tt">Lịch Thanh Toán Theo Tiến Độ CĐT</div><div class="ts">Phân tích dòng tiền từng đợt — số tiền khách cần chuẩn bị sau khi trừ phần ngân hàng giải ngân.</div><div class="tg">Nhấn "Mẫu Hạ Long Xanh" để tải sẵn tiến độ 8 đợt chuẩn dự án.</div>
+  <button class="help-btn" onclick="openHelp(1)"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><circle cx="10" cy="10" r="8"/><path d="M10 14v-4M10 7v.5"/></svg> Hướng dẫn sử dụng</button></div>
+  <div class="g2">
+    <div class="card"><div class="ctit">Thông số cơ bản</div>
+      <div class="f"><label>Giá bán (tỷ VND)</label><input type="number" id="p0" value="5" step="0.1" min="0"></div>
+      <div class="fr"><div class="f"><label>Khoản vay NH (tỷ VND)</label><input type="number" id="p1a" value="3.5" step="0.1" min="0"></div><div class="f"><label>Giải ngân tại đợt số</label><input type="number" id="p2" value="2" min="1" max="10"></div></div>
+      <div class="f"><label>Phí trước bạ + công chứng (%)</label><input type="number" id="p3" value="2.5" step="0.1" min="0"></div>
+      <div class="div"></div><div class="stl">Các đợt thanh toán</div>
+      <div id="phwrap"></div>
+      <div style="display:flex;gap:8px;margin-top:8px;"><button class="btn2" onclick="addPh()" style="flex:1">+ Thêm đợt</button><button class="btn2" onclick="loadHLX()" style="flex:1">Mẫu Hạ Long Xanh</button></div>
+      <button class="btn" onclick="calcS()">Tính Lịch Thanh Toán</button>
+    </div>
+    <div id="so"><div class="card" style="color:var(--tm);padding:40px 16px;text-align:center;"><div style="font-size:28px;margin-bottom:8px;">📅</div><div style="font-size:14px;font-weight:600;color:var(--tx2);">Nạp mẫu rồi nhấn <span style="color:var(--g)">Tính Lịch Thanh Toán</span></div></div></div>
+  </div>
+  <div id="sdetail" style="display:none;margin-top:14px;">
+    <div class="ch2"><div class="chbox"><div class="chtit">Khách tự có từng đợt (triệu VND)</div><canvas id="sbc"></canvas></div><div class="chbox"><div class="chtit">Cơ cấu nguồn tiền</div><canvas id="spc"></canvas><div class="chleg" id="sleg"></div></div></div>
+    <div class="card"><div class="ctit">Lịch thanh toán chi tiết</div><div class="tw"><table><thead><tr><th>#</th><th>Sự kiện</th><th>Thời gian</th><th class="r">%</th><th class="r">Tổng đợt</th><th class="r">NH giải ngân</th><th class="r">Khách tự có</th><th class="r">Tích lũy tự có</th></tr></thead><tbody id="sbody"></tbody></table></div><div class="note">"Khách tự có" = tổng đợt trừ phần ngân hàng giải ngân cùng đợt.</div></div>
+  </div>
+</div>
+
+<!-- PANEL 3: ROI -->
+<div class="panel" id="p2">
+  <div class="th"><div class="tt">Phân Tích ROI Đầu Tư BĐS</div><div class="ts">Tính toán toàn diện: gross yield, net yield, cash-on-cash, tăng giá tài sản và so sánh với tiết kiệm.</div><div class="tg">Phân tích dòng tiền từng năm với đầy đủ cơ cấu thu nhập thuê, chi phí vận hành, lãi vay và tăng giá.</div>
+  <button class="help-btn" onclick="openHelp(2)"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><circle cx="10" cy="10" r="8"/><path d="M10 14v-4M10 7v.5"/></svg> Hướng dẫn sử dụng</button></div>
+  <div class="g2">
+    <div class="card"><div class="ctit">Thông số đầu tư</div>
+      <div class="stl">Tài sản</div>
+      <div class="fr"><div class="f"><label>Giá mua (tỷ VND)</label><input type="number" id="r0" value="5" step="0.1" min="0"></div><div class="f"><label>Vốn tự có (tỷ VND)</label><input type="number" id="r1" value="2" step="0.1" min="0"></div></div>
+      <div class="fr"><div class="f"><label>Phí mua (thuế, môi giới) %</label><input type="number" id="r2" value="3" step="0.5" min="0"></div><div class="f"><label>Tăng giá BĐS (%/năm)</label><input type="number" id="r3" value="8" step="0.5" min="0"></div></div>
+      <div class="stl">Thu nhập cho thuê</div>
+      <div class="fr"><div class="f"><label>Giá thuê (triệu/tháng)</label><input type="number" id="r4" value="25" step="0.5" min="0"></div><div class="f"><label>Tỷ lệ lấp đầy (%)</label><input type="number" id="r5" value="90" step="1" min="0" max="100"></div></div>
+      <div class="fr"><div class="f"><label>Chi phí quản lý (%/thuê/năm)</label><input type="number" id="r6" value="8" step="1" min="0"></div><div class="f"><label>Tăng giá thuê (%/năm)</label><input type="number" id="r7" value="5" step="0.5" min="0"></div></div>
+      <div class="stl">Khoản vay</div>
+      <div class="fr"><div class="f"><label>Lãi suất vay (%/năm)</label><input type="number" id="r8" value="10" step="0.5" min="0"></div><div class="f"><label>Thời hạn vay (năm)</label><input type="number" id="r9" value="20" step="1" min="0"></div></div>
+      <div class="stl">Kịch bản</div>
+      <div class="f"><label>Thời gian nắm giữ — <span id="r10v" style="color:var(--g);font-weight:800">7 năm</span></label><input type="range" id="r10" min="1" max="15" value="7" step="1" oninput="document.getElementById('r10v').textContent=this.value+' năm'"></div>
+      <div class="f"><label>Lãi suất tiết kiệm so sánh (%/năm)</label><input type="number" id="r11" value="5.5" step="0.1" min="0"></div>
+      <button class="btn" onclick="calcR()">Phân Tích ROI</button>
+    </div>
+    <div id="ro"><div class="card" style="color:var(--tm);padding:40px 16px;text-align:center;"><div style="font-size:28px;margin-bottom:8px;">📈</div><div style="font-size:14px;font-weight:600;color:var(--tx2);">Nhập thông số và nhấn <span style="color:var(--g)">Phân Tích ROI</span></div></div></div>
+  </div>
+  <div id="rcharts" style="display:none;margin-top:14px;">
+    <div class="ch2"><div class="chbox"><div class="chtit">Dòng tiền hàng năm (triệu VND)</div><canvas id="rcf"></canvas><div class="chleg"><div class="li"><div class="ld2" style="background:#2e7d2e"></div>Thuê ròng</div><div class="li"><div class="ld2" style="background:#c0392b"></div>Lãi vay</div><div class="li"><div class="ld2" style="background:#5a8a1a"></div>Dòng tiền tự do</div></div></div>
+    <div class="chbox"><div class="chtit">Tăng trưởng tài sản & vốn CSH (tỷ VND)</div><canvas id="req"></canvas><div class="chleg"><div class="li"><div class="ld2" style="background:#3a9a3a"></div>Giá trị BĐS</div><div class="li"><div class="ld2" style="background:#5a8a1a"></div>Vốn CSH</div><div class="li"><div class="ld2" style="background:#1e6fa8"></div>Dư nợ</div></div></div></div>
+    <div class="card"><div class="ctit">Phân tích dòng tiền theo năm</div><div class="tw"><table><thead><tr><th>Năm</th><th class="r">Giá trị BĐS</th><th class="r">Thuê gộp</th><th class="r">Chi phí</th><th class="r">Thuê ròng</th><th class="r">Lãi vay</th><th class="r">Dòng tiền</th><th class="r">Dư nợ</th><th class="r">Vốn CSH</th></tr></thead><tbody id="rbody"></tbody></table></div><div class="note">Dòng tiền tự do = Thu nhập thuê ròng - Lãi vay. Vốn CSH = Giá trị BĐS - Dư nợ - Tổng đầu tư ban đầu.</div></div>
+  </div>
+</div>
+
+<!-- PANEL 4: COMPARE -->
+<div class="panel" id="p3">
+  <div class="th"><div class="tt">So Sánh Kênh Đầu Tư</div><div class="ts">Mô phỏng tăng trưởng cùng một số vốn qua 4 kênh: BĐS có đòn bẩy, chứng khoán, vàng và tiết kiệm.</div><div class="tg">Biểu đồ so sánh tích lũy tài sản theo năm — cho thấy sức mạnh của đòn bẩy tài chính.</div>
+  <button class="help-btn" onclick="openHelp(3)"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><circle cx="10" cy="10" r="8"/><path d="M10 14v-4M10 7v.5"/></svg> Hướng dẫn sử dụng</button></div>
+  <div class="g2">
+    <div class="card"><div class="ctit">Thông số so sánh</div>
+      <div class="fr"><div class="f"><label>Vốn ban đầu (tỷ VND)</label><input type="number" id="c0" value="2" step="0.1" min="0.1"></div><div class="f"><label>Thời gian — <span id="c1v" style="color:var(--g);font-weight:800">7 năm</span></label><input type="range" id="c1" min="3" max="15" value="7" step="1" oninput="document.getElementById('c1v').textContent=this.value+' năm'"></div></div>
+      <div class="div"></div><div class="stl">BĐS (với đòn bẩy ngân hàng)</div>
+      <div class="f3"><div class="f"><label>Tăng giá (%/năm)</label><input type="number" id="c2" value="10" step="0.5"></div><div class="f"><label>Lợi suất thuê (%)</label><input type="number" id="c3" value="5" step="0.5"></div><div class="f"><label>Tỷ lệ vay (%)</label><input type="number" id="c4" value="60" step="5" min="0" max="80"></div></div>
+      <div class="fr"><div class="f"><label>Lãi suất vay (%/năm)</label><input type="number" id="c5" value="10" step="0.5"></div><div class="f"><label>Chi phí vận hành (%/thuê)</label><input type="number" id="c6" value="15" step="1" min="0"></div></div>
+      <div class="div"></div><div class="stl">Các kênh khác</div>
+      <div class="f3"><div class="f"><label>Chứng khoán (%/năm)</label><input type="number" id="c7" value="12" step="0.5"></div><div class="f"><label>Vàng (%/năm)</label><input type="number" id="c8" value="8" step="0.5"></div><div class="f"><label>Tiết kiệm (%/năm)</label><input type="number" id="c9" value="5.5" step="0.1"></div></div>
+      <button class="btn" onclick="calcC()">So Sánh Ngay</button>
+    </div>
+    <div id="co"><div class="card" style="color:var(--tm);padding:40px 16px;text-align:center;"><div style="font-size:28px;margin-bottom:8px;">⚖️</div><div style="font-size:14px;font-weight:600;color:var(--tx2);">Nhấn <span style="color:var(--g)">So Sánh Ngay</span></div></div></div>
+  </div>
+  <div id="ccharts" style="display:none;margin-top:14px;">
+    <div class="chbox" style="margin-bottom:12px;"><div class="chtit">Tích lũy tài sản theo năm — 4 kênh đầu tư (tỷ VND)</div><canvas id="clc"></canvas><div class="chleg" id="cleg"></div></div>
+    <div class="card"><div class="ctit">Bảng so sánh chi tiết</div><div class="tw"><table><thead><tr><th>Năm</th><th class="r">BĐS — Tổng TS</th><th class="r">BĐS — Vốn CSH</th><th class="r">Chứng khoán</th><th class="r">Vàng</th><th class="r">Tiết kiệm</th><th class="r">BĐS vượt TK</th></tr></thead><tbody id="cbody"></tbody></table></div><div class="note">BĐS Vốn CSH = Giá trị BĐS - Dư nợ + Thu nhập thuê ròng - Lãi vay tích lũy. Số liệu tham khảo.</div></div>
+  </div>
+</div>
+
+<!-- PANEL 5: RENT VS BUY -->
+<div class="panel" id="p4">
+  <div class="th"><div class="tt">Thuê vs Mua — Điểm Hoà Vốn</div><div class="ts">Tính toán thời điểm mua nhà có lợi hơn thuê — phân tích chi phí cơ hội và tích lũy tài sản song song.</div><div class="tg">Điểm hòa vốn = khi vốn CSH từ mua vượt tổng tích lũy từ thuê và đầu tư phần chênh lệch.</div>
+  <button class="help-btn" onclick="openHelp(4)"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><circle cx="10" cy="10" r="8"/><path d="M10 14v-4M10 7v.5"/></svg> Hướng dẫn sử dụng</button></div>
+  <div class="g2">
+    <div class="card"><div class="ctit">Thông số</div>
+      <div class="stl">Phương án thuê</div>
+      <div class="fr"><div class="f"><label>Tiền thuê (triệu/tháng)</label><input type="number" id="v0" value="15" step="0.5" min="0"></div><div class="f"><label>Tăng tiền thuê (%/năm)</label><input type="number" id="v1" value="5" step="0.5" min="0"></div></div>
+      <div class="f"><label>Lợi suất đầu tư phần dôi dư (%/năm)</label><input type="number" id="v2" value="5.5" step="0.1" min="0"></div>
+      <div class="div"></div><div class="stl">Phương án mua</div>
+      <div class="fr"><div class="f"><label>Giá mua (tỷ VND)</label><input type="number" id="v3" value="3.5" step="0.1" min="0"></div><div class="f"><label>Vốn tự có (tỷ VND)</label><input type="number" id="v4" value="1.5" step="0.1" min="0"></div></div>
+      <div class="fr"><div class="f"><label>Lãi suất vay (%/năm)</label><input type="number" id="v5" value="10" step="0.5" min="0"></div><div class="f"><label>Thời hạn vay (năm)</label><input type="number" id="v6" value="20" step="1" min="1"></div></div>
+      <div class="fr"><div class="f"><label>Chi phí mua ban đầu (%)</label><input type="number" id="v7" value="3" step="0.5" min="0"></div><div class="f"><label>Phí bảo trì (%/năm)</label><input type="number" id="v8" value="0.5" step="0.1" min="0"></div></div>
+      <div class="f"><label>Tăng giá BĐS (%/năm)</label><input type="number" id="v9" value="7" step="0.5" min="0"></div>
+      <button class="btn" onclick="calcV()">Phân Tích Thuê vs Mua</button>
+    </div>
+    <div id="vo"><div class="card" style="color:var(--tm);padding:40px 16px;text-align:center;"><div style="font-size:28px;margin-bottom:8px;">🏠</div><div style="font-size:14px;font-weight:600;color:var(--tx2);">Nhấn <span style="color:var(--g)">Phân Tích Thuê vs Mua</span></div></div></div>
+  </div>
+  <div id="vdetail" style="display:none;margin-top:14px;">
+    <div class="ch2"><div class="chbox"><div class="chtit">Chi phí tích lũy — Thuê vs Mua (tỷ VND)</div><canvas id="vcc"></canvas><div class="chleg"><div class="li"><div class="ld2" style="background:#c0392b"></div>Tổng tiền thuê</div><div class="li"><div class="ld2" style="background:#2e7d2e"></div>Chi phí mua</div></div></div>
+    <div class="chbox"><div class="chtit">Tài sản ròng tích lũy (tỷ VND)</div><canvas id="vwc"></canvas><div class="chleg"><div class="li"><div class="ld2" style="background:#3a9a3a"></div>Mua — Vốn CSH</div><div class="li"><div class="ld2" style="background:#1e6fa8"></div>Thuê — Tích lũy đầu tư</div></div></div></div>
+    <div class="card"><div class="ctit">So sánh theo năm</div><div class="tw"><table><thead><tr><th>Năm</th><th class="r">Thuê tích lũy</th><th class="r">Mua (gốc+lãi)</th><th class="r">Giá trị BĐS</th><th class="r">Dư nợ</th><th class="r">Vốn CSH</th><th class="r">TL khi thuê</th><th class="r">Mua vượt</th></tr></thead><tbody id="vbody"></tbody></table></div><div class="note">Tích lũy khi thuê = phần chênh lệch (trả góp - thuê) đầu tư với lãi suất giả định.</div></div>
+  </div>
+</div>
+
+<!-- PANEL 6: GIAN XAY (IFRAME) -->
+<div class="panel" id="p5">
+  <div class="th"><div class="tt">Chính Sách Giãn Xây — Tiến Độ Thanh Toán</div><div class="ts">So sánh 2 phương án giãn tiền đất, tính dòng tiền từng tháng, hiển thị timeline và cảnh báo đỉnh chi trả.</div><div class="tg">Nhập thông tin căn hộ và chọn phương án giãn. Kết quả cập nhật realtime khi thay đổi thông số.</div>
+  <button class="help-btn" onclick="openHelp(5)"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><circle cx="10" cy="10" r="8"/><path d="M10 14v-4M10 7v.5"/></svg> Hướng dẫn sử dụng</button></div>
+  <div style="border-radius:8px;overflow:hidden;border:1px solid var(--brd);box-shadow:var(--sh);">
+    <iframe id="gx-iframe" style="width:100%;height:1150px;border:none;display:block;" title="Chính sách giãn xây"></iframe>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+
+
+<!-- OVERLAY & SLIDE-OVER PANELS -->
+<div class="overlay" id="so-overlay" onclick="closeHelp()"></div>
+
+<!-- TOOL 1: VAY NGÂN HÀNG -->
+<div class="slideover so-panel" id="so-0">
+  <div class="so-head">
+    <div><div class="so-title">Hướng dẫn — Vay Ngân Hàng</div><div class="so-sub">Phân tích khoản vay & lịch trả nợ</div></div>
+    <button class="so-close" onclick="closeHelp()"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5l10 10M15 5L5 15"/></svg></button>
+  </div>
+  <div class="so-body">
+    <div class="so-section">
+      <div class="so-section-title">🎯 Mục đích</div>
+      <div class="so-text">Tính chính xác số tiền khách phải trả mỗi tháng theo 3 giai đoạn lãi suất, và tổng chi phí lãi trong suốt kỳ vay. Dùng khi khách hỏi <em>"vay bao nhiêu thì trả bao nhiêu mỗi tháng?"</em></div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">📝 Cách nhập thông số</div>
+      <div class="so-text"><ul>
+        <li><strong>Giá trị BĐS:</strong> Nhập giá căn theo hợp đồng</li>
+        <li><strong>Tỷ lệ vay:</strong> Thường 70% — ngân hàng hỗ trợ tối đa</li>
+        <li><strong>Thời hạn:</strong> 20–25 năm là phổ biến, giảm áp lực tháng</li>
+        <li><strong>Lãi GĐ1–GĐ2:</strong> Điền lãi suất ưu đãi CĐT/ngân hàng</li>
+        <li><strong>Lãi thả nổi:</strong> Thường lãi cơ sở + 3–4%/năm</li>
+      </ul></div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">📊 Cách đọc kết quả</div>
+      <div class="so-text"><ul>
+        <li><strong>Trả/tháng GĐ1:</strong> Số tiền nhỏ nhất khách phải chuẩn bị — nhấn mạnh con số này</li>
+        <li><strong>Trả/tháng thả nổi:</strong> Con số cao hơn sau ưu đãi — luôn báo khách biết trước</li>
+        <li><strong>Tỷ lệ lãi/gốc:</strong> Nếu vượt 60% là tổng lãi cao — cân nhắc giảm thời hạn vay</li>
+      </ul></div>
+      <div class="so-warn">⚠ Khi tỷ lệ lãi/gốc > 80%: Tư vấn khách trả thêm gốc 6 tháng/lần để tiết kiệm lãi đáng kể.</div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">💬 Câu nói mẫu với khách</div>
+      <div class="so-script">
+        "Anh/chị ơi, với căn này em tính ra trong <strong>12 tháng đầu tiên</strong>, anh/chị chỉ trả <strong>[GĐ1] triệu/tháng</strong> thôi vì đang được ưu đãi lãi suất. Sau giai đoạn ưu đãi thì lên khoảng <strong>[thả nổi] triệu</strong> — nhưng lúc đó nếu anh/chị cho thuê được thì tiền thuê cover gần hết khoản này."
       </div>
-      <iframe id="tool-frame" src="about:blank" style="width:100%;flex:1;border:none;background:#fff;display:block;min-height:0"></iframe>
+      <div class="so-script" style="margin-top:8px;">
+        "Em luôn cho khách xem lịch trả nợ chi tiết từng tháng để anh/chị chủ động dòng tiền, không bị bất ngờ. Anh/chị muốn em in ra không?"
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOL 2: LỊCH THANH TOÁN -->
+<div class="slideover so-panel" id="so-1">
+  <div class="so-head">
+    <div><div class="so-title">Hướng dẫn — Lịch Thanh Toán</div><div class="so-sub">Tiến độ thanh toán theo CĐT</div></div>
+    <button class="so-close" onclick="closeHelp()"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5l10 10M15 5L5 15"/></svg></button>
+  </div>
+  <div class="so-body">
+    <div class="so-section">
+      <div class="so-section-title">🎯 Mục đích</div>
+      <div class="so-text">Giúp khách thấy rõ dòng tiền thực tế: cần bao nhiêu tiền mặt tại từng mốc thời gian. Đây là công cụ then chốt để khách quyết định <em>"tôi có đủ tiền không?"</em></div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">📝 Cách nhập thông số</div>
+      <div class="so-text"><ul>
+        <li>Nhấn <strong>"Mẫu Hạ Long Xanh"</strong> để tải nhanh 8 đợt chuẩn</li>
+        <li>Điều chỉnh % từng đợt theo chính sách bán hàng hiện tại của dự án</li>
+        <li><strong>Giải ngân tại đợt:</strong> Thường đợt 2 (ký HĐMB) — ngân hàng giải ngân khi có hợp đồng công chứng</li>
+        <li>Tổng các % phải bằng 100% — hệ thống cảnh báo nếu sai</li>
+      </ul></div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">📊 Cách đọc kết quả</div>
+      <div class="so-text"><ul>
+        <li><strong>Cột "Khách tự có":</strong> Đây mới là số tiền thật khách cần chuẩn bị cho từng đợt</li>
+        <li><strong>Cột "Tích lũy tự có":</strong> Tổng tiền tự có đã xuất ra tới đợt đó</li>
+        <li><strong>Cột màu xanh (NH giải ngân):</strong> Ngân hàng trả thay — khách không cần lo</li>
+        <li><strong>Dòng tổng:</strong> Vốn tự có = Tổng cần chuẩn bị bao gồm cả thuế phí</li>
+      </ul></div>
+      <div class="so-warn">⚠ Luôn nhắc khách chuẩn bị thêm 10–15% dự phòng cho chi phí nội thất, phát sinh khi nhận nhà.</div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">💬 Câu nói mẫu với khách</div>
+      <div class="so-script">
+        "Anh/chị nhìn vào cột <strong>'Khách tự có'</strong> này nhé — đây mới là tiền thật anh/chị cần chuẩn bị cho từng đợt. Ngân hàng đã giải ngân <strong>[X] tỷ</strong> tại đợt 2 rồi nên từ đó về sau anh/chị chỉ trả góp ngân hàng hàng tháng thôi."
+      </div>
+      <div class="so-script" style="margin-top:8px;">
+        "Nhìn tổng thể, anh/chị cần chuẩn bị khoảng <strong>[tổng tự có] tỷ</strong> tiền mặt trong <strong>[thời gian]</strong>. Anh/chị hiện tại có sẵn bao nhiêu để mình tính thêm phương án không?"
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOL 3: ROI -->
+<div class="slideover so-panel" id="so-2">
+  <div class="so-head">
+    <div><div class="so-title">Hướng dẫn — Phân Tích ROI</div><div class="so-sub">Tỷ suất sinh lời đầu tư BĐS</div></div>
+    <button class="so-close" onclick="closeHelp()"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5l10 10M15 5L5 15"/></svg></button>
+  </div>
+  <div class="so-body">
+    <div class="so-section">
+      <div class="so-section-title">🎯 Mục đích</div>
+      <div class="so-text">Thuyết phục nhà đầu tư bằng con số. Dùng cho khách mua đầu tư, đặc biệt khi họ so sánh với gửi ngân hàng hoặc đang do dự về hiệu quả.</div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">📝 Cách nhập thông số</div>
+      <div class="so-text"><ul>
+        <li><strong>Vốn tự có:</strong> Phần khách bỏ ra, không tính khoản vay</li>
+        <li><strong>Giá thuê:</strong> Ước tính thực tế khu vực — tra thêm nếu cần</li>
+        <li><strong>Tỷ lệ lấp đầy:</strong> Để 90% là an toàn (thực tế khu resort thường 75–85%)</li>
+        <li><strong>Tăng giá BĐS:</strong> Hạ Long đã tăng trung bình 10–15%/năm 5 năm qua</li>
+        <li><strong>Tăng giá thuê:</strong> 5–7%/năm là hợp lý</li>
+        <li><strong>Thời gian nắm giữ:</strong> 5–7 năm là kịch bản hay dùng nhất</li>
+      </ul></div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">📊 Cách đọc kết quả</div>
+      <div class="so-text"><ul>
+        <li><strong>Gross Yield:</strong> > 5% là tốt cho BĐS resort/du lịch</li>
+        <li><strong>Cash-on-Cash:</strong> Dương = dòng tiền tốt, âm = cần bù tiền hàng tháng</li>
+        <li><strong>ROI bình quân/năm:</strong> Con số để so sánh với gửi ngân hàng (5.5%)</li>
+        <li><strong>"BĐS vượt trội tiết kiệm":</strong> Đây là con số mạnh nhất để trình bày</li>
+      </ul></div>
+      <div class="so-warn">⚠ Nếu Cash-on-Cash âm: Giải thích rõ khách cần bù thêm mỗi tháng — đừng che giấu. Nhấn mạnh lãi tăng giá bù đắp phần bù này.</div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">💬 Câu nói mẫu với khách</div>
+      <div class="so-script">
+        "Anh/chị nhìn vào đây: nếu gửi <strong>[vốn tự có] tỷ</strong> tiết kiệm <strong>5.5%/năm</strong> trong <strong>[X] năm</strong>, lãi được khoảng <strong>[bank] tỷ</strong>. Còn nếu đầu tư căn này, sau <strong>[X] năm</strong> anh/chị có thêm <strong>[tổng lợi nhuận] tỷ</strong> — tức là BĐS cho anh/chị thêm <strong>[vượt trội] tỷ</strong> so với gửi ngân hàng."
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOL 4: SO SÁNH KÊNH -->
+<div class="slideover so-panel" id="so-3">
+  <div class="so-head">
+    <div><div class="so-title">Hướng dẫn — So Sánh Kênh Đầu Tư</div><div class="so-sub">BĐS vs Chứng khoán vs Vàng vs Tiết kiệm</div></div>
+    <button class="so-close" onclick="closeHelp()"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5l10 10M15 5L5 15"/></svg></button>
+  </div>
+  <div class="so-body">
+    <div class="so-section">
+      <div class="so-section-title">🎯 Mục đích</div>
+      <div class="so-text">Trực quan hóa sức mạnh đòn bẩy tài chính của BĐS. Dùng cho khách đang phân vân <em>"để tiền ngân hàng không tốt hơn sao?"</em> hoặc <em>"tôi đang có tiền nhàn rỗi muốn đầu tư"</em>.</div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">📝 Cách nhập thông số</div>
+      <div class="so-text"><ul>
+        <li><strong>Vốn ban đầu:</strong> Số tiền khách đang có sẵn để đầu tư</li>
+        <li><strong>Tỷ lệ vay 60%:</strong> Vay thêm để mua BĐS lớn hơn — đây là đòn bẩy</li>
+        <li><strong>Chứng khoán 12%:</strong> Mức trung bình VN-Index 10 năm qua</li>
+        <li><strong>Vàng 8%:</strong> Tăng trưởng dài hạn, biến động lớn</li>
+        <li><strong>Tiết kiệm 5.5%:</strong> Lãi suất hiện tại kỳ hạn 12 tháng</li>
+      </ul></div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">📊 Cách đọc kết quả</div>
+      <div class="so-text"><ul>
+        <li><strong>Biểu đồ:</strong> Đường BĐS tách xa các đường khác sau 5+ năm</li>
+        <li><strong>"BĐS vs TK × lần":</strong> Con số này tóm tắt toàn bộ câu chuyện</li>
+        <li><strong>Bảng chi tiết:</strong> Dùng khi khách muốn xem số cụ thể theo từng năm</li>
+      </ul></div>
+      <div class="so-warn">⚠ Luôn nói rõ: đây là ước tính dựa trên xu hướng lịch sử, không phải cam kết lợi nhuận. BĐS cũng có rủi ro thanh khoản.</div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">💬 Câu nói mẫu với khách</div>
+      <div class="so-script">
+        "Anh/chị nhìn biểu đồ này: cùng <strong>[vốn] tỷ</strong>, nếu gửi ngân hàng <strong>[X] năm</strong> thì lãi <strong>[TK] tỷ</strong>. Nhưng nếu dùng số tiền đó làm vốn tự có để mua BĐS, nhờ đòn bẩy ngân hàng, anh/chị đang kiểm soát tài sản <strong>[tổng] tỷ</strong> — và lợi nhuận ròng lên đến <strong>[BĐS] tỷ</strong>, gấp <strong>[X] lần</strong> gửi tiết kiệm."
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOL 5: THUÊ VS MUA -->
+<div class="slideover so-panel" id="so-4">
+  <div class="so-head">
+    <div><div class="so-title">Hướng dẫn — Thuê vs Mua</div><div class="so-sub">Điểm hòa vốn khi mua có lợi hơn thuê</div></div>
+    <button class="so-close" onclick="closeHelp()"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5l10 10M15 5L5 15"/></svg></button>
+  </div>
+  <div class="so-body">
+    <div class="so-section">
+      <div class="so-section-title">🎯 Mục đích</div>
+      <div class="so-text">Phân tích công bằng nhất cho khách đang ở thuê và cân nhắc mua ở thực. Công cụ này <strong>không che giấu</strong> — nếu thuê có lợi hơn trong ngắn hạn, nó sẽ nói thẳng. Sức mạnh ở chỗ: tính điểm chính xác khi mua bắt đầu thắng.</div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">📝 Cách nhập thông số</div>
+      <div class="so-text"><ul>
+        <li><strong>Tiền thuê hiện tại:</strong> Khách đang trả bao nhiêu/tháng</li>
+        <li><strong>Tăng tiền thuê:</strong> Thường 5–8%/năm ở khu vực đô thị</li>
+        <li><strong>Lợi suất đầu tư dôi dư:</strong> Nếu khách không mua, phần chênh lệch họ tiết kiệm được với lãi suất bao nhiêu? Để 5.5%</li>
+        <li><strong>Chi phí mua ban đầu:</strong> 3–5% (thuế 2%, công chứng, môi giới)</li>
+        <li><strong>Phí bảo trì:</strong> 0.5% giá trị/năm là mức thực tế</li>
+      </ul></div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">📊 Cách đọc kết quả</div>
+      <div class="so-text"><ul>
+        <li><strong>Điểm hòa vốn:</strong> Từ năm X trở đi, mua nhà có lợi hơn thuê</li>
+        <li><strong>Biểu đồ phải:</strong> Khi đường xanh (Vốn CSH BĐS) vượt đường xanh dương (Tích lũy khi thuê) = điểm hòa vốn</li>
+        <li><strong>Cột "Mua vượt trội":</strong> Số dương = mua đang thắng</li>
+      </ul></div>
+      <div class="so-warn">⚠ Nếu điểm hòa vốn > 15 năm: Thành thật với khách — trong ngắn hạn thuê linh hoạt hơn. Tuy nhiên nhấn mạnh lợi thế tích lũy tài sản dài hạn.</div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">💬 Câu nói mẫu với khách</div>
+      <div class="so-script">
+        "Anh/chị đang trả <strong>[thuê] triệu/tháng</strong> tiền thuê. Trong <strong>[X] năm</strong> tới sẽ mất tổng <strong>[tổng thuê] tỷ</strong> mà không có tài sản gì. Nếu mua ngay hôm nay, từ <strong>năm [điểm HV]</strong> trở đi, tài sản của anh/chị đã vượt tổng tiền thuê đã bỏ ra — và căn nhà vẫn đang tăng giá mỗi năm."
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOL 6: GIÃN XÂY -->
+<div class="slideover so-panel" id="so-5">
+  <div class="so-head">
+    <div><div class="so-title">Hướng dẫn — Giãn Xây</div><div class="so-sub">So sánh phương án giãn tiền đất</div></div>
+    <button class="so-close" onclick="closeHelp()"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5l10 10M15 5L5 15"/></svg></button>
+  </div>
+  <div class="so-body">
+    <div class="so-section">
+      <div class="so-section-title">🎯 Mục đích</div>
+      <div class="so-text">Giải thích chính sách giãn xây của CĐT: thay vì trả hết tiền đất ngay, khách được giãn ra nhiều tháng với phụ thu. Công cụ so sánh 2 phương án để khách chọn phù hợp với dòng tiền.</div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">📝 Cách nhập thông số</div>
+      <div class="so-text"><ul>
+        <li><strong>Tiền đất / Tiền xây:</strong> Tách riêng theo hợp đồng CĐT</li>
+        <li><strong>Số tháng trả xây:</strong> Thường 6–12 tháng từ thời điểm bàn giao</li>
+        <li><strong>Phương án A:</strong> Giãn ngắn hơn (ít phụ thu, trả nhiều/tháng hơn)</li>
+        <li><strong>Phương án B:</strong> Giãn dài hơn (phụ thu nhiều hơn, nhưng áp lực tháng ít)</li>
+        <li>Điền tên phương án theo đúng tên CĐT để in ra cho khách</li>
+      </ul></div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">📊 Cách đọc kết quả</div>
+      <div class="so-text"><ul>
+        <li><strong>Cao điểm/tháng:</strong> Tháng phải trả nhiều nhất — khách cần chuẩn bị</li>
+        <li><strong>Cảnh báo màu vàng:</strong> Có tháng phải trả đồng thời cả tiền đất lẫn tiền xây — nguy hiểm về dòng tiền</li>
+        <li><strong>Tổng thanh toán:</strong> So sánh giữa 2 phương án — phụ thu của phương án B có xứng không?</li>
+        <li><strong>Timeline:</strong> Vuốt ngang để xem toàn bộ tiến độ</li>
+      </ul></div>
+      <div class="so-warn">⚠ Khi 2 khoản (đất + xây) chồng nhau: Cảnh báo khách ngay, đề xuất PA giúp tránh chồng lấp, hoặc tư vấn dùng tiền thuê/thu nhập nào bù đắp.</div>
+    </div>
+    <div class="so-section">
+      <div class="so-section-title">💬 Câu nói mẫu với khách</div>
+      <div class="so-script">
+        "CĐT có 2 phương án giãn tiền đất. Phương án A giãn <strong>[A] tháng</strong>, phụ thu <strong>[A%]</strong>, mỗi tháng trả <strong>[A] triệu</strong>. Phương án B giãn <strong>[B] tháng</strong>, phụ thu nhiều hơn <strong>[B%]</strong> nhưng mỗi tháng chỉ <strong>[B] triệu</strong> — nhẹ hơn. Anh/chị cho em biết thu nhập hoặc dòng tiền hàng tháng khoảng bao nhiêu để em tư vấn phương án phù hợp?"
+      </div>
+    </div>
+  </div>
+</div></div>
     </div>
 
     <!-- ORG CHART -->
@@ -895,7 +1566,7 @@ const PAGE_MAP={
   projects:{id:'pg-projects',title:'Dự Án & Chiến Dịch',crumb:' / Chiến Dịch Live',loader:loadProjects},
   'proj-detail':{id:'pg-proj-detail',title:'Chi Tiết Dự Án',crumb:' / Chiến Dịch Live',loader:null},
   events:{id:'pg-events',title:'Lịch Sự Kiện',crumb:' / Chiến Dịch Live',loader:loadEvents},
-  tool:{id:'pg-tool',title:'Công Cụ',crumb:' / Công Cụ',loader:null},
+  tool:{id:'pg-tool',title:'Công Cụ Tài Chính',crumb:' / Công Cụ',loader:initFTool},
   org:{id:'pg-org',title:'Sơ Đồ Nhân Sự',crumb:' / Tổ Chức',loader:loadOrg},
   appoint:{id:'pg-appoint',title:'Bổ Nhiệm',crumb:' / Tổ Chức',loader:loadAppoint},
   members:{id:'pg-members',title:'Quản Lý Thành Viên',crumb:' / Quản Trị',loader:loadMembersPage},
@@ -1367,22 +2038,9 @@ async function deleteEvent(id){
 
 // ══ TOOL EMBED ══
 function openTool(url,title){
-  // Tool page is position:fixed so it covers everything
-  const pgEl=document.getElementById('pg-tool');
-  if(!pgEl)return;
-  hideEditFab();
-  pgEl.style.display='flex';
-  document.getElementById('tool-title').textContent=title||'Công Cụ';
-  const frame=document.getElementById('tool-frame');
-  if(frame)setTimeout(()=>{frame.src=url;},50);
-  if(window.innerWidth<=768)closeSb();
+  go('tool');
 }
-function closeToolPage(){
-  const pgEl=document.getElementById('pg-tool');
-  if(pgEl)pgEl.style.display='none';
-  const frame=document.getElementById('tool-frame');
-  if(frame)frame.src='about:blank';
-}
+function closeToolPage(){ go('dash'); }
 
 // ══ ORG CHART ══
 async function loadOrg(){
@@ -1671,6 +2329,331 @@ function toggleSbCollapse(){
   if(btn) btn.title=collapsed?'Mở rộng menu':'Thu gọn menu';
   localStorage.setItem('bh-sb-collapsed', collapsed?'1':'0');
 }
+
+
+// ══ FINANCIAL TOOLS ══
+let ftInitialized = false;
+function initFTool() {
+  if (ftInitialized) return;
+  ftInitialized = true;
+  try {
+    _ftModule.init();
+  } catch(e) { console.error('initFTool error:', e); }
+}
+
+const _ftModule = (function() {
+  'use strict';
+
+  // All financial tools code in isolated scope
+
+const B2=(n,d=2)=>(!isFinite(n)||isNaN(n))?'0':new Intl.NumberFormat('vi-VN',{maximumFractionDigits:d,minimumFractionDigits:d}).format(n);
+const fmt=(n,d=2,s='')=>B2(n,d)+s;
+const P=n=>fmt(n,2,'%');
+const PMT=(r,n,pv)=>r===0?pv/n:pv*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+const gv=id=>parseFloat(document.getElementById(id).value)||0;
+const gvi=id=>parseInt(document.getElementById(id).value)||0;
+
+// Tab switcher
+function go(i){
+  document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('active',j===i));
+  document.querySelectorAll('.panel').forEach((p,j)=>p.classList.toggle('active',j===i));
+  if(i===5){initGxFrame();}
+  else{setTimeout(redrawAll,100);}
+}
+
+// Giãn xây iframe init (base64 → blob → iframe src)
+const _gxB64='PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9InZpIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+VMOtbmggVGnhur9uIMSQ4buZIFRoYW5oIFRvw6FuIOKAlCBWaW5ob21lcyBI4bqhIExvbmcgWGFuaDwvdGl0bGU+CjxsaW5rIHJlbD0icHJlY29ubmVjdCIgaHJlZj0iaHR0cHM6Ly9mb250cy5nb29nbGVhcGlzLmNvbSI+CjxsaW5rIGhyZWY9Imh0dHBzOi8vZm9udHMuZ29vZ2xlYXBpcy5jb20vY3NzMj9mYW1pbHk9UGx1cytKYWthcnRhK1NhbnM6d2dodEA0MDA7NTAwOzYwMDs3MDAmZGlzcGxheT1zd2FwIiByZWw9InN0eWxlc2hlZXQiPgo8c3R5bGU+Cip7Ym94LXNpemluZzpib3JkZXItYm94O21hcmdpbjowO3BhZGRpbmc6MH0KYm9keXtmb250LWZhbWlseTonUGx1cyBKYWthcnRhIFNhbnMnLHN5c3RlbS11aSxzYW5zLXNlcmlmO2JhY2tncm91bmQ6I2VjZjBlYztjb2xvcjojMWEyNTM1O21pbi1oZWlnaHQ6MTAwdmg7Zm9udC1zaXplOjE0cHg7b3ZlcmZsb3cteDpoaWRkZW59CmlucHV0W3R5cGU9bnVtYmVyXTo6LXdlYmtpdC1vdXRlci1zcGluLWJ1dHRvbiwKaW5wdXRbdHlwZT1udW1iZXJdOjotd2Via2l0LWlubmVyLXNwaW4tYnV0dG9uey13ZWJraXQtYXBwZWFyYW5jZTpub25lfQppbnB1dFt0eXBlPW51bWJlcl17LW1vei1hcHBlYXJhbmNlOnRleHRmaWVsZH0KCi8qIEhFQURFUiAqLwpoZWFkZXJ7YmFja2dyb3VuZDojMWEyZTFhO2JvcmRlci1ib3R0b206M3B4IHNvbGlkICMzZDhiM2Q7cGFkZGluZzoxNHB4IDIwcHh9Ci5oZHItaW5uZXJ7bWF4LXdpZHRoOjEyMDBweDttYXJnaW46MCBhdXRvO2Rpc3BsYXk6ZmxleDthbGlnbi1pdGVtczpjZW50ZXI7anVzdGlmeS1jb250ZW50OnNwYWNlLWJldHdlZW47Z2FwOjEycHh9Ci5oLWJyYW5ke2Rpc3BsYXk6ZmxleDthbGlnbi1pdGVtczpjZW50ZXI7Z2FwOjExcHg7bWluLXdpZHRoOjB9Ci5oLWxvZ297d2lkdGg6MzZweDtoZWlnaHQ6MzZweDtib3JkZXItcmFkaXVzOjdweDtiYWNrZ3JvdW5kOiMzZDhiM2Q7ZGlzcGxheTpmbGV4O2FsaWduLWl0ZW1zOmNlbnRlcjtqdXN0aWZ5LWNvbnRlbnQ6Y2VudGVyO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtd2VpZ2h0OjcwMDtjb2xvcjojZmZmO2ZsZXgtc2hyaW5rOjB9Ci5oLXRpdGxlIGgxe2ZvbnQtc2l6ZToxM3B4O2ZvbnQtd2VpZ2h0OjcwMDtjb2xvcjojN2VjODdlO2xldHRlci1zcGFjaW5nOi4wNWVtO3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZX0KLmgtdGl0bGUgcHtmb250LXNpemU6MTFweDtjb2xvcjpyZ2JhKDI1NSwyNTUsMjU1LC4zOCk7bWFyZ2luLXRvcDoxcHh9Ci5oLXJpZ2h0e2Rpc3BsYXk6ZmxleDthbGlnbi1pdGVtczpjZW50ZXI7Z2FwOjEycHg7ZmxleC1zaHJpbms6MH0KLmgta2gtbmFtZXtmb250LXNpemU6MTVweDtmb250LXdlaWdodDo3MDA7Y29sb3I6I2ZmZn0KLmgta2gtY2Fue2ZvbnQtc2l6ZToxMXB4O2NvbG9yOnJnYmEoMjU1LDI1NSwyNTUsLjU1KTttYXJnaW4tdG9wOjJweDt0ZXh0LWFsaWduOnJpZ2h0fQoucHJpbnQtYnRue2JhY2tncm91bmQ6cmdiYSgyNTUsMjU1LDI1NSwuMDgpO2JvcmRlcjowLjVweCBzb2xpZCByZ2JhKDI1NSwyNTUsMjU1LC4yKTtjb2xvcjpyZ2JhKDI1NSwyNTUsMjU1LC43KTtwYWRkaW5nOjZweCAxNHB4O2JvcmRlci1yYWRpdXM6N3B4O2ZvbnQtc2l6ZToxMnB4O2N1cnNvcjpwb2ludGVyO2ZvbnQtZmFtaWx5OmluaGVyaXQ7d2hpdGUtc3BhY2U6bm93cmFwfQoucHJpbnQtYnRuOmhvdmVye2JhY2tncm91bmQ6cmdiYSgyNTUsMjU1LDI1NSwuMTUpO2NvbG9yOiNmZmZ9CkBtZWRpYShtYXgtd2lkdGg6NTQwcHgpewogIC5oZHItaW5uZXJ7ZmxleC1kaXJlY3Rpb246Y29sdW1uO2FsaWduLWl0ZW1zOmZsZXgtc3RhcnQ7Z2FwOjEwcHh9CiAgLmgtcmlnaHR7d2lkdGg6MTAwJTtqdXN0aWZ5LWNvbnRlbnQ6c3BhY2UtYmV0d2Vlbn0KICAuaC1raC1jYW57dGV4dC1hbGlnbjpsZWZ0fQp9CgovKiBMQVlPVVQgKi8KbWFpbnttYXgtd2lkdGg6MTIwMHB4O21hcmdpbjowIGF1dG87cGFkZGluZzoxOHB4IDE2cHh9CnNlY3Rpb257bWFyZ2luLWJvdHRvbToyMHB4fQouc2VjLXRpdGxle2ZvbnQtc2l6ZToxMHB4O2ZvbnQtd2VpZ2h0OjcwMDtjb2xvcjojMWEyZTFhO3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtsZXR0ZXItc3BhY2luZzouMWVtO21hcmdpbi1ib3R0b206MTJweDtwYWRkaW5nLWJvdHRvbTo1cHg7Ym9yZGVyLWJvdHRvbToxLjVweCBzb2xpZCAjM2Q4YjNkO2Rpc3BsYXk6aW5saW5lLWJsb2NrfQoKLyogSU5QVVQgQ0FSRFMgKi8KLmljYXJke2JhY2tncm91bmQ6I2ZmZjtib3JkZXI6MC41cHggc29saWQgI2Q0ZGJkNDtib3JkZXItcmFkaXVzOjEwcHg7cGFkZGluZzoxMXB4IDEzcHh9Ci5pY2FyZCBsYWJlbHtkaXNwbGF5OmJsb2NrO2ZvbnQtc2l6ZTo5cHg7Zm9udC13ZWlnaHQ6NzAwO2NvbG9yOiM3YTlhN2E7dGV4dC10cmFuc2Zvcm06dXBwZXJjYXNlO2xldHRlci1zcGFjaW5nOi4wOGVtO21hcmdpbi1ib3R0b206NnB4O3doaXRlLXNwYWNlOm5vd3JhcH0KLmljYXJkIGlucHV0W3R5cGU9dGV4dF17d2lkdGg6MTAwJTtib3JkZXI6bm9uZTtvdXRsaW5lOm5vbmU7Zm9udC1zaXplOjE0cHg7Zm9udC13ZWlnaHQ6NjAwO2NvbG9yOiMxYTI1MzU7Zm9udC1mYW1pbHk6aW5oZXJpdDtiYWNrZ3JvdW5kOnRyYW5zcGFyZW50fQouaWNhcmQgaW5wdXRbdHlwZT10ZXh0XTo6cGxhY2Vob2xkZXJ7Y29sb3I6I2MwY2NjMDtmb250LXdlaWdodDo0MDB9Ci5pdS1yb3d7ZGlzcGxheTpmbGV4O2FsaWduLWl0ZW1zOmJhc2VsaW5lO2dhcDo0cHh9Ci5pdS1yb3cgaW5wdXRbdHlwZT1udW1iZXJde2ZsZXg6MTttaW4td2lkdGg6MDtib3JkZXI6bm9uZTtvdXRsaW5lOm5vbmU7Zm9udC1zaXplOjIwcHg7Zm9udC13ZWlnaHQ6NzAwO2NvbG9yOiMxYTI1MzU7Zm9udC1mYW1pbHk6aW5oZXJpdDtiYWNrZ3JvdW5kOnRyYW5zcGFyZW50fQouaXVuaXR7Zm9udC1zaXplOjExcHg7Y29sb3I6IzlhYjA5YTtmb250LXdlaWdodDo1MDA7ZmxleC1zaHJpbms6MDt3aGl0ZS1zcGFjZTpub3dyYXB9Ci5paGludHtmb250LXNpemU6MTBweDtjb2xvcjojYjBiZGIwO21hcmdpbi10b3A6NHB4O2xpbmUtaGVpZ2h0OjEuMzV9CgovKiBHUklEIEhFTFBFUlMgKi8KLmcxe2Rpc3BsYXk6Z3JpZDtnYXA6MTBweDtncmlkLXRlbXBsYXRlLWNvbHVtbnM6MWZyfQouZzJ7ZGlzcGxheTpncmlkO2dhcDoxMHB4O2dyaWQtdGVtcGxhdGUtY29sdW1uczoxZnIgMWZyfQouZzN7ZGlzcGxheTpncmlkO2dhcDoxMHB4O2dyaWQtdGVtcGxhdGUtY29sdW1uczoxZnIgMWZyIDFmcn0KLmc0e2Rpc3BsYXk6Z3JpZDtnYXA6MTBweDtncmlkLXRlbXBsYXRlLWNvbHVtbnM6cmVwZWF0KDQsMWZyKX0KLmc1e2Rpc3BsYXk6Z3JpZDtnYXA6MTBweDtncmlkLXRlbXBsYXRlLWNvbHVtbnM6cmVwZWF0KDUsMWZyKX0KQG1lZGlhKG1heC13aWR0aDo2NDBweCl7LmcyLC5nMywuZzQsLmc1e2dyaWQtdGVtcGxhdGUtY29sdW1uczoxZnJ9fQpAbWVkaWEobWluLXdpZHRoOjY0MXB4KSBhbmQgKG1heC13aWR0aDo5MDBweCl7Lmc0e2dyaWQtdGVtcGxhdGUtY29sdW1uczoxZnIgMWZyfS5nNXtncmlkLXRlbXBsYXRlLWNvbHVtbnM6MWZyIDFmciAxZnJ9fQoKLyogQ09ORklHIEJMT0NLICovCi5jb25maWctYmxvY2t7YmFja2dyb3VuZDojZmZmO2JvcmRlcjowLjVweCBzb2xpZCAjZDRkYmQ0O2JvcmRlci1yYWRpdXM6MTJweDtwYWRkaW5nOjE0cHggMTZweDttYXJnaW4tYm90dG9tOjEwcHh9Ci5jb25maWctYmxvY2stdGl0bGV7Zm9udC1zaXplOjlweDtmb250LXdlaWdodDo3MDA7Y29sb3I6IzlhYjA5YTt0ZXh0LXRyYW5zZm9ybTp1cHBlcmNhc2U7bGV0dGVyLXNwYWNpbmc6LjA4ZW07bWFyZ2luLWJvdHRvbToxMHB4fQouY29uZmlnLWJsb2NrLnBhLWEtYmxvY2t7Ym9yZGVyLXRvcDoyLjVweCBzb2xpZCAjM2Q4YjNkfQouY29uZmlnLWJsb2NrLnBhLWItYmxvY2t7Ym9yZGVyLXRvcDoyLjVweCBzb2xpZCAjYzQ3YTFhfQouY29uZmlnLXJvd3tkaXNwbGF5OmZsZXg7ZmxleC13cmFwOndyYXA7Z2FwOjEwcHh9Ci5jb25maWctcm93IC5pY2FyZHtmbGV4OjE7bWluLXdpZHRoOjEzMHB4fQoKLyogUExBTiBDQVJEUyAqLwoucGxhbi1yb3d7ZGlzcGxheTpncmlkO2dyaWQtdGVtcGxhdGUtY29sdW1uczoxZnIgMWZyO2dhcDoxMnB4fQpAbWVkaWEobWF4LXdpZHRoOjYwMHB4KXsucGxhbi1yb3d7Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOjFmcn19Ci5wY2FyZHtiYWNrZ3JvdW5kOiNmZmY7Ym9yZGVyOjAuNXB4IHNvbGlkICNkNGRiZDQ7Ym9yZGVyLXJhZGl1czoxMnB4O3BhZGRpbmc6MTVweCAxN3B4O3Bvc2l0aW9uOnJlbGF0aXZlO292ZXJmbG93OmhpZGRlbn0KLnBjYXJkOjphZnRlcntjb250ZW50OicnO3Bvc2l0aW9uOmFic29sdXRlO3RvcDowO2xlZnQ6MDtyaWdodDowO2hlaWdodDozcHh9Ci5wY2FyZC5wYS1hOjphZnRlcntiYWNrZ3JvdW5kOmxpbmVhci1ncmFkaWVudCg5MGRlZywjM2Q4YjNkLCM1YWFkNWEpfQoucGNhcmQucGEtYjo6YWZ0ZXJ7YmFja2dyb3VuZDpsaW5lYXItZ3JhZGllbnQoOTBkZWcsI2M0N2ExYSwjZDQ5MDIwKX0KLnB0YWd7Zm9udC1zaXplOjlweDtmb250LXdlaWdodDo3MDA7bGV0dGVyLXNwYWNpbmc6LjFlbTt0ZXh0LXRyYW5zZm9ybTp1cHBlcmNhc2U7Y29sb3I6IzlhYjA5YTttYXJnaW4tYm90dG9tOjJweH0KLnBuYW1le2ZvbnQtc2l6ZToxN3B4O2ZvbnQtd2VpZ2h0OjcwMDtjb2xvcjojMWEyNTM1O21hcmdpbi1ib3R0b206MnB4fQoucHByZW17Zm9udC1zaXplOjEycHg7Zm9udC13ZWlnaHQ6NjAwO21hcmdpbi1ib3R0b206MTFweH0KLnBhLWEgLnBwcmVte2NvbG9yOiMyYTZlMmF9Ci5wYS1iIC5wcHJlbXtjb2xvcjojOWE2MDEwfQoubWV0c3tkaXNwbGF5OmdyaWQ7Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOjFmciAxZnI7Z2FwOjdweH0KLm1ldHtiYWNrZ3JvdW5kOiNmNGY3ZjQ7Ym9yZGVyLXJhZGl1czo3cHg7cGFkZGluZzo5cHggMTBweH0KLm1ldCAubWx7Zm9udC1zaXplOjlweDtmb250LXdlaWdodDo3MDA7Y29sb3I6IzdhOWE3YTt0ZXh0LXRyYW5zZm9ybTp1cHBlcmNhc2U7bGV0dGVyLXNwYWNpbmc6LjA2ZW07bWFyZ2luLWJvdHRvbTozcHh9Ci5tZXQgLm12e2ZvbnQtc2l6ZToxNHB4O2ZvbnQtd2VpZ2h0OjcwMDtjb2xvcjojMWEyNTM1O2xpbmUtaGVpZ2h0OjEuMn0KLm1ldCAubXYud2Fybntjb2xvcjojOWE1YzEwfQoubWV0IC5tdi5nb29ke2NvbG9yOiMxYTZlMmF9Ci5tZXQgLm1ze2ZvbnQtc2l6ZToxMHB4O2NvbG9yOiM5YWIwOWE7bWFyZ2luLXRvcDoycHh9Ci5wdG90YWx7bWFyZ2luLXRvcDoxMXB4O3BhZGRpbmctdG9wOjlweDtib3JkZXItdG9wOjAuNXB4IHNvbGlkICNkZGU4ZGQ7ZGlzcGxheTpmbGV4O2p1c3RpZnktY29udGVudDpzcGFjZS1iZXR3ZWVuO2FsaWduLWl0ZW1zOmJhc2VsaW5lO2dhcDo4cHg7ZmxleC13cmFwOndyYXB9Ci5wdG90YWwgLnRse2ZvbnQtc2l6ZToxMXB4O2ZvbnQtd2VpZ2h0OjYwMDtjb2xvcjojN2E5YTdhfQoucHRvdGFsIC50dntmb250LXNpemU6MTlweDtmb250LXdlaWdodDo3MDA7Y29sb3I6IzFhMjUzNX0KLm92ZXJsYXAtYWxlcnR7YmFja2dyb3VuZDojZmZmOGVjO2JvcmRlcjowLjVweCBzb2xpZCAjZThjMDdhO2JvcmRlci1yYWRpdXM6N3B4O3BhZGRpbmc6OXB4IDExcHg7bWFyZ2luLXRvcDo5cHg7Zm9udC1zaXplOjEycHg7Y29sb3I6IzdhNTAxMDtsaW5lLWhlaWdodDoxLjV9Ci5vay1ub3Rle2JhY2tncm91bmQ6I2YwZjhmMDtib3JkZXI6MC41cHggc29saWQgI2E4ZDRhODtib3JkZXItcmFkaXVzOjZweDtwYWRkaW5nOjdweCAxMHB4O21hcmdpbi10b3A6OHB4O2ZvbnQtc2l6ZToxMnB4O2NvbG9yOiMyYTVlMmE7bGluZS1oZWlnaHQ6MS40fQoKLyogVElNRUxJTkUgKi8KLnRsLWNhcmR7YmFja2dyb3VuZDojZmZmO2JvcmRlcjowLjVweCBzb2xpZCAjZDRkYmQ0O2JvcmRlci1yYWRpdXM6MTJweDtwYWRkaW5nOjE1cHggMThweDtvdmVyZmxvdzpoaWRkZW59Ci50bC1sZWdlbmR7ZGlzcGxheTpmbGV4O2ZsZXgtd3JhcDp3cmFwO2dhcDoxMHB4O21hcmdpbi1ib3R0b206MTJweDtmb250LXNpemU6MTJweDtjb2xvcjojNmI3YzZifQoubHN7d2lkdGg6MTFweDtoZWlnaHQ6MTFweDtib3JkZXItcmFkaXVzOjJweDtmbGV4LXNocmluazowfQoudGwtc2Nyb2xse292ZXJmbG93LXg6YXV0bzstd2Via2l0LW92ZXJmbG93LXNjcm9sbGluZzp0b3VjaH0KLnRsLXNjcm9sbDo6LXdlYmtpdC1zY3JvbGxiYXJ7aGVpZ2h0OjRweH0KLnRsLXNjcm9sbDo6LXdlYmtpdC1zY3JvbGxiYXItdHJhY2t7YmFja2dyb3VuZDojZjBmNGYwO2JvcmRlci1yYWRpdXM6MnB4fQoudGwtc2Nyb2xsOjotd2Via2l0LXNjcm9sbGJhci10aHVtYntiYWNrZ3JvdW5kOiNhOGM0YTg7Ym9yZGVyLXJhZGl1czoycHh9Ci50bC1oaW50e2ZvbnQtc2l6ZToxMHB4O2NvbG9yOiM5YWIwOWE7bWFyZ2luLXRvcDo3cHg7dGV4dC1hbGlnbjpjZW50ZXJ9CgovKiBUQUJMRSAqLwoudGJsLWhkcntkaXNwbGF5OmZsZXg7YWxpZ24taXRlbXM6Y2VudGVyO2p1c3RpZnktY29udGVudDpzcGFjZS1iZXR3ZWVuO21hcmdpbi1ib3R0b206MTBweDtmbGV4LXdyYXA6d3JhcDtnYXA6OHB4fQoudG9nZ2xlLWJ0bntiYWNrZ3JvdW5kOm5vbmU7Ym9yZGVyOjAuNXB4IHNvbGlkICNkNGRiZDQ7Ym9yZGVyLXJhZGl1czo2cHg7cGFkZGluZzo1cHggMTJweDtmb250LXNpemU6MTJweDtmb250LWZhbWlseTppbmhlcml0O2NvbG9yOiM1YTdhNWE7Y3Vyc29yOnBvaW50ZXJ9Ci50b2dnbGUtYnRuOmhvdmVye2JhY2tncm91bmQ6I2YwZjRmMH0KLnRibC1jYXJke2JhY2tncm91bmQ6I2ZmZjtib3JkZXI6MC41cHggc29saWQgI2Q0ZGJkNDtib3JkZXItcmFkaXVzOjEycHg7b3ZlcmZsb3c6aGlkZGVufQoudGJsLXNjcm9sbHtvdmVyZmxvdy14OmF1dG87LXdlYmtpdC1vdmVyZmxvdy1zY3JvbGxpbmc6dG91Y2h9CnRhYmxle3dpZHRoOjEwMCU7Ym9yZGVyLWNvbGxhcHNlOmNvbGxhcHNlO2ZvbnQtc2l6ZToxMnB4O21pbi13aWR0aDo1NjBweH0KdGhlYWQgdHJ7YmFja2dyb3VuZDojMWEyZTFhfQp0aGVhZCB0aHtwYWRkaW5nOjlweCAxMXB4O3RleHQtYWxpZ246cmlnaHQ7Zm9udC1zaXplOjlweDtmb250LXdlaWdodDo3MDA7Y29sb3I6cmdiYSgyNTUsMjU1LDI1NSwuNzIpO3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtsZXR0ZXItc3BhY2luZzouMDZlbTt3aGl0ZS1zcGFjZTpub3dyYXB9CnRoZWFkIHRoOmZpcnN0LWNoaWxkLHRoZWFkIHRoOm50aC1jaGlsZCgyKXt0ZXh0LWFsaWduOmxlZnR9CnRib2R5IHRye2JvcmRlci1ib3R0b206MC41cHggc29saWQgI2VkZjJlZH0KdGJvZHkgdHI6aG92ZXJ7YmFja2dyb3VuZDojZjZmYWY2fQp0Ym9keSB0ZHtwYWRkaW5nOjdweCAxMXB4O3RleHQtYWxpZ246cmlnaHQ7Zm9udC12YXJpYW50LW51bWVyaWM6dGFidWxhci1udW1zfQp0Ym9keSB0ZDpmaXJzdC1jaGlsZCx0Ym9keSB0ZDpudGgtY2hpbGQoMil7dGV4dC1hbGlnbjpsZWZ0fQoudHIta2V5e2JhY2tncm91bmQ6I2U4ZjRlOCFpbXBvcnRhbnQ7Zm9udC13ZWlnaHQ6NjAwfQoudHItaGFuZG92ZXJ7YmFja2dyb3VuZDojY2VlZWNlIWltcG9ydGFudDtmb250LXdlaWdodDo3MDB9Ci50ci1vdmVybGFwe2JhY2tncm91bmQ6I2ZmZmFlYyFpbXBvcnRhbnR9CnRkLmxhbmQtdntjb2xvcjojMmE2ZTJhO2ZvbnQtd2VpZ2h0OjYwMH0KdGQuYnVpbGQtdntjb2xvcjojMTU0ZThhO2ZvbnQtd2VpZ2h0OjYwMH0KdGQuYm90aC12e2NvbG9yOiM4YTUwMTA7Zm9udC13ZWlnaHQ6NzAwfQp0ZC56ZXJvLXZ7Y29sb3I6I2NjY30KCi8qIE5PVEVTICovCi5ub3Rlcy1ncmlke2Rpc3BsYXk6Z3JpZDtncmlkLXRlbXBsYXRlLWNvbHVtbnM6MWZyO2dhcDoxMHB4fQpAbWVkaWEobWluLXdpZHRoOjUwMHB4KXsubm90ZXMtZ3JpZHtncmlkLXRlbXBsYXRlLWNvbHVtbnM6MWZyIDFmcn19CkBtZWRpYShtaW4td2lkdGg6OTAwcHgpey5ub3Rlcy1ncmlke2dyaWQtdGVtcGxhdGUtY29sdW1uczpyZXBlYXQoNCwxZnIpfX0KLm5jYXJke2JhY2tncm91bmQ6I2ZmZjtib3JkZXI6MC41cHggc29saWQgI2Q0ZGJkNDtib3JkZXItcmFkaXVzOjEwcHg7cGFkZGluZzoxMXB4IDEzcHh9Ci5uY2FyZC53YXJue2JvcmRlci1jb2xvcjojZThjMDdhO2JhY2tncm91bmQ6I2ZmZmJmMH0KLm50aXRsZXtmb250LXNpemU6MTBweDtmb250LXdlaWdodDo3MDA7Y29sb3I6IzFhMmUxYTt0ZXh0LXRyYW5zZm9ybTp1cHBlcmNhc2U7bGV0dGVyLXNwYWNpbmc6LjA3ZW07bWFyZ2luLWJvdHRvbTo0cHh9Ci5uY2FyZC53YXJuIC5udGl0bGV7Y29sb3I6IzdhNTAxMH0KLm5jYXJkIHB7Zm9udC1zaXplOjEycHg7Y29sb3I6IzZiN2M2YjtsaW5lLWhlaWdodDoxLjV9Ci5uY2FyZC53YXJuIHB7Y29sb3I6IzdhNTAxMH0KCmZvb3Rlcnt0ZXh0LWFsaWduOmNlbnRlcjtwYWRkaW5nOjE2cHg7Zm9udC1zaXplOjExcHg7Y29sb3I6IzhhOWE4YTtib3JkZXItdG9wOjAuNXB4IHNvbGlkICNkNGRiZDR9CgpAbWVkaWEgcHJpbnR7CiAgYm9keXtiYWNrZ3JvdW5kOiNmZmZ9CiAgaGVhZGVyLHRoZWFkIHRyLC5wY2FyZDo6YWZ0ZXJ7LXdlYmtpdC1wcmludC1jb2xvci1hZGp1c3Q6ZXhhY3Q7cHJpbnQtY29sb3ItYWRqdXN0OmV4YWN0fQogIC5uby1wcmludHtkaXNwbGF5Om5vbmUhaW1wb3J0YW50fQp9Cjwvc3R5bGU+CjwvaGVhZD4KPGJvZHk+Cgo8aGVhZGVyPgogIDxkaXYgY2xhc3M9Imhkci1pbm5lciI+CiAgICA8ZGl2IGNsYXNzPSJoLWJyYW5kIj4KICAgICAgPGRpdiBjbGFzcz0iaC1sb2dvIj5CSDwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJoLXRpdGxlIj4KICAgICAgICA8aDE+VGnhur9uIMSQ4buZIFRoYW5oIFRvw6FuPC9oMT4KICAgICAgICA8cD5WaW5ob21lcyBI4bqhIExvbmcgWGFuaCDCtyBCaWdob21lcyAxNTwvcD4KICAgICAgPC9kaXY+CiAgICA8L2Rpdj4KICAgIDxkaXYgY2xhc3M9ImgtcmlnaHQiPgogICAgICA8ZGl2PgogICAgICAgIDxkaXYgY2xhc3M9Imgta2gtbmFtZSIgaWQ9Imhkci1raCI+Tmjhuq1wIHTDqm4ga2jDoWNoIGjDoG5nPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0iaC1raC1jYW4iIGlkPSJoZHItY2FuIj5Nw6MgY8SDbjog4oCUPC9kaXY+CiAgICAgIDwvZGl2PgogICAgICA8YnV0dG9uIGNsYXNzPSJwcmludC1idG4gbm8tcHJpbnQiIG9uY2xpY2s9IndpbmRvdy5wcmludCgpIj5JbiAvIFBERjwvYnV0dG9uPgogICAgPC9kaXY+CiAgPC9kaXY+CjwvaGVhZGVyPgoKPG1haW4+CgogIDwhLS0gVEjDlE5HIFRJTiBDxIJOIEjhu5ggLS0+CiAgPHNlY3Rpb24+CiAgICA8ZGl2IGNsYXNzPSJzZWMtdGl0bGUiPlRow7RuZyB0aW4gY8SDbiBo4buZPC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJnNSI+CiAgICAgIDxkaXYgY2xhc3M9ImljYXJkIj4KICAgICAgICA8bGFiZWw+VMOqbiBraMOhY2ggaMOgbmc8L2xhYmVsPgogICAgICAgIDxpbnB1dCB0eXBlPSJ0ZXh0IiBpZD0iaS1raCIgcGxhY2Vob2xkZXI9Ik5ndXnhu4VuIFbEg24gQSIgb25pbnB1dD0iZ28oKSI+CiAgICAgIDwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJpY2FyZCI+CiAgICAgICAgPGxhYmVsPk3DoyBjxINuPC9sYWJlbD4KICAgICAgICA8aW5wdXQgdHlwZT0idGV4dCIgaWQ9ImktY2FuIiBwbGFjZWhvbGRlcj0iUzEuMDEuMDgiIG9uaW5wdXQ9ImdvKCkiPgogICAgICA8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iaWNhcmQiPgogICAgICAgIDxsYWJlbD5HacOhIHRy4buLIHRp4buBbiDEkeG6pXQ8L2xhYmVsPgogICAgICAgIDxkaXYgY2xhc3M9Iml1LXJvdyI+CiAgICAgICAgICA8aW5wdXQgdHlwZT0ibnVtYmVyIiBpZD0iaS1sYW5kIiB2YWx1ZT0iMyIgbWluPSIwLjEiIHN0ZXA9IjAuMSIgb25pbnB1dD0iZ28oKSI+CiAgICAgICAgICA8c3BhbiBjbGFzcz0iaXVuaXQiPnThu7c8L3NwYW4+CiAgICAgICAgPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0iaWhpbnQiPlRyxrDhu5tjIHBo4bulIHRodSBnacOjbjwvZGl2PgogICAgICA8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iaWNhcmQiPgogICAgICAgIDxsYWJlbD5HacOhIHRy4buLIHRp4buBbiB4w6J5PC9sYWJlbD4KICAgICAgICA8ZGl2IGNsYXNzPSJpdS1yb3ciPgogICAgICAgICAgPGlucHV0IHR5cGU9Im51bWJlciIgaWQ9ImktYnVpbGQiIHZhbHVlPSIyIiBtaW49IjAiIHN0ZXA9IjAuMSIgb25pbnB1dD0iZ28oKSI+CiAgICAgICAgICA8c3BhbiBjbGFzcz0iaXVuaXQiPnThu7c8L3NwYW4+CiAgICAgICAgPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0iaWhpbnQiPktow7RuZyBn4buTbSB0aeG7gW4gxJHhuqV0PC9kaXY+CiAgICAgIDwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJpY2FyZCI+CiAgICAgICAgPGxhYmVsPlPhu5EgdGjDoW5nIHRy4bqjIHjDonk8L2xhYmVsPgogICAgICAgIDxkaXYgY2xhc3M9Iml1LXJvdyI+CiAgICAgICAgICA8aW5wdXQgdHlwZT0ibnVtYmVyIiBpZD0iaS1ibSIgdmFsdWU9IjYiIG1pbj0iMSIgbWF4PSIzNiIgc3RlcD0iMSIgb25pbnB1dD0iZ28oKSI+CiAgICAgICAgICA8c3BhbiBjbGFzcz0iaXVuaXQiPnRow6FuZzwvc3Bhbj4KICAgICAgICA8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJpaGludCI+QuG6r3QgxJHhuqd1IHThu6sgdGjDoW5nIGLDoG4gZ2lhbzwvZGl2PgogICAgICA8L2Rpdj4KICAgIDwvZGl2PgogIDwvc2VjdGlvbj4KCiAgPCEtLSBDSMONTkggU8OBQ0ggLS0+CiAgPHNlY3Rpb24+CiAgICA8ZGl2IGNsYXNzPSJzZWMtdGl0bGUiPkNow61uaCBzw6FjaCB0aGFuaCB0b8OhbjwvZGl2PgoKICAgIDwhLS0gTeG7kWMgY2h1bmcgLS0+CiAgICA8ZGl2IGNsYXNzPSJjb25maWctYmxvY2siIHN0eWxlPSJtYXJnaW4tYm90dG9tOjEwcHgiPgogICAgICA8ZGl2IGNsYXNzPSJjb25maWctYmxvY2stdGl0bGUiPk3hu5FjIHRo4budaSBnaWFuIGNodW5nICh0aMOhbmcga+G7gyB04burIGvDvSBo4bujcCDEkeG7k25nKTwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJnNCI+CiAgICAgICAgPGRpdiBjbGFzcz0iaWNhcmQiPgogICAgICAgICAgPGxhYmVsPkLhuq90IMSR4bqndSB0aeG7gW4geMOieTwvbGFiZWw+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJpdS1yb3ciPgogICAgICAgICAgICA8aW5wdXQgdHlwZT0ibnVtYmVyIiBpZD0iaS1idWlsZC1zdGFydCIgdmFsdWU9IjI1IiBtaW49IjEiIG1heD0iNjAiIHN0ZXA9IjEiIG9uaW5wdXQ9ImdvKCkiPgogICAgICAgICAgICA8c3BhbiBjbGFzcz0iaXVuaXQiPlQ8L3NwYW4+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9ImloaW50Ij5UaMOhbmcgYuG6r3QgxJHhuqd1IMSRw7NuZyB0aeG7gW4geMOieTwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9ImljYXJkIj4KICAgICAgICAgIDxsYWJlbD5Cw6BuIGdpYW8gbmjDoDwvbGFiZWw+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJpdS1yb3ciPgogICAgICAgICAgICA8aW5wdXQgdHlwZT0ibnVtYmVyIiBpZD0iaS1oYW5kb3ZlciIgdmFsdWU9IjMwIiBtaW49IjEiIG1heD0iNzIiIHN0ZXA9IjEiIG9uaW5wdXQ9ImdvKCkiPgogICAgICAgICAgICA8c3BhbiBjbGFzcz0iaXVuaXQiPlQ8L3NwYW4+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9ImloaW50Ij5UaMOhbmcgbmjhuq1uIGLDoG4gZ2lhbzwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9ImljYXJkIj4KICAgICAgICAgIDxsYWJlbD5U4buVbmcgdGjhu51pIGdpYW4gaGnhu4NuIHRo4buLPC9sYWJlbD4KICAgICAgICAgIDxkaXYgY2xhc3M9Iml1LXJvdyI+CiAgICAgICAgICAgIDxpbnB1dCB0eXBlPSJudW1iZXIiIGlkPSJpLWRpc3BsYXkiIHZhbHVlPSI0MiIgbWluPSIyNCIgbWF4PSI3MiIgc3RlcD0iNiIgb25pbnB1dD0iZ28oKSI+CiAgICAgICAgICAgIDxzcGFuIGNsYXNzPSJpdW5pdCI+dGjDoW5nPC9zcGFuPgogICAgICAgICAgPC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJpaGludCI+U+G7kSB0aMOhbmcgaGnhu4NuIHRo4buLIHRyw6puIGJp4buDdSDEkeG7kzwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9ImljYXJkIiBzdHlsZT0iYmFja2dyb3VuZDojZjRmN2Y0O2JvcmRlci1jb2xvcjojYzhkOGM4Ij4KICAgICAgICAgIDxsYWJlbCBzdHlsZT0iY29sb3I6IzVhOGE1YSI+VMOqbiBk4buxIMOhbiAodHXhu7MgY2jhu41uKTwvbGFiZWw+CiAgICAgICAgICA8aW5wdXQgdHlwZT0idGV4dCIgaWQ9ImktcHJvaiIgdmFsdWU9IlZpbmhvbWVzIEjhuqEgTG9uZyBYYW5oIiBvbmlucHV0PSJnbygpIiBzdHlsZT0iZm9udC1zaXplOjEycHg7Zm9udC13ZWlnaHQ6NjAwIj4KICAgICAgICA8L2Rpdj4KICAgICAgPC9kaXY+CiAgICA8L2Rpdj4KCiAgICA8IS0tIFBBIEEgJiBCIC0tPgogICAgPGRpdiBjbGFzcz0iZzIiPgogICAgICA8ZGl2IGNsYXNzPSJjb25maWctYmxvY2sgcGEtYS1ibG9jayI+CiAgICAgICAgPGRpdiBjbGFzcz0iY29uZmlnLWJsb2NrLXRpdGxlIiBzdHlsZT0iY29sb3I6IzNkOGIzZCI+UGjGsMahbmcgw6FuIEE8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJnMyI+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJpY2FyZCI+CiAgICAgICAgICAgIDxsYWJlbD5T4buRIHRow6FuZyBnacOjbiDEkeG6pXQ8L2xhYmVsPgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJpdS1yb3ciPgogICAgICAgICAgICAgIDxpbnB1dCB0eXBlPSJudW1iZXIiIGlkPSJpLWEtbW9udGhzIiB2YWx1ZT0iMjQiIG1pbj0iMSIgbWF4PSI3MiIgc3RlcD0iMSIgb25pbnB1dD0iZ28oKSI+CiAgICAgICAgICAgICAgPHNwYW4gY2xhc3M9Iml1bml0Ij50aMOhbmc8L3NwYW4+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJpaGludCI+VGjhu51pIGdpYW4gZ2nDo24gdGnhu4FuIMSR4bqldDwvZGl2PgogICAgICAgICAgPC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJpY2FyZCI+CiAgICAgICAgICAgIDxsYWJlbD5QaOG7pSB0aHU8L2xhYmVsPgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJpdS1yb3ciPgogICAgICAgICAgICAgIDxpbnB1dCB0eXBlPSJudW1iZXIiIGlkPSJpLWEtcmF0ZSIgdmFsdWU9IjEwIiBtaW49IjAiIG1heD0iMTAwIiBzdGVwPSIwLjUiIG9uaW5wdXQ9ImdvKCkiPgogICAgICAgICAgICAgIDxzcGFuIGNsYXNzPSJpdW5pdCI+JTwvc3Bhbj4KICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9ImloaW50Ij4lIHTDrW5oIHRyw6puIGdpw6EgdHLhu4sgdGnhu4FuIMSR4bqldDwvZGl2PgogICAgICAgICAgPC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJpY2FyZCIgc3R5bGU9ImJhY2tncm91bmQ6I2YwZjhmMDtib3JkZXItY29sb3I6I2I4ZDhiOCI+CiAgICAgICAgICAgIDxsYWJlbCBzdHlsZT0iY29sb3I6IzVhOGE1YSI+VMOqbiBwaMawxqFuZyDDoW48L2xhYmVsPgogICAgICAgICAgICA8aW5wdXQgdHlwZT0idGV4dCIgaWQ9ImktYS1uYW1lIiB2YWx1ZT0iUGjGsMahbmcgw6FuIEEiIG9uaW5wdXQ9ImdvKCkiIHN0eWxlPSJmb250LXNpemU6MTNweDtmb250LXdlaWdodDo2MDAiPgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJpaGludCI+SGnhu4NuIHRo4buLIHRyw6puIGJp4buDdSDEkeG7kzwvZGl2PgogICAgICAgICAgPC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgIDwvZGl2PgoKICAgICAgPGRpdiBjbGFzcz0iY29uZmlnLWJsb2NrIHBhLWItYmxvY2siPgogICAgICAgIDxkaXYgY2xhc3M9ImNvbmZpZy1ibG9jay10aXRsZSIgc3R5bGU9ImNvbG9yOiNjNDdhMWEiPlBoxrDGoW5nIMOhbiBCPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0iZzMiPgogICAgICAgICAgPGRpdiBjbGFzcz0iaWNhcmQiPgogICAgICAgICAgICA8bGFiZWw+U+G7kSB0aMOhbmcgZ2nDo24gxJHhuqV0PC9sYWJlbD4KICAgICAgICAgICAgPGRpdiBjbGFzcz0iaXUtcm93Ij4KICAgICAgICAgICAgICA8aW5wdXQgdHlwZT0ibnVtYmVyIiBpZD0iaS1iLW1vbnRocyIgdmFsdWU9IjM2IiBtaW49IjEiIG1heD0iNzIiIHN0ZXA9IjEiIG9uaW5wdXQ9ImdvKCkiPgogICAgICAgICAgICAgIDxzcGFuIGNsYXNzPSJpdW5pdCI+dGjDoW5nPC9zcGFuPgogICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0iaWhpbnQiPlRo4budaSBnaWFuIGdpw6NuIHRp4buBbiDEkeG6pXQ8L2Rpdj4KICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0iaWNhcmQiPgogICAgICAgICAgICA8bGFiZWw+UGjhu6UgdGh1PC9sYWJlbD4KICAgICAgICAgICAgPGRpdiBjbGFzcz0iaXUtcm93Ij4KICAgICAgICAgICAgICA8aW5wdXQgdHlwZT0ibnVtYmVyIiBpZD0iaS1iLXJhdGUiIHZhbHVlPSIxNSIgbWluPSIwIiBtYXg9IjEwMCIgc3RlcD0iMC41IiBvbmlucHV0PSJnbygpIj4KICAgICAgICAgICAgICA8c3BhbiBjbGFzcz0iaXVuaXQiPiU8L3NwYW4+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJpaGludCI+JSB0w61uaCB0csOqbiBnacOhIHRy4buLIHRp4buBbiDEkeG6pXQ8L2Rpdj4KICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0iaWNhcmQiIHN0eWxlPSJiYWNrZ3JvdW5kOiNmZmZiZjA7Ym9yZGVyLWNvbG9yOiNlMGM4OTAiPgogICAgICAgICAgICA8bGFiZWwgc3R5bGU9ImNvbG9yOiM5YTcwMTAiPlTDqm4gcGjGsMahbmcgw6FuPC9sYWJlbD4KICAgICAgICAgICAgPGlucHV0IHR5cGU9InRleHQiIGlkPSJpLWItbmFtZSIgdmFsdWU9IlBoxrDGoW5nIMOhbiBCIiBvbmlucHV0PSJnbygpIiBzdHlsZT0iZm9udC1zaXplOjEzcHg7Zm9udC13ZWlnaHQ6NjAwIj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0iaWhpbnQiPkhp4buDbiB0aOG7iyB0csOqbiBiaeG7g3UgxJHhu5M8L2Rpdj4KICAgICAgICAgIDwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICA8L2Rpdj4KICAgIDwvZGl2PgogIDwvc2VjdGlvbj4KCiAgPCEtLSBTTyBTw4FOSCAtLT4KICA8c2VjdGlvbj4KICAgIDxkaXYgY2xhc3M9InNlYy10aXRsZSI+U28gc8OhbmggaGFpIHBoxrDGoW5nIMOhbjwvZGl2PgogICAgPGRpdiBjbGFzcz0icGxhbi1yb3ciPgogICAgICA8ZGl2IGNsYXNzPSJwY2FyZCBwYS1hIiBpZD0iY2FyZC1hIj48L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0icGNhcmQgcGEtYiIgaWQ9ImNhcmQtYiI+PC9kaXY+CiAgICA8L2Rpdj4KICA8L3NlY3Rpb24+CgogIDwhLS0gVElNRUxJTkUgLS0+CiAgPHNlY3Rpb24+CiAgICA8ZGl2IGNsYXNzPSJzZWMtdGl0bGUiPlRp4bq/biDEkeG7mSB0aGFuaCB0b8OhbiB0aGVvIHRo4budaSBnaWFuPC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJ0bC1jYXJkIj4KICAgICAgPGRpdiBjbGFzcz0idGwtbGVnZW5kIj4KICAgICAgICA8c3BhbiBzdHlsZT0iZGlzcGxheTpmbGV4O2FsaWduLWl0ZW1zOmNlbnRlcjtnYXA6NXB4Ij48c3BhbiBjbGFzcz0ibHMiIHN0eWxlPSJiYWNrZ3JvdW5kOiNkNGVkZDQ7Ym9yZGVyOjFweCBzb2xpZCAjM2Q4YjNkIj48L3NwYW4+VGnhu4FuIMSR4bqldCAoYsOsbmggdGjGsOG7nW5nKTwvc3Bhbj4KICAgICAgICA8c3BhbiBzdHlsZT0iZGlzcGxheTpmbGV4O2FsaWduLWl0ZW1zOmNlbnRlcjtnYXA6NXB4Ij48c3BhbiBjbGFzcz0ibHMiIHN0eWxlPSJiYWNrZ3JvdW5kOiNkZGVlZmY7Ym9yZGVyOjFweCBzb2xpZCAjNGE5MGQ5Ij48L3NwYW4+VGnhu4FuIHjDonkgZOG7sW5nPC9zcGFuPgogICAgICAgIDxzcGFuIHN0eWxlPSJkaXNwbGF5OmZsZXg7YWxpZ24taXRlbXM6Y2VudGVyO2dhcDo1cHgiPjxzcGFuIGNsYXNzPSJscyIgc3R5bGU9ImJhY2tncm91bmQ6I2ZmZjNkNDtib3JkZXI6MXB4IHNvbGlkICNkNGEwMzAiPjwvc3Bhbj5UaeG7gW4gxJHhuqV0IGvDqW8gZMOgaSAoUEEtQik8L3NwYW4+CiAgICAgIDwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJ0bC1zY3JvbGwiPgogICAgICAgIDxzdmcgaWQ9InRsLXN2ZyIgc3R5bGU9ImRpc3BsYXk6YmxvY2s7aGVpZ2h0OmF1dG87Ij48L3N2Zz4KICAgICAgPC9kaXY+CiAgICAgIDxwIGNsYXNzPSJ0bC1oaW50IG5vLXByaW50Ij7ihpAgVnXhu5F0IG5nYW5nIG7hur91IGJp4buDdSDEkeG7kyBi4buLIGPhuq90IHRyw6puIG3DoG4gaMOsbmggbmjhu488L3A+CiAgICA8L2Rpdj4KICA8L3NlY3Rpb24+CgogIDwhLS0gVEFCTEUgLS0+CiAgPHNlY3Rpb24+CiAgICA8ZGl2IGNsYXNzPSJ0YmwtaGRyIj4KICAgICAgPGRpdiBjbGFzcz0ic2VjLXRpdGxlIiBzdHlsZT0ibWFyZ2luLWJvdHRvbTowO2JvcmRlcjpub25lO3BhZGRpbmc6MCI+RMOybmcgdGnhu4FuIHThu6tuZyB0aMOhbmc8L2Rpdj4KICAgICAgPGJ1dHRvbiBjbGFzcz0idG9nZ2xlLWJ0biBuby1wcmludCIgaWQ9InRnbC1idG4iIG9uY2xpY2s9InRvZ2dsZVRibCgpIj5UaHUgZ+G7jW4g4payPC9idXR0b24+CiAgICA8L2Rpdj4KICAgIDxkaXYgY2xhc3M9InRibC1jYXJkIiBpZD0idGJsLXdyYXAiPgogICAgICA8ZGl2IGNsYXNzPSJ0Ymwtc2Nyb2xsIj4KICAgICAgICA8dGFibGUgaWQ9ImNmLXRhYmxlIj48L3RhYmxlPgogICAgICA8L2Rpdj4KICAgIDwvZGl2PgogIDwvc2VjdGlvbj4KCiAgPCEtLSBOT1RFUyAtLT4KICA8c2VjdGlvbj4KICAgIDxkaXYgY2xhc3M9InNlYy10aXRsZSI+TMawdSDDvSBxdWFuIHRy4buNbmc8L2Rpdj4KICAgIDxkaXYgY2xhc3M9Im5vdGVzLWdyaWQiIGlkPSJub3RlcyI+PC9kaXY+CiAgPC9zZWN0aW9uPgoKPC9tYWluPgoKPGZvb3Rlcj5CaWdob21lcyAxNSDCtyBUw6BpIGxp4buHdSBu4buZaSBi4buZIOKAlCBraMO0bmcgcGjhuqNpIHbEg24gYuG6o24gcGjDoXAgbMO9PC9mb290ZXI+Cgo8c2NyaXB0PgpsZXQgdGJsVmlzaWJsZT10cnVlOwpmdW5jdGlvbiB0b2dnbGVUYmwoKXsKICB0YmxWaXNpYmxlPSF0YmxWaXNpYmxlOwogIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd0Ymwtd3JhcCcpLnN0eWxlLmRpc3BsYXk9dGJsVmlzaWJsZT8nJzonbm9uZSc7CiAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3RnbC1idG4nKS50ZXh0Q29udGVudD10YmxWaXNpYmxlPydUaHUgZ+G7jW4g4payJzonWGVtIGNoaSB0aeG6v3Qg4pa8JzsKfQoKZnVuY3Rpb24gZmIodil7cmV0dXJuKE1hdGgucm91bmQodioxMDApLzEwMCkudG9GaXhlZCgyKSsnIHThu7cnfQpmdW5jdGlvbiBmbSh2KXtpZih2PD0wKXJldHVybifigJQnO3JldHVybiBNYXRoLnJvdW5kKHYqMTAwMCkudG9Mb2NhbGVTdHJpbmcoJ3ZpLVZOJykrJyB0cid9CmZ1bmN0aW9uIGZtYih2KXtyZXR1cm4gTWF0aC5yb3VuZCh2KjEwMDApLnRvTG9jYWxlU3RyaW5nKCd2aS1WTicpKycgdHJp4buHdSd9CmZ1bmN0aW9uIG4oaWQpe3JldHVybiBwYXJzZUZsb2F0KGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKGlkKS52YWx1ZSl8fDB9CmZ1bmN0aW9uIG5pKGlkKXtyZXR1cm4gTWF0aC5tYXgoMSxwYXJzZUludChkb2N1bWVudC5nZXRFbGVtZW50QnlJZChpZCkudmFsdWUpfHwxKX0KZnVuY3Rpb24gcyhpZCl7cmV0dXJuIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKGlkKS52YWx1ZS50cmltKCl9CgpmdW5jdGlvbiBnZXRJbnAoKXsKICByZXR1cm57CiAgICBraDpzKCdpLWtoJyksIGNhbjpzKCdpLWNhbicpLCBwcm9qOnMoJ2ktcHJvaicpfHwnVmluaG9tZXMgSOG6oSBMb25nIFhhbmgnLAogICAgbGFuZDpNYXRoLm1heCgwLG4oJ2ktbGFuZCcpKSwgYnVpbGQ6TWF0aC5tYXgoMCxuKCdpLWJ1aWxkJykpLAogICAgYm06bmkoJ2ktYm0nKSwKICAgIGJ1aWxkU3RhcnQ6bmkoJ2ktYnVpbGQtc3RhcnQnKSwKICAgIGhhbmRvdmVyOm5pKCdpLWhhbmRvdmVyJyksCiAgICBkaXNwbGF5Ok1hdGgubWF4KDI0LG5pKCdpLWRpc3BsYXknKSksCiAgICBhTW9udGhzOm5pKCdpLWEtbW9udGhzJyksIGFSYXRlOk1hdGgubWF4KDAsbignaS1hLXJhdGUnKSksCiAgICBiTW9udGhzOm5pKCdpLWItbW9udGhzJyksIGJSYXRlOk1hdGgubWF4KDAsbignaS1iLXJhdGUnKSksCiAgICBhTmFtZTpzKCdpLWEtbmFtZScpfHwnUGjGsMahbmcgw6FuIEEnLAogICAgYk5hbWU6cygnaS1iLW5hbWUnKXx8J1BoxrDGoW5nIMOhbiBCJywKICB9Owp9CgpmdW5jdGlvbiBjYWxjKHApewogIGNvbnN0e2xhbmQsYnVpbGQsYm0sYnVpbGRTdGFydCxoYW5kb3ZlcixhTW9udGhzLGFSYXRlLGJNb250aHMsYlJhdGV9PXA7CiAgY29uc3QgcEE9bGFuZCphUmF0ZS8xMDAsIHBCPWxhbmQqYlJhdGUvMTAwOwogIGNvbnN0IHRsQT1sYW5kK3BBLCB0bEI9bGFuZCtwQjsKICBjb25zdCBtbEE9dGxBL2FNb250aHMsIG1sQj10bEIvYk1vbnRoczsKICBjb25zdCBtYj1ibT4wP2J1aWxkL2JtOjA7CiAgY29uc3QgYkVuZD1idWlsZFN0YXJ0K2JtLTE7CiAgY29uc3QgbWF4TT1NYXRoLm1heChhTW9udGhzLGJNb250aHMsYkVuZCxoYW5kb3ZlcikrMzsKICBjb25zdCBzQT1bXSxzQj1bXTsKICBmb3IobGV0IG09MTttPD1tYXhNO20rKyl7CiAgICBjb25zdCBsQT1tPD1hTW9udGhzP21sQTowLCBiQT1tPj1idWlsZFN0YXJ0JiZtPD1iRW5kP21iOjA7CiAgICBzQS5wdXNoKHttLGxhbmQ6bEEsYnVpbGQ6YkEsdG90YWw6bEErYkF9KTsKICAgIGNvbnN0IGxCPW08PWJNb250aHM/bWxCOjAsIGJCPW0+PWJ1aWxkU3RhcnQmJm08PWJFbmQ/bWI6MDsKICAgIHNCLnB1c2goe20sbGFuZDpsQixidWlsZDpiQix0b3RhbDpsQitiQn0pOwogIH0KICBjb25zdCBwZWFrQT1NYXRoLm1heCguLi5zQS5tYXAocj0+ci50b3RhbCkpOwogIGNvbnN0IHBlYWtCPU1hdGgubWF4KC4uLnNCLm1hcChyPT5yLnRvdGFsKSk7CiAgY29uc3Qgb3ZTdGFydD1idWlsZFN0YXJ0LCBvdkVuZEE9TWF0aC5taW4oYU1vbnRocyxiRW5kKSwgb3ZFbmRCPU1hdGgubWluKGJNb250aHMsYkVuZCk7CiAgY29uc3QgaGFzT3ZBPW92RW5kQT49b3ZTdGFydCAmJiBhTW9udGhzPj1idWlsZFN0YXJ0OwogIGNvbnN0IGhhc092Qj1vdkVuZEI+PW92U3RhcnQgJiYgYk1vbnRocz49YnVpbGRTdGFydDsKICByZXR1cm57cEEscEIsdGxBLHRsQixtbEEsbWxCLG1iLGJtLGJFbmQsYnVpbGRTdGFydCxtYXhNLHNBLHNCLAogICAgcGVha0EscGVha0Isb3ZFbmRBLG92RW5kQixoYXNPdkEsaGFzT3ZCLAogICAgdG90YWxBOnRsQStidWlsZCx0b3RhbEI6dGxCK2J1aWxkfTsKfQoKZnVuY3Rpb24gckhlYWRlcihwKXsKICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnaGRyLWtoJykudGV4dENvbnRlbnQ9cC5raHx8J05o4bqtcCB0w6puIGtow6FjaCBow6BuZyc7CiAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2hkci1jYW4nKS50ZXh0Q29udGVudD0nTcOjIGPEg246ICcrKHAuY2FufHwn4oCUJyk7Cn0KCmZ1bmN0aW9uIHJDYXJkcyhwLGQpewogIGNvbnN0IG92QT1kLmhhc092QT9gPGRpdiBjbGFzcz0ib3ZlcmxhcC1hbGVydCI+PHN0cm9uZz5MxrB1IMO9Ojwvc3Ryb25nPiBU4burIFQke3AuYnVpbGRTdGFydH0gxJHhur9uIFQke2Qub3ZFbmRBfSBwaOG6o2kgdHLhuqMgxJHhu5NuZyB0aOG7nWkgdGnhu4FuIMSR4bqldCB2w6AgdGnhu4FuIHjDonkuIENhbyDEkWnhu4NtOiA8c3Ryb25nPiR7Zm1iKGQucGVha0EpfS90aMOhbmc8L3N0cm9uZz4uPC9kaXY+YDonJzsKICBjb25zdCBub3RlQT0hZC5oYXNPdkE/YDxkaXYgY2xhc3M9Im9rLW5vdGUiPlRy4bqjIHhvbmcgxJHhuqV0IHThuqFpIFQke3AuYU1vbnRoc30gdHLGsOG7m2Mga2hpIGLhuq90IMSR4bqndSB0aeG7gW4geMOieSAoVCR7cC5idWlsZFN0YXJ0fSk8L2Rpdj5gOicnOwoKICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY2FyZC1hJykuaW5uZXJIVE1MPWAKICAgIDxkaXYgY2xhc3M9InB0YWciPiR7cC5hTmFtZX08L2Rpdj4KICAgIDxkaXYgY2xhc3M9InBuYW1lIj5HacOjbiAke3AuYU1vbnRoc30gdGjDoW5nPC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJwcHJlbSI+UGjhu6UgdGh1ICske3AuYVJhdGV9JSAmcmFycjsgJHtmYihkLnBBKX08L2Rpdj4KICAgIDxkaXYgY2xhc3M9Im1ldHMiPgogICAgICA8ZGl2IGNsYXNzPSJtZXQiPjxkaXYgY2xhc3M9Im1sIj5U4buVbmcgdGnhu4FuIMSR4bqldDwvZGl2PjxkaXYgY2xhc3M9Im12Ij4ke2ZiKGQudGxBKX08L2Rpdj48ZGl2IGNsYXNzPSJtcyI+Z+G7kWMgKyAke3AuYVJhdGV9JTwvZGl2PjwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJtZXQiPjxkaXYgY2xhc3M9Im1sIj5UaeG7gW4gxJHhuqV0IC8gdGjDoW5nPC9kaXY+PGRpdiBjbGFzcz0ibXYgZ29vZCI+JHtmbWIoZC5tbEEpfTwvZGl2PjxkaXYgY2xhc3M9Im1zIj50cm9uZyAke3AuYU1vbnRoc30gdGjDoW5nPC9kaXY+PC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9Im1ldCI+PGRpdiBjbGFzcz0ibWwiPlRp4buBbiB4w6J5IC8gdGjDoW5nPC9kaXY+PGRpdiBjbGFzcz0ibXYiPiR7Zm1iKGQubWIpfTwvZGl2PjxkaXYgY2xhc3M9Im1zIj4ke3AuYm19IHRow6FuZyB04burIFQke3AuYnVpbGRTdGFydH08L2Rpdj48L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0ibWV0Ij48ZGl2IGNsYXNzPSJtbCI+Q2FvIMSRaeG7g20gLyB0aMOhbmc8L2Rpdj48ZGl2IGNsYXNzPSJtdiAke2QuaGFzT3ZBPyd3YXJuJzonJ30iPiR7Zm1iKGQucGVha0EpfTwvZGl2PjxkaXYgY2xhc3M9Im1zIj4ke2QuaGFzT3ZBPyfEkeG6pXQgKyB4w6J5IGPDuW5nIGzDumMnOidjaOG7iSAxIGtob+G6o24gLyB0aMOhbmcnfTwvZGl2PjwvZGl2PgogICAgPC9kaXY+CiAgICAke25vdGVBfSR7b3ZBfQogICAgPGRpdiBjbGFzcz0icHRvdGFsIj48c3BhbiBjbGFzcz0idGwiPlThu5VuZyB0aGFuaCB0b8Ohbjwvc3Bhbj48c3BhbiBjbGFzcz0idHYiPiR7ZmIoZC50b3RhbEEpfTwvc3Bhbj48L2Rpdj5gOwoKICBjb25zdCBvdkI9ZC5oYXNPdkI/YDxkaXYgY2xhc3M9Im92ZXJsYXAtYWxlcnQiPjxzdHJvbmc+TMawdSDDvSBkw7JuZyB0aeG7gW46PC9zdHJvbmc+IFThu6sgVCR7cC5idWlsZFN0YXJ0fSDEkeG6v24gVCR7ZC5vdkVuZEJ9ICgke2Qub3ZFbmRCLXAuYnVpbGRTdGFydCsxfSB0aMOhbmcpIHBo4bqjaSB0cuG6oyDEkeG7k25nIHRo4budaSB0aeG7gW4gxJHhuqV0IHbDoCB0aeG7gW4geMOieS4gQ2FvIMSRaeG7g206IDxzdHJvbmc+JHtmbWIoZC5wZWFrQil9L3Row6FuZzwvc3Ryb25nPi48L2Rpdj5gOicnOwogIGNvbnN0IG5vdGVCPSFkLmhhc092Qj9gPGRpdiBjbGFzcz0ib2stbm90ZSI+VHLhuqMgeG9uZyDEkeG6pXQgdOG6oWkgVCR7cC5iTW9udGhzfSB0csaw4bubYyBraGkgYuG6r3QgxJHhuqd1IHRp4buBbiB4w6J5IChUJHtwLmJ1aWxkU3RhcnR9KTwvZGl2PmA6Jyc7CgogIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjYXJkLWInKS5pbm5lckhUTUw9YAogICAgPGRpdiBjbGFzcz0icHRhZyI+JHtwLmJOYW1lfTwvZGl2PgogICAgPGRpdiBjbGFzcz0icG5hbWUiPkdpw6NuICR7cC5iTW9udGhzfSB0aMOhbmc8L2Rpdj4KICAgIDxkaXYgY2xhc3M9InBwcmVtIj5QaOG7pSB0aHUgKyR7cC5iUmF0ZX0lICZyYXJyOyAke2ZiKGQucEIpfTwvZGl2PgogICAgPGRpdiBjbGFzcz0ibWV0cyI+CiAgICAgIDxkaXYgY2xhc3M9Im1ldCI+PGRpdiBjbGFzcz0ibWwiPlThu5VuZyB0aeG7gW4gxJHhuqV0PC9kaXY+PGRpdiBjbGFzcz0ibXYiPiR7ZmIoZC50bEIpfTwvZGl2PjxkaXYgY2xhc3M9Im1zIj5n4buRYyArICR7cC5iUmF0ZX0lPC9kaXY+PC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9Im1ldCI+PGRpdiBjbGFzcz0ibWwiPlRp4buBbiDEkeG6pXQgLyB0aMOhbmc8L2Rpdj48ZGl2IGNsYXNzPSJtdiI+JHtmbWIoZC5tbEIpfTwvZGl2PjxkaXYgY2xhc3M9Im1zIj50cm9uZyAke3AuYk1vbnRoc30gdGjDoW5nPC9kaXY+PC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9Im1ldCI+PGRpdiBjbGFzcz0ibWwiPlRp4buBbiB4w6J5IC8gdGjDoW5nPC9kaXY+PGRpdiBjbGFzcz0ibXYiPiR7Zm1iKGQubWIpfTwvZGl2PjxkaXYgY2xhc3M9Im1zIj4ke3AuYm19IHRow6FuZyB04burIFQke3AuYnVpbGRTdGFydH08L2Rpdj48L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0ibWV0Ij48ZGl2IGNsYXNzPSJtbCI+Q2FvIMSRaeG7g20gLyB0aMOhbmc8L2Rpdj48ZGl2IGNsYXNzPSJtdiAke2QuaGFzT3ZCPyd3YXJuJzonJ30iPiR7Zm1iKGQucGVha0IpfTwvZGl2PjxkaXYgY2xhc3M9Im1zIj4ke2QuaGFzT3ZCPyfEkeG6pXQgKyB4w6J5IGPDuW5nIGzDumMnOidjaOG7iSAxIGtob+G6o24gLyB0aMOhbmcnfTwvZGl2PjwvZGl2PgogICAgPC9kaXY+CiAgICAke25vdGVCfSR7b3ZCfQogICAgPGRpdiBjbGFzcz0icHRvdGFsIj48c3BhbiBjbGFzcz0idGwiPlThu5VuZyB0aGFuaCB0b8Ohbjwvc3Bhbj48c3BhbiBjbGFzcz0idHYiPiR7ZmIoZC50b3RhbEIpfTwvc3Bhbj48L2Rpdj5gOwp9CgpmdW5jdGlvbiByVGltZWxpbmUocCxkKXsKICBjb25zdCBXPTkwMCxQTD05MCxQUj0yMCxQVD00NixSSD0zNCxSRz04OwogIGNvbnN0IFRXPVctUEwtUFIsVE9UQUw9cC5kaXNwbGF5OwogIGNvbnN0IHB4PW09PlBMKyhtL1RPVEFMKSpUVzsKICBjb25zdCBidz1tPT4obS9UT1RBTCkqVFc7CiAgY29uc3QgckExPVBULHJBMj1QVCtSSCtSRyxkaXZZPXJBMitSSCsxNCxyQjE9ZGl2WSsxNixyQjI9ckIxK1JIK1JHLEg9ckIyK1JIKzMyOwoKICBjb25zdCB7YU1vbnRocyxiTW9udGhzLGJ1aWxkU3RhcnQsaGFuZG92ZXIsYU5hbWUsYk5hbWV9PXA7CiAgY29uc3QgTWJzPXB4KGJ1aWxkU3RhcnQtMSk7IC8vIHN0YXJ0IG9mIGJ1aWxkIHBheW1lbnRzCiAgY29uc3QgTWh2PXB4KGhhbmRvdmVyKTsKICBjb25zdCBNYUVuZD1weChhTW9udGhzKTsKICBjb25zdCBNYkVuZD1weChiTW9udGhzKTsKICBjb25zdCBiRVB4PU1hdGgubWluKHB4KGQuYkVuZCksVy1QUik7CiAgY29uc3QgYlc9YkVQeC1NYnM7CgogIGxldCBzPScnOwogIC8vIFRyYWNrIGJhY2tncm91bmRzCiAgW3JBMSxyQTIsckIxLHJCMl0uZm9yRWFjaCh5PT57CiAgICBzKz1gPHJlY3QgeD0iJHtQTH0iIHk9IiR7eX0iIHdpZHRoPSIke1RXfSIgaGVpZ2h0PSIke1JIfSIgcng9IjQiIGZpbGw9IiNmMGY0ZjAiLz5gOwogIH0pOwoKICAvLyBBeGlzIHRpY2tzCiAgY29uc3Qgc3RlcD1UT1RBTDw9MzY/NjpUT1RBTDw9NDg/NjoxMjsKICBmb3IobGV0IG09MDttPD1UT1RBTDttKz1zdGVwKXsKICAgIGNvbnN0IHg9cHgobSk7CiAgICBjb25zdCBpc0tleT1tPT09YU1vbnRoc3x8bT09PWJNb250aHN8fG09PT0oYnVpbGRTdGFydC0xKXx8bT09PWhhbmRvdmVyOwogICAgY29uc3QgY29sPW09PT1oYW5kb3Zlcj8nIzFhNjA0MCc6bT09PWFNb250aHN8fG09PT1iTW9udGhzPycjMWE0ZThhJzonIzlhYjA5YSc7CiAgICBzKz1gPHRleHQgeD0iJHt4fSIgeT0iJHtQVC0xNX0iIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTEiIGZvbnQtd2VpZ2h0PSIke2lzS2V5PzYwMDo0MDB9IiBmaWxsPSIke2NvbH0iIGZvbnQtZmFtaWx5PSJpbmhlcml0Ij5UJHttfTwvdGV4dD5gOwogICAgcys9YDxsaW5lIHgxPSIke3h9IiB5MT0iJHtQVC05fSIgeDI9IiR7eH0iIHkyPSIke1BUfSIgc3Ryb2tlPSIke2NvbH0iIHN0cm9rZS13aWR0aD0iJHtpc0tleT8xLjU6MC41fSIgb3BhY2l0eT0iMC42Ii8+YDsKICB9CgogIC8vIE1pbGVzdG9uZSBkYXNoZXMKICBbW01icywnIzJhNWVhOCcsJ1QnKyhidWlsZFN0YXJ0LTEpXSxbTWh2LCcjMWE2MDQwJywnVCcraGFuZG92ZXJdLFtNYUVuZCwnIzNkOGIzZCcsJyddLFtNYkVuZCwnI2M0N2ExYScsJyddXS5mb3JFYWNoKChbeCxjLGxibF0pPT57CiAgICBzKz1gPGxpbmUgeDE9IiR7eH0iIHkxPSIke3JBMS0yfSIgeDI9IiR7eH0iIHkyPSIke3JCMitSSCs0fSIgc3Ryb2tlPSIke2N9IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1kYXNoYXJyYXk9IjQgMyIgb3BhY2l0eT0iMC4zOCIvPmA7CiAgfSk7CgogIC8vIOKUgOKUgCBQTEFOIEEg4pSA4pSACiAgcys9YDx0ZXh0IHg9IiR7UEwtOH0iIHk9IiR7ckExLTd9IiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LXNpemU9IjkiIGZpbGw9IiMzZDhiM2QiIGZvbnQtd2VpZ2h0PSI3MDAiIGxldHRlci1zcGFjaW5nPSIuMDZlbSIgZm9udC1mYW1pbHk9ImluaGVyaXQiPiR7YU5hbWUuc3BsaXQoJyAnKS5wb3AoKS50b1VwcGVyQ2FzZSgpfTwvdGV4dD5gOwogIC8vIEEgbGFuZAogIGNvbnN0IGFMYW5kVz1NYXRoLm1pbihidyhhTW9udGhzKSxUVyk7CiAgcys9YDxyZWN0IHg9IiR7cHgoMCl9IiB5PSIke3JBMX0iIHdpZHRoPSIke2FMYW5kV30iIGhlaWdodD0iJHtSSH0iIHJ4PSI0IiBmaWxsPSIjZDRlZGQ0Ii8+YDsKICBzKz1gPHJlY3QgeD0iJHtweCgwKX0iIHk9IiR7ckExfSIgd2lkdGg9IiR7YUxhbmRXfSIgaGVpZ2h0PSIke1JIfSIgcng9IjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzNkOGIzZCIgc3Ryb2tlLXdpZHRoPSIwLjUiLz5gOwogIGlmKGFMYW5kVz4xMjApcys9YDx0ZXh0IHg9IiR7cHgoMCkrYUxhbmRXLzJ9IiB5PSIke3JBMStSSC8yKzF9IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0iY2VudHJhbCIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFhNGUxYSIgZm9udC1mYW1pbHk9ImluaGVyaXQiPlRp4buBbiDEkeG6pXQg4oCUICR7YU1vbnRoc30gdGjDoW5nICgrJHtwLmFSYXRlfSUpPC90ZXh0PmA7CiAgZWxzZSBpZihhTGFuZFc+NTApcys9YDx0ZXh0IHg9IiR7cHgoMCkrYUxhbmRXLzJ9IiB5PSIke3JBMStSSC8yKzF9IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0iY2VudHJhbCIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFhNGUxYSIgZm9udC1mYW1pbHk9ImluaGVyaXQiPsSQ4bqldCAke2FNb250aHN9VDwvdGV4dD5gOwogIHMrPWA8dGV4dCB4PSIke1BMLTh9IiB5PSIke3JBMStSSC8yKzF9IiB0ZXh0LWFuY2hvcj0iZW5kIiBkb21pbmFudC1iYXNlbGluZT0iY2VudHJhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0iIzdhOWE3YSIgZm9udC1mYW1pbHk9ImluaGVyaXQiPsSQ4bqldDwvdGV4dD5gOwogIC8vIEEgYnVpbGQKICBzKz1gPHRleHQgeD0iJHtQTC04fSIgeT0iJHtyQTIrUkgvMisxfSIgdGV4dC1hbmNob3I9ImVuZCIgZG9taW5hbnQtYmFzZWxpbmU9ImNlbnRyYWwiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM3YTlhN2EiIGZvbnQtZmFtaWx5PSJpbmhlcml0Ij5Yw6J5PC90ZXh0PmA7CiAgaWYoYlc+MCl7CiAgICBzKz1gPHJlY3QgeD0iJHtNYnN9IiB5PSIke3JBMn0iIHdpZHRoPSIke2JXfSIgaGVpZ2h0PSIke1JIfSIgcng9IjQiIGZpbGw9IiNkZGVlZmYiLz5gOwogICAgcys9YDxyZWN0IHg9IiR7TWJzfSIgeT0iJHtyQTJ9IiB3aWR0aD0iJHtiV30iIGhlaWdodD0iJHtSSH0iIHJ4PSI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM0YTkwZDkiIHN0cm9rZS13aWR0aD0iMC41Ii8+YDsKICAgIGlmKGJXPjgwKXMrPWA8dGV4dCB4PSIke01icytiVy8yfSIgeT0iJHtyQTIrUkgvMisxfSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9ImNlbnRyYWwiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMwYzNlN2EiIGZvbnQtZmFtaWx5PSJpbmhlcml0Ij5UaeG7gW4geMOieSBk4buxbmc8L3RleHQ+YDsKICAgIGlmKGQuYkVuZDxUT1RBTClzKz1gPHRleHQgeD0iJHtiRVB4Kzd9IiB5PSIke3JBMitSSC8yKzF9IiBkb21pbmFudC1iYXNlbGluZT0iY2VudHJhbCIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzlhYjA5YSIgZm9udC1mYW1pbHk9ImluaGVyaXQiPuKGkjwvdGV4dD5gOwogIH0KCiAgcys9YDxsaW5lIHgxPSIke1BMfSIgeTE9IiR7ZGl2WX0iIHgyPSIke1ctUFJ9IiB5Mj0iJHtkaXZZfSIgc3Ryb2tlPSIjZDRkYmQ0IiBzdHJva2Utd2lkdGg9IjAuNSIvPmA7CgogIC8vIOKUgOKUgCBQTEFOIEIg4pSA4pSACiAgcys9YDx0ZXh0IHg9IiR7UEwtOH0iIHk9IiR7ckIxLTd9IiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LXNpemU9IjkiIGZpbGw9IiNjNDdhMWEiIGZvbnQtd2VpZ2h0PSI3MDAiIGxldHRlci1zcGFjaW5nPSIuMDZlbSIgZm9udC1mYW1pbHk9ImluaGVyaXQiPiR7Yk5hbWUuc3BsaXQoJyAnKS5wb3AoKS50b1VwcGVyQ2FzZSgpfTwvdGV4dD5gOwogIGNvbnN0IGJMYW5kVzE9TWF0aC5taW4oYncoYnVpbGRTdGFydC0xKSxUVyk7CiAgY29uc3QgYkxhbmRXMj1NYXRoLm1pbihidyhiTW9udGhzKS0oYnVpbGRTdGFydC0xPjA/YncoYnVpbGRTdGFydC0xKTowKSxUVy1iTGFuZFcxKTsKICAvLyBCIGxhbmQgVDAgdG8gYnVpbGRTdGFydDogZ3JlZW4KICBpZihiTGFuZFcxPjApewogICAgcys9YDxyZWN0IHg9IiR7cHgoMCl9IiB5PSIke3JCMX0iIHdpZHRoPSIke2JMYW5kVzErMn0iIGhlaWdodD0iJHtSSH0iIHJ4PSI0IiBmaWxsPSIjZDRlZGQ0Ii8+YDsKICAgIHMrPWA8cmVjdCB4PSIke3B4KDApfSIgeT0iJHtyQjF9IiB3aWR0aD0iJHtiTGFuZFcxfSIgaGVpZ2h0PSIke1JIfSIgcng9IjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzNkOGIzZCIgc3Ryb2tlLXdpZHRoPSIwLjUiLz5gOwogICAgaWYoYkxhbmRXMT44MClzKz1gPHRleHQgeD0iJHtweCgwKStiTGFuZFcxLzJ9IiB5PSIke3JCMStSSC8yKzF9IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0iY2VudHJhbCIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFhNGUxYSIgZm9udC1mYW1pbHk9ImluaGVyaXQiPlRp4buBbiDEkeG6pXQgVDDigJNUJHtidWlsZFN0YXJ0LTF9PC90ZXh0PmA7CiAgfQogIC8vIEIgbGFuZCBidWlsZFN0YXJ0IHRvIGJNb250aHM6IGFtYmVyIChpZiBvdmVybGFwcyBidWlsZCkKICBpZihiTW9udGhzPj1idWlsZFN0YXJ0ICYmIGJMYW5kVzI+MCl7CiAgICBjb25zdCBhbWJYPU1iczsKICAgIGNvbnN0IGFtYlc9TWF0aC5taW4oYncoYk1vbnRocyktYncoYnVpbGRTdGFydC0xKSxUVy1iTGFuZFcxKTsKICAgIHMrPWA8cmVjdCB4PSIke2FtYlh9IiB5PSIke3JCMX0iIHdpZHRoPSIke2FtYld9IiBoZWlnaHQ9IiR7Ukh9IiByeD0iNCIgZmlsbD0iI2ZmZjNkNCIvPmA7CiAgICBzKz1gPHJlY3QgeD0iJHthbWJYfSIgeT0iJHtyQjF9IiB3aWR0aD0iJHthbWJXfSIgaGVpZ2h0PSIke1JIfSIgcng9IjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q0YTAzMCIgc3Ryb2tlLXdpZHRoPSIwLjUiLz5gOwogICAgaWYoYW1iVz43MClzKz1gPHRleHQgeD0iJHthbWJYK2FtYlcvMn0iIHk9IiR7ckIxK1JILzIrMX0iIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJjZW50cmFsIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjN2E1MDEwIiBmb250LWZhbWlseT0iaW5oZXJpdCI+VuG6q24gdHLhuqMgxJHhuqV0PC90ZXh0PmA7CiAgfSBlbHNlIGlmKGJNb250aHM8YnVpbGRTdGFydCl7CiAgICAvLyBubyBvdmVybGFwOiBmdWxsIGdyZWVuCiAgICBjb25zdCBiTGFuZFdmdWxsPU1hdGgubWluKGJ3KGJNb250aHMpLFRXKTsKICAgIHMrPWA8cmVjdCB4PSIke3B4KDApfSIgeT0iJHtyQjF9IiB3aWR0aD0iJHtiTGFuZFdmdWxsfSIgaGVpZ2h0PSIke1JIfSIgcng9IjQiIGZpbGw9IiNkNGVkZDQiLz5gOwogICAgcys9YDxyZWN0IHg9IiR7cHgoMCl9IiB5PSIke3JCMX0iIHdpZHRoPSIke2JMYW5kV2Z1bGx9IiBoZWlnaHQ9IiR7Ukh9IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2Q4YjNkIiBzdHJva2Utd2lkdGg9IjAuNSIvPmA7CiAgICBpZihiTGFuZFdmdWxsPjEwMClzKz1gPHRleHQgeD0iJHtweCgwKStiTGFuZFdmdWxsLzJ9IiB5PSIke3JCMStSSC8yKzF9IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0iY2VudHJhbCIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFhNGUxYSIgZm9udC1mYW1pbHk9ImluaGVyaXQiPlRp4buBbiDEkeG6pXQg4oCUICR7Yk1vbnRoc30gdGjDoW5nICgrJHtwLmJSYXRlfSUpPC90ZXh0PmA7CiAgfQogIHMrPWA8dGV4dCB4PSIke1BMLTh9IiB5PSIke3JCMStSSC8yKzF9IiB0ZXh0LWFuY2hvcj0iZW5kIiBkb21pbmFudC1iYXNlbGluZT0iY2VudHJhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0iIzdhOWE3YSIgZm9udC1mYW1pbHk9ImluaGVyaXQiPsSQ4bqldDwvdGV4dD5gOwogIC8vIEIgYnVpbGQ6IGFsbCBibHVlCiAgcys9YDx0ZXh0IHg9IiR7UEwtOH0iIHk9IiR7ckIyK1JILzIrMX0iIHRleHQtYW5jaG9yPSJlbmQiIGRvbWluYW50LWJhc2VsaW5lPSJjZW50cmFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjN2E5YTdhIiBmb250LWZhbWlseT0iaW5oZXJpdCI+WMOieTwvdGV4dD5gOwogIGlmKGJXPjApewogICAgcys9YDxyZWN0IHg9IiR7TWJzfSIgeT0iJHtyQjJ9IiB3aWR0aD0iJHtiV30iIGhlaWdodD0iJHtSSH0iIHJ4PSI0IiBmaWxsPSIjZGRlZWZmIi8+YDsKICAgIHMrPWA8cmVjdCB4PSIke01ic30iIHk9IiR7ckIyfSIgd2lkdGg9IiR7Yld9IiBoZWlnaHQ9IiR7Ukh9IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNGE5MGQ5IiBzdHJva2Utd2lkdGg9IjAuNSIvPmA7CiAgICBpZihiVz44MClzKz1gPHRleHQgeD0iJHtNYnMrYlcvMn0iIHk9IiR7ckIyK1JILzIrMX0iIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJjZW50cmFsIiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMGMzZTdhIiBmb250LWZhbWlseT0iaW5oZXJpdCI+VGnhu4FuIHjDonkgZOG7sW5nPC90ZXh0PmA7CiAgICBpZihkLmJFbmQ8VE9UQUwpcys9YDx0ZXh0IHg9IiR7YkVQeCs3fSIgeT0iJHtyQjIrUkgvMisxfSIgZG9taW5hbnQtYmFzZWxpbmU9ImNlbnRyYWwiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiM5YWIwOWEiIGZvbnQtZmFtaWx5PSJpbmhlcml0Ij7ihpI8L3RleHQ+YDsKICB9CgogIC8vIEJvdHRvbSBtaWxlc3RvbmUgbGFiZWxzCiAgcys9YDx0ZXh0IHg9IiR7TWJzfSIgeT0iJHtyQjIrUkgrMTh9IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmaWxsPSIjMWE0ZThhIiBmb250LXdlaWdodD0iNjAwIiBmb250LWZhbWlseT0iaW5oZXJpdCI+QuG6r3QgxJHhuqd1IHjDonkgVCR7YnVpbGRTdGFydH08L3RleHQ+YDsKICBzKz1gPHRleHQgeD0iJHtNaHZ9IiB5PSIke3JCMitSSCsxOH0iIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiMxYTYwNDAiIGZvbnQtd2VpZ2h0PSI2MDAiIGZvbnQtZmFtaWx5PSJpbmhlcml0Ij5Cw6BuIGdpYW8gVCR7aGFuZG92ZXJ9PC90ZXh0PmA7CiAgaWYoTWF0aC5hYnMoTWFFbmQtTWJFbmQpPjIwKXsKICAgIHMrPWA8dGV4dCB4PSIke01hRW5kfSIgeT0iJHtyQjIrUkgrMTh9IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmaWxsPSIjM2Q4YjNkIiBmb250LXdlaWdodD0iNTAwIiBmb250LWZhbWlseT0iaW5oZXJpdCI+QSB4b25nIMSR4bqldCBUJHthTW9udGhzfTwvdGV4dD5gOwogICAgcys9YDx0ZXh0IHg9IiR7TWJFbmR9IiB5PSIke3JCMitSSCsxOH0iIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiNjNDdhMWEiIGZvbnQtd2VpZ2h0PSI1MDAiIGZvbnQtZmFtaWx5PSJpbmhlcml0Ij5CIHhvbmcgxJHhuqV0IFQke2JNb250aHN9PC90ZXh0PmA7CiAgfQoKICBjb25zdCBzdmc9ZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3RsLXN2ZycpOwogIHN2Zy5zZXRBdHRyaWJ1dGUoJ3ZpZXdCb3gnLGAwIDAgJHtXfSAke0h9YCk7CiAgc3ZnLnN0eWxlLndpZHRoPSc5MDBweCc7CiAgc3ZnLnNldEF0dHJpYnV0ZSgnaGVpZ2h0JyxTdHJpbmcoSCkpOwogIHN2Zy5pbm5lckhUTUw9czsKfQoKZnVuY3Rpb24gclRhYmxlKHAsZCl7CiAgY29uc3R7c0Esc0IsYkVuZCxidWlsZFN0YXJ0fT1kOwogIGNvbnN0e2FNb250aHMsYk1vbnRocyxoYW5kb3ZlcixhTmFtZSxiTmFtZX09cDsKICBsZXQgaD1gPHRoZWFkPjx0cj4KICAgIDx0aD5UaMOhbmc8L3RoPjx0aD5T4buxIGtp4buHbjwvdGg+CiAgICA8dGggc3R5bGU9ImJhY2tncm91bmQ6IzJhNWUyYSI+UEEtQSDEkOG6pXQ8L3RoPgogICAgPHRoIHN0eWxlPSJiYWNrZ3JvdW5kOiMxYTNlN2EiPlBBLUEgWMOieTwvdGg+CiAgICA8dGggc3R5bGU9ImJhY2tncm91bmQ6IzBlMjIxNCI+UEEtQSBU4buVbmcvVDwvdGg+CiAgICA8dGggc3R5bGU9ImJhY2tncm91bmQ6IzJhNWUyYSI+UEEtQiDEkOG6pXQ8L3RoPgogICAgPHRoIHN0eWxlPSJiYWNrZ3JvdW5kOiMxYTNlN2EiPlBBLUIgWMOieTwvdGg+CiAgICA8dGggc3R5bGU9ImJhY2tncm91bmQ6IzBlMjIxNCI+UEEtQiBU4buVbmcvVDwvdGg+CiAgPC90cj48L3RoZWFkPjx0Ym9keT5gOwogIGNvbnN0IG1heD1NYXRoLm1pbihkLm1heE0sTWF0aC5tYXgoYU1vbnRocyxiTW9udGhzLGJFbmQsaGFuZG92ZXIpKzIpOwogIGZvcihsZXQgaT0wO2k8bWF4O2krKyl7CiAgICBjb25zdCBtPWkrMSxhPXNBW2ldLGI9c0JbaV07CiAgICBsZXQgcmM9JycsZXY9Jyc7CiAgICBpZihtPT09YU1vbnRocyl7cmM9J3RyLWtleSc7ZXY9YCR7YU5hbWV9OiB0aMOhbmcgY3Xhu5FpIHRp4buBbiDEkeG6pXRgfQogICAgZWxzZSBpZihtPT09Yk1vbnRocyYmYk1vbnRocyE9PWFNb250aHMpe3JjPSd0ci1rZXknO2V2PWAke2JOYW1lfTogdGjDoW5nIGN14buRaSB0aeG7gW4gxJHhuqV0YH0KICAgIGVsc2UgaWYobT09PWJ1aWxkU3RhcnQpe3JjPSd0ci1rZXknO2V2PSdC4bqvdCDEkeG6p3UgdGnhu4FuIHjDonkgKGPhuqMgMiBQQSknfQogICAgZWxzZSBpZihtPT09aGFuZG92ZXIpe3JjPSd0ci1oYW5kb3Zlcic7ZXY9J0LDoG4gZ2lhbyBuaMOgJ30KICAgIGVsc2UgaWYobT5idWlsZFN0YXJ0JiZtPD1NYXRoLm1pbihNYXRoLm1heChhTW9udGhzLGJNb250aHMpLGJFbmQpKXtyYz0ndHItb3ZlcmxhcCd9CiAgICBjb25zdCBhdGM9YS5idWlsZD4wJiZhLmxhbmQ+MD8nYm90aC12JzonJzsKICAgIGNvbnN0IGJ0Yz1iLmJ1aWxkPjAmJmIubGFuZD4wPydib3RoLXYnOicnOwogICAgaCs9YDx0ciBjbGFzcz0iJHtyY30iPgogICAgICA8dGQ+PHN0cm9uZz5UJHttfTwvc3Ryb25nPjwvdGQ+CiAgICAgIDx0ZCBzdHlsZT0iZm9udC1zaXplOjExcHg7Y29sb3I6IzZiN2M2YiI+JHtldn08L3RkPgogICAgICA8dGQgY2xhc3M9IiR7YSYmYS5sYW5kPjA/J2xhbmQtdic6J3plcm8tdid9Ij4ke2E/Zm0oYS5sYW5kKTon4oCUJ308L3RkPgogICAgICA8dGQgY2xhc3M9IiR7YSYmYS5idWlsZD4wPydidWlsZC12JzonemVyby12J30iPiR7YT9mbShhLmJ1aWxkKTon4oCUJ308L3RkPgogICAgICA8dGQgY2xhc3M9IiR7YXRjfSI+PHN0cm9uZz4ke2E/Zm0oYS50b3RhbCk6J+KAlCd9PC9zdHJvbmc+PC90ZD4KICAgICAgPHRkIGNsYXNzPSIke2ImJmIubGFuZD4wPydsYW5kLXYnOid6ZXJvLXYnfSI+JHtiP2ZtKGIubGFuZCk6J+KAlCd9PC90ZD4KICAgICAgPHRkIGNsYXNzPSIke2ImJmIuYnVpbGQ+MD8nYnVpbGQtdic6J3plcm8tdid9Ij4ke2I/Zm0oYi5idWlsZCk6J+KAlCd9PC90ZD4KICAgICAgPHRkIGNsYXNzPSIke2J0Y30iPjxzdHJvbmc+JHtiP2ZtKGIudG90YWwpOifigJQnfTwvc3Ryb25nPjwvdGQ+CiAgICA8L3RyPmA7CiAgfQogIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjZi10YWJsZScpLmlubmVySFRNTD1oKyc8L3Rib2R5Pic7Cn0KCmZ1bmN0aW9uIHJOb3RlcyhwLGQpewogIGNvbnN0IGl0ZW1zPVsKICAgIHt0aXRsZTpgVCR7cC5idWlsZFN0YXJ0fTogQuG6r3QgxJHhuqd1IHRp4buBbiB4w6J5YCx0ZXh0OmBD4bqjIGhhaSBQQSBi4bqvdCDEkeG6p3UgdGhhbmggdG/DoW4gdGnhu4FuIHjDonkgdOG7qyBUJHtwLmJ1aWxkU3RhcnR9LiBDaGlhIMSR4buBdSB0cm9uZyAke3AuYm19IHRow6FuZy5gLHdhcm46ZmFsc2V9LAogICAge3RpdGxlOmBUJHtwLmhhbmRvdmVyfTogTmjhuq1uIGLDoG4gZ2lhbyBuaMOgYCx0ZXh0OmBN4buRYyBnaWFvIG5ow6AgdGhlbyBjaMOtbmggc8OhY2ggQ8SQVC4gUEEtQiAke3AuYk1vbnRocz5wLmhhbmRvdmVyP2Bjw7JuICR7cC5iTW9udGhzLXAuaGFuZG92ZXJ9IHRow6FuZyB0aeG7gW4gxJHhuqV0IHNhdSBraGkgbmjhuq1uIG5ow6BgOifEkcOjIHhvbmcgdGnhu4FuIMSR4bqldCB0csaw4bubYyBiw6BuIGdpYW8nfS5gLHdhcm46ZmFsc2V9LAogICAgZC5oYXNPdkI/e3RpdGxlOmBMxrB1IMO9IFBBLUI6IDIga2hv4bqjbiBjw7luZyBsw7pjYCx0ZXh0OmBUJHtwLmJ1aWxkU3RhcnR94oCTVCR7ZC5vdkVuZEJ9OiBwaOG6o2kgdHLhuqMgxJHhu5NuZyB0aOG7nWkgdGnhu4FuIMSR4bqldCB2w6AgdGnhu4FuIHjDonkuIENhbyDEkWnhu4NtICR7Zm1iKGQucGVha0IpfS90aMOhbmcuYCx3YXJuOnRydWV9Om51bGwsCiAgICB7dGl0bGU6J1Bo4bulIHRodScsdGV4dDpgJHtwLmFOYW1lfTogKyR7ZmIoZC5wQSl9ICgke3AuYVJhdGV9JSkuICR7cC5iTmFtZX06ICske2ZiKGQucEIpfSAoJHtwLmJSYXRlfSUpLmAsd2FybjpmYWxzZX0sCiAgXS5maWx0ZXIoQm9vbGVhbik7CiAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ25vdGVzJykuaW5uZXJIVE1MPWl0ZW1zLm1hcChuPT5gCiAgICA8ZGl2IGNsYXNzPSJuY2FyZCAke24ud2Fybj8nd2Fybic6Jyd9Ij4KICAgICAgPGRpdiBjbGFzcz0ibnRpdGxlIj4ke24udGl0bGV9PC9kaXY+CiAgICAgIDxwPiR7bi50ZXh0fTwvcD4KICAgIDwvZGl2PmApLmpvaW4oJycpOwp9CgpmdW5jdGlvbiBnbygpewogIGNvbnN0IHA9Z2V0SW5wKCksZD1jYWxjKHApOwogIHJIZWFkZXIocCk7ckNhcmRzKHAsZCk7clRpbWVsaW5lKHAsZCk7clRhYmxlKHAsZCk7ck5vdGVzKHAsZCk7Cn0KZ28oKTsKPC9zY3JpcHQ+CjwvYm9keT4KPC9odG1sPgo=';
+function initGxFrame(){
+  const fr=document.getElementById('gx-iframe');
+  if(!fr||fr.dataset.loaded)return;
+  const bin=atob(_gxB64);
+  const bytes=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+  const blob=new Blob([bytes],{type:'text/html;charset=utf-8'});
+  fr.src=URL.createObjectURL(blob);
+  fr.dataset.loaded='1';
+}
+
+const dd=new Date();
+document.getElementById('hdate').textContent=dd.toLocaleDateString('vi-VN',{weekday:'short',day:'numeric',month:'numeric',year:'numeric'});
+function sm(){
+  const [a,b,c,e]=['s1','s2','s3','s4'].map(x=>document.getElementById(x).value||'—');
+  document.getElementById('pmeta').innerHTML='Dự án: <strong>'+a+'</strong><br>Mã SP: '+b+'<br>Khách: <strong>'+c+'</strong><br>Tư vấn: '+e+'<br>Ngày: '+dd.toLocaleDateString('vi-VN');
+}
+sm();
+
+const CC={g:'#2e7d2e',gl:'#3a9a3a',lime:'#5a8a1a',red:'#c0392b',amb:'#b7770d',blu:'#1e6fa8',tm:'#6b896b'};
+const registry={};
+
+function setup(id){
+  const el=document.getElementById(id);
+  if(!el||!el.parentElement)return null;
+  const dpr=window.devicePixelRatio||1;
+  const pw=Math.max(el.parentElement.clientWidth,120);
+  const ph=Math.round(pw*(pw<400?0.58:0.5));
+  el.width=Math.round(pw*dpr);el.height=Math.round(ph*dpr);
+  el.style.width=pw+'px';el.style.height=ph+'px';
+  const ctx=el.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,pw,ph);
+  return {ctx,W:pw,H:ph};
+}
+
+function pad(W){return{l:W<360?40:W<480?48:56,r:8,t:10,b:26};}
+
+function yAxis(ctx,pd,cw,ch,minV,maxV){
+  ctx.strokeStyle='rgba(214,228,214,0.8)';ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){
+    const y=pd.t+ch-(i/4)*ch;
+    ctx.beginPath();ctx.moveTo(pd.l,y);ctx.lineTo(pd.l+cw,y);ctx.stroke();
+    const val=minV+(i/4)*(maxV-minV);
+    const lbl=Math.abs(val)>=100?B2(val,0):Math.abs(val)>=10?B2(val,1):B2(val,2);
+    ctx.fillStyle=CC.tm;ctx.font='600 '+(pd.l<44?8:9)+'px \'Be Vietnam Pro\',sans-serif';
+    ctx.textAlign='right';ctx.fillText(lbl,pd.l-3,y+3.5);
+  }
+}
+
+function barChart(id,labels,datasets){
+  const res=setup(id);if(!res)return;
+  registry[id]={type:'bar',labels,datasets};
+  const{ctx,W,H}=res;
+  const pd=pad(W);const cw=W-pd.l-pd.r,ch=H-pd.t-pd.b;
+  const allV=datasets.flatMap(d=>d.data.map(x=>Math.abs(x)||0));
+  const maxV=Math.max(...allV,0.01)*1.15;
+  yAxis(ctx,pd,cw,ch,0,maxV);
+  const sw=cw/labels.length,n=datasets.length;
+  const bw=Math.max(2,sw*0.65/n);
+  datasets.forEach((ds,di)=>{
+    ds.data.forEach((val,i)=>{
+      const bh=ch*(Math.max(0,val)/maxV);
+      const x=pd.l+i*sw+di*(bw+1.5)+sw*0.175;
+      ctx.fillStyle=ds.color+'bb';ctx.fillRect(x,pd.t+ch-bh,bw,bh);
+      ctx.fillStyle=ds.color;ctx.fillRect(x,pd.t+ch-bh,bw,2.5);
+    });
+  });
+  const step=Math.max(1,Math.ceil(labels.length*22/cw));
+  ctx.fillStyle=CC.tm;ctx.font='600 '+(cw<250?8:9)+'px \'Be Vietnam Pro\',sans-serif';ctx.textAlign='center';
+  labels.forEach((lb,i)=>{if(labels.length<=20||i%step===0||i===labels.length-1)ctx.fillText(lb,pd.l+(i+.5)*sw,H-8);});
+}
+
+function lineChart(id,labels,datasets){
+  const res=setup(id);if(!res)return;
+  registry[id]={type:'line',labels,datasets};
+  const{ctx,W,H}=res;
+  const pd=pad(W);const cw=W-pd.l-pd.r,ch=H-pd.t-pd.b;
+  const allV=datasets.flatMap(d=>d.data).filter(v=>isFinite(v)&&!isNaN(v));
+  const minV=Math.min(0,...allV),maxV=Math.max(...allV,0.01)*1.1,rng=maxV-minV||1;
+  yAxis(ctx,pd,cw,ch,minV,maxV);
+  const xOf=i=>pd.l+(labels.length<2?cw/2:i/(labels.length-1)*cw);
+  const yOf=v=>pd.t+ch-((v-minV)/rng)*ch;
+  datasets.forEach(ds=>{
+    if(ds.fill){
+      ctx.beginPath();ds.data.forEach((v,i)=>i===0?ctx.moveTo(xOf(i),yOf(v)):ctx.lineTo(xOf(i),yOf(v)));
+      ctx.lineTo(xOf(labels.length-1),pd.t+ch);ctx.lineTo(xOf(0),pd.t+ch);ctx.closePath();
+      ctx.fillStyle=ds.color+'18';ctx.fill();
+    }
+    ctx.beginPath();ctx.strokeStyle=ds.color;ctx.lineWidth=ds.lw||2.5;
+    if(ds.dash)ctx.setLineDash(ds.dash);else ctx.setLineDash([]);
+    ds.data.forEach((v,i)=>i===0?ctx.moveTo(xOf(i),yOf(v)):ctx.lineTo(xOf(i),yOf(v)));
+    ctx.stroke();ctx.setLineDash([]);
+    const dotR=W<400?2:3;const step2=Math.max(1,Math.ceil(labels.length*14/cw));
+    if(labels.length<=20){ds.data.forEach((v,i)=>{if(i%step2===0||i===labels.length-1){ctx.beginPath();ctx.arc(xOf(i),yOf(v),dotR,0,Math.PI*2);ctx.fillStyle=ds.color;ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=1.2;ctx.stroke();}});}
+  });
+  const step=Math.max(1,Math.ceil(labels.length*28/cw));
+  ctx.fillStyle=CC.tm;ctx.font='600 '+(cw<250?8:9)+'px \'Be Vietnam Pro\',sans-serif';ctx.textAlign='center';
+  labels.forEach((lb,i)=>{if(labels.length<=12||i%step===0||i===labels.length-1)ctx.fillText(lb,xOf(i),H-8);});
+}
+
+function pieChart(id,slices){
+  const res=setup(id);if(!res)return;
+  registry[id]={type:'pie',slices};
+  const{ctx,W,H}=res;
+  const cx=W/2,cy=H/2,r=Math.min(cx,cy)-16;
+  const total=slices.reduce((s,x)=>s+Math.abs(x.val),0);
+  let ang=-Math.PI/2;
+  slices.forEach(sl=>{
+    const sw=2*Math.PI*(Math.abs(sl.val)/total);
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,ang,ang+sw);ctx.closePath();
+    ctx.fillStyle=sl.color;ctx.fill();
+    ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();
+    if(sw>0.25){const ma=ang+sw/2;ctx.fillStyle='#fff';ctx.font='700 10px \'Be Vietnam Pro\',sans-serif';ctx.textAlign='center';ctx.fillText(P(Math.abs(sl.val)/total*100),cx+Math.cos(ma)*(r*.62),cy+Math.sin(ma)*(r*.62)+4);}
+    ang+=sw;
+  });
+  ctx.beginPath();ctx.arc(cx,cy,r*.38,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();
+}
+
+function redrawAll(){
+  Object.entries(registry).forEach(([id,cfg])=>{
+    if(cfg.type==='bar')barChart(id,cfg.labels,cfg.datasets);
+    else if(cfg.type==='line')lineChart(id,cfg.labels,cfg.datasets);
+    else if(cfg.type==='pie')pieChart(id,cfg.slices);
+  });
+}
+let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(redrawAll,150);});
+
+function kbox(lbl,val,sub,cls,top){return '<div class="kbox '+(top?top+'-top':'')+'"><div class="kl">'+lbl+'</div><div class="kv '+(cls||'')+'">'+val+'</div>'+(sub?'<div class="ks">'+sub+'</div>':'')+'</div>';}
+function rrow(lbl,val,cls){return '<div class="rr"><div class="rl">'+lbl+'</div><div class="rv2 '+(cls||'')+'">'+val+'</div></div>';}
+function wfrow(lbl,val,maxV,color,pctLbl){
+  const w=Math.max(4,Math.abs(val)/Math.max(Math.abs(maxV),1)*100);
+  return '<div class="wfi"><div class="wfl">'+lbl+'</div><div class="wft"><div class="wff" style="width:'+w+'%;background:'+color+'22;color:'+color+'">'+fmt(val/1e9,2)+' tỷ</div></div><div class="wfn" style="color:'+color+'">'+pctLbl+'</div></div>';
+}
+
+function calcL(){
+  const price=gv('l0')*1e9,ratio=gv('l1')/100,termYr=gvi('l2');
+  const r1=gv('l3')/100/12,p1=gvi('l4'),r2=gv('l5')/100/12,p2=gvi('l6'),r3=gv('l7')/100/12;
+  const loan=price*ratio,down=price-loan,totalM=termYr*12;
+  const pmt1=PMT(r1,totalM,loan),pmt2=PMT(r2,Math.max(1,totalM-p1),loan),pmt3=PMT(r3,Math.max(1,totalM-p1-p2),loan);
+  let bal=loan,totInt=0,rows=[];
+  for(let m=1;m<=totalM;m++){
+    const r=m<=p1?r1:m<=(p1+p2)?r2:r3;
+    const pmt=m<=p1?pmt1:m<=(p1+p2)?pmt2:PMT(r,Math.max(1,totalM-m+1),bal);
+    const ip=bal*r,pp=Math.min(bal,pmt-ip);
+    totInt+=ip;const ob=bal;bal-=pp;if(bal<0)bal=0;
+    rows.push({m,pmt,ip,pp,ob,bal,phase:m<=p1?1:m<=(p1+p2)?2:3});
+  }
+  const years=[],yl=[];
+  for(let y=1;y<=termYr;y++){
+    const yr=rows.filter(r=>r.m>(y-1)*12&&r.m<=y*12);
+    years.push({p:yr.reduce((s,r)=>s+r.pp,0),i:yr.reduce((s,r)=>s+r.ip,0),b:yr[yr.length-1]?.bal||0});
+    yl.push('N'+y);
+  }
+  let ci=0;const cumI=years.map(y=>{ci+=y.i;return ci;});
+  const kpi='<div class="g4" style="margin-bottom:14px;">'+kbox('Số tiền vay',fmt(loan/1e9,2)+' tỷ',P(ratio*100)+' giá trị BĐS')+kbox('Vốn tự có',fmt(down/1e9,2)+' tỷ',P((1-ratio)*100)+' giá trị BĐS','wh')+kbox('Trả/tháng GĐ1',fmt(pmt1/1e6,2)+' tr','Lãi '+gv('l3')+'%/năm — '+p1+' tháng')+kbox('Trả/tháng thả nổi',fmt(pmt3/1e6,2)+' tr','Lãi '+gv('l7')+'%/năm','amb','amb')+'</div><div class="rtbl">'+rrow('Tổng tiền gốc phải trả',fmt(loan/1e9,2)+' tỷ')+rrow('Tổng tiền lãi ('+termYr+' năm)',fmt(totInt/1e9,3)+' tỷ','red')+rrow('Tổng thanh toán',fmt((loan+totInt)/1e9,3)+' tỷ')+rrow('Tỷ lệ lãi / gốc',P(totInt/loan*100),'amb')+rrow('GĐ ưu đãi 1 ('+p1+' tháng)',fmt(pmt1/1e6,2)+' tr/tháng — lãi '+gv('l3')+'%/năm')+rrow('GĐ ưu đãi 2 ('+p2+' tháng)',fmt(pmt2/1e6,2)+' tr/tháng — lãi '+gv('l5')+'%/năm')+rrow('Thả nổi ('+(totalM-p1-p2)+' tháng)',fmt(pmt3/1e6,2)+' tr/tháng — lãi '+gv('l7')+'%/năm')+'</div>';
+  document.getElementById('lo').innerHTML='<div class="card"><div class="ctit">Kết quả phân tích</div>'+kpi+'</div>';
+  let am='';
+  rows.forEach(r=>{const ph=r.phase===1?'<span class="badge bg">GĐ1</span>':r.phase===2?'<span class="badge ba">GĐ2</span>':'<span class="badge bbl">TN</span>';am+='<tr><td>'+r.m+'</td><td>'+ph+'</td><td class="r">'+fmt(r.ob/1e6,2)+'tr</td><td class="r" style="color:var(--g)">'+fmt(r.pp/1e6,2)+'tr</td><td class="r" style="color:var(--red)">'+fmt(r.ip/1e6,2)+'tr</td><td class="r" style="font-weight:700">'+fmt(r.pmt/1e6,2)+'tr</td><td class="r">'+fmt(r.bal/1e9,3)+'tỷ</td></tr>';});
+  document.getElementById('lam').innerHTML=am;
+  document.getElementById('lcharts').style.display='block';
+  setTimeout(()=>{barChart('lbc',yl,[{data:years.map(y=>y.p/1e6),color:CC.g},{data:years.map(y=>y.i/1e6),color:CC.red}]);lineChart('llc',yl,[{data:years.map(y=>y.b/1e9),color:CC.gl,fill:true},{data:cumI.map(v=>v/1e9),color:CC.blu,dash:[5,3]}]);},100);
+}
+
+let phc=0;
+function addPh(n,t,pct){
+  n=n||'';t=t||'';pct=pct||'';phc++;const id=phc;
+  const div=document.createElement('div');div.id='ph'+id;div.className='phr';
+  div.innerHTML='<div class="f" style="margin:0"><label>Sự kiện</label><input type="text" id="phn'+id+'" value="'+n+'" placeholder="Ký HĐMB"></div><div class="f" style="margin:0"><label>Thời gian</label><input type="text" id="pht'+id+'" value="'+t+'" placeholder="T+30 ngày"></div><div class="f" style="margin:0"><label>%</label><input type="number" id="php'+id+'" value="'+pct+'" min="0" max="100" step="1"></div><button onclick="document.getElementById(\'ph'+id+'\').remove()" style="background:var(--reddim);border:1px solid var(--red);color:var(--red);padding:8px 10px;cursor:pointer;border-radius:6px;font-size:12px;font-weight:700;align-self:end">✕</button>';
+  document.getElementById('phwrap').appendChild(div);
+}
+function loadHLX(){
+  document.getElementById('phwrap').innerHTML='';phc=0;
+  [['Đặt cọc giữ chỗ','Ngay',3],['Ký Hợp Đồng Mua Bán','T+30 ngày',22],['Đợt 3 — Hoàn thành móng','T+6 tháng',13],['Đợt 4 — Hoàn thành thô','T+12 tháng',13],['Đợt 5 — Hoàn thiện','T+18 tháng',14],['Bàn giao nhà 5%','T+24 tháng',5],['Đóng 20% còn lại','T+24 tháng',15],['Nhận Sổ Đỏ','T+36 tháng',15]].forEach(x=>addPh(x[0],x[1],x[2]));
+}
+loadHLX();
+function calcS(){
+  const price=gv('p0')*1e9,loan=gv('p1a')*1e9,disb=gvi('p2'),tax=gv('p3')/100;
+  const taxAmt=price*tax,down=price-loan;const prows=[];let totPct=0;
+  document.querySelectorAll('[id^="ph"]').forEach((div,i)=>{const id=div.id.replace('ph','');if(!document.getElementById('phn'+id))return;const n=document.getElementById('phn'+id).value||'Đợt '+(i+1);const t=document.getElementById('pht'+id).value||'—';const p=parseFloat(document.getElementById('php'+id).value)||0;totPct+=p;prows.push({n,t,p,idx:i+1});});
+  const kpi='<div class="g4" style="margin-bottom:14px;">'+kbox('Tổng giá trị',fmt(price/1e9,2)+' tỷ','')+kbox('Ngân hàng hỗ trợ',fmt(loan/1e9,2)+' tỷ',P(loan/price*100)+' giá trị BĐS','','blu')+kbox('Vốn tự có cần có',fmt(down/1e9,2)+' tỷ','','amb','amb')+kbox('Thuế + phí '+P(tax*100),fmt(taxAmt/1e6,0)+' tr','','red','red')+'</div>'+(totPct!==100?'<div style="color:var(--red);font-size:12px;font-weight:600;padding:8px 12px;background:var(--reddim);border-radius:6px;margin-bottom:10px;">⚠ Tổng đợt = '+P(totPct)+' — nên bằng 100%</div>':'')+'<div class="rtbl">'+rrow('Tổng vốn cần chuẩn bị (tự có + thuế/phí)',fmt((down+taxAmt)/1e9,3)+' tỷ','hl')+rrow('Tỷ lệ đòn bẩy ngân hàng',P(loan/price*100),'grn')+rrow('Số đợt thanh toán',prows.length+' đợt')+'</div>';
+  document.getElementById('so').innerHTML='<div class="card"><div class="ctit">Tổng quan tài chính</div>'+kpi+'</div>';
+  let tHTML='',cumSelf=0;const selfAmts=[],labels=[];
+  prows.forEach(r=>{const amt=price*r.p/100,bank=(r.idx===disb)?Math.min(loan,amt):0,self=amt-bank;cumSelf+=self;selfAmts.push(self/1e6);labels.push('Đ'+r.idx);tHTML+='<tr '+(bank>0?'class="gp"':'')+'><td>'+r.idx+'</td><td class="lb">'+r.n+'</td><td class="lb">'+r.t+'</td><td class="r">'+P(r.p)+'</td><td class="r" style="font-weight:700">'+fmt(amt/1e6,0)+'tr</td><td class="r" style="color:var(--blu)">'+(bank>0?fmt(bank/1e6,0)+'tr':'—')+'</td><td class="r" style="color:var(--g);font-weight:700">'+fmt(self/1e6,0)+'tr</td><td class="r">'+fmt(cumSelf/1e9,3)+'tỷ</td></tr>';});
+  tHTML+='<tr class="ft"><td colspan="6">TỔNG VỐN TỰ CÓ</td><td class="r">'+fmt(cumSelf/1e9,3)+'tỷ</td><td class="r">'+fmt((cumSelf+taxAmt)/1e9,3)+'tỷ (gồm thuế/phí)</td></tr>';
+  document.getElementById('sbody').innerHTML=tHTML;document.getElementById('sdetail').style.display='block';
+  setTimeout(()=>{barChart('sbc',labels,[{data:selfAmts,color:CC.g}]);pieChart('spc',[{val:loan,color:CC.blu},{val:down,color:CC.g},{val:taxAmt,color:CC.red}]);document.getElementById('sleg').innerHTML='<div class="li"><div class="ld2" style="background:'+CC.blu+'"></div>NH: '+fmt(loan/1e9,2)+'tỷ ('+P(loan/(price+taxAmt)*100)+')</div><div class="li"><div class="ld2" style="background:'+CC.g+'"></div>Tự có: '+fmt(down/1e9,2)+'tỷ</div><div class="li"><div class="ld2" style="background:'+CC.red+'"></div>Thuế/phí: '+fmt(taxAmt/1e6,0)+'tr</div>';},100);
+}
+function calcR(){
+  const price=gv('r0')*1e9,equity=gv('r1')*1e9,bcp=gv('r2')/100,cg=gv('r3')/100;
+  const rentM=gv('r4')*1e6,occ=gv('r5')/100,mgmt=gv('r6')/100,ri=gv('r7')/100;
+  const lr=gv('r8')/100/12,lt=gvi('r9'),hold=gvi('r10'),save=gv('r11')/100;
+  const loan=price-equity,initCost=price*bcp,totalInv=equity+initCost;const pmt=lt>0&&loan>0?PMT(lr,lt*12,loan):0;
+  let bal=loan,rows=[],totRent=0,totLInt=0,curRent=rentM;
+  for(let y=1;y<=hold;y++){const rg=curRent*12*occ,rn=rg*(1-mgmt);const li=bal>0?bal*lr*12:0,lp=bal>0?Math.min(bal,pmt*12-li):0;bal-=lp;if(bal<0)bal=0;totRent+=rn;totLInt+=li;rows.push({y,bv:price*Math.pow(1+cg,y),rg,rn,li,cf:rn-li,bal,ne:price*Math.pow(1+cg,y)-bal-totalInv});curRent*=(1+ri);}
+  const last=rows[rows.length-1];const gy=(rentM*12/price)*100,ny=(rentM*12*occ*(1-mgmt)/price)*100;const coc=equity>0?(rows[0].cf/totalInv)*100:0;const totRet=last.bv-price+totRent-totLInt-initCost;const roi=totalInv>0?(totRet/totalInv)*100:0;const ann=(Math.pow(1+roi/100,1/hold)-1)*100;const bankRet=equity*Math.pow(1+save,hold)-equity;
+  const kpi='<div class="g4" style="margin-bottom:14px;">'+kbox('Gross Yield',P(gy),'Lợi suất thuê gộp/năm')+kbox('Net Yield',P(ny),'Sau vận hành & trống phòng')+kbox('Cash-on-Cash',P(coc),'Dòng tiền / Tổng đầu tư',coc>=0?'':'red')+kbox('ROI bình quân/năm',P(ann),'Tổng '+P(roi)+' / '+hold+' năm','big')+'</div><div class="rtbl">'+rrow('Tổng vốn đầu tư ban đầu',fmt(totalInv/1e9,3)+' tỷ')+rrow('Giá trị BĐS sau '+hold+' năm',fmt(last.bv/1e9,3)+' tỷ','hl')+rrow('Lãi tăng giá (capital gain)','+'+fmt((last.bv-price)/1e9,3)+' tỷ','grn')+rrow('Thu nhập thuê ròng tích lũy','+'+fmt(totRent/1e9,3)+' tỷ','grn')+rrow('Lãi vay tích lũy','-'+fmt(totLInt/1e9,3)+' tỷ','red')+rrow('Phí mua ban đầu','-'+fmt(initCost/1e9,3)+' tỷ','red')+rrow('TỔNG LỢI NHUẬN RÒNG','+'+fmt(totRet/1e9,3)+' tỷ','hl')+rrow('Nếu gửi tiết kiệm '+P(save*100)+'/năm','+'+fmt(bankRet/1e9,3)+' tỷ','amb')+rrow('BĐS vượt trội so với tiết kiệm','+'+fmt((totRet-bankRet)/1e9,3)+' tỷ','grn')+'</div>';
+  document.getElementById('ro').innerHTML='<div class="card"><div class="ctit">Kết quả phân tích ROI — '+hold+' năm</div>'+kpi+'</div>';
+  let tHTML='';rows.forEach(r=>{tHTML+='<tr><td>N'+r.y+'</td><td class="r">'+fmt(r.bv/1e9,2)+'tỷ</td><td class="r">'+fmt(r.rg/1e6,0)+'tr</td><td class="r" style="color:var(--red)">'+fmt(r.rg*mgmt/1e6,0)+'tr</td><td class="r" style="color:var(--g)">'+fmt(r.rn/1e6,0)+'tr</td><td class="r" style="color:var(--red)">'+fmt(r.li/1e6,0)+'tr</td><td class="r" style="color:'+(r.cf>=0?'var(--g)':'var(--red)')+';font-weight:700">'+fmt(r.cf/1e6,0)+'tr</td><td class="r">'+fmt(r.bal/1e9,2)+'tỷ</td><td class="r" style="font-weight:700">'+fmt(r.ne/1e9,2)+'tỷ</td></tr>';});
+  document.getElementById('rbody').innerHTML=tHTML;document.getElementById('rcharts').style.display='block';
+  const yl=rows.map(r=>'N'+r.y);
+  setTimeout(()=>{barChart('rcf',yl,[{data:rows.map(r=>r.rn/1e6),color:CC.g},{data:rows.map(r=>r.li/1e6),color:CC.red},{data:rows.map(r=>Math.max(0,r.cf/1e6)),color:CC.lime}]);lineChart('req',yl,[{data:rows.map(r=>r.bv/1e9),color:CC.gl,fill:true},{data:rows.map(r=>(r.bv-r.bal)/1e9),color:CC.lime},{data:rows.map(r=>r.bal/1e9),color:CC.blu,dash:[5,3]}]);},100);
+}
+function calcC(){
+  const cap=gv('c0')*1e9,yrs=gvi('c1');const bc=gv('c2')/100,br=gv('c3')/100,bl=gv('c4')/100,blr=gv('c5')/100,bop=gv('c6')/100;const stk=gv('c7')/100,gld=gv('c8')/100,sav=gv('c9')/100;
+  const tot=bl>0?cap/(1-bl):cap,lnBDS=tot-cap;let cumRN=0,cumLI=0;const rows=[];
+  for(let y=1;y<=yrs;y++){const bv=tot*Math.pow(1+bc,y),rn=tot*br*(1-bop),li=lnBDS*blr;cumRN+=rn;cumLI+=li;rows.push({y,bv,bCSH:bv-lnBDS+cumRN-cumLI-cap,stk:cap*(Math.pow(1+stk,y)-1),gld:cap*(Math.pow(1+gld,y)-1),sav:cap*(Math.pow(1+sav,y)-1)});}
+  const last=rows[rows.length-1];const chs=[{name:'BĐS (đòn bẩy '+P(bl*100)+')',val:last.bCSH,color:CC.g},{name:'Chứng khoán',val:last.stk,color:CC.blu},{name:'Vàng',val:last.gld,color:CC.amb},{name:'Tiết kiệm',val:last.sav,color:CC.tm}].sort((a,b)=>b.val-a.val);const maxV=Math.max(chs[0].val,1);const medals=['🥇','🥈','🥉','4.'];
+  const kpi='<div class="g4" style="margin-bottom:14px;">'+kbox('Vốn ban đầu',fmt(cap/1e9,2)+' tỷ','')+kbox('BĐS — Tổng tài sản',fmt(tot/1e9,2)+' tỷ','Đòn bẩy ×'+fmt(tot/cap,1)+' vốn')+kbox('LN BĐS sau '+yrs+' năm',fmt(last.bCSH/1e9,2)+' tỷ','','big')+kbox('BĐS vs TK','×'+fmt(last.bCSH/Math.max(last.sav,1),1)+' lần','hiệu quả hơn','grn')+'</div><div class="stl">Xếp hạng lợi nhuận ròng sau '+yrs+' năm</div><div class="wfbar">'+chs.map((ch,i)=>wfrow(medals[i]+' '+ch.name,ch.val,maxV,ch.color,P(ch.val/cap*100))).join('')+'</div>';
+  document.getElementById('co').innerHTML='<div class="card"><div class="ctit">Kết quả so sánh — '+yrs+' năm, vốn '+fmt(cap/1e9,2)+' tỷ</div>'+kpi+'</div>';
+  let tHTML='';rows.forEach(r=>{tHTML+='<tr><td>N'+r.y+'</td><td class="r">'+fmt(r.bv/1e9,2)+'tỷ</td><td class="r" style="color:var(--g);font-weight:700">'+fmt(r.bCSH/1e9,2)+'tỷ</td><td class="r" style="color:var(--blu)">'+fmt(r.stk/1e9,2)+'tỷ</td><td class="r" style="color:var(--amb)">'+fmt(r.gld/1e9,2)+'tỷ</td><td class="r">'+fmt(r.sav/1e9,2)+'tỷ</td><td class="r" style="color:var(--g)">'+(r.bCSH>r.sav?'+':'')+fmt((r.bCSH-r.sav)/1e9,2)+'tỷ</td></tr>';});
+  document.getElementById('cbody').innerHTML=tHTML;document.getElementById('ccharts').style.display='block';
+  document.getElementById('cleg').innerHTML='<div class="li"><div class="ld2" style="background:'+CC.g+'"></div>BĐS — Vốn CSH</div><div class="li"><div class="ld2" style="background:'+CC.blu+'"></div>Chứng khoán</div><div class="li"><div class="ld2" style="background:'+CC.amb+'"></div>Vàng</div><div class="li"><div class="ld2" style="background:'+CC.tm+'"></div>Tiết kiệm</div>';
+  setTimeout(()=>{lineChart('clc',rows.map(r=>'N'+r.y),[{data:rows.map(r=>r.bCSH/1e9),color:CC.g,fill:true,lw:3},{data:rows.map(r=>r.stk/1e9),color:CC.blu},{data:rows.map(r=>r.gld/1e9),color:CC.amb},{data:rows.map(r=>r.sav/1e9),color:CC.tm,dash:[4,3]}]);},100);
+}
+function calcV(){
+  const rentM=gv('v0')*1e6,ri=gv('v1')/100,altSave=gv('v2')/100;const price=gv('v3')*1e9,down=gv('v4')*1e9,rate=gv('v5')/100/12,termYr=gvi('v6');const costPct=gv('v7')/100,maint=gv('v8')/100,appr=gv('v9')/100;
+  const loan=price-down,fee=price*costPct,pmt=PMT(rate,termYr*12,loan);const maxYr=Math.min(termYr,25);
+  let totRent=0,totBuy=fee+down,bal=loan,curRent=rentM,rentSav=0,beYear=null;const rows=[];
+  for(let y=1;y<=maxYr;y++){for(let m=1;m<=12;m++)totRent+=curRent;curRent*=(1+ri);for(let m=1;m<=12;m++){const ip=bal*rate,pp=Math.min(bal,pmt-ip);bal-=pp;if(bal<0)bal=0;}totBuy+=pmt*12+price*maint;const bv=price*Math.pow(1+appr,y);const delta=(pmt-rentM)*12;if(delta>0)rentSav=(rentSav+delta)*(1+altSave);else rentSav*=(1+altSave);const eq=bv-bal,adv=eq-fee-rentSav;if(!beYear&&adv>0)beYear=y;rows.push({y,totRent,totBuy,bv,bal,eq,rentSav,adv});}
+  const last=rows[rows.length-1];
+  const kpi='<div class="g4" style="margin-bottom:14px;">'+kbox('Trả góp/tháng',fmt(pmt/1e6,2)+' tr','vs thuê '+fmt(rentM/1e6,2)+' tr')+kbox('Điểm hoà vốn',beYear?'Năm '+beYear:'> '+maxYr+'năm','Mua có lợi hơn thuê',beYear?'':'red')+kbox('Vốn CSH BĐS ('+maxYr+'năm)',fmt(last.eq/1e9,2)+' tỷ','')+kbox('Mua vượt trội thuê',(last.adv>0?'+':'')+fmt(last.adv/1e9,2)+' tỷ','Sau '+maxYr+' năm',last.adv>0?'grn':'red')+'</div><div class="rtbl">'+rrow('Phí mua ban đầu (thuế, công chứng)',fmt(fee/1e6,0)+' tr','red')+rrow('Tổng tiền thuê tích lũy ('+maxYr+' năm)',fmt(last.totRent/1e9,3)+' tỷ','red')+rrow('Vốn CSH BĐS sau '+maxYr+' năm',fmt(last.eq/1e9,3)+' tỷ','hl')+rrow('Tích lũy khi thuê (đầu tư chênh lệch)',fmt(last.rentSav/1e9,3)+' tỷ')+'</div>';
+  document.getElementById('vo').innerHTML='<div class="card"><div class="ctit">Kết quả phân tích — '+maxYr+' năm</div>'+kpi+'</div>';
+  let tHTML='';rows.forEach(r=>{const isBE=beYear&&r.y===beYear;tHTML+='<tr '+(isBE?'class="gp"':'')+'><td>N'+r.y+(isBE?' <span class="badge bg">HV</span>':'')+'</td><td class="r" style="color:var(--red)">'+fmt(r.totRent/1e9,2)+'tỷ</td><td class="r">'+fmt(r.totBuy/1e9,2)+'tỷ</td><td class="r" style="color:var(--g)">'+fmt(r.bv/1e9,2)+'tỷ</td><td class="r">'+fmt(r.bal/1e9,2)+'tỷ</td><td class="r" style="color:var(--g);font-weight:700">'+fmt(r.eq/1e9,2)+'tỷ</td><td class="r" style="color:var(--blu)">'+fmt(r.rentSav/1e9,2)+'tỷ</td><td class="r" style="color:'+(r.adv>0?'var(--g)':'var(--red)')+';font-weight:700">'+(r.adv>0?'+':'')+fmt(r.adv/1e9,2)+'tỷ</td></tr>';});
+  document.getElementById('vbody').innerHTML=tHTML;document.getElementById('vdetail').style.display='block';
+  const yl=rows.map(r=>'N'+r.y);
+  setTimeout(()=>{lineChart('vcc',yl,[{data:rows.map(r=>r.totRent/1e9),color:CC.red,fill:true},{data:rows.map(r=>r.totBuy/1e9),color:CC.g}]);lineChart('vwc',yl,[{data:rows.map(r=>r.eq/1e9),color:CC.gl,fill:true},{data:rows.map(r=>r.rentSav/1e9),color:CC.blu,dash:[5,3]}]);},100);
+}
+
+// ── SLIDE-OVER HELP ──
+function openHelp(toolId){
+  document.querySelectorAll('.so-panel').forEach(p=>p.classList.remove('open'));
+  const panel=document.getElementById('so-'+toolId);
+  if(panel)panel.classList.add('open');
+  document.getElementById('so-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeHelp(){
+  document.querySelectorAll('.so-panel').forEach(p=>p.classList.remove('open'));
+  document.getElementById('so-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeHelp();});
+
+
+// ── FONT SIZE SWITCHER ──
+const fsSizes=['fs-sm','fs-md','fs-lg','fs-xl'];
+function setFontSize(size){
+  fsSizes.forEach(s=>document.body.classList.remove(s));
+  document.body.classList.add(size);
+  document.querySelectorAll('.fs-btn').forEach(b=>{
+    b.classList.toggle('active',b.dataset.fs===size);
+  });
+  try{localStorage.setItem('bh-fontsize',size);}catch(e){}
+}
+(function(){
+  try{const s=localStorage.getItem('bh-fontsize');if(s&&fsSizes.includes(s)){setFontSize(s);return;}}catch(e){}
+  setFontSize('fs-md');
+})();
+
+
+
+  // Print fix
+  window.addEventListener('beforeprint', function() {
+    document.querySelectorAll('#ft-wrap .panel').forEach(function(p) {
+      if (!p.classList.contains('active')) p.style.setProperty('display', 'none', 'important');
+    });
+  });
+  window.addEventListener('afterprint', function() {
+    document.querySelectorAll('#ft-wrap .panel').forEach(function(p) {
+      p.style.removeProperty('display');
+    });
+  });
+
+  return {
+    init: function() {
+      // Initialize date
+      const hd = document.getElementById('hdate');
+      if (hd) {
+        const d = new Date();
+        hd.textContent = d.toLocaleDateString('vi-VN', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+      }
+      // Init pmeta
+      const pm = document.getElementById('pmeta');
+      if (pm) {
+        const d = new Date();
+        pm.innerHTML = '<strong>Ngày:</strong> ' + d.toLocaleDateString('vi-VN') + '<br><strong>Phiên:</strong> #' + Math.floor(Math.random()*9000+1000);
+      }
+      // Trigger redraw
+      if (typeof redrawAll === 'function') setTimeout(redrawAll, 150);
+    }
+  };
+})();
 
 // ══ BOOT ══
 (async function boot(){
