@@ -115,8 +115,7 @@ body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-
 /* ══ PAGE ══ */
 .page{display:none;padding:28px 40px;animation:fadeUp .3s ease both}
 .page.active{display:block;min-height:calc(100vh - 52px)}
-#pg-tool-embed.active{display:flex;flex-direction:column;padding:0;overflow:hidden;position:absolute;inset:52px 0 0 var(--sw)}
-@media(max-width:768px){#pg-tool-embed.active{left:0}}
+#pg-tool-embed.active{display:flex;flex-direction:column;padding:0;overflow:hidden}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
 /* ══ ROLE BADGE ══ */
@@ -351,6 +350,26 @@ body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-
 [data-theme="light"] .theme-btn{background:rgba(0,0,0,0.04)}
 [data-theme="light"] .pin-key{background:rgba(0,0,0,0.03)}
 [data-theme="light"] .login-box{box-shadow:0 8px 40px var(--shadow)}
+/* ══ FONT SIZE SCALE VIA CSS CLASSES ══ */
+.fz-11 .ni,.fz-11 .chap p,.fz-11 .kpi-table td,.fz-11 .ac-excerpt,.fz-11 .rule-list li,.fz-11 .crm-name,.fz-11 .k-name,.fz-11 .u-name,.fz-11 .chip-name{font-size:11px!important}
+.fz-11 .nav-lbl,.fz-11 .chap-num,.fz-11 .sc-lbl,.fz-11 .ac-date,.fz-11 .u-role,.fz-11 .chip-role,.fz-11 .ph-title{font-size:9px!important}
+.fz-11 .chap h2,.fz-11 .ac-title,.fz-11 .prose-page h1{font-size:13px!important}
+
+.fz-12 .ni,.fz-12 .chap p,.fz-12 .kpi-table td,.fz-12 .ac-excerpt,.fz-12 .rule-list li,.fz-12 .crm-name,.fz-12 .k-name,.fz-12 .u-name,.fz-12 .chip-name{font-size:12px!important}
+.fz-12 .nav-lbl,.fz-12 .chap-num,.fz-12 .sc-lbl,.fz-12 .ac-date,.fz-12 .u-role,.fz-12 .chip-role{font-size:9.5px!important}
+.fz-12 .chap h2,.fz-12 .ac-title{font-size:14px!important}
+.fz-12 .prose-page h1{font-size:22px!important}
+
+.fz-15 .ni,.fz-15 .chap p,.fz-15 .kpi-table td,.fz-15 .ac-excerpt,.fz-15 .rule-list li,.fz-15 .crm-name,.fz-15 .k-name,.fz-15 .u-name,.fz-15 .chip-name{font-size:14px!important}
+.fz-15 .nav-lbl,.fz-15 .chap-num,.fz-15 .sc-lbl,.fz-15 .ac-date,.fz-15 .u-role,.fz-15 .chip-role{font-size:11px!important}
+.fz-15 .chap h2,.fz-15 .ac-title{font-size:17px!important}
+.fz-15 .prose-page h1{font-size:29px!important}
+
+.fz-16 .ni,.fz-16 .chap p,.fz-16 .kpi-table td,.fz-16 .ac-excerpt,.fz-16 .rule-list li,.fz-16 .crm-name,.fz-16 .k-name,.fz-16 .u-name,.fz-16 .chip-name{font-size:15px!important}
+.fz-16 .nav-lbl,.fz-16 .chap-num,.fz-16 .sc-lbl,.fz-16 .ac-date,.fz-16 .u-role,.fz-16 .chip-role{font-size:11.5px!important}
+.fz-16 .chap h2,.fz-16 .ac-title{font-size:18px!important}
+.fz-16 .prose-page h1{font-size:30px!important}
+
 ::-webkit-scrollbar{width:4px;height:4px}
 
 /* ══ EDIT MODE ══ */
@@ -882,7 +901,7 @@ body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-
       <button onclick="document.getElementById('tool-iframe').contentWindow.location.reload()" style="padding:5px 14px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s" onmouseover="this.style.borderColor='var(--border-h)'" onmouseout="this.style.borderColor='var(--border)'">↺ Tải lại</button>
       <a id="tool-open-new" href="#" target="_blank" style="padding:5px 14px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;transition:all .2s" onmouseover="this.style.borderColor='var(--border-h)'" onmouseout="this.style.borderColor='var(--border)'">↗ Mở rộng</button>
     </div>
-    <iframe id="tool-iframe" src="about:blank" style="flex:1;border:none;width:100%;display:block;background:#fff" scrolling="yes"></iframe>
+    <iframe id="tool-iframe" src="about:blank" style="border:none;width:100%;display:block;background:#fff" scrolling="yes"></iframe>
   </div>
 
 </main>
@@ -975,29 +994,29 @@ const html = document.documentElement;
 const savedTheme = localStorage.getItem('bh-theme') || 'dark';
 html.setAttribute('data-theme', savedTheme);
 
-// Font scale — dùng zoom để scale toàn bộ kể cả px-hardcoded elements
-const fontScales = [0.82, 0.90, 1.0, 1.10, 1.20, 1.35];
-const fontLabels = ['82%','90%','100%','110%','120%','135%'];
-let fontIdx = parseInt(localStorage.getItem('bh-font-idx') || '2');
+// Font size — CSS custom property approach, không dùng zoom
+const fontSizes = [11, 12, 13, 14, 15, 16];
+let fontIdx = parseInt(localStorage.getItem('bh-font-idx') || '3');
 
 function applyFont() {
-  const scale = fontScales[fontIdx];
-  const main = document.querySelector('.main');
-  const sb = document.querySelector('.sb');
-  if (main) main.style.zoom = scale;
-  if (sb) sb.style.zoom = scale;
-  // Safe button feedback — only if buttons exist
+  const sz = fontSizes[fontIdx];
+  // Set CSS variable on root, all em/rem units scale automatically
+  // Also directly override common text sizes via CSS class
+  document.documentElement.style.setProperty('--fs', sz + 'px');
+  // Apply class to body for CSS targeting
+  document.body.className = document.body.className.replace(/fz-\d+/g, '').trim();
+  document.body.classList.add('fz-' + sz);
+  // Button feedback
   const btnMinus = document.querySelector('[data-font-btn="-"]');
   const btnPlus = document.querySelector('[data-font-btn="+"]');
   if (btnMinus) btnMinus.style.opacity = fontIdx === 0 ? '0.4' : '1';
-  if (btnPlus) btnPlus.style.opacity = fontIdx === fontScales.length-1 ? '0.4' : '1';
+  if (btnPlus) btnPlus.style.opacity = fontIdx === fontSizes.length-1 ? '0.4' : '1';
 }
 
-// Apply after DOM ready
 document.addEventListener('DOMContentLoaded', applyFont);
 
 function changeFont(dir) {
-  fontIdx = Math.max(0, Math.min(fontScales.length - 1, fontIdx + dir));
+  fontIdx = Math.max(0, Math.min(fontSizes.length - 1, fontIdx + dir));
   localStorage.setItem('bh-font-idx', fontIdx);
   applyFont();
 }
@@ -2075,11 +2094,16 @@ function closeToolEmbed() {
 
 function resizeToolEmbed() {
   const pg = document.getElementById('pg-tool-embed');
-  const topbar = document.querySelector('.topbar');
   if (!pg || !pg.classList.contains('active')) return;
+  const topbar = document.querySelector('.topbar');
   const topH = topbar?.offsetHeight || 52;
-  const winH = window.innerHeight;
-  pg.style.height = (winH - topH) + 'px';
+  const h = window.innerHeight - topH;
+  pg.style.height = h + 'px';
+  const iframe = document.getElementById('tool-iframe');
+  const toolbarDiv = pg.querySelector('div');
+  if (iframe && toolbarDiv) {
+    iframe.style.height = (h - toolbarDiv.offsetHeight) + 'px';
+  }
 }
 window.addEventListener('resize', resizeToolEmbed);
 
@@ -2106,7 +2130,8 @@ function openTool(url, title) {
   document.getElementById('tb-crumb').textContent = ' / Công Cụ';
   document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
   if (window.innerWidth <= 768) closeSidebar();
-  setTimeout(resizeToolEmbed, 100);
+  setTimeout(resizeToolEmbed, 50);
+  setTimeout(resizeToolEmbed, 300);
   window.scrollTo(0, 0);
 }
 
