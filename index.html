@@ -13,6 +13,7 @@
   --green:#3d8b3d;--green-l:#52b052;--green-xl:#7acc7a;
   --amber:#d4a028;--red:#ef4444;--blue:#60a5fa;--purple:#a78bda;
   --sw:256px;
+  --sw-collapsed:56px;
 }
 [data-theme="dark"] {
   --bg:#07100a;--bg2:#0d1a0f;--bg3:#111f14;
@@ -86,7 +87,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sb-logo .tagline{font-size:9px;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px}
 .nav-grp{padding:10px 8px 0}
 .nav-lbl{font-size:8.5px;font-weight:700;letter-spacing:2.5px;color:var(--t3);text-transform:uppercase;padding:0 9px;margin-bottom:3px;margin-top:6px}
-.ni{display:flex;align-items:center;gap:8px;padding:7.5px 9px;border-radius:8px;cursor:pointer;font-size:12.5px;font-weight:500;color:var(--t2);border:1px solid transparent;margin-bottom:1px;transition:all .15s;user-select:none}
+.ni{display:flex;align-items:center;gap:8px;padding:7.5px 9px;border-radius:8px;cursor:pointer;font-size:12.5px;font-weight:500;color:var(--t2);border:1px solid transparent;margin-bottom:1px;transition:all .15s;user-select:none;position:relative}
+.sb.collapsed .ni:hover::after{content:attr(data-label);position:absolute;left:calc(var(--sw-collapsed) - 4px);top:50%;transform:translateY(-50%);background:var(--card);border:1px solid var(--border);border-radius:7px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--t1);white-space:nowrap;z-index:300;box-shadow:0 4px 16px var(--shadow)}
 .ni:hover{background:rgba(61,139,61,0.07);color:var(--t1)}
 .ni.active{background:rgba(61,139,61,0.13);color:var(--green-l);border-color:rgba(61,139,61,0.22);font-weight:600}
 .ni-ico{width:26px;height:26px;border-radius:6px;background:rgba(61,139,61,0.07);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
@@ -101,7 +103,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .btn-logout:hover{color:var(--red);border-color:var(--red)}
 
 /* ══ MAIN ══ */
-.main{margin-left:var(--sw);display:flex;flex-direction:column;min-height:100vh}
+.main{margin-left:var(--sw);display:flex;flex-direction:column;min-height:100vh;transition:margin-left .25s ease}
 .topbar{position:sticky;top:0;z-index:100;background:var(--card);border-bottom:1px solid var(--border);padding:10px 22px;display:flex;align-items:center;gap:10px;backdrop-filter:blur(20px);transition:background .25s}
 .tb-title{font-size:13.5px;font-weight:800;color:var(--t1);white-space:nowrap}
 .tb-crumb{font-size:11px;color:var(--t3)}
@@ -306,6 +308,48 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   .proj-grid{grid-template-columns:1fr}
 }
 ::-webkit-scrollbar{width:3px;height:3px}
+
+/* ══ SIDEBAR COLLAPSED ══ */
+.sb{transition:width .25s ease,background .25s,transform .3s}
+.sb.collapsed{width:var(--sw-collapsed);overflow:hidden}
+
+/* Hide all text */
+.sb.collapsed .eyebrow,.sb.collapsed .tagline,.sb.collapsed .brand,
+.sb.collapsed .nav-lbl,.sb.collapsed .ni-text,.sb.collapsed .badge-new,
+.sb.collapsed .u-name,.sb.collapsed .u-pos,.sb.collapsed .btn-logout{
+  display:none!important;width:0;overflow:hidden}
+
+/* Logo area */
+.sb.collapsed .sb-logo{padding:12px 8px}
+.sb.collapsed .sb-logo>div{gap:0;justify-content:center}
+.sb.collapsed .brand-short{display:flex!important;align-items:center;justify-content:center;width:100%}
+.sb.collapsed .toggle-btn{display:none!important}
+
+/* Nav */
+.sb.collapsed .nav-grp{padding:6px 6px 0}
+.sb.collapsed .ni{justify-content:center;padding:9px 0;gap:0}
+.sb.collapsed .ni-ico{width:36px;height:36px;border-radius:8px;font-size:15px}
+
+/* Footer */
+.sb.collapsed .sb-foot{padding:10px 6px}
+.sb.collapsed .user-row{justify-content:center}
+.sb.collapsed .uav{margin:0}
+
+/* Tooltip via JS - see showNavTooltip() */
+#nav-tooltip{position:fixed;left:calc(var(--sw-collapsed) + 8px);background:var(--card);border:1px solid var(--border);border-radius:8px;padding:7px 13px;font-size:12px;font-weight:600;color:var(--t1);white-space:nowrap;z-index:9999;box-shadow:0 4px 20px var(--shadow);pointer-events:none;display:none;transition:opacity .1s}
+
+.brand-short{display:none;font-size:14px;font-weight:900;color:var(--green-l)}
+.toggle-btn{display:flex;align-items:center;justify-content:flex-end;gap:6px;padding:5px 6px;border-radius:7px;cursor:pointer;font-size:11px;font-weight:600;color:var(--t3);border:none;background:transparent;font-family:inherit;transition:all .15s;flex-shrink:0}
+.toggle-btn:hover{background:rgba(61,139,61,.08);color:var(--t2)}
+
+@media(max-width:768px){
+  .sb.collapsed{width:var(--sw)}
+  .sb.collapsed .sb-logo .brand{display:block!important}
+  .sb.collapsed .brand-short{display:none!important}
+  .sb.collapsed .ni{justify-content:flex-start;padding:7.5px 9px}
+  .sb.collapsed .ni-text{display:block!important}
+  .sb.collapsed .nav-lbl{display:block!important}
+}
 ::-webkit-scrollbar-thumb{background:rgba(61,139,61,.25);border-radius:2px}
 [data-theme="light"] .form-input{background:rgba(0,0,0,.03)}
 [data-theme="light"] .pk{background:rgba(0,0,0,.03)}
@@ -351,66 +395,75 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   <div class="sb-overlay" id="sbOverlay" onclick="closeSb()"></div>
   <aside class="sb" id="sidebar">
     <div class="sb-logo">
-      <div class="eyebrow">Cổng Nội Bộ</div>
-      <div class="brand">Big<em>homes</em> 15</div>
-      <div class="tagline">F1 Partner · Vinhomes · 10 năm</div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="flex:1;min-width:0">
+          <div class="eyebrow">Cổng Nội Bộ</div>
+          <div class="brand">Big<em>homes</em> 15</div>
+          <div class="brand-short">BH</div>
+          <div class="tagline">F1 Partner · Vinhomes · 10 năm</div>
+        </div>
+        <button class="toggle-btn" id="sb-toggle-btn" onclick="toggleSbCollapse()" title="Thu gọn menu">
+          <span class="tgl-text" style="font-size:10px;color:var(--t3)">Thu</span>
+          <span id="toggle-ico" style="font-size:11px">◀</span>
+        </button>
+      </div>
     </div>
 
     <div class="nav-grp">
       <div class="nav-lbl">Tổng Quan</div>
-      <div class="ni active" onclick="go('dash')"><div class="ni-ico">⊞</div>Dashboard</div>
-      <div class="ni" onclick="go('notices')"><div class="ni-ico">📢</div>Thông Báo<span class="badge-new" id="notice-badge" style="display:none">Mới</span></div>
+      <div class="ni active" data-label="Dashboard" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="go('dash')"><div class="ni-ico">⊞</div><span class="ni-text">Dashboard</span></div>
+      <div class="ni" data-label="Thông Báo" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="go('notices')"><div class="ni-ico">📢</div><span class="ni-text">Thông Báo</span><span class="badge-new" id="notice-badge" style="display:none">Mới</span></div>
     </div>
 
     <div class="nav-grp">
       <div class="nav-lbl">Chiến Dịch Live</div>
-      <div class="ni" onclick="go('projects')"><div class="ni-ico">🏗️</div>Dự Án & Chiến Dịch</div>
-      <div class="ni" onclick="go('events')"><div class="ni-ico">📅</div>Lịch Sự Kiện</div>
+      <div class="ni" data-label="Dự Án & Chiến Dịch" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="go('projects')"><div class="ni-ico">🏗️</div><span class="ni-text">Dự Án & Chiến Dịch</span></div>
+      <div class="ni" data-label="Lịch Sự Kiện" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="go('events')"><div class="ni-ico">📅</div><span class="ni-text">Lịch Sự Kiện</span></div>
     </div>
 
     <div class="nav-grp">
       <div class="nav-lbl">Công Cụ</div>
-      <div class="ni" onclick="openTool('bighomes-financial-tools.html','Công Cụ Tài Chính')"><div class="ni-ico">🧮</div>Công Cụ Tài Chính</div>
+      <div class="ni" data-label="Công Cụ Tài Chính" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="openTool('bighomes-financial-tools.html','Công Cụ Tài Chính')"><div class="ni-ico">🧮</div><span class="ni-text">Công Cụ Tài Chính</span></div>
     </div>
 
     <div class="nav-grp">
       <div class="nav-lbl">Văn Bản Nội Bộ</div>
-      <div class="ni" onclick="go('quydinh')"><div class="ni-ico">📋</div>Quy Chế & Quy Định</div>
-      <div class="ni" onclick="go('chinhsach')"><div class="ni-ico">💼</div>Chính Sách Hoa Hồng</div>
-      <div class="ni" onclick="go('daoduc')"><div class="ni-ico">⚖️</div>Chuẩn Đạo Đức Nghề</div>
-      <div class="ni" onclick="go('crm-rule')"><div class="ni-ico">🗂️</div>Quy Tắc Phân Định KH</div>
+      <div class="ni" data-label="Quy Chế & Quy Định" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="go('quydinh')"><div class="ni-ico">📋</div><span class="ni-text">Quy Chế & Quy Định</span></div>
+      <div class="ni" data-label="Chính Sách Hoa Hồng" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="go('chinhsach')"><div class="ni-ico">💼</div><span class="ni-text">Chính Sách Hoa Hồng</span></div>
+      <div class="ni" data-label="Chuẩn Đạo Đức Nghề" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="go('daoduc')"><div class="ni-ico">⚖️</div><span class="ni-text">Chuẩn Đạo Đức Nghề</span></div>
+      <div class="ni" data-label="Quy Tắc Phân Định KH" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="go('crm-rule')"><div class="ni-ico">🗂️</div><span class="ni-text">Quy Tắc Phân Định KH</span></div>
     </div>
 
     <div class="nav-grp">
       <div class="nav-lbl">Văn Hóa & Triết Lý</div>
-      <div class="ni" onclick="go('vanhoa')"><div class="ni-ico">🌿</div>The Bighomes Way</div>
-      <div class="ni" onclick="go('tuyen-ngon')"><div class="ni-ico">📜</div>Tuyên Ngôn Sáng Lập</div>
-      <div class="ni" onclick="go('khong-lam')"><div class="ni-ico">🚫</div>Những Điều Không Làm</div>
+      <div class="ni" data-label="The Bighomes Way" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="go('vanhoa')"><div class="ni-ico">🌿</div><span class="ni-text">The Bighomes Way</span></div>
+      <div class="ni" data-label="Tuyên Ngôn Sáng Lập" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="go('tuyen-ngon')"><div class="ni-ico">📜</div><span class="ni-text">Tuyên Ngôn Sáng Lập</span></div>
+      <div class="ni" data-label="Những Điều Không Làm" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="go('khong-lam')"><div class="ni-ico">🚫</div><span class="ni-text">Những Điều Không Làm</span></div>
     </div>
 
     <div class="nav-grp">
       <div class="nav-lbl">Phát Triển Nhân Sự</div>
-      <div class="ni" onclick="go('daotao')"><div class="ni-ico">📚</div>Đào Tạo & Lộ Trình</div>
-      <div class="ni" onclick="go('mentor')"><div class="ni-ico">🤝</div>Quy Chế Mentor</div>
-      <div class="ni" onclick="go('giai-doan')"><div class="ni-ico">📈</div>4 Giai Đoạn Phát Triển</div>
-      <div class="ni" onclick="go('tuyendung')"><div class="ni-ico">🎯</div>Tiêu Chí Tuyển Dụng</div>
+      <div class="ni" data-label="Đào Tạo & Lộ Trình" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="go('daotao')"><div class="ni-ico">📚</div><span class="ni-text">Đào Tạo & Lộ Trình</span></div>
+      <div class="ni" data-label="Quy Chế Mentor" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="go('mentor')"><div class="ni-ico">🤝</div><span class="ni-text">Quy Chế Mentor</span></div>
+      <div class="ni" data-label="4 Giai Đoạn Phát Triển" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="go('giai-doan')"><div class="ni-ico">📈</div><span class="ni-text">4 Giai Đoạn Phát Triển</span></div>
+      <div class="ni" data-label="Tiêu Chí Tuyển Dụng" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="go('tuyendung')"><div class="ni-ico">🎯</div><span class="ni-text">Tiêu Chí Tuyển Dụng</span></div>
     </div>
 
     <div class="nav-grp">
       <div class="nav-lbl">Tổ Chức</div>
-      <div class="ni" onclick="go('org')"><div class="ni-ico">🏢</div>Sơ Đồ Nhân Sự</div>
-      <div class="ni" onclick="go('appoint')" id="nav-appoint" style="display:none"><div class="ni-ico">⭐</div>Bổ Nhiệm</div>
+      <div class="ni" data-label="Sơ Đồ Nhân Sự" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="go('org')"><div class="ni-ico">🏢</div><span class="ni-text">Sơ Đồ Nhân Sự</span></div>
+      <div class="ni" onclick="go('appoint')" id="nav-appoint" style="display:none"><div class="ni-ico">⭐</div><span class="ni-text">Bổ Nhiệm</span></div>
     </div>
 
     <div class="nav-grp" id="nav-admin" style="display:none">
       <div class="nav-lbl">Quản Trị</div>
-      <div class="ni" onclick="go('members')"><div class="ni-ico">👤</div>Quản Lý Thành Viên</div>
+      <div class="ni" data-label="Quản Lý Thành Viên" onmouseenter="showNavTooltip(this)" onmouseleave="hideNavTooltip()" onclick="go('members')"><div class="ni-ico">👤</div><span class="ni-text">Quản Lý Thành Viên</span></div>
     </div>
 
     <div class="sb-foot">
-      <div class="user-row">
-        <div class="uav" id="u-av">?</div>
-        <div><div class="u-name" id="u-name">...</div><div class="u-pos" id="u-pos"></div></div>
+      <div class="user-row" style="flex-wrap:nowrap;overflow:hidden">
+        <div class="uav" id="u-av" style="flex-shrink:0">?</div>
+        <div style="flex:1;min-width:0;overflow:hidden"><div class="u-name" id="u-name">...</div><div class="u-pos" id="u-pos"></div></div>
         <div class="btn-logout" onclick="logout()">Thoát</div>
       </div>
     </div>
@@ -419,6 +472,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   <main class="main">
     <div class="topbar">
       <div class="menu-btn" onclick="toggleSb()" id="menuBtn">☰</div>
+      <button onclick="toggleSbCollapse()" id="collapse-btn" style="display:none;width:30px;height:30px;align-items:center;justify-content:center;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:7px;cursor:pointer;font-size:12px;color:var(--t2);flex-shrink:0;font-family:inherit;transition:all .2s" title="Thu gọn sidebar"><span id="toggle-ico">◀</span></button>
       <div><span class="tb-title" id="tb-title">Dashboard</span><span class="tb-crumb" id="tb-crumb"> / Tổng Quan</span></div>
       <div class="tb-right">
         <div class="campaign-chip" id="camp-chip" onclick="go('projects')" style="display:none">VHX · Sprint T4/2026</div>
@@ -808,6 +862,20 @@ function initApp(){
   if(can('manage_projects'))document.getElementById('btn-add-event').style.display='';
   // Demo banner
   if(isDemo())document.getElementById('demoBanner').classList.add('show');
+  // Show collapse button on desktop
+  if(window.innerWidth>768){
+    const cbtn=document.getElementById('collapse-btn');
+    if(cbtn)cbtn.style.display='flex';
+  }
+  // Restore sidebar collapsed state
+  if(localStorage.getItem('bh-sb-collapsed')==='1'&&window.innerWidth>768){
+    const sb2=document.getElementById('sidebar');
+    const main=document.querySelector('.main');
+    const ico=document.getElementById('toggle-ico');
+    if(sb2)sb2.classList.add('collapsed');
+    if(main)main.style.marginLeft='var(--sw-collapsed)';
+    if(ico)ico.textContent='▶';
+  }
   // Date
   const d=new Date();
   const days=['CN','T2','T3','T4','T5','T6','T7'];
@@ -1577,6 +1645,37 @@ function toggleSb(){
   const open=sb2.classList.toggle('open');ov.classList.toggle('show',open);btn.textContent=open?'✕':'☰';
 }
 
+// Nav tooltip for collapsed sidebar
+const navTooltip = document.getElementById('nav-tooltip') || (() => {
+  const el = document.createElement('div'); el.id = 'nav-tooltip'; document.body.appendChild(el); return el;
+})();
+
+function showNavTooltip(el) {
+  const sb2 = document.getElementById('sidebar');
+  if (!sb2?.classList.contains('collapsed')) return;
+  const label = el.dataset.label;
+  if (!label) return;
+  const rect = el.getBoundingClientRect();
+  navTooltip.textContent = label;
+  navTooltip.style.display = 'block';
+  navTooltip.style.top = (rect.top + rect.height/2 - 14) + 'px';
+}
+function hideNavTooltip() {
+  navTooltip.style.display = 'none';
+}
+
+function toggleSbCollapse(){
+  const sb2=document.getElementById('sidebar');
+  const main=document.querySelector('.main');
+  const ico=document.getElementById('toggle-ico');
+  const btn=document.getElementById('sb-toggle-btn');
+  const collapsed=sb2.classList.toggle('collapsed');
+  if(main) main.style.marginLeft=collapsed?'var(--sw-collapsed)':'var(--sw)';
+  if(ico) ico.textContent=collapsed?'▶':'◀';
+  if(btn) btn.title=collapsed?'Mở rộng menu':'Thu gọn menu';
+  localStorage.setItem('bh-sb-collapsed', collapsed?'1':'0');
+}
+
 // ══ BOOT ══
 (async function boot(){
   const saved2=sessionStorage.getItem('bh-me');
@@ -1588,5 +1687,6 @@ function toggleSb(){
   renderMemberList();
 })();
 </script>
+<div id="nav-tooltip"></div>
 </body>
 </html>
