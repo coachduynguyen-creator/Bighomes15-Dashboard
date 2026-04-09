@@ -569,15 +569,14 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     </div>
 
     <!-- TOOL EMBED -->
-    <div class="page" id="pg-tool" style="padding:12px 16px">
-      <div style="display:flex;align-items:center;gap:10px;padding:0 0 12px;flex-shrink:0">
-        <div id="tool-title" style="font-size:14px;font-weight:700;color:var(--t1)">Công Cụ</div>
-        <div style="margin-left:auto;display:flex;gap:8px">
-          <button onclick="closeToolPage()" class="btn-secondary" style="font-size:11.5px;padding:6px 14px">✕ Đóng</button>
-          <a id="tool-open-ext" href="#" target="_blank" class="btn-secondary" style="font-size:11.5px;padding:6px 14px;text-decoration:none">↗ Mở rộng</a>
+    <div class="page" id="pg-tool" style="padding:0;position:fixed;inset:0;z-index:50;background:var(--bg);display:none;flex-direction:column">
+      <div style="display:flex;align-items:center;gap:12px;padding:11px 20px;background:var(--card);border-bottom:1px solid var(--border);flex-shrink:0">
+        <div id="tool-title" style="font-size:13.5px;font-weight:800;color:var(--t1)">Công Cụ</div>
+        <div style="margin-left:auto">
+          <button onclick="closeToolPage()" style="padding:6px 14px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s">← Quay lại</button>
         </div>
       </div>
-      <iframe id="tool-frame" src="about:blank" style="width:100%;border:none;border-radius:10px;background:#fff;display:block"></iframe>
+      <iframe id="tool-frame" src="about:blank" style="width:100%;flex:1;border:none;background:#fff;display:block;min-height:0"></iframe>
     </div>
 
     <!-- ORG CHART -->
@@ -1368,42 +1367,21 @@ async function deleteEvent(id){
 
 // ══ TOOL EMBED ══
 function openTool(url,title){
-  const pg=PAGE_MAP['tool'];
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  // Tool page is position:fixed so it covers everything
+  const pgEl=document.getElementById('pg-tool');
+  if(!pgEl)return;
   hideEditFab();
-  document.getElementById(pg.id)?.classList.add('active');
-  document.getElementById('tb-title').textContent=title||'Công Cụ';
-  document.getElementById('tb-crumb').textContent=' / Công Cụ';
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  pgEl.style.display='flex';
   document.getElementById('tool-title').textContent=title||'Công Cụ';
-  const ext=document.getElementById('tool-open-ext');if(ext)ext.href=url;
-  // Hide sidebar for full-width tool view
-  const sb2=document.getElementById('sidebar');
-  const main=document.querySelector('.main');
-  if(sb2&&window.innerWidth>768){
-    sb2.style.transform='translateX(-100%)';
-    if(main)main.style.marginLeft='0';
-  }
   const frame=document.getElementById('tool-frame');
-  if(frame){
-    const topH=document.querySelector('.topbar')?.offsetHeight||52;
-    frame.style.height=(window.innerHeight-topH-80)+'px';
-    setTimeout(()=>{frame.src=url;},50);
-  }
+  if(frame)setTimeout(()=>{frame.src=url;},50);
   if(window.innerWidth<=768)closeSb();
-  window.scrollTo(0,0);
 }
 function closeToolPage(){
-  const frame=document.getElementById('tool-frame');if(frame)frame.src='about:blank';
-  // Restore sidebar
-  const sb2=document.getElementById('sidebar');
-  const main=document.querySelector('.main');
-  if(sb2&&window.innerWidth>768){
-    sb2.style.transform='';
-    const isCollapsed=sb2.classList.contains('collapsed');
-    if(main)main.style.marginLeft=isCollapsed?'var(--sw-collapsed)':'var(--sw)';
-  }
-  go('dash');
+  const pgEl=document.getElementById('pg-tool');
+  if(pgEl)pgEl.style.display='none';
+  const frame=document.getElementById('tool-frame');
+  if(frame)frame.src='about:blank';
 }
 
 // ══ ORG CHART ══
