@@ -132,10 +132,12 @@ canvas{display:block;max-width:100%;height:auto;}
 .note{font-size:11px;color:var(--tm);line-height:1.7;margin-top:10px;padding:10px 12px;background:var(--sf2);border-radius:4px;border:1px solid var(--brd2);}
 /* Print */
 @media print{
-  .hdr,.tabs,.session,.btn,.btn2,.tg{display:none!important;}
+  .hdr,.tabs,.session,.btn,.btn2,.tg,.help-btn,.overlay,.slideover{display:none!important;}
   body{background:#fff;font-size:11px;}
   .main{padding:0;max-width:100%;}
-  .panel{display:block!important;}
+  .panel{display:none!important;}
+  .panel.active{display:block!important;}
+  .panel.print-active{display:block!important;}
   .card,.kbox,.chbox{box-shadow:none;border:1px solid #ddd;}
   .ph{display:flex!important;}
 }
@@ -961,5 +963,21 @@ function setFontSize(size){
   </div>
 </div>
 
+<script>
+// Fix in-bao-cao: chi in panel dang active
+window.addEventListener('beforeprint', function() {
+  document.querySelectorAll('.panel').forEach(p => {
+    if (!p.classList.contains('active')) {
+      p.style.display = 'none';
+    }
+  });
+});
+
+window.addEventListener('afterprint', function() {
+  document.querySelectorAll('.panel').forEach(p => {
+    p.style.display = '';
+  });
+});
+</script>
 </body>
 </html>
