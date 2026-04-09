@@ -353,6 +353,15 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 ::-webkit-scrollbar-thumb{background:rgba(61,139,61,.25);border-radius:2px}
 
 /* ══ FINANCIAL TOOLS (scoped) ══ */
+/* Override portal globals that leak into #ft-wrap */
+#ft-wrap .main{margin-left:0!important;max-width:1300px;padding:16px}
+@media(min-width:600px){#ft-wrap .main{padding:20px 24px}}
+#ft-wrap .panel{display:none}
+#ft-wrap .panel.active{display:block}
+#pg-tool{background:#f4f6f4}
+[data-theme="dark"] #pg-tool{background:#0d1a0d}
+[data-theme="dark"] #ft-wrap{filter:none}
+
 
 #ft-wrap{
   --bg:#f4f6f4;--white:#fff;--sf2:#f8faf8;--sf3:#eef3ee;
@@ -826,8 +835,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     </div>
 
     <!-- TOOL EMBED (integrated) -->
-    <div class="page" id="pg-tool">
-      <div id="ft-wrap"><div class="ph">
+    <div class="page" id="pg-tool" style="padding:0;min-height:100vh">
+      <div id="ft-wrap" style="min-height:100vh;background:#f4f6f4"><div class="ph">
   <div><div class="ph-logo">Bighomes 15</div><div style="font-size:11px;color:#666;margin-top:2px;">Báo Cáo Phân Tích Tài Chính Bất Động Sản</div></div>
   <div class="ph-meta" id="pmeta"></div>
 </div>
