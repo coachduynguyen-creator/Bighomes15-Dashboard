@@ -569,7 +569,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     </div>
 
     <!-- TOOL EMBED -->
-    <div class="page" id="pg-tool">
+    <div class="page" id="pg-tool" style="padding:12px 16px">
       <div style="display:flex;align-items:center;gap:10px;padding:0 0 12px;flex-shrink:0">
         <div id="tool-title" style="font-size:14px;font-weight:700;color:var(--t1)">Công Cụ</div>
         <div style="margin-left:auto;display:flex;gap:8px">
@@ -1377,6 +1377,13 @@ function openTool(url,title){
   document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
   document.getElementById('tool-title').textContent=title||'Công Cụ';
   const ext=document.getElementById('tool-open-ext');if(ext)ext.href=url;
+  // Hide sidebar for full-width tool view
+  const sb2=document.getElementById('sidebar');
+  const main=document.querySelector('.main');
+  if(sb2&&window.innerWidth>768){
+    sb2.style.transform='translateX(-100%)';
+    if(main)main.style.marginLeft='0';
+  }
   const frame=document.getElementById('tool-frame');
   if(frame){
     const topH=document.querySelector('.topbar')?.offsetHeight||52;
@@ -1386,7 +1393,18 @@ function openTool(url,title){
   if(window.innerWidth<=768)closeSb();
   window.scrollTo(0,0);
 }
-function closeToolPage(){const frame=document.getElementById('tool-frame');if(frame)frame.src='about:blank';go('dash');}
+function closeToolPage(){
+  const frame=document.getElementById('tool-frame');if(frame)frame.src='about:blank';
+  // Restore sidebar
+  const sb2=document.getElementById('sidebar');
+  const main=document.querySelector('.main');
+  if(sb2&&window.innerWidth>768){
+    sb2.style.transform='';
+    const isCollapsed=sb2.classList.contains('collapsed');
+    if(main)main.style.marginLeft=isCollapsed?'var(--sw-collapsed)':'var(--sw)';
+  }
+  go('dash');
+}
 
 // ══ ORG CHART ══
 async function loadOrg(){
