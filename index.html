@@ -29,7 +29,8 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;overflow-x:hidden;transition:var(--transition)}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;overflow-x:hidden;transition:var(--transition);font-size:var(--base-font,14px)}
+:root{--base-font:14px}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 90% 70% at 75% 15%,var(--bg-glow1),transparent 60%),radial-gradient(ellipse 60% 55% at 5% 85%,var(--bg-glow2),transparent 55%);pointer-events:none;z-index:0}
 body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(45deg,transparent,transparent 30px,var(--bg-grid) 30px,var(--bg-grid) 31px);pointer-events:none;z-index:0}
 
@@ -112,8 +113,10 @@ body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-
 .menu-btn{display:none;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:17px;color:var(--t2);flex-shrink:0;transition:all .2s}
 
 /* ══ PAGE ══ */
-.page{display:none;padding:22px 28px;animation:fadeUp .3s ease both}
-.page.active{display:block}
+.page{display:none;padding:28px 40px;animation:fadeUp .3s ease both}
+.page.active{display:block;min-height:calc(100vh - 52px)}
+#pg-tool-embed.active{display:flex;flex-direction:column;padding:0;overflow:hidden;position:absolute;inset:52px 0 0 var(--sw)}
+@media(max-width:768px){#pg-tool-embed.active{left:0}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
 /* ══ ROLE BADGE ══ */
@@ -126,7 +129,7 @@ body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-
 .role-demo{background:rgba(100,116,139,0.12);color:#94a3b8;border:1px solid rgba(100,116,139,0.22)}
 
 /* ══ CARDS ══ */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;max-width:100%}
 .sc{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:16px 18px;position:relative;overflow:hidden;transition:all .22s;cursor:default}
 .sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--green);opacity:.45}
 .sc:hover{border-color:var(--border-h);transform:translateY(-2px);box-shadow:0 8px 30px var(--shadow)}
@@ -137,7 +140,7 @@ body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-
 .sc-sub{font-size:10.5px;color:var(--t3);margin-top:4px}
 .sc-ico{position:absolute;right:14px;top:12px;font-size:19px;opacity:.2}
 
-.panel{background:var(--card);border:1px solid var(--border);border-radius:11px;overflow:hidden;margin-bottom:18px}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:11px;overflow:hidden;margin-bottom:18px;max-width:100%}
 .ph{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .ph-title{font-size:13px;font-weight:700;color:var(--t1)}
 .ph-act{font-size:11px;color:var(--green-l);cursor:pointer;font-weight:600;opacity:.8;transition:opacity .15s}
@@ -178,9 +181,10 @@ body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-
 .pin-date{font-size:10.5px;color:var(--t3);white-space:nowrap}
 
 /* ══ PROSE PAGES ══ */
-.prose-page{max-width:840px}
+.prose-page{width:100%;max-width:860px;margin:0 auto}
 .prose-page h1{font-size:26px;font-weight:800;color:var(--t1);margin-bottom:8px;line-height:1.2;letter-spacing:-.5px}
 .page-intro{font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:26px;border-left:3px solid var(--green);padding-left:14px;font-style:italic}
+
 .chap{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:22px 24px;margin-bottom:14px;transition:border-color .2s}
 .chap:hover{border-color:var(--border-h)}
 .chap-num{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--green);margin-bottom:5px;opacity:.8}
@@ -347,7 +351,21 @@ body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-
 [data-theme="light"] .theme-btn{background:rgba(0,0,0,0.04)}
 [data-theme="light"] .pin-key{background:rgba(0,0,0,0.03)}
 [data-theme="light"] .login-box{box-shadow:0 8px 40px var(--shadow)}
-::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(61,139,61,0.28);border-radius:2px}
+::-webkit-scrollbar{width:4px;height:4px}
+
+/* ══ EDIT MODE ══ */
+.edit-toolbar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:rgba(212,160,40,0.08);border:1px solid rgba(212,160,40,0.25);border-radius:9px;margin-bottom:14px;flex-wrap:wrap}
+.edit-toolbar-title{font-size:10px;font-weight:700;color:var(--amber);letter-spacing:1.5px;text-transform:uppercase;margin-right:4px}
+.edit-btn-sm{padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:rgba(255,255,255,0.04);color:var(--t2);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.edit-btn-sm:hover{background:rgba(61,139,61,0.1);border-color:var(--border-h);color:var(--t1)}
+.edit-btn-save{background:var(--green);border-color:var(--green);color:#fff}
+.edit-btn-save:hover{background:var(--green-l);border-color:var(--green-l);color:#fff}
+.edit-btn-cancel{color:var(--red);border-color:rgba(239,68,68,0.3)}
+.edit-btn-cancel:hover{background:rgba(239,68,68,0.1);border-color:var(--red)}
+[contenteditable="true"]{outline:2px solid rgba(212,160,40,0.4);border-radius:6px;padding:4px 8px;cursor:text;transition:outline .2s}
+[contenteditable="true"]:focus{outline:2px solid var(--amber)}
+.edit-floating-btn{position:fixed;bottom:24px;right:24px;z-index:500;background:var(--amber);color:#000;border:none;border-radius:50px;padding:10px 18px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 4px 20px rgba(212,160,40,0.4);transition:all .2s;display:flex;align-items:center;gap:7px}
+.edit-floating-btn:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(212,160,40,0.5)}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(61,139,61,0.28);border-radius:2px}
 
 /* ══ CHANGE PIN OVERLAY ══ */
 #changePinOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:10000;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(6px)}
@@ -489,6 +507,18 @@ body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-
     <div class="ni" onclick="go('tuyendung')"><div class="ni-ico">🎯</div>Tiêu Chí Tuyển Dụng</div>
   </div>
 
+  <div class="nav-grp">
+    <div class="nav-lbl">Tổ Chức</div>
+    <div class="ni" onclick="go('org-chart')"><div class="ni-ico">🏢</div>Sơ Đồ Nhân Sự</div>
+    <div class="ni" onclick="go('projects')" id="nav-projects"><div class="ni-ico">🏗️</div>Dự Án & Chiến Dịch</div>
+    <div class="ni" onclick="go('appoint')" id="nav-appoint" style="display:none"><div class="ni-ico">⭐</div>Bổ Nhiệm</div>
+  </div>
+
+  <div class="nav-grp">
+    <div class="nav-lbl">Công Cụ</div>
+    <div class="ni" onclick="openTool('bighomes-financial-tools.html','Công Cụ Tài Chính')"><div class="ni-ico">🧮</div>Công Cụ Tài Chính</div>
+  </div>
+
   <div class="nav-grp" id="nav-admin" style="display:none">
     <div class="nav-lbl">Quản Trị</div>
     <div class="ni" onclick="go('members')" id="nav-members" style="display:none"><div class="ni-ico">👤</div>Quản Lý Thành Viên</div>
@@ -511,7 +541,14 @@ body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-
     <div><span class="tb-title" id="tb-title">Dashboard</span><span class="tb-crumb" id="tb-crumb"> / Tổng Quan</span></div>
     <div class="search-wrap">
       <div class="search"><span style="color:var(--t3);font-size:12px">🔍</span><input type="text" placeholder="Tìm kiếm..."></div>
+      <div id="campaign-selector" style="font-size:11px;font-weight:700;color:var(--green-l);padding:5px 11px;background:rgba(61,139,61,0.1);border:1px solid rgba(61,139,61,0.25);border-radius:6px;white-space:nowrap;cursor:pointer;display:none" onclick="go('projects')">
+        <span id="campaign-label">Đang tải...</span>
+      </div>
       <div class="tb-date" id="date-box"></div>
+      <div style="display:flex;align-items:center;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;overflow:hidden;flex-shrink:0">
+        <button data-font-btn="-" onclick="changeFont(-1)" style="padding:6px 11px;background:transparent;border:none;border-right:1px solid var(--border);color:var(--t2);cursor:pointer;font-size:11px;font-weight:800;font-family:inherit;transition:all .2s;line-height:1;user-select:none">A−</button>
+        <button data-font-btn="+" onclick="changeFont(1)" style="padding:6px 11px;background:transparent;border:none;color:var(--t2);cursor:pointer;font-size:14px;font-weight:800;font-family:inherit;transition:all .2s;line-height:1;user-select:none">A+</button>
+      </div>
       <button class="theme-btn" onclick="toggleTheme()"><span id="themeIco">🌙</span><span id="themeLbl">Tối</span></button>
     </div>
   </div>
@@ -689,7 +726,13 @@ body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-
 
   <!-- ════ THÔNG BÁO ════ -->
   <div class="page" id="pg-thongbao">
-    <div class="sh"><div class="sh-title">Tất Cả Thông Báo</div><div class="sh-line"></div></div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:18px;font-weight:800;color:var(--t1)">Thông Báo</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:2px">Cập nhật nội bộ từ ban lãnh đạo</div>
+      </div>
+      <button id="btn-create-notice" onclick="showCreateNotice()" style="display:none;margin-left:auto;padding:8px 16px;background:var(--green);border:none;border-radius:9px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s">+ Tạo Thông Báo</button>
+    </div>
     <div id="thongbao-list" style="display:flex;flex-direction:column;gap:10px;max-width:800px">
       <div class="loading"><div class="spinner"></div></div>
     </div>
@@ -697,8 +740,9 @@ body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-
 
   <!-- ════ STATIC PAGES ════ -->
   <!-- VĂN HÓA -->
-  <div class="page" id="pg-vanhoa">
-    <div class="prose-page">
+  <div class="page" id="pg-vanhoa" data-page-key="vanhoa">
+    <div id="edit-bar-vanhoa" style="display:none" class="edit-toolbar"><span class="edit-toolbar-title">✏️ Đang Chỉnh Sửa</span><button class="edit-btn-sm edit-btn-save" onclick="savePageContent('vanhoa')">💾 Lưu</button><button class="edit-btn-sm edit-btn-cancel" onclick="cancelEdit('vanhoa')">✕ Hủy</button><span style="font-size:10px;color:var(--t3);margin-left:auto">Nhấn vào văn bản để chỉnh sửa trực tiếp</span></div>
+    <div class="prose-page" id="prose-content-vanhoa">
       <h1>The Bighomes Way</h1>
       <div class="page-intro">Văn hóa không được định nghĩa bởi những gì xảy ra trong buổi họp toàn công ty. Nó được định nghĩa bởi những gì xảy ra trong những khoảnh khắc bình thường nhất, khi không có ai đang quan sát.</div>
       <div class="chap"><div class="chap-num">Triết Lý Cốt Lõi</div><h2>Cố Vấn Tin Cậy, Không Phải Môi Giới</h2><p>Môi giới là người kết nối. Người bán hàng là người thuyết phục. Cố vấn tin cậy là người mà khách hàng tìm đến không phải vì cần ai bán cho mình một sản phẩm, mà vì cần ai giúp mình đưa ra quyết định đúng.</p><div class="callout">Khi khách hàng xem bạn là người bán hàng, họ luôn ở trạng thái phòng thủ. Khi khách hàng xem bạn là cố vấn tin cậy, họ chia sẻ thông tin thật, bao gồm cả những lo lắng chưa dám nói với ai khác.</div></div>
@@ -708,15 +752,17 @@ body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-
   </div>
 
   <!-- TUYÊN NGÔN -->
-  <div class="page" id="pg-tuyen-ngon">
-    <div class="prose-page"><h1>Tuyên Ngôn Sáng Lập</h1><div class="page-intro">Những gì được viết ở đây không phải để treo tường. Đây là những cam kết mà chúng tôi phải chịu trách nhiệm trước nhân sự, trước khách hàng, và trước chính mình mỗi ngày.</div>
+  <div class="page" id="pg-tuyen-ngon" data-page-key="tuyen-ngon">
+    <div id="edit-bar-tuyen-ngon" style="display:none" class="edit-toolbar"><span class="edit-toolbar-title">✏️ Đang Chỉnh Sửa</span><button class="edit-btn-sm edit-btn-save" onclick="savePageContent('tuyen-ngon')">💾 Lưu</button><button class="edit-btn-sm edit-btn-cancel" onclick="cancelEdit('tuyen-ngon')">✕ Hủy</button><span style="font-size:10px;color:var(--t3);margin-left:auto">Nhấn vào văn bản để chỉnh sửa trực tiếp</span></div>
+    <div class="prose-page" id="prose-content-tuyen-ngon"><h1>Tuyên Ngôn Sáng Lập</h1><div class="page-intro">Những gì được viết ở đây không phải để treo tường. Đây là những cam kết mà chúng tôi phải chịu trách nhiệm trước nhân sự, trước khách hàng, và trước chính mình mỗi ngày.</div>
     <div class="chap"><div class="chap-num">Lý Do Tồn Tại</div><h2>Bighomes 15 Tồn Tại Để Làm Gì</h2><p>Câu trả lời ngắn gọn nhất: chúng tôi tồn tại để giúp khách hàng đưa ra quyết định bất động sản đúng đắn nhất có thể với thông tin và năng lực họ đang có. Không phải để bán bất động sản. Không phải để hoàn thành chỉ tiêu của chủ đầu tư.</p><div class="callout">Thành công của khách hàng là thước đo duy nhất. Khách hàng thành công là người sau khi giao dịch hoàn tất, nhìn lại quyết định của mình và cảm thấy đó là quyết định đúng.</div></div>
     <div class="chap"><div class="chap-num">Cam Kết</div><h2>Cam Kết Với Từng Bên Liên Quan</h2><ul class="rule-list"><li><strong>Với Nhân Sự</strong>Đầu tư thật vào sự phát triển. Trả xứng đáng cho người làm tốt. Minh bạch về kỳ vọng và tiêu chí đánh giá.</li><li><strong>Với Khách Hàng</strong>Nói thật kể cả khi điều đó có thể làm mất giao dịch. Không biến mất sau khi giao dịch xong.</li><li><strong>Với Thị Trường</strong>Chỉ phân phối sản phẩm mà chúng tôi tin là có giá trị thực sự với khách hàng.</li></ul></div></div>
   </div>
 
   <!-- KHÔNG LÀM -->
-  <div class="page" id="pg-khong-lam">
-    <div class="prose-page"><h1>Những Điều Không Làm</h1><div class="page-intro">Định nghĩa một tổ chức không chỉ bằng những gì họ làm mà còn bằng những gì họ từ chối làm.</div>
+  <div class="page" id="pg-khong-lam" data-page-key="khong-lam">
+    <div id="edit-bar-khong-lam" style="display:none" class="edit-toolbar"><span class="edit-toolbar-title">✏️ Đang Chỉnh Sửa</span><button class="edit-btn-sm edit-btn-save" onclick="savePageContent('khong-lam')">💾 Lưu</button><button class="edit-btn-sm edit-btn-cancel" onclick="cancelEdit('khong-lam')">✕ Hủy</button><span style="font-size:10px;color:var(--t3);margin-left:auto">Nhấn vào văn bản để chỉnh sửa trực tiếp</span></div>
+    <div class="prose-page" id="prose-content-khong-lam"><h1>Những Điều Không Làm</h1><div class="page-intro">Định nghĩa một tổ chức không chỉ bằng những gì họ làm mà còn bằng những gì họ từ chối làm.</div>
     <div class="chap"><div class="chap-num">Ranh Giới 01</div><h2>Không Tư Vấn Sản Phẩm Không Phù Hợp Vì Áp Lực Doanh Số</h2><p>Áp lực doanh số là thật. Nhưng không phải lý do chính đáng để tư vấn sản phẩm không phù hợp. Nó là giải thích, không phải biện hộ.</p></div>
     <div class="chap"><div class="chap-num">Ranh Giới 02</div><h2>Không Cung Cấp Thông Tin Sai Lệch</h2><p>Thông tin sai lệch sẽ bị phát hiện, sớm hay muộn. Và khi bị phát hiện, hậu quả không chỉ là mất một giao dịch. Đó là mất toàn bộ niềm tin.</p></div>
     <div class="chap"><div class="chap-num">Ranh Giới 03</div><h2>Không Đặt Hoa Hồng Lên Trên Lợi Ích Khách Hàng</h2><div class="callout">Câu hỏi tự kiểm tra: nếu khách hàng biết chính xác mức hoa hồng bạn nhận được từ từng sản phẩm, lời khuyên của bạn có thay đổi không?</div></div>
@@ -725,62 +771,119 @@ body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-
   </div>
 
   <!-- QUY ĐỊNH -->
-  <div class="page" id="pg-quydinh">
-    <div class="prose-page"><h1>Quy Chế & Quy Định</h1><div class="page-intro">Những quy định này không phải danh sách kiểm tra. Chúng là nền tảng vận hành của một tổ chức chuyên nghiệp.</div>
+  <div class="page" id="pg-quydinh" data-page-key="quydinh">
+    <div id="edit-bar-quydinh" style="display:none" class="edit-toolbar"><span class="edit-toolbar-title">✏️ Đang Chỉnh Sửa</span><button class="edit-btn-sm edit-btn-save" onclick="savePageContent('quydinh')">💾 Lưu</button><button class="edit-btn-sm edit-btn-cancel" onclick="cancelEdit('quydinh')">✕ Hủy</button><span style="font-size:10px;color:var(--t3);margin-left:auto">Nhấn vào văn bản để chỉnh sửa trực tiếp</span></div>
+    <div class="prose-page" id="prose-content-quydinh"><h1>Quy Chế & Quy Định</h1><div class="page-intro">Những quy định này không phải danh sách kiểm tra. Chúng là nền tảng vận hành của một tổ chức chuyên nghiệp.</div>
     <div class="chap"><div class="chap-num">Quy Trình Bán Hàng</div><h2>5 Giai Đoạn Tư Vấn Chuẩn</h2><ul class="rule-list"><li><strong>Giai đoạn 1 · Tiếp cận và sàng lọc</strong>Xác định nhu cầu thực sự, năng lực tài chính và mức độ sẵn sàng của khách hàng.</li><li><strong>Giai đoạn 2 · Khai thác và tìm hiểu</strong>Đặt câu hỏi đúng để hiểu hoàn cảnh thực của khách hàng.</li><li><strong>Giai đoạn 3 · Trình bày và phân tích</strong>Cung cấp thông tin trung thực, phân tích ưu nhược điểm của sản phẩm.</li><li><strong>Giai đoạn 4 · Xử lý băn khoăn và dẫn dắt quyết định</strong>Lắng nghe các lo ngại thực sự, giải quyết lo ngại chính đáng.</li><li><strong>Giai đoạn 5 · Hoàn tất và chăm sóc sau bán</strong>Giao dịch ký xong không phải điểm kết thúc. Chăm sóc sau bán là nền tảng cho lần giới thiệu tiếp theo.</li></ul></div>
     <div class="chap"><div class="chap-num">Chuẩn Hình Ảnh</div><h2>Tiêu Chuẩn Khi Gặp Khách Hàng</h2><ul class="rule-list"><li><strong>Trang phục</strong>Nam giới mặc vest hoặc sơ mi có cổ trong buổi gặp chính thức. Không mặc quần jeans khi gặp khách lần đầu.</li><li><strong>Đúng giờ</strong>Đến trước 5 phút. Điện thoại ở chế độ im lặng trong suốt buổi tư vấn.</li><li><strong>Kết thúc buổi gặp</strong>Luôn kết thúc với bước tiếp theo được xác định rõ ràng: ai làm gì, khi nào.</li></ul></div></div>
   </div>
 
   <!-- ĐẠO ĐỨC -->
-  <div class="page" id="pg-ung-xu">
-    <div class="prose-page"><h1>Chuẩn Đạo Đức Nghề</h1><div class="page-intro">Có những tiêu chuẩn đạo đức không thể thỏa hiệp bất kể hoàn cảnh hay áp lực nào.</div>
+  <div class="page" id="pg-ung-xu" data-page-key="ung-xu">
+    <div id="edit-bar-ung-xu" style="display:none" class="edit-toolbar"><span class="edit-toolbar-title">✏️ Đang Chỉnh Sửa</span><button class="edit-btn-sm edit-btn-save" onclick="savePageContent('ung-xu')">💾 Lưu</button><button class="edit-btn-sm edit-btn-cancel" onclick="cancelEdit('ung-xu')">✕ Hủy</button><span style="font-size:10px;color:var(--t3);margin-left:auto">Nhấn vào văn bản để chỉnh sửa trực tiếp</span></div>
+    <div class="prose-page" id="prose-content-ung-xu"><h1>Chuẩn Đạo Đức Nghề</h1><div class="page-intro">Có những tiêu chuẩn đạo đức không thể thỏa hiệp bất kể hoàn cảnh hay áp lực nào.</div>
     <div class="chap"><div class="chap-num">Bốn Nguyên Tắc Không Thỏa Hiệp</div><h2>Tiêu Chuẩn Tuyệt Đối</h2><ul class="rule-list"><li><strong>Không cung cấp thông tin sai lệch</strong>Không bao giờ sai lệch dưới bất kỳ hình thức nào: trực tiếp, gián tiếp hay bằng cách bỏ qua thông tin bất lợi.</li><li><strong>Tiết lộ xung đột lợi ích</strong>Nếu có lý do lời khuyên bị ảnh hưởng bởi lợi ích cá nhân, khách hàng có quyền biết.</li><li><strong>Tôn trọng quyết định của khách hàng</strong>Vai trò của bạn là tư vấn, không phải quyết định thay. Khuyên một lần đủ rồi.</li><li><strong>Bảo mật thông tin tuyệt đối</strong>Thông tin tài chính, kế hoạch đầu tư, tình trạng gia đình của khách không để chia sẻ.</li></ul></div>
     <div class="chap"><div class="chap-num">Xử Lý Khiếu Nại</div><h2>Quy Trình 4 Bước</h2><ul class="rule-list"><li><strong>Bước 1: Lắng nghe đầy đủ</strong>Để khách nói hết trước khi phản hồi. Ghi chép đầy đủ.</li><li><strong>Bước 2: Thừa nhận và xin lỗi nếu cần</strong>Nếu có sai sót từ Bighomes 15, thừa nhận thẳng thắn.</li><li><strong>Bước 3: Cam kết hành động cụ thể</strong>Đưa ra cam kết về thời gian và hành động cụ thể trong vòng 24 giờ.</li><li><strong>Bước 4: Báo cáo lên quản lý</strong>Mọi khiếu nại từ trung bình trở lên phải báo cáo cho trưởng nhóm trong ngày.</li></ul></div></div>
   </div>
 
   <!-- CRM RULE -->
-  <div class="page" id="pg-crm-rule">
-    <div class="prose-page"><h1>Quy Tắc Phân Định Khách Hàng</h1><div class="page-intro">Tranh chấp khách hàng là nguồn xung đột nội bộ phổ biến nhất. Những quy tắc này được áp dụng nhất quán để loại bỏ vùng xám.</div>
+  <div class="page" id="pg-crm-rule" data-page-key="crm-rule">
+    <div id="edit-bar-crm-rule" style="display:none" class="edit-toolbar"><span class="edit-toolbar-title">✏️ Đang Chỉnh Sửa</span><button class="edit-btn-sm edit-btn-save" onclick="savePageContent('crm-rule')">💾 Lưu</button><button class="edit-btn-sm edit-btn-cancel" onclick="cancelEdit('crm-rule')">✕ Hủy</button><span style="font-size:10px;color:var(--t3);margin-left:auto">Nhấn vào văn bản để chỉnh sửa trực tiếp</span></div>
+    <div class="prose-page" id="prose-content-crm-rule"><h1>Quy Tắc Phân Định Khách Hàng</h1><div class="page-intro">Tranh chấp khách hàng là nguồn xung đột nội bộ phổ biến nhất. Những quy tắc này được áp dụng nhất quán để loại bỏ vùng xám.</div>
     <div class="chap"><div class="chap-num">Bốn Nguyên Tắc</div><h2>Dữ Liệu CRM Là Bằng Chứng Duy Nhất</h2><div class="crm-rules"><div class="crm-rule"><div class="crm-n">01</div><div class="crm-body"><strong>Ai ghi nhận trước, người đó sở hữu</strong><span>Khách hàng thuộc về tư vấn viên đã ghi nhận đầu tiên trong CRM với đầy đủ thông tin. Không có ngoại lệ.</span></div></div><div class="crm-rule"><div class="crm-n">02</div><div class="crm-body"><strong>Không có CRM, không có bằng chứng</strong><span>Lời khai không có bằng chứng CRM không được xem xét dù từ bất kỳ ai.</span></div></div><div class="crm-rule"><div class="crm-n">03</div><div class="crm-body"><strong>Quyết định trong 2 ngày làm việc</strong><span>Không để tồn đọng quá 2 ngày kể từ khi tranh chấp được báo cáo.</span></div></div><div class="crm-rule"><div class="crm-n">04</div><div class="crm-body"><strong>Quyết định có hiệu lực ngay</strong><span>Người muốn khiếu nại tiếp có thể leo thang lên cấp trên nhưng phải chấp nhận quyết định hiện tại trong khi chờ.</span></div></div></div></div>
     <div class="chap"><div class="chap-num">Hành Vi Bị Cấm</div><h2>Thao Túng CRM</h2><div class="conduct-g"><div class="conduct-item red"><div class="ci-title">Hồi tố ngày nhập</div><div class="ci-body">Thay đổi ngày tiếp cận để trước ngày thực tế. Phát hiện là chấm dứt ngay.</div></div><div class="conduct-item red"><div class="ci-title">Nhập khách hàng ảo</div><div class="ci-body">Tạo hồ sơ khách hàng chưa thực sự tiếp cận để chiếm slot CRM.</div></div><div class="conduct-item red"><div class="ci-title">Xóa hoặc sửa thông tin</div><div class="ci-body">Thay đổi thông tin sau khi ghi nhận mà không có lý do hợp lệ.</div></div><div class="conduct-item red"><div class="ci-title">Chia sẻ tài khoản CRM</div><div class="ci-body">Mỗi tài khoản là định danh cá nhân. Không chia sẻ mật khẩu.</div></div></div></div></div>
   </div>
 
   <!-- ĐÀO TẠO -->
-  <div class="page" id="pg-daotao">
-    <div class="prose-page"><h1>Đào Tạo & Lộ Trình</h1><div class="page-intro">Triết lý: triết lý trước, kỹ năng sau. Tuần đầu tiên không bắt đầu bằng sản phẩm hay kỹ thuật tư vấn. Nó bắt đầu bằng văn hóa.</div>
+  <div class="page" id="pg-daotao" data-page-key="daotao">
+    <div id="edit-bar-daotao" style="display:none" class="edit-toolbar"><span class="edit-toolbar-title">✏️ Đang Chỉnh Sửa</span><button class="edit-btn-sm edit-btn-save" onclick="savePageContent('daotao')">💾 Lưu</button><button class="edit-btn-sm edit-btn-cancel" onclick="cancelEdit('daotao')">✕ Hủy</button><span style="font-size:10px;color:var(--t3);margin-left:auto">Nhấn vào văn bản để chỉnh sửa trực tiếp</span></div>
+    <div class="prose-page" id="prose-content-daotao"><h1>Đào Tạo & Lộ Trình</h1><div class="page-intro">Triết lý: triết lý trước, kỹ năng sau. Tuần đầu tiên không bắt đầu bằng sản phẩm hay kỹ thuật tư vấn. Nó bắt đầu bằng văn hóa.</div>
     <div class="chap"><div class="chap-num">TTA Mùa 3</div><h2>Bán Hàng Bằng Vị Thế · 4 Tuần · 9 Buổi</h2><ul class="rule-list"><li><strong>Tuần 01 · Kết Nối và Thiết Lập</strong>Buổi 01: Định vị chân dung Cố Vấn Tin Cậy. Buổi 02: Thấu hiểu tâm lý khách hàng cao cấp.</li><li><strong>Tuần 02 · Chạm Động Lực</strong>Buổi 03: Thiết lập vị thế và chạm động lực. Buổi 04: Thực chiến B2B và B2C.</li><li><strong>Tuần 03 · Chạm Điểm Nghẽn</strong>Buổi 05: Chạm đúng điểm nghẽn và giá của sự trì hoãn. Buổi 06: Thực chiến.</li><li><strong>Tuần 04 · Chạm Con Đường và Gỡ Rối</strong>Buổi 07: Dẫn dắt quyết định bằng con đường. Buổi 08: Gỡ rối và chốt bằng Reflect. Buổi 09: Tổng kết toàn bộ quy trình.</li></ul></div>
     <div class="chap"><div class="chap-num">Hội Nhập 90 Ngày Đầu</div><h2>Mục Tiêu Là Nền Tảng, Không Phải Doanh Số</h2><ul class="rule-list"><li><strong>Tuần 1 · Văn hóa và triết lý</strong>Đọc toàn bộ The Bighomes Way. Buổi trò chuyện với lãnh đạo về các giá trị trong thực tế.</li><li><strong>Tháng 1 · Kiến thức nền tảng</strong>Pháp lý BĐS, phân tích dự án, tài chính đầu tư. Bắt đầu tiếp cận khách hàng thực từ tuần đầu.</li><li><strong>Tháng 2 · Kỹ năng thực chiến</strong>Đồng hành với senior trong các buổi tư vấn thật.</li><li><strong>Tháng 3 · Tự vận hành</strong>Tự dẫn dắt buổi tư vấn độc lập. Mentor đóng vai quan sát và phản hồi.</li></ul></div></div>
   </div>
 
   <!-- MENTOR -->
-  <div class="page" id="pg-mentor">
-    <div class="prose-page"><h1>Quy Chế Mentor</h1><div class="page-intro">Mentor không phải người làm thay hay dạy kỹ thuật. Mentor là người đồng hành, chia sẻ kinh nghiệm, tạo ra môi trường an toàn để người mới thử nghiệm và phát triển.</div>
+  <div class="page" id="pg-mentor" data-page-key="mentor">
+    <div id="edit-bar-mentor" style="display:none" class="edit-toolbar"><span class="edit-toolbar-title">✏️ Đang Chỉnh Sửa</span><button class="edit-btn-sm edit-btn-save" onclick="savePageContent('mentor')">💾 Lưu</button><button class="edit-btn-sm edit-btn-cancel" onclick="cancelEdit('mentor')">✕ Hủy</button><span style="font-size:10px;color:var(--t3);margin-left:auto">Nhấn vào văn bản để chỉnh sửa trực tiếp</span></div>
+    <div class="prose-page" id="prose-content-mentor"><h1>Quy Chế Mentor</h1><div class="page-intro">Mentor không phải người làm thay hay dạy kỹ thuật. Mentor là người đồng hành, chia sẻ kinh nghiệm, tạo ra môi trường an toàn để người mới thử nghiệm và phát triển.</div>
     <div class="chap"><div class="chap-num">Điều Kiện</div><h2>Ai Đủ Điều Kiện Làm Mentor</h2><ul class="rule-list"><li><strong>Đạt Tư Vấn Viên Cao Cấp trở lên</strong>Tối thiểu 12 tháng tại Bighomes 15.</li><li><strong>Tỷ lệ khách hàng giới thiệu trên 25%</strong>Trong 6 tháng gần nhất. Chứng minh chất lượng tư vấn thực sự.</li><li><strong>Không có vi phạm đạo đức</strong>Trong 12 tháng qua về chuẩn đạo đức nghề hoặc văn hóa tổ chức.</li><li><strong>Tự nguyện đăng ký</strong>Được GĐ Kinh Doanh phê duyệt. Mentor không được chỉ định ép buộc.</li></ul></div>
     <div class="chap"><div class="chap-num">Cam Kết</div><h2>Những Gì Mentor Cam Kết Thực Hiện</h2><ul class="rule-list"><li><strong>Gặp 1-1 tối thiểu 2 lần mỗi tháng</strong>Trong 3 tháng đầu, có chương trình cụ thể cho mỗi buổi.</li><li><strong>Đồng hành ít nhất 2 buổi tư vấn thực</strong>Trong tháng đầu để quan sát và phản hồi cụ thể.</li><li><strong>Phản hồi trực tiếp và xây dựng</strong>Sau mỗi buổi quan sát. Không phê phán chung chung.</li><li><strong>Báo cáo tiến độ</strong>Với GĐ Kinh Doanh vào cuối tháng 1 và tháng 3.</li></ul></div></div>
   </div>
 
   <!-- 4 GIAI ĐOẠN -->
-  <div class="page" id="pg-giai-doan">
-    <div class="prose-page"><h1>Bốn Giai Đoạn Phát Triển</h1><div class="page-intro">Sự nghiệp không phát triển theo đường thẳng. Nó phát triển theo những giai đoạn có đặc điểm riêng, thách thức riêng, và cột mốc riêng.</div>
+  <div class="page" id="pg-giai-doan" data-page-key="giai-doan">
+    <div id="edit-bar-giai-doan" style="display:none" class="edit-toolbar"><span class="edit-toolbar-title">✏️ Đang Chỉnh Sửa</span><button class="edit-btn-sm edit-btn-save" onclick="savePageContent('giai-doan')">💾 Lưu</button><button class="edit-btn-sm edit-btn-cancel" onclick="cancelEdit('giai-doan')">✕ Hủy</button><span style="font-size:10px;color:var(--t3);margin-left:auto">Nhấn vào văn bản để chỉnh sửa trực tiếp</span></div>
+    <div class="prose-page" id="prose-content-giai-doan"><h1>Bốn Giai Đoạn Phát Triển</h1><div class="page-intro">Sự nghiệp không phát triển theo đường thẳng. Nó phát triển theo những giai đoạn có đặc điểm riêng, thách thức riêng, và cột mốc riêng.</div>
     <div class="phases"><div class="phase"><div class="phase-num">01</div><div class="phase-name">Khởi Đầu</div><div class="phase-dur">6-12 tháng đầu</div><div class="phase-desc">Giao dịch đầu tiên là cột mốc quan trọng nhất. Không phải vì hoa hồng mà vì điều nó chứng minh với chính người đó.</div></div><div class="phase"><div class="phase-num">02</div><div class="phase-name">Phát Triển Chuyên Môn</div><div class="phase-dur">Năm 1 đến năm 2-3</div><div class="phase-desc">Tệp khách hàng bắt đầu có chiều sâu. Khách cũ quay lại hay giới thiệu là tín hiệu chất lượng tư vấn đang đúng hướng.</div></div><div class="phase"><div class="phase-num">03</div><div class="phase-name">Chuyên Gia</div><div class="phase-dur">Năm 3 trở đi</div><div class="phase-desc">Được tìm đến thay vì phải đi tìm. Công việc chuyển từ giao dịch đơn lẻ sang tư vấn chiến lược danh mục tổng thể.</div></div><div class="phase"><div class="phase-num">04</div><div class="phase-name">Tầm Ảnh Hưởng</div><div class="phase-dur">Không bắt buộc</div><div class="phase-desc">Tạo ra kết quả thông qua người khác. Di sản là những người đã trở nên giỏi hơn và những tiêu chuẩn đã được thiết lập.</div></div></div></div>
   </div>
 
   <!-- TUYỂN DỤNG -->
-  <div class="page" id="pg-tuyendung">
-    <div class="prose-page"><h1>Tiêu Chí Tuyển Dụng</h1><div class="page-intro">Tuyển dụng là quyết định quan trọng nhất. Không phải quyết định về chiến lược hay sản phẩm. Mà là về con người.</div>
+  <div class="page" id="pg-tuyendung" data-page-key="tuyendung">
+    <div id="edit-bar-tuyendung" style="display:none" class="edit-toolbar"><span class="edit-toolbar-title">✏️ Đang Chỉnh Sửa</span><button class="edit-btn-sm edit-btn-save" onclick="savePageContent('tuyendung')">💾 Lưu</button><button class="edit-btn-sm edit-btn-cancel" onclick="cancelEdit('tuyendung')">✕ Hủy</button><span style="font-size:10px;color:var(--t3);margin-left:auto">Nhấn vào văn bản để chỉnh sửa trực tiếp</span></div>
+    <div class="prose-page" id="prose-content-tuyendung"><h1>Tiêu Chí Tuyển Dụng</h1><div class="page-intro">Tuyển dụng là quyết định quan trọng nhất. Không phải quyết định về chiến lược hay sản phẩm. Mà là về con người.</div>
     <div class="chap"><div class="chap-num">Nguyên Tắc Nền Tảng</div><h2>Kỹ Năng Có Thể Đào Tạo, Tư Duy Thì Không</h2><p>Người có kỹ năng tốt nhưng tư duy sai sẽ dùng những kỹ năng đó theo cách tổ chức không thể chấp nhận. Người có tư duy đúng nhưng chưa có kỹ năng là người Bighomes 15 sẵn sàng đầu tư.</p></div>
     <div class="chap"><div class="chap-num">Tố Chất Không Thể Thiếu</div><h2>Năm Tiêu Chí Loại</h2><ul class="rule-list"><li><strong>Sự trung thực căn bản</strong>Thẳng thắn về lỗi khi mắc phải, không có xu hướng che giấu hay thao túng thông tin.</li><li><strong>Tinh thần trách nhiệm cá nhân</strong>Khi kết quả không tốt, phản ứng đầu tiên là "mình đã làm gì sai?" chứ không phải "tại sao".</li><li><strong>Khả năng học hỏi thực sự</strong>Thay đổi hành vi dựa trên những gì học được, không chỉ gật đầu đồng ý.</li><li><strong>Quan tâm thực sự đến người khác</strong>Đặt câu hỏi về người khác và lắng nghe câu trả lời thật sự.</li><li><strong>Chịu đựng áp lực mà không mất định hướng</strong>BĐS là ngành có áp lực cao và thu nhập không ổn định theo chu kỳ.</li></ul></div>
     <div class="chap"><div class="chap-num">Dấu Hiệu Loại Ngay</div><h2>Bốn Tín Hiệu Từ Chối Ứng Viên</h2><div class="conduct-g"><div class="conduct-item red"><div class="ci-title">Đổ lỗi nhất quán</div><div class="ci-body">Khi kể về thất bại, luôn tìm được lý do bên ngoài.</div></div><div class="conduct-item red"><div class="ci-title">Nói và làm không khớp</div><div class="ci-body">Không nhất quán giữa những gì họ nói và hành động thực tế.</div></div><div class="conduct-item red"><div class="ci-title">Coi thường người cũ</div><div class="ci-body">Thái độ coi thường khách cũ, đồng nghiệp cũ, công ty cũ.</div></div><div class="conduct-item red"><div class="ci-title">Động lực chỉ là tiền ngắn hạn</div><div class="ci-body">Sẽ ra đi khi tìm được nơi trả nhiều hơn.</div></div></div></div></div>
   </div>
 
   <!-- CHÍNH SÁCH HOA HỒNG -->
-  <div class="page" id="pg-chinhsach">
-    <div class="prose-page"><h1>Chính Sách Hoa Hồng</h1><div class="page-intro">Hoa hồng cụ thể theo từng dự án và cấp độ được công bố riêng, cập nhật theo từng giai đoạn. Những nguyên tắc dưới đây là nền tảng không thay đổi.</div>
+  <div class="page" id="pg-chinhsach" data-page-key="chinhsach">
+    <div id="edit-bar-chinhsach" style="display:none" class="edit-toolbar"><span class="edit-toolbar-title">✏️ Đang Chỉnh Sửa</span><button class="edit-btn-sm edit-btn-save" onclick="savePageContent('chinhsach')">💾 Lưu</button><button class="edit-btn-sm edit-btn-cancel" onclick="cancelEdit('chinhsach')">✕ Hủy</button><span style="font-size:10px;color:var(--t3);margin-left:auto">Nhấn vào văn bản để chỉnh sửa trực tiếp</span></div>
+    <div class="prose-page" id="prose-content-chinhsach"><h1>Chính Sách Hoa Hồng</h1><div class="page-intro">Hoa hồng cụ thể theo từng dự án và cấp độ được công bố riêng, cập nhật theo từng giai đoạn. Những nguyên tắc dưới đây là nền tảng không thay đổi.</div>
     <div class="chap"><div class="chap-num">Nguyên Tắc Chung</div><h2>Bốn Cấu Phần Thu Nhập</h2><ul class="rule-list"><li><strong>Hoa hồng cơ bản</strong>Theo phần trăm giá trị giao dịch, công khai toàn đội. Không có mức bí mật.</li><li><strong>Thưởng vượt mục tiêu</strong>Vượt 10% được thưởng 1.2 lần. Vượt 20% được 1.5 lần. Vượt 30% trở lên được 2 lần phần vượt.</li><li><strong>Thưởng chất lượng</strong>Gắn với tỷ lệ khách hàng giới thiệu và điểm phản hồi sau giao dịch.</li><li><strong>Thưởng trung thành</strong>Xem xét mỗi 12 tháng dựa trên đóng góp tổng thể.</li></ul></div>
     <div class="chap"><div class="chap-num">Cập Nhật T4/2026</div><h2>Tình Trạng Hiệu Lực 10/04/2026</h2><div style="background:rgba(239,68,68,0.07);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:13px 15px"><div style="font-size:10px;font-weight:700;color:#f87171;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px">Đang xử lý</div><div style="font-size:12px;color:var(--t2);line-height:1.7">Vinhomes điều chỉnh chính sách từ 10/04. Tài liệu chi tiết đang được Nghiêm Quân xác nhận. Toàn bộ CVKD phải đọc và xác nhận trước khi tư vấn khách hàng sau ngày 10/04.</div></div></div></div>
   </div>
 
   <!-- THÔNG BÁO ĐÃ CÓ TRÊN -->
+
+  <!-- ════ ORG CHART ════ -->
+  <div class="page" id="pg-org-chart">
+    <div style="font-size:18px;font-weight:800;color:var(--t1);margin-bottom:6px">Sơ Đồ Nhân Sự</div>
+    <div style="font-size:11.5px;color:var(--t3);margin-bottom:20px">Bighomes 15 · Cấu trúc tổ chức theo cấp bậc và đội nhóm</div>
+    <div id="org-tree"><div class="loading"><div class="spinner"></div>Đang tải...</div></div>
+  </div>
+
+  <!-- ════ PROJECTS ════ -->
+  <div class="page" id="pg-projects">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+      <div style="font-size:18px;font-weight:800;color:var(--t1)">Dự Án & Chiến Dịch</div>
+      <div id="add-project-btn" style="display:none;margin-left:auto">
+        <button class="btn-primary" style="font-size:12px;padding:8px 15px" onclick="showAddProject()">+ Dự Án Mới</button>
+      </div>
+    </div>
+    <div id="projects-grid"><div class="loading"><div class="spinner"></div></div></div>
+  </div>
+
+  <!-- ════ APPOINT ════ -->
+  <div class="page" id="pg-appoint">
+    <div style="font-size:18px;font-weight:800;color:var(--t1);margin-bottom:6px">Bổ Nhiệm Nhân Sự</div>
+    <div style="font-size:11.5px;color:var(--t3);margin-bottom:20px">Thay đổi chức vụ, đội nhóm. Mọi thay đổi được ghi lại lịch sử.</div>
+    <div class="g2">
+      <div class="panel">
+        <div class="ph"><div class="ph-title">Chọn Thành Viên Để Bổ Nhiệm</div></div>
+        <div class="pb" id="appoint-member-list"><div class="loading"><div class="spinner"></div></div></div>
+      </div>
+      <div class="panel" id="appoint-form-panel" style="display:none">
+        <div class="ph"><div class="ph-title" id="appoint-form-title">Bổ Nhiệm</div></div>
+        <div class="pb" id="appoint-form-body"></div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:0">
+      <div class="ph"><div class="ph-title">Lịch Sử Bổ Nhiệm</div></div>
+      <div class="pb" id="appoint-history"><div class="loading"><div class="spinner"></div></div></div>
+    </div>
+  </div>
+
+  <!-- ════ TOOL EMBED ════ -->
+  <div class="page" id="pg-tool-embed">
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 20px;background:var(--card);border-bottom:1px solid var(--border);flex-shrink:0;min-height:48px">
+      <div id="tool-embed-title" style="font-size:13px;font-weight:700;color:var(--t1)">Công Cụ</div>
+      <button onclick="closeToolEmbed()" style="margin-left:auto;padding:5px 14px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s" onmouseover="this.style.borderColor='var(--border-h)';this.style.color='var(--t1)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--t2)'">✕ Đóng</button>
+      <button onclick="document.getElementById('tool-iframe').contentWindow.location.reload()" style="padding:5px 14px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s" onmouseover="this.style.borderColor='var(--border-h)'" onmouseout="this.style.borderColor='var(--border)'">↺ Tải lại</button>
+      <a id="tool-open-new" href="#" target="_blank" style="padding:5px 14px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;transition:all .2s" onmouseover="this.style.borderColor='var(--border-h)'" onmouseout="this.style.borderColor='var(--border)'">↗ Mở rộng</button>
+    </div>
+    <iframe id="tool-iframe" src="about:blank" style="flex:1;border:none;width:100%;display:block;background:#fff" scrolling="yes"></iframe>
+  </div>
 
 </main>
 </div>
@@ -836,6 +939,24 @@ let currentUser = null;
 let members = [];
 let selectedMember = null;
 let pinInput = '';
+let currentCampaign = null;  // campaign đang active
+let currentProject = null;   // project của campaign
+let allProjects = [];
+let allCampaigns = [];
+let allTeams = [];
+
+const CAMPAIGN_ID = '48955c5a-f0c8-409e-ae56-2b98e0776191';
+const PROJECT_ID  = 'f68dd4fb-d625-4c24-985a-5cec100596ed';
+
+const POSITIONS = {
+  gd:             { label: 'Giám Đốc',             cls: 'role-ceo',        short: 'GĐ' },
+  gd_du_an:       { label: 'GĐ Dự Án',              cls: 'role-ceo',        short: 'GDDA' },
+  gd_kinh_doanh:  { label: 'GĐ Kinh Doanh',         cls: 'role-gd',         short: 'GĐKD' },
+  tp_kinh_doanh:  { label: 'Trưởng Phòng KD',       cls: 'role-nvkd',       short: 'TPKD' },
+  cvkd:           { label: 'Chuyên Viên KD',        cls: 'role-nvkd',       short: 'CVKD' },
+  admin:          { label: 'Admin',                  cls: 'role-admin',      short: 'Admin' },
+  demo:           { label: 'Demo',                   cls: 'role-demo',       short: 'Demo' },
+};
 
 const ROLES = {
   superadmin: { label: 'Superadmin', cls: 'role-superadmin' },
@@ -853,6 +974,35 @@ const STAGE_COLORS = ['#60a5fa','#a78bda','#d4a028','#f97316','#ef4444','#3d8b3d
 const html = document.documentElement;
 const savedTheme = localStorage.getItem('bh-theme') || 'dark';
 html.setAttribute('data-theme', savedTheme);
+
+// Font scale — dùng zoom để scale toàn bộ kể cả px-hardcoded elements
+const fontScales = [0.82, 0.90, 1.0, 1.10, 1.20, 1.35];
+const fontLabels = ['82%','90%','100%','110%','120%','135%'];
+let fontIdx = parseInt(localStorage.getItem('bh-font-idx') || '2');
+
+function applyFont() {
+  const scale = fontScales[fontIdx];
+  // zoom scales everything including px values — most reliable approach
+  const main = document.querySelector('.main');
+  const sb = document.querySelector('.sb');
+  if (main) main.style.zoom = scale;
+  if (sb) sb.style.zoom = scale;
+  // Update A-/A+ button visual feedback
+  const btns = document.querySelectorAll('[data-font-btn]');
+  btns.forEach(b => b.style.opacity = '1');
+  if (fontIdx === 0) document.querySelector('[data-font-btn="-"]').style.opacity = '0.4';
+  if (fontIdx === fontScales.length-1) document.querySelector('[data-font-btn="+"]').style.opacity = '0.4';
+}
+
+// Apply on load — wait for DOM
+document.addEventListener('DOMContentLoaded', applyFont);
+setTimeout(applyFont, 100); // fallback
+
+function changeFont(dir) {
+  fontIdx = Math.max(0, Math.min(fontScales.length - 1, fontIdx + dir));
+  localStorage.setItem('bh-font-idx', fontIdx);
+  applyFont();
+}
 
 function toggleTheme() {
   const cur = html.getAttribute('data-theme');
@@ -998,11 +1148,7 @@ function doLogout() {
 function can(action) {
   if (!currentUser) return false;
   const r = currentUser.role;
-  // Demo account can VIEW everything but not write
-  if (r === 'demo') {
-    const demoAllow = ['view_all_reports'];
-    return demoAllow.includes(action);
-  }
+  if (r === 'demo') return ['view_all_reports'].includes(action);
   const perms = {
     manage_members: ['superadmin'],
     manage_pins: ['superadmin','ceo','admin'],
@@ -1011,6 +1157,8 @@ function can(action) {
     view_all_reports: ['superadmin','ceo','gd_kinh_doanh'],
     add_customer: ['superadmin','ceo','gd_kinh_doanh','nvkd'],
     post: ['superadmin','ceo','gd_kinh_doanh','nvkd','admin'],
+    edit_content: ['superadmin','admin'],
+    create_notice: ['superadmin','ceo','admin'],
   };
   return perms[action]?.includes(r) ?? false;
 }
@@ -1047,17 +1195,30 @@ function initApp() {
     if (can('manage_members')) document.getElementById('nav-members').style.display = '';
     if (can('manage_pins')) document.getElementById('nav-pins').style.display = '';
   } else {
-    // Show KPI tab for all
     navAdmin.style.display = '';
     document.getElementById('nav-members').style.display = 'none';
     document.getElementById('nav-pins').style.display = 'none';
   }
+  // Show appoint for CEO/superadmin
+  if (can('manage_members') || currentUser?.role === 'ceo') {
+    const na = document.getElementById('nav-appoint');
+    const ab = document.getElementById('add-project-btn');
+    if (na) na.style.display = '';
+    if (ab) ab.style.display = '';
+  }
+  // Load current campaign info
+  loadCurrentCampaign();
 
   // Date
   const d = new Date();
   const days = ['CN','T2','T3','T4','T5','T6','T7'];
   document.getElementById('date-box').textContent = `${days[d.getDay()]} ${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()}`;
 
+  // Show create notice button
+  if (can('create_notice')) {
+    const btn = document.getElementById('btn-create-notice');
+    if (btn) btn.style.display = '';
+  }
   // Load dashboard data
   loadDashboardStats();
   loadLeaderboardMini();
@@ -1090,12 +1251,13 @@ function initApp() {
 
 // ══ SUPABASE DATA LOADERS ══
 async function loadDashboardStats() {
+  const campId = currentCampaign?.id || CAMPAIGN_ID;
   // Members count
   const { data: mData } = await sb.from('bh_members').select('id').eq('active', true);
   document.getElementById('stat-members').textContent = mData?.length || '...';
 
-  // Targets: member_id, target, booking
-  const { data: tData } = await sb.from('bh_targets').select('*');
+  // Targets filtered by campaign
+  const { data: tData } = await sb.from('bh_targets').select('*').eq('campaign_id', campId);
   if (tData?.length) {
     const totalBooking = tData.reduce((s,r) => s + (r.booking||0), 0);
     const totalTarget = tData.reduce((s,r) => s + (r.target||0), 0) || 20;
@@ -1122,7 +1284,8 @@ function getCurrentSprintDay() {
 async function loadLeaderboardMini() {
   const el = document.getElementById('dash-leaderboard');
   // bh_targets: member_id, target, booking
-  const { data } = await sb.from('bh_targets').select('*').order('booking', { ascending: false }).limit(5);
+  const campId = currentCampaign?.id || CAMPAIGN_ID;
+  const { data } = await sb.from('bh_targets').select('*').eq('campaign_id', campId).order('booking', { ascending: false }).limit(5);
   if (!data || !data.length) { el.innerHTML = '<div style="color:var(--t3);font-size:12px;padding:10px">Chưa có dữ liệu</div>'; return; }
   const totalTarget = data.reduce((s,r) => s+(r.target||0), 0) || 20;
   el.innerHTML = `<div style="font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:10px">Booking · Hạ Long Xanh</div>` +
@@ -1143,15 +1306,19 @@ async function loadLeaderboardMini() {
 }
 
 async function loadPinnedBanner() {
-  const { data } = await sb.from('bh_pins').select('*').eq('active', true).order('created_at', { ascending: false }).limit(1);
-  if (data?.length) {
-    document.getElementById('pinnedText').textContent = data[0].content || document.getElementById('pinnedText').textContent;
-  }
+  // bh_pins has persistent 400 error — use bh_posts pinned category instead
+  try {
+    const { data } = await sb.from('bh_posts').select('*').eq('category','thong_bao').order('created_at', { ascending: false }).limit(1);
+    if (data?.length) {
+      const txt = document.getElementById('pinnedText');
+      if (txt) txt.textContent = data[0].content?.substring(0,120) || txt.textContent;
+    }
+  } catch(e) { /* keep default text */ }
 }
 
 async function loadThongBao() {
   const el = document.getElementById('thongbao-list');
-  const { data } = await sb.from('bh_posts').select('*').order('created_at', { ascending: false }).limit(20);
+  const { data } = await sb.from('bh_posts').select('*').order('created_at', { ascending: false }).limit(30);
   if (!data || !data.length) {
     el.innerHTML = `
       <div class="ac"><div class="ac-tag tr">Khẩn</div><div class="ac-title">Cập Nhật Chính Sách Hoa Hồng Tháng 4 / 2026</div><div class="ac-excerpt">Vinhomes điều chỉnh chính sách từ 10/04. Toàn bộ CVKD phải đọc và xác nhận trước khi tư vấn khách hàng.</div><div class="ac-meta"><span class="ac-date">07/04/2026</span><span class="ac-dot"></span><span class="ac-auth">CEO · Duy Nguyễn</span><div class="new-dot"></div></div></div>
@@ -1159,13 +1326,16 @@ async function loadThongBao() {
       <div class="ac"><div class="ac-tag td">Đào Tạo</div><div class="ac-title">TTA Mùa 3 · Buổi 04: Thực Chiến Chạm Động Lực B2B & B2C</div><div class="ac-excerpt">Rèn phản xạ trực tiếp trên tình huống thật. Thứ Tư 14h00 · 120 phút · Thực hành.</div><div class="ac-meta"><span class="ac-date">05/04/2026</span><span class="ac-dot"></span><span class="ac-auth">GĐ Đào Tạo</span><div class="new-dot"></div></div></div>`;
     return;
   }
-  el.innerHTML = data.map(p => `
-    <div class="ac">
-      <div class="ac-tag ta">Thông Báo</div>
-      <div class="ac-title">${p.title||'Bài đăng'}</div>
-      <div class="ac-excerpt">${(p.content||'').substring(0,150)}${(p.content||'').length>150?'...':''}</div>
+  const catMap = {thong_bao:{cls:'tr',lbl:'Thông Báo'},chia_se:{cls:'tg',lbl:'Chia Sẻ'},tip:{cls:'td',lbl:'Tip'},default:{cls:'ta',lbl:'Nội Dung'}};
+  el.innerHTML = data.map(p => {
+    const cat = catMap[p.category]||catMap.default;
+    return `<div class="ac">
+      <div class="ac-tag ${cat.cls}">${cat.lbl}</div>
+      <div class="ac-title">${p.content?.substring(0,80)||'Bài đăng'}${(p.content||'').length>80?'...':''}</div>
+      <div class="ac-excerpt">${(p.content||'').substring(80,220)}${(p.content||'').length>220?'...':''}</div>
       <div class="ac-meta"><span class="ac-date">${new Date(p.created_at).toLocaleDateString('vi-VN')}</span><span class="ac-dot"></span><span class="ac-auth">${p.author_name||'Ẩn danh'}</span></div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 // ══ CAMPAIGN DASHBOARD ══
@@ -1173,7 +1343,8 @@ async function loadCampaign() {
   const statsEl = document.getElementById('campaign-stats');
   const { data: cfg } = await sb.from('bh_sprint_config').select('*').limit(1);
   // bh_targets: member_id, target, booking
-  const { data: tgt } = await sb.from('bh_targets').select('*');
+  const campId = currentCampaign?.id || CAMPAIGN_ID;
+  const { data: tgt } = await sb.from('bh_targets').select('*').eq('campaign_id', campId);
   const totalBooking = tgt ? tgt.reduce((s,r) => s+(r.booking||0), 0) : 0;
   const totalTarget = tgt ? tgt.reduce((s,r) => s+(r.target||0), 0) : 20;
   const endDate = new Date('2026-05-01');
@@ -1238,7 +1409,8 @@ const PIPELINE_STAGE_MAP = {
 async function loadCRM() {
   const el = document.getElementById('crm-pipeline');
   // bh_customers: id, member_id, member_name, name, phone_last4, source, pipeline_stage, product_interest, expected_price, purpose, finance_type, region, buy_reason, reject_reason, first_contact, next_contact, notes
-  let query = sb.from('bh_customers').select('*').order('created_at', { ascending: false });
+  const campId = currentCampaign?.id || CAMPAIGN_ID;
+  let query = sb.from('bh_customers').select('*').eq('campaign_id', campId).order('created_at', { ascending: false });
   if (!can('view_all_reports')) {
     query = query.eq('member_id', currentUser.id);
   }
@@ -1435,7 +1607,8 @@ async function saveReport() {
 async function loadLeaderboard() {
   const el = document.getElementById('leaderboard-grid');
   // bh_targets: member_id, target, booking
-  const { data: tgt } = await sb.from('bh_targets').select('*').order('booking', { ascending: false });
+  const campId = currentCampaign?.id || CAMPAIGN_ID;
+  const { data: tgt } = await sb.from('bh_targets').select('*').eq('campaign_id', campId).order('booking', { ascending: false });
   // bh_daily_reports: aggregate tiep_can, tien_nang by member_id
   const { data: rpts } = await sb.from('bh_daily_reports').select('member_id,tiep_can,tien_nang,booking');
 
@@ -1644,6 +1817,47 @@ async function loadCommunity() {
   }).join('');
 }
 
+function showCreateNotice() {
+  const box = document.getElementById('modalBox');
+  box.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+      <div style="font-size:15px;font-weight:800;color:var(--t1)">Tạo Thông Báo Mới</div>
+      <div onclick="closeModal()" style="cursor:pointer;color:var(--t3);font-size:18px">✕</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Loại Thông Báo</label>
+      <select class="form-input" id="notice-cat">
+        <option value="thong_bao">📢 Thông Báo Khẩn</option>
+        <option value="tip">💡 Tip & Kinh Nghiệm</option>
+        <option value="chia_se">🎉 Chia Sẻ Kết Quả</option>
+        <option value="dao_tao">📚 Đào Tạo</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nội Dung</label>
+      <textarea class="form-input" id="notice-content" rows="5" placeholder="Nội dung thông báo..."></textarea>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:6px">
+      <button class="btn-secondary" onclick="closeModal()">Hủy</button>
+      <button class="btn-primary" style="flex:1" onclick="submitNotice()">📢 Đăng Thông Báo</button>
+    </div>`;
+  openModal();
+}
+
+async function submitNotice() {
+  if (!can('create_notice')) return;
+  const noticeContent = document.getElementById('notice-content')?.value.trim();
+  if (!noticeContent) return;
+  const { error } = await sb.from('bh_posts').insert({
+    author_id: currentUser.id,
+    author_name: currentUser.display_name,
+    content: noticeContent,
+    category: document.getElementById('notice-cat')?.value || 'thong_bao',
+    created_at: new Date().toISOString()
+  });
+  if (!error) { closeModal(); loadThongBao(); }
+}
+
 async function submitPost() {
   if (isDemo()) { alert('Tài khoản Demo không thể ghi dữ liệu.'); return; }
   const content = document.getElementById('new-post-input')?.value.trim();
@@ -1752,7 +1966,8 @@ async function updateMember(id) {
 async function loadLiveKPI() {
   const el = document.getElementById('live-kpi-table');
   // bh_targets: member_id, target, booking
-  const { data } = await sb.from('bh_targets').select('*').order('booking', { ascending: false });
+  const campId = currentCampaign?.id || CAMPAIGN_ID;
+  const { data } = await sb.from('bh_targets').select('*').eq('campaign_id', campId).order('booking', { ascending: false });
   if (!data?.length) { el.innerHTML='<div style="color:var(--t3);font-size:12px">Chưa có dữ liệu targets</div>'; return; }
 
   const totalBooking = data.reduce((s,r)=>s+(r.booking||0),0);
@@ -1815,6 +2030,9 @@ const PAGE_MAP = {
   'mentor':    { id:'pg-mentor',     title:'Quy Chế Mentor',          crumb:' / Nhân Sự',               loader: null },
   'giai-doan': { id:'pg-giai-doan',  title:'Bốn Giai Đoạn Phát Triển',crumb:' / Nhân Sự',              loader: null },
   'tuyendung': { id:'pg-tuyendung',  title:'Tiêu Chí Tuyển Dụng',    crumb:' / Nhân Sự',               loader: null },
+  'org-chart': { id:'pg-org-chart',  title:'Sơ Đồ Nhân Sự',          crumb:' / Tổ Chức',               loader: loadOrgChart },
+  'projects':  { id:'pg-projects',   title:'Dự Án & Chiến Dịch',      crumb:' / Tổ Chức',               loader: loadProjects },
+  'appoint':   { id:'pg-appoint',    title:'Bổ Nhiệm Nhân Sự',        crumb:' / Tổ Chức',               loader: loadAppoint },
 };
 
 function go(key) {
@@ -1827,6 +2045,11 @@ function go(key) {
   document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
   if (event?.currentTarget) event.currentTarget.classList.add('active');
   if (pg.loader) pg.loader();
+  // Init editable content for prose pages
+  hideEditFab();
+  const pageEl = document.getElementById(pg.id);
+  const pageKey = pageEl?.dataset?.pageKey;
+  if (pageKey) initPageContent(pageKey);
   if (window.innerWidth <= 768) closeSidebar();
   window.scrollTo(0,0);
 }
@@ -1844,6 +2067,49 @@ function closeSidebar() {
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('sbOverlay').classList.remove('show');
   document.getElementById('menuBtn').textContent = '☰';
+}
+
+function closeToolEmbed() {
+  const iframe = document.getElementById('tool-iframe');
+  if (iframe) iframe.src = 'about:blank';
+  go('dash');
+}
+
+function resizeToolEmbed() {
+  const pg = document.getElementById('pg-tool-embed');
+  const topbar = document.querySelector('.topbar');
+  if (!pg || !pg.classList.contains('active')) return;
+  const topH = topbar?.offsetHeight || 52;
+  const winH = window.innerHeight;
+  pg.style.height = (winH - topH) + 'px';
+}
+window.addEventListener('resize', resizeToolEmbed);
+
+function openTool(url, title) {
+  const pg = document.getElementById('pg-tool-embed');
+  const iframe = document.getElementById('tool-iframe');
+  const toolTitle = document.getElementById('tool-embed-title');
+  if (!pg || !iframe) return;
+
+  // Switch page first so iframe is visible before setting src
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  hideEditFab();
+  pg.classList.add('active');
+
+  // Set iframe src after page is shown
+  setTimeout(() => {
+    iframe.src = url;
+    const openNew = document.getElementById('tool-open-new');
+    if (openNew) openNew.href = url;
+  }, 50);
+
+  if (toolTitle) toolTitle.textContent = title || 'Công Cụ';
+  document.getElementById('tb-title').textContent = title || 'Công Cụ';
+  document.getElementById('tb-crumb').textContent = ' / Công Cụ';
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  if (window.innerWidth <= 768) closeSidebar();
+  setTimeout(resizeToolEmbed, 100);
+  window.scrollTo(0, 0);
 }
 
 // ══ CHANGE PIN LOGIC ══
@@ -1950,6 +2216,427 @@ async function saveNewPin(pin) {
   setTimeout(() => {
     document.getElementById('changePinOverlay').classList.remove('show');
   }, 1500);
+}
+
+// ══ PAGE CONTENT SYSTEM ══
+const pageContentCache = {};
+
+async function loadPageContent(pageKey) {
+  if (pageContentCache[pageKey]) return pageContentCache[pageKey];
+  try {
+    const { data } = await sb.from('bh_page_content').select('*').eq('page_key', pageKey).limit(1);
+    if (data?.length) {
+      pageContentCache[pageKey] = data[0];
+      return data[0];
+    }
+  } catch(e) {}
+  return null;
+}
+
+async function initPageContent(pageKey) {
+  const saved = await loadPageContent(pageKey);
+  if (saved?.content_html) {
+    const el = document.getElementById('prose-content-' + pageKey);
+    if (el) el.innerHTML = saved.content_html;
+  }
+  // Show edit button for authorized users
+  if (can('edit_content')) {
+    showEditFab(pageKey);
+  }
+}
+
+function showEditFab(pageKey) {
+  // Remove existing fab
+  const old = document.getElementById('edit-fab');
+  if (old) old.remove();
+  const fab = document.createElement('button');
+  fab.id = 'edit-fab';
+  fab.className = 'edit-floating-btn';
+  fab.innerHTML = '✏️ Chỉnh sửa trang này';
+  fab.onclick = () => enterEditMode(pageKey);
+  document.body.appendChild(fab);
+}
+
+function hideEditFab() {
+  const fab = document.getElementById('edit-fab');
+  if (fab) fab.remove();
+}
+
+function enterEditMode(pageKey) {
+  const bar = document.getElementById('edit-bar-' + pageKey);
+  const content = document.getElementById('prose-content-' + pageKey);
+  if (!bar || !content) return;
+  // Show toolbar
+  bar.style.display = 'flex';
+  // Make all text elements editable
+  content.querySelectorAll('p, h1, h2, h3, li, .callout, .chap-num, .block-title, .ci-body, .ci-title').forEach(el => {
+    el.setAttribute('contenteditable', 'true');
+  });
+  hideEditFab();
+}
+
+async function savePageContent(pageKey) {
+  if (!can('edit_content')) return;
+  const contentEl = document.getElementById('prose-content-' + pageKey);
+  if (!contentEl) return;
+  const html = contentEl.innerHTML;
+  
+  // Remove contenteditable attrs before saving
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = html;
+  tempDiv.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+  const cleanHtml = tempDiv.innerHTML;
+
+  const { error } = await sb.from('bh_page_content').upsert({
+    page_key: pageKey,
+    content_html: cleanHtml,
+    updated_by: currentUser.display_name,
+    updated_at: new Date().toISOString()
+  }, { onConflict: 'page_key' });
+
+  if (!error) {
+    pageContentCache[pageKey] = { content_html: cleanHtml };
+    cancelEdit(pageKey);
+    // Show success
+    const bar = document.getElementById('edit-bar-' + pageKey);
+    if (bar) {
+      bar.innerHTML = '<span style="color:var(--green-l);font-size:12px;font-weight:700">✅ Đã lưu thành công!</span>';
+      bar.style.background = 'rgba(61,139,61,0.08)';
+      bar.style.borderColor = 'rgba(61,139,61,0.25)';
+      setTimeout(() => { bar.style.display='none'; showEditFab(pageKey); }, 1500);
+    }
+  }
+}
+
+function cancelEdit(pageKey) {
+  const bar = document.getElementById('edit-bar-' + pageKey);
+  const contentEl = document.getElementById('prose-content-' + pageKey);
+  if (bar) bar.style.display = 'none';
+  if (contentEl) {
+    contentEl.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+  }
+  showEditFab(pageKey);
+}
+
+// Hook into go() to init page content when navigating
+const _originalGo_content = window._goHooked;
+
+// ══ LOAD CURRENT CAMPAIGN ══
+async function loadCurrentCampaign() {
+  const { data: camps } = await sb.from('bh_campaigns').select('*, bh_projects(*)').eq('is_current', true).limit(1);
+  if (camps?.length) {
+    currentCampaign = camps[0];
+    currentProject = camps[0].bh_projects;
+    const lbl = document.getElementById('campaign-label');
+    const sel = document.getElementById('campaign-selector');
+    if (lbl) lbl.textContent = currentProject?.code + ' · ' + currentCampaign.name?.split('—')[0]?.trim();
+    if (sel) sel.style.display = '';
+  }
+}
+
+// ══ ORG CHART ══
+async function loadOrgChart() {
+  const el = document.getElementById('org-tree');
+  const { data: mems } = await sb.from('bh_members').select('*').eq('active', true).order('position');
+  const { data: teams } = await sb.from('bh_teams').select('*');
+  if (!mems?.length) { el.innerHTML = '<div style="color:var(--t3);font-size:12px">Chưa có dữ liệu nhân sự</div>'; return; }
+
+  // Group by position
+  const byPos = {};
+  mems.forEach(m => {
+    const pos = m.position || 'cvkd';
+    if (!byPos[pos]) byPos[pos] = [];
+    byPos[pos].push(m);
+  });
+
+  const posOrder = ['gd','gd_du_an','gd_kinh_doanh','tp_kinh_doanh','cvkd'];
+  const posColors = { gd:'var(--amber)', gd_du_an:'var(--blue)', gd_kinh_doanh:'var(--purple)', tp_kinh_doanh:'var(--green-l)', cvkd:'var(--t2)' };
+
+  const memberCard = (m, size = 'normal') => {
+    const pos = POSITIONS[m.position || 'cvkd'] || POSITIONS.cvkd;
+    const team = teams?.find(t => t.id === m.team_id);
+    const big = size === 'big';
+    return `<div style="background:var(--card);border:1px solid var(--border);border-radius:${big?'12px':'9px'};padding:${big?'16px 18px':'12px 14px'};text-align:center;min-width:${big?'160px':'130px'};transition:all .2s;cursor:default" onmouseover="this.style.borderColor='var(--border-h)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div class="kav" style="background:${m.color||'#3d8b3d'};width:${big?'44px':'36px'};height:${big?'44px':'36px'};font-size:${big?'14px':'11px'};margin:0 auto ${big?'10px':'7px'}">${m.initials}</div>
+      <div style="font-size:${big?'13px':'12px'};font-weight:700;color:var(--t1)">${m.display_name}</div>
+      <div style="margin-top:4px"><span class="role-tag ${pos.cls}" style="font-size:8px">${pos.short}</span></div>
+      ${team?`<div style="font-size:9px;color:var(--t3);margin-top:4px">${team.name}</div>`:''}
+    </div>`;
+  };
+
+  let html = '';
+
+  // GĐ level
+  const gds = [...(byPos['gd']||[]), ...(byPos['gd_du_an']||[])];
+  if (gds.length) {
+    html += `<div style="margin-bottom:24px">
+      <div style="font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border)">Giám Đốc</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">${gds.map(m=>memberCard(m,'big')).join('')}</div>
+    </div>`;
+  }
+
+  // GĐKD level
+  const gdkds = byPos['gd_kinh_doanh'] || [];
+  if (gdkds.length) {
+    html += `<div style="margin-bottom:24px">
+      <div style="font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border)">Giám Đốc Kinh Doanh</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">${gdkds.map(m=>memberCard(m,'big')).join('')}</div>
+    </div>`;
+  }
+
+  // TPKD + CVKD grouped by team
+  const lowerMems = [...(byPos['tp_kinh_doanh']||[]), ...(byPos['cvkd']||[])];
+  if (lowerMems.length) {
+    // Group by team
+    const byTeam = {};
+    lowerMems.forEach(m => {
+      const key = m.team_code || 'Chưa phân đội';
+      if (!byTeam[key]) byTeam[key] = [];
+      byTeam[key].push(m);
+    });
+    Object.entries(byTeam).forEach(([teamCode, teamMembers]) => {
+      const team = teams?.find(t => t.code === teamCode);
+      html += `<div style="margin-bottom:20px;background:var(--card);border:1px solid var(--border);border-radius:11px;padding:16px 18px">
+        <div style="font-size:11px;font-weight:700;color:var(--green-l);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+          <span>${team?.name || teamCode}</span>
+          <span style="font-size:9px;color:var(--t3);font-weight:500">${teamMembers.length} người</span>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">${teamMembers.map(m=>memberCard(m)).join('')}</div>
+      </div>`;
+    });
+  }
+
+  el.innerHTML = html || '<div style="color:var(--t3)">Chưa có dữ liệu</div>';
+}
+
+// ══ PROJECTS ══
+async function loadProjects() {
+  const el = document.getElementById('projects-grid');
+  const { data: projects } = await sb.from('bh_projects').select('*').order('created_at');
+  const { data: campaigns } = await sb.from('bh_campaigns').select('*').order('created_at', { ascending: false });
+  if (!projects?.length) { el.innerHTML = '<div style="color:var(--t3);font-size:12px">Chưa có dự án</div>'; return; }
+
+  const statusLabel = { preparing:'Chuẩn bị', active:'Đang chạy', closed:'Đã đóng' };
+  const statusColor = { preparing:'var(--amber)', active:'var(--green-l)', closed:'var(--t3)' };
+
+  el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px">` +
+    projects.map(p => {
+      const pCamps = campaigns?.filter(c => c.project_id === p.id) || [];
+      const activeCamp = pCamps.find(c => c.is_current);
+      return `<div style="background:var(--card);border:2px solid ${p.status==='active'?p.cover_color+'44':'var(--border)'};border-radius:12px;padding:20px;transition:all .2s" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <div style="width:42px;height:42px;border-radius:8px;background:${p.cover_color};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff">${p.code}</div>
+          <div>
+            <div style="font-size:13.5px;font-weight:700;color:var(--t1)">${p.name}</div>
+            <div style="font-size:10.5px;color:var(--t3)">${p.developer} · ${p.location||''}</div>
+          </div>
+          <span style="margin-left:auto;font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px;background:${statusColor[p.status]}22;color:${statusColor[p.status]};border:1px solid ${statusColor[p.status]}44">${statusLabel[p.status]}</span>
+        </div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-bottom:8px">Chiến Dịch</div>
+        ${pCamps.length ? pCamps.map(c => `
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:${c.is_current?'rgba(61,139,61,0.1)':'rgba(255,255,255,0.02)'};border-radius:7px;border:1px solid ${c.is_current?'rgba(61,139,61,0.25)':'var(--border)'};margin-bottom:6px">
+            ${c.is_current?'<span style="width:7px;height:7px;border-radius:50%;background:var(--green-l);flex-shrink:0;box-shadow:0 0 6px var(--green)"></span>':'<span style="width:7px;height:7px;border-radius:50%;background:var(--t3);flex-shrink:0"></span>'}
+            <div style="flex:1;min-width:0">
+              <div style="font-size:11.5px;font-weight:600;color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}</div>
+              <div style="font-size:9.5px;color:var(--t3)">${c.start_date||''} ${c.end_date?'→ '+c.end_date:''}</div>
+            </div>
+            <div style="font-size:11px;font-weight:700;color:${c.is_current?'var(--green-l)':'var(--t3)'}">${c.target_bookings} booking</div>
+            ${(can('manage_members')||currentUser?.role==='ceo') && !c.is_current ? `<button onclick="setCampaignActive('${c.id}')" style="font-size:9px;padding:3px 8px;background:rgba(61,139,61,0.1);border:1px solid rgba(61,139,61,0.25);border-radius:5px;color:var(--green-l);cursor:pointer;font-family:inherit;font-weight:700">Kích hoạt</button>` : ''}
+          </div>`).join('') : `<div style="font-size:11.5px;color:var(--t3);padding:8px">Chưa có chiến dịch</div>`}
+        ${(can('manage_members')||currentUser?.role==='ceo') ? `<button onclick="showAddCampaign('${p.id}','${p.name}')" style="width:100%;margin-top:8px;padding:8px;background:transparent;border:1px dashed var(--border);border-radius:7px;color:var(--t3);font-size:12px;cursor:pointer;font-family:inherit;transition:all .2s" onmouseover="this.style.borderColor='var(--border-h)';this.style.color='var(--t2)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--t3)'">+ Thêm chiến dịch</button>` : ''}
+      </div>`;
+    }).join('') + '</div>';
+}
+
+async function setCampaignActive(campId) {
+  if (isDemo()) { alert('Tài khoản Demo không thể thực hiện thao tác này.'); return; }
+  await sb.from('bh_campaigns').update({ is_current: false }).neq('id', campId);
+  await sb.from('bh_campaigns').update({ is_current: true }).eq('id', campId);
+  loadProjects();
+  loadCurrentCampaign();
+}
+
+function showAddCampaign(projectId, projectName) {
+  const box = document.getElementById('modalBox');
+  box.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+      <div style="font-size:15px;font-weight:800;color:var(--t1)">Thêm Chiến Dịch — ${projectName}</div>
+      <div onclick="closeModal()" style="cursor:pointer;color:var(--t3);font-size:18px">✕</div>
+    </div>
+    <div class="form-group"><label class="form-label">Tên Chiến Dịch</label><input class="form-input" id="camp-name" placeholder="Sprint Tháng 5/2026 — ${projectName}"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Ngày Bắt Đầu</label><input class="form-input" id="camp-start" type="date"></div>
+      <div class="form-group"><label class="form-label">Ngày Kết Thúc</label><input class="form-input" id="camp-end" type="date"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Mục Tiêu Booking</label><input class="form-input" id="camp-target" type="number" value="20"></div>
+    <div style="display:flex;gap:10px;margin-top:6px">
+      <button class="btn-secondary" onclick="closeModal()">Hủy</button>
+      <button class="btn-primary" style="flex:1" onclick="saveCampaign('${projectId}')">Tạo Chiến Dịch</button>
+    </div>`;
+  openModal();
+}
+
+async function saveCampaign(projectId) {
+  const { error } = await sb.from('bh_campaigns').insert({
+    project_id: projectId,
+    name: document.getElementById('camp-name')?.value.trim(),
+    start_date: document.getElementById('camp-start')?.value,
+    end_date: document.getElementById('camp-end')?.value,
+    target_bookings: parseInt(document.getElementById('camp-target')?.value) || 20,
+    status: 'active', is_current: false,
+    created_at: new Date().toISOString()
+  });
+  if (!error) { closeModal(); loadProjects(); }
+}
+
+function showAddProject() {
+  const box = document.getElementById('modalBox');
+  box.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+      <div style="font-size:15px;font-weight:800;color:var(--t1)">Thêm Dự Án Mới</div>
+      <div onclick="closeModal()" style="cursor:pointer;color:var(--t3);font-size:18px">✕</div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Mã Dự Án</label><input class="form-input" id="p-code" placeholder="SBN" maxlength="6"></div>
+      <div class="form-group"><label class="form-label">Tên Dự Án</label><input class="form-input" id="p-name" placeholder="Sun Bắc Ninh"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Chủ Đầu Tư</label><input class="form-input" id="p-dev" placeholder="Sun Group"></div>
+      <div class="form-group"><label class="form-label">Vị Trí</label><input class="form-input" id="p-loc" placeholder="Bắc Ninh"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Màu Nhận Diện</label><input class="form-input" id="p-color" type="color" value="#e67e22" style="height:42px;cursor:pointer"></div>
+    <div style="display:flex;gap:10px;margin-top:6px">
+      <button class="btn-secondary" onclick="closeModal()">Hủy</button>
+      <button class="btn-primary" style="flex:1" onclick="saveProject()">Tạo Dự Án</button>
+    </div>`;
+  openModal();
+}
+
+async function saveProject() {
+  const code = document.getElementById('p-code')?.value.trim().toUpperCase();
+  const name = document.getElementById('p-name')?.value.trim();
+  if (!code || !name) return;
+  const { error } = await sb.from('bh_projects').insert({
+    code, name,
+    developer: document.getElementById('p-dev')?.value.trim(),
+    location: document.getElementById('p-loc')?.value.trim(),
+    cover_color: document.getElementById('p-color')?.value,
+    status: 'preparing', created_at: new Date().toISOString()
+  });
+  if (!error) { closeModal(); loadProjects(); }
+}
+
+// ══ APPOINT ══
+async function loadAppoint() {
+  // Member list for selection
+  const listEl = document.getElementById('appoint-member-list');
+  const { data } = await sb.from('bh_members').select('*').eq('active', true).order('position');
+  if (!data?.length) { listEl.innerHTML = '<div style="color:var(--t3);font-size:12px">Chưa có thành viên</div>'; return; }
+
+  listEl.innerHTML = data.filter(m => m.role !== 'demo').map(m => {
+    const pos = POSITIONS[m.position || 'cvkd'] || POSITIONS.cvkd;
+    return `<div style="display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:all .15s" onclick="selectForAppoint('${m.id}')" onmouseover="this.style.paddingLeft='6px'" onmouseout="this.style.paddingLeft='0'">
+      <div class="kav" style="background:${m.color||'#3d8b3d'}">${m.initials}</div>
+      <div style="flex:1">
+        <div style="font-size:12.5px;font-weight:700;color:var(--t1)">${m.display_name}</div>
+        <div style="font-size:10px;color:var(--t3);margin-top:1px">${pos.label} ${m.team_code?'· '+m.team_code:''}</div>
+      </div>
+      <span style="font-size:10px;color:var(--green-l)">Bổ nhiệm →</span>
+    </div>`;
+  }).join('');
+
+  // Load history
+  loadAppointHistory();
+}
+
+async function selectForAppoint(memberId) {
+  const m = members.find(x => x.id === memberId);
+  if (!m) return;
+  const panel = document.getElementById('appoint-form-panel');
+  const title = document.getElementById('appoint-form-title');
+  const body = document.getElementById('appoint-form-body');
+  const { data: teams } = await sb.from('bh_teams').select('*');
+
+  panel.style.display = '';
+  title.textContent = 'Bổ Nhiệm: ' + m.display_name;
+
+  body.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:12px;background:rgba(61,139,61,0.06);border-radius:8px;border:1px solid var(--border)">
+      <div class="kav" style="background:${m.color||'#3d8b3d'}">${m.initials}</div>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--t1)">${m.display_name}</div>
+        <div style="font-size:10.5px;color:var(--t3)">Hiện tại: ${(POSITIONS[m.position||'cvkd']||{}).label||'CVKD'} ${m.team_code?'· '+m.team_code:''}</div>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Chức Vụ Mới</label>
+      <select class="form-input" id="new-position">
+        ${Object.entries(POSITIONS).filter(([k])=>k!=='demo').map(([k,v])=>`<option value="${k}" ${m.position===k?'selected':''}>${v.label}</option>`).join('')}
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Đội Nhóm</label>
+      <select class="form-input" id="new-team">
+        <option value="">Chưa phân đội</option>
+        ${teams?.map(t=>`<option value="${t.id}" data-code="${t.code}" ${m.team_id===t.id?'selected':''}>${t.name}</option>`).join('')||''}
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Ghi Chú</label><input class="form-input" id="appoint-note" placeholder="Lý do bổ nhiệm..."></div>
+    <button class="btn-primary" style="width:100%" onclick="confirmAppoint('${m.id}')">Xác Nhận Bổ Nhiệm</button>`;
+}
+
+async function confirmAppoint(memberId) {
+  if (isDemo()) { alert('Tài khoản Demo không thể thực hiện thao tác này.'); return; }
+  const m = members.find(x => x.id === memberId);
+  const newPos = document.getElementById('new-position')?.value;
+  const teamSelect = document.getElementById('new-team');
+  const newTeamId = teamSelect?.value || null;
+  const newTeamCode = teamSelect?.options[teamSelect.selectedIndex]?.dataset?.code || null;
+  const note = document.getElementById('appoint-note')?.value.trim();
+
+  // Log to history
+  await sb.from('bh_appointments').insert({
+    member_id: memberId,
+    member_name: m.display_name,
+    old_position: m.position,
+    new_position: newPos,
+    old_team: m.team_code,
+    new_team: newTeamCode,
+    appointed_by: currentUser.display_name,
+    note, created_at: new Date().toISOString()
+  });
+
+  // Update member
+  const { error } = await sb.from('bh_members').update({
+    position: newPos,
+    team_id: newTeamId,
+    team_code: newTeamCode,
+    appointed_at: new Date().toISOString(),
+    appointed_by: currentUser.display_name
+  }).eq('id', memberId);
+
+  if (!error) {
+    document.getElementById('appoint-form-panel').style.display = 'none';
+    await loadMembers(); // refresh member list
+    loadAppoint();
+    alert('Bổ nhiệm thành công!');
+  }
+}
+
+async function loadAppointHistory() {
+  const el = document.getElementById('appoint-history');
+  const { data } = await sb.from('bh_appointments').select('*').order('created_at', { ascending: false }).limit(20);
+  if (!data?.length) { el.innerHTML = '<div style="font-size:12px;color:var(--t3)">Chưa có lịch sử bổ nhiệm</div>'; return; }
+
+  el.innerHTML = `<table class="kpi-table">
+    <thead><tr><th>Thành Viên</th><th>Từ</th><th>Sang</th><th>Đội</th><th>Người Bổ Nhiệm</th><th>Thời Gian</th></tr></thead>
+    <tbody>${data.map(a => `<tr>
+      <td style="font-weight:700;color:var(--t1)">${a.member_name}</td>
+      <td style="color:var(--t3)">${(POSITIONS[a.old_position||'cvkd']||{}).label||a.old_position}</td>
+      <td class="green">${(POSITIONS[a.new_position||'cvkd']||{}).label||a.new_position}</td>
+      <td>${a.new_team||''}</td>
+      <td>${a.appointed_by}</td>
+      <td style="color:var(--t3)">${new Date(a.created_at).toLocaleDateString('vi-VN')}</td>
+    </tr>`).join('')}</tbody>
+  </table>`;
 }
 
 // ══ BOOT ══
